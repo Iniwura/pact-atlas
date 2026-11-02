@@ -11,4 +11,4 @@ This directory contains the preserved PACT Atlas RC1 release evidence copied fro
 
 The Wasm SHA-256 is `8ea872ef10f44241840d70ad2ac0bbdd25289d0c770098f158900975e5c8b35c`. The ABI SHA-256 is `4f9d6ea16bbc8986e304f5b894403501c262b409379efa3eef2f1dd248201075`.
 
-The evidence is local NEAR sandbox evidence only. It is not testnet or mainnet evidence, and it does not prove recovery when a native-transfer callback never executes.
+The evidence is local NEAR sandbox evidence only. It is not testnet or mainnet evidence, and it does not prove recovery when a native-transfer callback never executes. The corresponding sandbox-backed Vercel preview is recorded in `docs/VERCEL_PREVIEW.md`; hosted UI evidence must not be confused with chain evidence.

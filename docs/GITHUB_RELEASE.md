@@ -11,6 +11,8 @@ The checkpoint is prepared for a repository owned by `Iniwura`, but no GitHub re
 
 The workflow only has `contents: read`; it does not deploy, publish, use wallets, or access testnet credentials. The sandbox job creates fresh local chains and uploads new evidence as a CI artifact.
 
+The Rust job uses Rust `1.93.0`, `cargo-near 0.22.0`, and the canonical `CARGO_HOME=/tmp/pact-atlas-cargo-final` path. The canonical path matters because the optimized Wasm retains debug source paths; using a different Cargo registry directory changes the binary bytes even when the contract source and compiler are unchanged. The CI job and `scripts/verify-rust.sh` both enforce the preserved Wasm and ABI byte-for-byte.
+
 ## Local repository state
 
 The candidate has been prepared as a clean local Git repository with no remote configured. Do not add a remote, create a public repository, push, or submit the hackathon entry until separately authorized. When authorized, use the approved repository name under `Iniwura`, review the initial snapshot, and configure branch protection so the required Actions workflow passes before merge.

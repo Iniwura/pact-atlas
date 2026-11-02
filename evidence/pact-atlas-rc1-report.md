@@ -82,7 +82,7 @@ Current upstream compatibility was reviewed: [HOT/NEAR Connect](https://github.c
 
 The existing Coalition Atlas design was preserved and refined rather than redesigned: editorial ink/lime/coral visual system, orbital dependency map, exact/blocked counterfactual result, commitment inspector, five-step workflow rail, read-only evidence separation, desktop/mobile screenshots and keyboard/accessibility behavior.
 
-The static Vercel package is prepared in `vercel.json` with instructions in `docs/VERCEL_PREVIEW.md`. No public preview URL exists because no deployment authorization was available. The local browser preview is not live-chain evidence.
+The static Vercel package is deployed as a sandbox-backed preview at https://pact-atlas-rc1-preview-jefkdeu59-iniwura-akurus-projects.vercel.app/ (`dpl_HtLj32D896dfqgY7vUGztjSj36dS`, project `prj_6q7qCVVeB6WTC57jBJCTdPaVgxpP`). Vercel fetch returned HTTP 200 for the root, module, stylesheet, evidence and documentation routes. It contains no testnet credentials and is not live-chain evidence. An earlier API request accidentally created `dpl_6rpBLndJMtUAWFpQjGAvuXgSab3A` with target `production`; it was not promoted or used as evidence, and the project was paused so that deployment returns `503 DEPLOYMENT_PAUSED`.
 
 ## Reproduction
 
@@ -99,12 +99,12 @@ PACT_SCENARIOS=max-capacity PACT_EVIDENCE_PATH=../../outputs/pact-atlas-rc1-sand
 NPM_CONFIG_CACHE=/tmp/pact-npm-cache PLAYWRIGHT_BROWSERS_PATH=/tmp/pact-playwright-browsers npm run test:browser
 ```
 
-The full verifier preserves the baseline five-campaign evidence. The final Wasm SHA-256 is `8ea872ef10f44241840d70ad2ac0bbdd25289d0c770098f158900975e5c8b35c`; ABI SHA-256 is `4f9d6ea16bbc8986e304f5b894403501c262b409379efa3eef2f1dd248201075`.
+The full verifier preserves the baseline five-campaign evidence. The final Wasm SHA-256 is `8ea872ef10f44241840d70ad2ac0bbdd25289d0c770098f158900975e5c8b35c`; ABI SHA-256 is `4f9d6ea16bbc8986e304f5b894403501c262b409379efa3eef2f1dd248201075`. The exact Wasm/ABI comparison was replayed under Rust 1.93.0 and cargo-near 0.22.0 using the canonical `CARGO_HOME=/tmp/pact-atlas-cargo-final` path; the canonical path is required because the optimized Wasm retains Cargo source paths.
 
 ## Before hackathon submission
 
 1. Obtain explicit authorization and isolated faucet-funded `*.testnet` accounts.
 2. Run the same acceptance flow on testnet and record contract/DAO IDs, transaction hashes, finality, state transitions and balance reconciliation.
 3. Perform a qualified independent security review, with special attention to callback non-execution and withdrawal reconciliation.
-4. Authorize a Vercel preview/public repository or hackathon submission separately; none occurred in RC1.
+4. Authorize any public repository, Vercel production promotion or hackathon submission separately; the current Vercel artifact is a sandbox-backed preview only.
 5. Demonstrate the minimal next product milestone: a real multi-DAO coalition where each DAO approves a commitment and the activation certificate, and the UI explains counterfactual funding dependencies.

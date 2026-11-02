@@ -17,7 +17,7 @@ The exact solver is shared by `web/engine.mjs` and `web/tests/counterfactual.tes
 1. The first pass established the dark ink / lime / coral editorial system, the orbital dependency map and the five-step action rail.
 2. Browser review tightened muted-label contrast, removed an inaccessible SVG image-role nesting, and kept the same visual language while making keyboard and automated accessibility checks pass.
 
-The result is deliberately a product preview around verified evidence, not a claim that a wallet-connected public testnet workflow has already run.
+The result is deliberately a sandbox-backed Vercel product preview around verified evidence, not a claim that a wallet-connected public testnet workflow has already run. The verified preview URL and deployment record are in `docs/VERCEL_PREVIEW.md`.
 
 ## Do X, see Y
 
@@ -80,7 +80,7 @@ The default is all scenarios: `cycle,all-four,expiry,concurrent,sputnik`.
 - Missing callback execution is unresolved. A timeout retry or blind unlock is unsafe because the native transfer may already have succeeded. Pending withdrawals remain fail-closed until a proven authenticated reconciliation design exists.
 - Native transfer failure injection through a genuine sandbox predecessor was not reachable without losing the signer needed to initiate withdrawal; the callback `PromiseResult::Failed` branch is covered in Rust VM tests.
 - Exact timestamp equality is verified in Rust VM tests; near-workspaces crosses but does not set exact sandbox timestamps. The configured 8-project/32-pledge capacity is verified in `outputs/pact-atlas-rc1-sandbox-evidence.json`.
-- No Vercel preview URL exists yet. `vercel.json` and `docs/VERCEL_PREVIEW.md` are prepared for an explicitly authorized preview deployment.
+- A sandbox-backed Vercel preview is route-verified at `https://pact-atlas-rc1-preview-jefkdeu59-iniwura-akurus-projects.vercel.app/` (`dpl_HtLj32D896dfqgY7vUGztjSj36dS`). It contains no testnet credentials and is not live-chain evidence.
 - The code has received an independent adversarial engineering review, but no independent qualified auditor has reviewed it. It must not be described as externally audited.
 - The supplied archive has no Git revision/remote, so reproducibility is artifact- and command-based rather than commit-pinned.
 - Browser captures are local preview evidence, not chain evidence. The product's browser test verifies that visible balances and scenario counts reconcile with the raw sandbox JSON; it does not replace on-chain receipts.

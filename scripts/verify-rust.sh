@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+export CARGO_HOME="${CARGO_HOME:-/tmp/pact-atlas-cargo-final}"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-/tmp/pact-atlas-xdg-config}"
+export PATH="${CARGO_HOME}/bin:${PATH}"
+mkdir -p "$CARGO_HOME" "$XDG_CONFIG_HOME"
 command -v cargo >/dev/null || { echo 'Rust toolchain not found. Install rustup and Rust 1.93.0 or newer.' >&2; exit 127; }
 command -v rustc >/dev/null || { echo 'rustc is missing.' >&2; exit 127; }
 command -v cargo-near >/dev/null || { echo 'cargo-near is required for the nearcore-compatible Wasm build.' >&2; exit 127; }
@@ -18,6 +22,10 @@ echo 'Generating JSON ABI...'
 cargo near abi --locked --manifest-path contract/Cargo.toml --out-dir contract/target/near-build
 echo 'Building nearcore-compatible optimized WebAssembly...'
 cargo near build non-reproducible-wasm --locked --no-abi --manifest-path contract/Cargo.toml --out-dir contract/target/near-build
+echo 'Comparing canonical release artifacts...'
+cmp contract/target/near-build/pact_atlas_poc.wasm evidence/pact_atlas_poc.wasm
+cmp contract/target/near-build/pact_atlas_poc_abi.json evidence/pact_atlas_poc_abi.json
+sha256sum contract/target/near-build/pact_atlas_poc.wasm contract/target/near-build/pact_atlas_poc_abi.json
 echo 'Running executable JavaScript finance tests...'
 npm test
 echo 'Running exact Coalition Atlas counterfactual tests...'

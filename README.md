@@ -1,6 +1,6 @@
 # PACT Atlas — executable technical checkpoint
 
-**Status (2026-11-02): RC1 local verification green.** The Rust contract compiles with the pinned SDK, 13/13 Rust unit tests pass, clippy is clean with warnings denied, the nearcore-compatible Wasm and ABI builds pass, 5 fresh baseline real-NEAR sandbox campaigns pass plus a separate maximum-capacity RC1 campaign, 6 exact counterfactual tests pass, 5 request-builder tests and 4 wallet-adapter tests pass, and 10 Chromium product checks pass. Testnet and Vercel publication are intentionally not verified or deployed.
+**Status (2026-11-02): RC1 verification green.** The Rust contract compiles with the pinned SDK, 13/13 Rust unit tests pass, clippy is clean with warnings denied, the nearcore-compatible Wasm and ABI builds pass, 5 fresh baseline real-NEAR sandbox campaigns pass plus a separate maximum-capacity RC1 campaign, 6 exact counterfactual tests pass, 5 request-builder tests and 4 wallet-adapter tests pass, and 10 Chromium product checks pass. A static Vercel preview is live and route-verified; it is sandbox-backed only. Testnet is not verified.
 
 This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
 
@@ -35,7 +35,7 @@ Five contributors put in 12 NEAR total. A flexible donor can pledge 3 NEAR to ei
 - `web/NEAR_WORKFLOW.md`: the explicit wallet adapter contract and testnet evidence requirements.
 - `web/near-workflow.mjs`: explicit commit, Sputnik proposal, certificate, activation and withdrawal request builder.
 - `web/near-adapter.mjs`: optional HOT Connect / Wallet Selector-compatible host bridge; it never owns keys or retries unknown outcomes.
-- `docs/VERCEL_PREVIEW.md` and `vercel.json`: local-only, reproducible preview package; no public deployment was authorized.
+- `docs/VERCEL_PREVIEW.md` and `vercel.json`: reproducible preview package and the verified sandbox-backed Vercel preview record.
 - `docs/TESTNET_CHECKLIST.md`: exact remaining engineering gates.
 - `.github/workflows/checks.yml`: CI recipe for Rust compile/test and Node model tests.
 - `rust-toolchain.toml`, `scripts/verify-rust.sh`: pinned Rust toolchain and one-command WSL verification script.
