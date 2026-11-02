@@ -40,7 +40,7 @@
           <div class="hero-note"><span class="note-symbol">◎</span><span>Read-only product preview · every chain claim below maps to the verified local sandbox evidence.</span></div>
         </div>
         <div class="hero-map-panel" aria-label="Interactive coalition network">
-          <div class="map-label map-label-top"><span>live model</span><strong>01 / 04</strong></div>
+          <div class="map-label map-label-top"><span>live model / constraint graph</span><strong>01 / 04</strong></div>
           <svg id="network-map" viewBox="0 0 640 470" role="group" aria-labelledby="map-title map-desc">
             <title id="map-title">PACT Atlas funding network</title>
             <desc id="map-desc">Four projects connected by dependency lines and five contributor commitments.</desc>
@@ -94,6 +94,11 @@
             <g class="donor-pip donor-left" aria-hidden="true"><circle cx="97" cy="319" r="10" /><text x="97" y="323" text-anchor="middle">01</text></g>
             <g class="donor-pip donor-right" aria-hidden="true"><circle cx="543" cy="319" r="10" /><text x="543" y="323" text-anchor="middle">05</text></g>
           </svg>
+          <div class="map-panel-data" aria-label="Network summary">
+            <span><b>05</b> commitments</span>
+            <span><b>03</b> required projects</span>
+            <span><b>0N</b> unassigned in proof</span>
+          </div>
           <div class="map-label map-label-bottom"><span><i class="legend-dot funded"></i> funded dependency</span><span><i class="legend-dot optional"></i> conditional route</span></div>
         </div>
         <div class="hero-metrics" aria-label="Verified scenario summary">
@@ -102,6 +107,7 @@
           <div class="metric"><strong>10N</strong><span>activates A+B+C</span></div>
           <div class="metric metric-arrow" aria-hidden="true">+</div>
           <div class="metric"><strong>2N</strong><span>recoverable</span></div>
+          <div class="metric metric-state"><strong>03</strong><span>projects in proof</span></div>
           <div class="metric-source">verified sandbox<br /><span>scenario / 01</span></div>
         </div>
       </section>
@@ -109,7 +115,7 @@
       <section class="section-wrap insight-section" id="counterfactual" aria-labelledby="counterfactual-title">
         <div class="section-intro split-intro">
           <div>
-            <p class="eyebrow"><span class="eyebrow-line"></span> Counterfactual engine</p>
+            <p class="eyebrow"><span class="eyebrow-line"></span> 02 / Find the coalition</p>
             <h2 id="counterfactual-title">Try the coalition<br /><em>that does not exist yet.</em></h2>
           </div>
           <p class="section-description">The engine exhaustively searches the bounded commitment space. It distinguishes an exact feasible certificate from a recommendation, then names the one constraint holding the next arrangement back.</p>
@@ -145,7 +151,7 @@
       <section class="section-wrap commitments-section" id="commitments" aria-labelledby="commitments-title">
         <div class="section-intro split-intro">
           <div>
-            <p class="eyebrow"><span class="eyebrow-line"></span> Commitments / dependencies</p>
+            <p class="eyebrow"><span class="eyebrow-line"></span> 03 / Inspect the promises</p>
             <h2 id="commitments-title">Every promise<br /><em>has a contour.</em></h2>
           </div>
           <p class="section-description">A contribution is not just an amount. It is a set of permissions, conditions and dependencies. Hover a project above or select a commitment below to see the shape of the promise.</p>
@@ -167,7 +173,7 @@
         <div class="workflow-backdrop" aria-hidden="true"></div>
         <div class="section-intro split-intro workflow-intro">
           <div>
-            <p class="eyebrow"><span class="eyebrow-line"></span> From possibility to action</p>
+            <p class="eyebrow"><span class="eyebrow-line"></span> 04 / Make it executable</p>
             <h2 id="workflow-title">A clear path from<br /><em>“maybe” to “funded”.</em></h2>
           </div>
           <p class="section-description">The product is designed around real NEAR actions. This checkpoint is intentionally read-only until a wallet adapter and authorized testnet account are present.</p>
@@ -190,7 +196,7 @@
       <section class="section-wrap evidence-section" id="evidence" aria-labelledby="evidence-title">
         <div class="section-intro split-intro">
           <div>
-            <p class="eyebrow"><span class="eyebrow-line"></span> Evidence / no theatre</p>
+            <p class="eyebrow"><span class="eyebrow-line"></span> 05 / Inspect the proof</p>
             <h2 id="evidence-title">Proof you can<br /><em>inspect yourself.</em></h2>
           </div>
           <p class="section-description">The interface never presents simulated hashes as live activity. These records come from fresh local NEAR sandbox campaigns and are clearly separated from any future testnet run.</p>

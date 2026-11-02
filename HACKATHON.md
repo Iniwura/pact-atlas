@@ -6,7 +6,7 @@ This is a serious technical checkpoint, not an externally audited or production-
 
 ## Coalition Atlas product
 
-The `web/` application is the judge-facing product surface. Its first viewport explains the cooperation thesis in seconds, the orbital network makes dependencies inspectable, and the counterfactual engine lets a judge switch between the feasible A+B+C core, the blocked full A+B+C+D coalition, and a model-only additional commitment. The commitment inspector, workflow rail and evidence view keep model state, contract state and future wallet state visually distinct.
+The `web/` application is the judge-facing product surface. Its first viewport explains the cooperation thesis in seconds, the constraint graph makes dependencies inspectable, and the counterfactual engine lets a judge switch between the feasible A+B+C core, the blocked full A+B+C+D coalition, and a model-only additional commitment. The commitment inspector, workflow rail and evidence ledger keep model state, contract state and future wallet state visually distinct. The frontend design rationale and measured local redesign report are in `docs/DESIGN_DIRECTION.md` and `docs/FRONTEND_REDESIGN_REPORT.md`; final desktop/mobile captures are in `docs/design-evidence/`.
 
 Run `npm run preview` from the repository root to open it locally. The genuine sandbox evidence is loaded from `web/data/evidence.json`; the UI does not present simulated testnet activity. The browser campaign saves fresh local captures under `test-results/screenshots/`; the preserved RC1 captures are in `evidence/screenshots/`.
 
@@ -16,6 +16,7 @@ The exact solver is shared by `web/engine.mjs` and `web/tests/counterfactual.tes
 
 1. The first pass established the dark ink / lime / coral editorial system, the orbital dependency map and the five-step action rail.
 2. Browser review tightened muted-label contrast, removed an inaccessible SVG image-role nesting, and kept the same visual language while making keyboard and automated accessibility checks pass.
+3. The premium redesign introduced the signal/proof system: electric-blue dependency routes, staged product narrative, graph-to-inspector interaction, evidence phase/liability rows and a tighter responsive proof ledger. It remains frontend-only and sandbox-backed.
 
 The result is deliberately a sandbox-backed Vercel product preview around verified evidence, not a claim that a wallet-connected public testnet workflow has already run. The verified preview URL and deployment record are in `docs/VERCEL_PREVIEW.md`.
 
@@ -66,6 +67,7 @@ The default is all scenarios: `cycle,all-four,expiry,concurrent,sputnik`.
 ## Verified behaviors
 
 - 14 Rust unit tests and 26 independent reference-model tests pass; the separate competitive benchmark has 9 passing tests and checks five bounded scenarios against an independent exhaustive oracle.
+- The current frontend regression is 12/12 browser checks passing, including two redesign journeys; the local performance measurement is recorded in `docs/FRONTEND_REDESIGN_REPORT.md` and is not a Lighthouse claim.
 - The explicit request builder passes 5 tests, and the optional HOT Connect / Wallet Selector-compatible bridge passes 4 deterministic tests; no wallet package, key or signature is bundled in the preview.
 - The final Wasm and ABI are rebuilt from the current source state.
 - Invalid allocation certificates preserve phase, liabilities and storage stake.

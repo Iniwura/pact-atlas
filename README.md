@@ -1,6 +1,6 @@
 # PACT Atlas — executable technical checkpoint
 
-**Status (2026-11-02): RC1 verification green.** The Rust contract compiles with the pinned SDK, 14/14 Rust unit tests pass, clippy is clean with warnings denied, the nearcore-compatible Wasm and ABI builds pass, 5 fresh baseline real-NEAR sandbox campaigns pass plus a separate maximum-capacity RC1 campaign, 6 exact counterfactual tests pass, 9 competitive benchmark tests pass with independent bounded-oracle checks, 5 request-builder tests and 4 wallet-adapter tests pass, and 10 Chromium product checks pass. A static Vercel preview is live and route-verified; it is sandbox-backed only. Testnet is not verified.
+**Status (2026-11-02): RC1 verification green; frontend redesign complete locally.** The Rust contract compiles with the pinned SDK, 14/14 Rust unit tests pass, clippy is clean with warnings denied, the nearcore-compatible Wasm and ABI builds pass, 5 fresh baseline real-NEAR sandbox campaigns pass plus a separate maximum-capacity RC1 campaign, 6 exact counterfactual tests pass, 9 competitive benchmark tests pass with independent bounded-oracle checks, 5 request-builder tests and 4 wallet-adapter tests pass, and 12 Chromium product checks pass. A static Vercel preview is live and route-verified; it is sandbox-backed only. Testnet is not verified.
 
 This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
 
@@ -45,6 +45,7 @@ Five contributors put in 12 NEAR total. A flexible donor can pledge 3 NEAR to ei
 - `docs/GITHUB_RELEASE.md` and `evidence/`: GitHub-ready CI/release instructions and preserved RC1 evidence/artifacts.
 - `docs/COMPETITIVE_ADVANTAGE.md` and `evidence/competitive-benchmark.json`: reproducible prior-art comparison and honest capability results.
 - `FINAL_ENGINEERING_REVIEW.md`: frozen final evidence review and release recommendation.
+- `docs/DESIGN_DIRECTION.md` and `docs/FRONTEND_REDESIGN_REPORT.md`: frontend design rationale, screenshot evidence, measured local performance and remaining UX issues.
 
 ## Run immediately
 
@@ -72,7 +73,7 @@ RUSTUP_TOOLCHAIN=1.93.0 bash scripts/verify-rust.sh
 
 The script checks Rust formatting, the locked Wasm target, unit tests and clippy, builds optimized Wasm with `wasm-opt`, runs the 26-case reference suite and the 9-case competitive benchmark regression suite, and runs five real sandbox scenarios. The sandbox runner uses `near-sandbox` 2.13.4 through the pinned `near-sandbox-modern` alias because the older binary bundled by `near-workspaces` 5.0.0 cannot prepare this SDK's Wasm.
 
-The product checks are separate and reproducible with `npm run test:counterfactual` and `NPM_CONFIG_CACHE=/tmp/pact-npm-cache PLAYWRIGHT_BROWSERS_PATH=/tmp/pact-playwright-browsers npm run test:browser`. The browser campaign covers first-viewport comprehension, exact/blocked counterfactual states, evidence reconciliation, injected-adapter wallet safety, direct hosted routes, console/page errors, automated accessibility, narrow mobile layout and a local load-time budget. Fresh CI captures go to ignored `test-results/screenshots/`; the preserved RC1 captures are in `evidence/screenshots/`.
+The product checks are separate and reproducible with `npm run test:counterfactual` and `NPM_CONFIG_CACHE=/tmp/pact-npm-cache PLAYWRIGHT_BROWSERS_PATH=/tmp/pact-playwright-browsers npm run test:browser`. The browser campaign covers first-viewport comprehension, exact/blocked counterfactual states, evidence reconciliation, injected-adapter wallet safety, direct hosted routes, console/page errors, automated accessibility, graph keyboard interaction, evidence switching, narrow mobile layout and a local load-time budget. Fresh CI captures go to ignored `test-results/screenshots/`; the current redesign captures are in `docs/design-evidence/`.
 
 The wallet request layer is covered with `npm run test:workflow` (5 tests), and the optional host bridge with `npm run test:wallet-adapter` (4 tests), without signing or submitting a transaction.
 
@@ -110,7 +111,7 @@ Read `docs/SECURITY_REVIEW.md` for the risks and policy changes.
 ## Verified local criteria
 
 1. Pinned Rust/near-sdk compilation, locked Wasm check, clippy and optimized Wasm build pass.
-2. Thirteen Rust unit tests and 26 reference-model tests pass.
+2. 14 Rust unit tests and 26 reference-model tests pass.
 3. Real sandbox transactions use separate accounts and attached native NEAR.
 4. Invalid allocations revert without changing phase, liabilities or storage stake.
 5. A/B/C activation settles 4 + 3 + 3 NEAR and refunds the unused 2 NEAR pledge.

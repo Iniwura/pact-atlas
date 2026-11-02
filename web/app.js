@@ -11,6 +11,7 @@ function renderEngine() {
   const condition = $("#condition-select").value;
   const result = evaluate(targetKey, topUp, condition);
   const feasible = result.plans.length > 0;
+  document.body.dataset.coalitionState = feasible ? "viable" : "blocked";
   const plan = result.plans[0];
   const allocationText = plan ? plan.allocations.filter(Boolean).map((item) => `${item.pledge}→${item.project.toUpperCase()}`).join(" · ") : "No exact certificate";
   const headline = feasible ? `${result.targetLabel} becomes <em>viable.</em>` : `${result.targetLabel} is still <em>blocked.</em>`;
@@ -48,7 +49,11 @@ function renderProjectInspector(projectId) {
   const project = MODEL.projects[projectId];
   if (!project) return;
   $("#project-inspector").innerHTML = `<p class="inspector-kicker">Project node / ${project.short}</p><div class="inspector-symbol">${project.short}</div><h3>${project.label}</h3><p>${project.copy}</p><div class="inspector-stat"><span>Required</span><strong>${near(project.required)}</strong></div><div class="inspector-stat"><span>Dependencies</span><strong>${project.dependencies.length ? project.dependencies.map((id) => id.toUpperCase()).join(" + ") : "None"}</strong></div><div class="inspector-stat"><span>Current coverage</span><strong>${near(MODEL.pledges.filter((pledge) => pledge.allowed.includes(projectId)).reduce((sum, pledge) => sum + pledge.amount, 0n))}</strong></div>`;
-  $$(".map-node").forEach((node) => node.classList.toggle("selected", node.dataset.project === projectId));
+  $$(".map-node").forEach((node) => {
+    const selected = node.dataset.project === projectId;
+    node.classList.toggle("selected", selected);
+    node.setAttribute("aria-pressed", String(selected));
+  });
 }
 
 function renderEvidence(evidence) {
@@ -64,11 +69,17 @@ function renderEvidence(evidence) {
     $("#receipt-title").textContent = scenario.name;
     const receipts = [];
     if (scenario.contract) receipts.push(["PACT address", scenario.contract]);
+    if (scenario.contracts?.funded) receipts.push(["PACT funded", scenario.contracts.funded]);
+    if (scenario.contracts?.refund) receipts.push(["PACT refund", scenario.contracts.refund]);
     if (scenario.dao) receipts.push(["DAO address", scenario.dao]);
     const activation = scenario.receipts?.activation || scenario.receipts?.activation?.hash;
     if (activation) receipts.push(["activation", activation]);
     if (scenario.receipts?.expiry) receipts.push(["expiry", scenario.receipts.expiry]);
     if (scenario.receipts?.dao?.initialize) receipts.push(["DAO initialize", scenario.receipts.dao.initialize]);
+    const finalPhase = scenario.finalStatus?.phase || scenario.finalStatuses?.funded?.phase;
+    const finalLiabilities = scenario.finalStatus?.liabilities || scenario.finalStatuses?.funded?.liabilities;
+    if (finalPhase) receipts.push(["final phase", finalPhase]);
+    if (finalLiabilities !== undefined) receipts.push(["liabilities", `${finalLiabilities} yoctoNEAR`]);
     $("#receipt-list").innerHTML = receipts.map(([label, value]) => `<div class="receipt-item"><span>${label}</span><code title="${value}">${value}</code></div>`).join("");
   };
   select.addEventListener("change", paint); paint();

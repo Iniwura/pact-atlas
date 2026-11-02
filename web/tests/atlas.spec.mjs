@@ -33,6 +33,25 @@ test.describe("Coalition Atlas product", () => {
     await expect(page.locator("#toast")).toContainText("not submitted");
   });
 
+  test("moves from a graph selection to an inspectable project proof", async ({ page }) => {
+    await page.goto("/#atlas");
+    await page.click("[data-project='d']");
+    await expect(page.locator("#project-inspector")).toContainText("Events");
+    await expect(page.locator("#project-inspector")).toContainText("3N");
+    await expect(page.locator("[data-project='d']")).toHaveClass(/selected/);
+    await page.locator("[data-project='b']").focus();
+    await page.keyboard.press("Enter");
+    await expect(page.locator("#project-inspector")).toContainText("Internet");
+  });
+
+  test("keeps the evidence ledger grounded when switching scenarios", async ({ page }) => {
+    await page.goto("/#evidence");
+    await page.selectOption("#evidence-select", "4");
+    await expect(page.locator("#receipt-title")).toContainText("Sputnik");
+    await expect(page.locator("#receipt-list")).toContainText("PACT funded");
+    await expect(page.locator("#receipt-list")).toContainText("liabilities");
+  });
+
   test("loads genuine evidence receipts and separates wallet state", async ({ page }) => {
     await page.goto("/#evidence");
     await expect(page.locator("#scenario-count")).toHaveText("5");
