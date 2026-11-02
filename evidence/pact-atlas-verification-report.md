@@ -80,7 +80,7 @@ Testnet is **NOT VERIFIED**: no safe testnet credentials or deployment authoriza
 
 The environment ran Node `20.19.5`; the pinned modern sandbox package declares Node `>=22.22.2`. The run passed here, but reproduction should use Node `22.22.2+` (or the project’s Node 26 baseline). `npm install` reported 15 dependency advisories; no automated audit-fix was applied.
 
-The local release candidate has a reproducibility-only Git history with no remote, and no commit or pull request was pushed. A sandbox-backed Vercel preview was created and route-verified at `https://pact-atlas-rc1-preview-jefkdeu59-iniwura-akurus-projects.vercel.app/` (`dpl_HtLj32D896dfqgY7vUGztjSj36dS`). The first API request created a production-target artifact by mistake; it was not promoted, was quarantined by pausing the project, and is not release evidence. The valid preview contains no testnet credentials. The exact Wasm/ABI comparison is reproducible with the canonical `CARGO_HOME=/tmp/pact-atlas-cargo-final` path documented in `docs/GITHUB_RELEASE.md`.
+The local release candidate has a reproducibility-only Git history with no remote, and no commit or pull request was pushed. A sandbox-backed Vercel preview was created and route-verified at `https://pact-atlas-rc1-preview-lbtitxcri-iniwura-akurus-projects.vercel.app/` (`dpl_956XYXB54TgehyFobxguQVqFyU1a`). The first API request created a production-target artifact by mistake; it was not promoted, was quarantined by pausing the project, and is not release evidence. The valid preview contains no testnet credentials. The exact Wasm/ABI comparison is reproducible with the canonical `CARGO_HOME=/tmp/pact-atlas-cargo-final` path documented in `docs/GITHUB_RELEASE.md`.
 
 ## Product-phase implementation disposition
 

@@ -4,8 +4,8 @@ PACT Atlas includes a static Vercel configuration for a reproducible judge previ
 
 RC1 preview evidence (2026-11-02):
 
-- URL: https://pact-atlas-rc1-preview-jefkdeu59-iniwura-akurus-projects.vercel.app/
-- Deployment: `dpl_HtLj32D896dfqgY7vUGztjSj36dS`
+- URL: https://pact-atlas-rc1-preview-lbtitxcri-iniwura-akurus-projects.vercel.app/
+- Deployment: `dpl_956XYXB54TgehyFobxguQVqFyU1a`
 - Vercel project: `prj_6q7qCVVeB6WTC57jBJCTdPaVgxpP`
 - Deployment target: `null` (Vercel preview; no production target)
 - Verified with Vercel fetch: `/`, `/styles.css`, `/app.js`, `/engine.mjs`, `/near-workflow.mjs`, `/near-adapter.mjs`, `/data/evidence.json` and `/HACKATHON.md` returned HTTP 200.
