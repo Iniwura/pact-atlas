@@ -6,7 +6,7 @@
 
 - Source archive extracted and inspected.
 - Node.js reference-model suite: **26 tests pass**.
-- Rust contract: **13 unit tests pass**, locked Wasm check passes, and clippy passes with warnings denied.
+- Rust contract: **14 unit tests pass**, locked Wasm check passes, and clippy passes with warnings denied.
 - Optimized nearcore-compatible Wasm build passes; SHA-256 is recorded in the sandbox evidence.
 - Real NEAR sandbox: **5 baseline campaigns pass**, plus a fresh RC1 maximum-capacity campaign with all 8 projects, all 32 pledge slots, measured storage reserve, activation and 32 successful withdrawals.
 - Two reproducible offline certificates generated successfully.
@@ -27,8 +27,10 @@
 5. Every successful allocation is retained as an on-chain `activation_certificate`; `status()` exposes the final funded project IDs, mandatory set and activation authorities.
 6. `accounting()` exposes the conservation identity and reserve calculation. Solvency checks during normal state transitions verify both contract balance and liability conservation across locked pledges, credits and pending transfers.
 7. Callback gas budget is 40 TGas with explicit single-result checking. This is **not** a recovery mechanism for failed or missing callbacks.
-8. Thirteen Rust unit tests cover JSON entrypoint decoding, initialization authorization, exact activation/deadline boundaries, maximum project/pledge capacity, accounting, callback success/failure and duplicate callback behavior.
-9. A real NEAR sandbox runner verifies five fresh baseline campaigns with actual attached deposits, invalid allocations, dependency rejection, top-up activation, expiry refunds, competing requests, activation authorization, withdrawals, liabilities, storage reserve balances and Sputnik DAO proposals. An isolated RC1 run additionally exercises all 8 project slots, all 32 pledge slots, storage growth, activation, settlement and repeated withdrawal rejection.
+8. The callback validates the stored amount and promise-result count before removing the pending record. This is defense in depth; it does not solve a callback that never executes.
+9. Fourteen Rust unit tests cover JSON entrypoint decoding, initialization authorization, exact activation/deadline boundaries, maximum project/pledge capacity, accounting, callback success/failure, callback amount validation and duplicate callback behavior.
+10. A real NEAR sandbox runner verifies five fresh baseline campaigns with actual attached deposits, invalid allocations, dependency rejection, top-up activation, expiry refunds, competing requests, activation authorization, withdrawals, liabilities, storage reserve balances and Sputnik DAO proposals. An isolated RC1 run additionally exercises all 8 project slots, all 32 pledge slots, storage growth, activation, settlement and repeated withdrawal rejection.
+11. The competitive benchmark compares explicit independent and aggregate-threshold baselines with the bounded exact reference solver and checks five small scenarios against a separate exhaustive oracle. It is model evidence, not chain evidence.
 
 ## Severity-ranked findings and disposition
 

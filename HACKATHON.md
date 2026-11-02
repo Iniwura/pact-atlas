@@ -29,7 +29,7 @@ npm test
 RUSTUP_TOOLCHAIN=1.93.0 bash scripts/verify-rust.sh
 ```
 
-The last command compiles/tests the Rust contract, runs clippy with warnings denied, generates the ABI, builds optimized Wasm, runs the 26-case reference model suite, and launches five fresh NEAR sandbox campaigns. It writes reproducible evidence to `outputs/pact-atlas-sandbox-evidence.json`. The RC1 capacity campaign is separate:
+The last command compiles/tests the Rust contract, runs clippy with warnings denied, generates the ABI, builds optimized Wasm, runs the 26-case reference model and competitive benchmark suites, and launches five fresh NEAR sandbox campaigns. It writes reproducible evidence to `outputs/pact-atlas-sandbox-evidence.json`. The RC1 capacity campaign is separate:
 
 ```sh
 PACT_SCENARIOS=max-capacity PACT_EVIDENCE_PATH=outputs/pact-atlas-rc1-sandbox-evidence.json npm run test:sandbox
@@ -65,13 +65,14 @@ The default is all scenarios: `cycle,all-four,expiry,concurrent,sputnik`.
 
 ## Verified behaviors
 
-- 13 Rust unit tests and 26 independent reference-model tests pass.
+- 14 Rust unit tests and 26 independent reference-model tests pass; the separate competitive benchmark has 9 passing tests and checks five bounded scenarios against an independent exhaustive oracle.
 - The explicit request builder passes 5 tests, and the optional HOT Connect / Wallet Selector-compatible bridge passes 4 deterministic tests; no wallet package, key or signature is bundled in the preview.
 - The final Wasm and ABI are rebuilt from the current source state.
 - Invalid allocation certificates preserve phase, liabilities and storage stake.
 - Concurrent deposits are conserved; competing authorized activations yield one winner; repeated withdrawals and unauthorized private callbacks are rejected.
 - Real Sputnik v2 council proposals require both configured council approvals, reject an unauthorized vote, execute a PACT funding call, and recover an expired DAO-owned refund through a second approved proposal.
 - The public `accounting()` view demonstrates `locked_pledges + credits + pending == liabilities` and reports the storage reserve check at each exercised state.
+- `docs/COMPETITIVE_ADVANTAGE.md` records explicit independent and threshold-pool baselines, bounded exact top-up results, prior art and the limits of the current differentiation claim.
 
 ## Remaining blockers
 
@@ -81,6 +82,7 @@ The default is all scenarios: `cycle,all-four,expiry,concurrent,sputnik`.
 - Native transfer failure injection through a genuine sandbox predecessor was not reachable without losing the signer needed to initiate withdrawal; the callback `PromiseResult::Failed` branch is covered in Rust VM tests.
 - Exact timestamp equality is verified in Rust VM tests; near-workspaces crosses but does not set exact sandbox timestamps. The configured 8-project/32-pledge capacity is verified in `outputs/pact-atlas-rc1-sandbox-evidence.json`.
 - A sandbox-backed Vercel preview is route-verified at `https://pact-atlas-rc1-preview-lbtitxcri-iniwura-akurus-projects.vercel.app/` (`dpl_956XYXB54TgehyFobxguQVqFyU1a`). It contains no testnet credentials and is not live-chain evidence.
+- The final local evidence/Wasm refresh occurred after that recorded preview. A current preview redeploy is still required before calling the hosted URL the final artifact; it must preserve SSO protection and use preview mode only.
 - The code has received an independent adversarial engineering review, but no independent qualified auditor has reviewed it. It must not be described as externally audited.
 - The supplied archive has no Git revision/remote, so reproducibility is artifact- and command-based rather than commit-pinned.
 - Browser captures are local preview evidence, not chain evidence. The product's browser test verifies that visible balances and scenario counts reconcile with the raw sandbox JSON; it does not replace on-chain receipts.

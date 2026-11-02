@@ -1,0 +1,575 @@
+{
+  "schema": "pact-atlas-competitive-benchmark/v1",
+  "generatedAt": "2026-11-02T09:14:44.235Z",
+  "amountUnit": "integer benchmark units; not yoctoNEAR",
+  "baselineDefinitions": {
+    "independent": "Each project independently counts every eligible pledge; shared pledges can be double-counted and conditions/dependencies are not certified.",
+    "thresholdPool": "A single aggregate target is checked for a selected project subset; no project-level allocation or dependency certificate is produced.",
+    "pact": "The bounded exact reference solver uses each pledge at most once and checks exact targets, allowed projects, pledge conditions and dependencies."
+  },
+  "results": [
+    {
+      "name": "cyclic-dependencies",
+      "description": "A/B/C form a cyclic coalition; D competes for a flexible pledge.",
+      "projects": 4,
+      "pledges": 5,
+      "totalCapital": "12",
+      "independent": {
+        "totalCapital": "12",
+        "allocated": "13",
+        "unusedRefundable": "0",
+        "overcommitted": "1",
+        "activatedProjects": 4,
+        "activatedProjectIds": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "constraintSatisfied": false,
+        "minimumAdditionalFunding": "1",
+        "minimumAdditionalFundingExact": false,
+        "semantics": "independent project totals; shared pledges may be counted repeatedly"
+      },
+      "thresholdPool": {
+        "totalCapital": "12",
+        "allocated": "10",
+        "unusedRefundable": "2",
+        "overcommitted": "0",
+        "activatedProjects": 3,
+        "activatedProjectIds": [
+          "A",
+          "C",
+          "D"
+        ],
+        "constraintSatisfied": false,
+        "minimumAdditionalFunding": "1",
+        "minimumAdditionalFundingExact": false,
+        "semantics": "single aggregate threshold; no allocation certificate or dependency proof"
+      },
+      "pact": {
+        "totalCapital": "12",
+        "allocated": "10",
+        "unusedRefundable": "2",
+        "overcommitted": "0",
+        "activatedProjects": 3,
+        "activatedProjectIds": [
+          "A",
+          "B",
+          "C"
+        ],
+        "constraintSatisfied": true,
+        "minimumAdditionalFunding": "1",
+        "minimumAdditionalFundingExact": true,
+        "allocationCertificate": [
+          {
+            "pledgeIndex": 0,
+            "projectId": "A"
+          },
+          {
+            "pledgeIndex": 1,
+            "projectId": "A"
+          },
+          {
+            "pledgeIndex": 2,
+            "projectId": "B"
+          },
+          {
+            "pledgeIndex": 3,
+            "projectId": "C"
+          }
+        ],
+        "blockedReasons": [
+          {
+            "projectId": "D",
+            "reason": "not selected by the highest-count valid certificate"
+          }
+        ],
+        "runtimeMs": 1.114209,
+        "semantics": "bounded exact one-use allocation with conditions and dependency closure"
+      },
+      "oracle": {
+        "ranking": [
+          3,
+          "10"
+        ],
+        "funded": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "optimalityChecked": true
+    },
+    {
+      "name": "competing-coalitions",
+      "description": "Two dependency cycles compete for three one-use pledges.",
+      "projects": 4,
+      "pledges": 3,
+      "totalCapital": "15",
+      "independent": {
+        "totalCapital": "15",
+        "allocated": "20",
+        "unusedRefundable": "0",
+        "overcommitted": "5",
+        "activatedProjects": 4,
+        "activatedProjectIds": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "constraintSatisfied": false,
+        "minimumAdditionalFunding": "5",
+        "minimumAdditionalFundingExact": false,
+        "semantics": "independent project totals; shared pledges may be counted repeatedly"
+      },
+      "thresholdPool": {
+        "totalCapital": "15",
+        "allocated": "15",
+        "unusedRefundable": "0",
+        "overcommitted": "0",
+        "activatedProjects": 3,
+        "activatedProjectIds": [
+          "B",
+          "C",
+          "D"
+        ],
+        "constraintSatisfied": false,
+        "minimumAdditionalFunding": "5",
+        "minimumAdditionalFundingExact": false,
+        "semantics": "single aggregate threshold; no allocation certificate or dependency proof"
+      },
+      "pact": {
+        "totalCapital": "15",
+        "allocated": "10",
+        "unusedRefundable": "5",
+        "overcommitted": "0",
+        "activatedProjects": 2,
+        "activatedProjectIds": [
+          "A",
+          "B"
+        ],
+        "constraintSatisfied": true,
+        "minimumAdditionalFunding": "5",
+        "minimumAdditionalFundingExact": true,
+        "allocationCertificate": [
+          {
+            "pledgeIndex": 0,
+            "projectId": "A"
+          },
+          {
+            "pledgeIndex": 1,
+            "projectId": "B"
+          }
+        ],
+        "blockedReasons": [
+          {
+            "projectId": "C",
+            "reason": "dependency not activated: D"
+          },
+          {
+            "projectId": "D",
+            "reason": "dependency not activated: C"
+          }
+        ],
+        "runtimeMs": 0.347966,
+        "semantics": "bounded exact one-use allocation with conditions and dependency closure"
+      },
+      "oracle": {
+        "ranking": [
+          2,
+          "10"
+        ],
+        "funded": [
+          "A",
+          "B"
+        ]
+      },
+      "optimalityChecked": true
+    },
+    {
+      "name": "restricted-budgets",
+      "description": "Restricted pledges leave an exact one-unit shortfall for all projects.",
+      "projects": 3,
+      "pledges": 4,
+      "totalCapital": "11",
+      "independent": {
+        "totalCapital": "11",
+        "allocated": "12",
+        "unusedRefundable": "0",
+        "overcommitted": "1",
+        "activatedProjects": 3,
+        "activatedProjectIds": [
+          "A",
+          "B",
+          "C"
+        ],
+        "constraintSatisfied": false,
+        "minimumAdditionalFunding": "1",
+        "minimumAdditionalFundingExact": false,
+        "semantics": "independent project totals; shared pledges may be counted repeatedly"
+      },
+      "thresholdPool": {
+        "totalCapital": "11",
+        "allocated": "8",
+        "unusedRefundable": "3",
+        "overcommitted": "0",
+        "activatedProjects": 2,
+        "activatedProjectIds": [
+          "B",
+          "C"
+        ],
+        "constraintSatisfied": false,
+        "minimumAdditionalFunding": "1",
+        "minimumAdditionalFundingExact": false,
+        "semantics": "single aggregate threshold; no allocation certificate or dependency proof"
+      },
+      "pact": {
+        "totalCapital": "11",
+        "allocated": "8",
+        "unusedRefundable": "3",
+        "overcommitted": "0",
+        "activatedProjects": 2,
+        "activatedProjectIds": [
+          "A",
+          "C"
+        ],
+        "constraintSatisfied": true,
+        "minimumAdditionalFunding": "1",
+        "minimumAdditionalFundingExact": true,
+        "allocationCertificate": [
+          {
+            "pledgeIndex": 0,
+            "projectId": "A"
+          },
+          {
+            "pledgeIndex": 2,
+            "projectId": "C"
+          },
+          {
+            "pledgeIndex": 3,
+            "projectId": "C"
+          }
+        ],
+        "blockedReasons": [
+          {
+            "projectId": "B",
+            "reason": "not selected by the highest-count valid certificate"
+          }
+        ],
+        "runtimeMs": 0.321383,
+        "semantics": "bounded exact one-use allocation with conditions and dependency closure"
+      },
+      "oracle": {
+        "ranking": [
+          2,
+          "8"
+        ],
+        "funded": [
+          "A",
+          "C"
+        ]
+      },
+      "optimalityChecked": true
+    },
+    {
+      "name": "mutual-conditions",
+      "description": "A and B are mutually conditional; C is independent.",
+      "projects": 3,
+      "pledges": 3,
+      "totalCapital": "12",
+      "independent": {
+        "totalCapital": "12",
+        "allocated": "12",
+        "unusedRefundable": "0",
+        "overcommitted": "0",
+        "activatedProjects": 3,
+        "activatedProjectIds": [
+          "A",
+          "B",
+          "C"
+        ],
+        "constraintSatisfied": false,
+        "minimumAdditionalFunding": "0",
+        "minimumAdditionalFundingExact": false,
+        "semantics": "independent project totals; shared pledges may be counted repeatedly"
+      },
+      "thresholdPool": {
+        "totalCapital": "12",
+        "allocated": "12",
+        "unusedRefundable": "0",
+        "overcommitted": "0",
+        "activatedProjects": 3,
+        "activatedProjectIds": [
+          "A",
+          "B",
+          "C"
+        ],
+        "constraintSatisfied": false,
+        "minimumAdditionalFunding": "0",
+        "minimumAdditionalFundingExact": false,
+        "semantics": "single aggregate threshold; no allocation certificate or dependency proof"
+      },
+      "pact": {
+        "totalCapital": "12",
+        "allocated": "12",
+        "unusedRefundable": "0",
+        "overcommitted": "0",
+        "activatedProjects": 3,
+        "activatedProjectIds": [
+          "A",
+          "B",
+          "C"
+        ],
+        "constraintSatisfied": true,
+        "minimumAdditionalFunding": "0",
+        "minimumAdditionalFundingExact": true,
+        "allocationCertificate": [
+          {
+            "pledgeIndex": 0,
+            "projectId": "A"
+          },
+          {
+            "pledgeIndex": 1,
+            "projectId": "B"
+          },
+          {
+            "pledgeIndex": 2,
+            "projectId": "C"
+          }
+        ],
+        "blockedReasons": [],
+        "runtimeMs": 0.12375,
+        "semantics": "bounded exact one-use allocation with conditions and dependency closure"
+      },
+      "oracle": {
+        "ranking": [
+          3,
+          "12"
+        ],
+        "funded": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "optimalityChecked": true
+    },
+    {
+      "name": "infeasible-network",
+      "description": "C is feasible; the A/B cycle needs two additional units.",
+      "projects": 3,
+      "pledges": 3,
+      "totalCapital": "12",
+      "independent": {
+        "totalCapital": "12",
+        "allocated": "9",
+        "unusedRefundable": "3",
+        "overcommitted": "0",
+        "activatedProjects": 2,
+        "activatedProjectIds": [
+          "A",
+          "C"
+        ],
+        "constraintSatisfied": false,
+        "minimumAdditionalFunding": "2",
+        "minimumAdditionalFundingExact": false,
+        "semantics": "independent project totals; shared pledges may be counted repeatedly"
+      },
+      "thresholdPool": {
+        "totalCapital": "12",
+        "allocated": "10",
+        "unusedRefundable": "2",
+        "overcommitted": "0",
+        "activatedProjects": 2,
+        "activatedProjectIds": [
+          "A",
+          "B"
+        ],
+        "constraintSatisfied": false,
+        "minimumAdditionalFunding": "2",
+        "minimumAdditionalFundingExact": false,
+        "semantics": "single aggregate threshold; no allocation certificate or dependency proof"
+      },
+      "pact": {
+        "totalCapital": "12",
+        "allocated": "4",
+        "unusedRefundable": "8",
+        "overcommitted": "0",
+        "activatedProjects": 1,
+        "activatedProjectIds": [
+          "C"
+        ],
+        "constraintSatisfied": true,
+        "minimumAdditionalFunding": "2",
+        "minimumAdditionalFundingExact": true,
+        "allocationCertificate": [
+          {
+            "pledgeIndex": 2,
+            "projectId": "C"
+          }
+        ],
+        "blockedReasons": [
+          {
+            "projectId": "A",
+            "reason": "dependency not activated: B"
+          },
+          {
+            "projectId": "B",
+            "reason": "eligible commitments 3 < target 5"
+          }
+        ],
+        "runtimeMs": 0.094875,
+        "semantics": "bounded exact one-use allocation with conditions and dependency closure"
+      },
+      "oracle": {
+        "ranking": [
+          1,
+          "4"
+        ],
+        "funded": [
+          "C"
+        ]
+      },
+      "optimalityChecked": true
+    },
+    {
+      "name": "large-realistic",
+      "description": "Eight projects and twelve pledges model a dependency-heavy program.",
+      "projects": 8,
+      "pledges": 12,
+      "totalCapital": "30",
+      "independent": {
+        "totalCapital": "30",
+        "allocated": "29",
+        "unusedRefundable": "1",
+        "overcommitted": "0",
+        "activatedProjects": 8,
+        "activatedProjectIds": [
+          "P0",
+          "P1",
+          "P2",
+          "P3",
+          "P4",
+          "P5",
+          "P6",
+          "P7"
+        ],
+        "constraintSatisfied": false,
+        "minimumAdditionalFunding": "0",
+        "minimumAdditionalFundingExact": false,
+        "semantics": "independent project totals; shared pledges may be counted repeatedly"
+      },
+      "thresholdPool": {
+        "totalCapital": "30",
+        "allocated": "29",
+        "unusedRefundable": "1",
+        "overcommitted": "0",
+        "activatedProjects": 8,
+        "activatedProjectIds": [
+          "P0",
+          "P1",
+          "P2",
+          "P3",
+          "P4",
+          "P5",
+          "P6",
+          "P7"
+        ],
+        "constraintSatisfied": false,
+        "minimumAdditionalFunding": "0",
+        "minimumAdditionalFundingExact": false,
+        "semantics": "single aggregate threshold; no allocation certificate or dependency proof"
+      },
+      "pact": {
+        "totalCapital": "30",
+        "allocated": "29",
+        "unusedRefundable": "1",
+        "overcommitted": "0",
+        "activatedProjects": 8,
+        "activatedProjectIds": [
+          "P0",
+          "P1",
+          "P2",
+          "P3",
+          "P4",
+          "P5",
+          "P6",
+          "P7"
+        ],
+        "constraintSatisfied": true,
+        "minimumAdditionalFunding": "0",
+        "minimumAdditionalFundingExact": true,
+        "allocationCertificate": [
+          {
+            "pledgeIndex": 0,
+            "projectId": "P0"
+          },
+          {
+            "pledgeIndex": 1,
+            "projectId": "P0"
+          },
+          {
+            "pledgeIndex": 2,
+            "projectId": "P1"
+          },
+          {
+            "pledgeIndex": 3,
+            "projectId": "P2"
+          },
+          {
+            "pledgeIndex": 4,
+            "projectId": "P2"
+          },
+          {
+            "pledgeIndex": 5,
+            "projectId": "P3"
+          },
+          {
+            "pledgeIndex": 6,
+            "projectId": "P4"
+          },
+          {
+            "pledgeIndex": 7,
+            "projectId": "P4"
+          },
+          {
+            "pledgeIndex": 8,
+            "projectId": "P5"
+          },
+          {
+            "pledgeIndex": 9,
+            "projectId": "P6"
+          },
+          {
+            "pledgeIndex": 10,
+            "projectId": "P7"
+          }
+        ],
+        "blockedReasons": [],
+        "runtimeMs": 138.266511,
+        "semantics": "bounded exact one-use allocation with conditions and dependency closure"
+      },
+      "oracle": null,
+      "optimalityChecked": null
+    }
+  ],
+  "optimality": {
+    "checkedScenarios": [
+      "cyclic-dependencies",
+      "competing-coalitions",
+      "restricted-budgets",
+      "mutual-conditions",
+      "infeasible-network"
+    ],
+    "allCheckedScenariosMatch": true,
+    "method": "independent exhaustive assignment enumerator for oracle-eligible bounded scenarios"
+  },
+  "limitations": [
+    "Baselines are capability models, not reimplementations of Gitcoin, Deep Funding or Codo production systems.",
+    "PACT exact search is bounded at 8 projects and 12 pledges in this reference implementation; runtime is hardware-dependent.",
+    "Minimum additional funding is exact only for the bounded model and unrestricted per-project top-up assumption described in the source.",
+    "No result proves project delivery, governance legitimacy, confidentiality, or production financial safety."
+  ]
+}

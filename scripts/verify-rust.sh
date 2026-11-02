@@ -28,6 +28,8 @@ cmp contract/target/near-build/pact_atlas_poc_abi.json evidence/pact_atlas_poc_a
 sha256sum contract/target/near-build/pact_atlas_poc.wasm contract/target/near-build/pact_atlas_poc_abi.json
 echo 'Running executable JavaScript finance tests...'
 npm test
+echo 'Running competitive benchmark regression tests...'
+npm run test:benchmark
 echo 'Running exact Coalition Atlas counterfactual tests...'
 npm run test:counterfactual
 echo 'Running real NEAR sandbox accounting scenarios...'

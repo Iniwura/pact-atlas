@@ -407,12 +407,16 @@ impl PactAtlas {
         #[serializer(json)] owner: AccountId,
         #[serializer(json)] amount: U128,
     ) -> bool {
-        let pending = self.pending.remove(&owner).expect("no pending withdrawal");
+        // Validate before mutating the pending record. NEAR rolls back a
+        // panicking receipt, but keeping the check-before-remove order makes
+        // this fail closed even in local harnesses and future refactors.
+        let pending = *self.pending.get(&owner).expect("no pending withdrawal");
         require!(pending == amount.0, "pending amount mismatch");
         require!(
             env::promise_results_count() == 1,
             "unexpected callback results"
         );
+        self.pending.remove(&owner);
         if env::promise_result_checked(0, 0).is_ok() {
             // Keep this callback intentionally minimal. An O(n) storage/solvency
             // audit here would increase the risk of an unrecoverable pending state.
@@ -962,6 +966,47 @@ mod tests {
         let accounting = c.accounting();
         assert_eq!(accounting.accounted.0, accounting.liabilities.0);
         assert!(accounting.solvent);
+    }
+
+    #[test]
+    fn callback_amount_mismatch_fails_before_pending_record_is_removed() {
+        let mut c = funded_campaign();
+        context("observer.testnet", 3_100, 0);
+        c.activate(abc());
+
+        context("a.testnet", 3_200, 0);
+        let _ = c.withdraw();
+
+        let mut builder = VMContextBuilder::new();
+        builder
+            .current_account_id(account("pact.testnet"))
+            .predecessor_account_id(account("pact.testnet"))
+            .block_timestamp(3_200 * 1_000_000)
+            .account_balance(NearToken::from_near(100))
+            .attached_deposit(NearToken::from_yoctonear(0));
+        testing_env!(
+            builder.build(),
+            near_sdk::test_vm_config(),
+            near_sdk::RuntimeFeesConfig::test(),
+            Default::default(),
+            vec![PromiseResult::Successful(vec![])],
+        );
+
+        let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            c.on_withdraw_result(
+                account("a.testnet"),
+                U128(NearToken::from_near(3).as_yoctonear()),
+            )
+        }));
+        assert!(result.is_err());
+        assert_eq!(
+            c.pending_withdrawal(account("a.testnet")).0,
+            NearToken::from_near(4).as_yoctonear()
+        );
+        assert_eq!(
+            c.status().liabilities.0,
+            NearToken::from_near(12).as_yoctonear()
+        );
     }
 
     #[test]

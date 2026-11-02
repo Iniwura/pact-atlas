@@ -1,6 +1,6 @@
 # PACT Atlas — executable technical checkpoint
 
-**Status (2026-11-02): RC1 verification green.** The Rust contract compiles with the pinned SDK, 13/13 Rust unit tests pass, clippy is clean with warnings denied, the nearcore-compatible Wasm and ABI builds pass, 5 fresh baseline real-NEAR sandbox campaigns pass plus a separate maximum-capacity RC1 campaign, 6 exact counterfactual tests pass, 5 request-builder tests and 4 wallet-adapter tests pass, and 10 Chromium product checks pass. A static Vercel preview is live and route-verified; it is sandbox-backed only. Testnet is not verified.
+**Status (2026-11-02): RC1 verification green.** The Rust contract compiles with the pinned SDK, 14/14 Rust unit tests pass, clippy is clean with warnings denied, the nearcore-compatible Wasm and ABI builds pass, 5 fresh baseline real-NEAR sandbox campaigns pass plus a separate maximum-capacity RC1 campaign, 6 exact counterfactual tests pass, 9 competitive benchmark tests pass with independent bounded-oracle checks, 5 request-builder tests and 4 wallet-adapter tests pass, and 10 Chromium product checks pass. A static Vercel preview is live and route-verified; it is sandbox-backed only. Testnet is not verified.
 
 This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
 
@@ -25,6 +25,7 @@ Five contributors put in 12 NEAR total. A flexible donor can pledge 3 NEAR to ei
 
 - `contract/src/lib.rs`: first-pass near-sdk Rust native-NEAR contract for an immutable campaign, attached deposits, contract-verified coalition activation, timed expiry, refundable unused pledges, and asynchronous withdrawals with failure recovery.
 - `reference/model.js`: independent, executable JavaScript financial reference model with an exhaustive bounded solver (not a NEAR virtual machine).
+- `reference/competitive.js`: explicit independent/threshold/PACT benchmark semantics, bounded exact top-up search and separate exhaustive oracle.
 - `tests/pact.test.js`: 26 conservation, coalition, timing and adversarial tests for the reference model.
 - `scripts/certificate.js`: emits machine-readable reproducible offline allocation evidence, deliberately labeled OFFLINE-NOT-ONCHAIN.
 - `scripts/sandbox-verification.js`: launches a fresh NEAR sandbox per scenario, deploys the compiled Wasm, attaches real native NEAR deposits, and writes receipt/balance evidence.
@@ -42,6 +43,7 @@ Five contributors put in 12 NEAR total. A flexible donor can pledge 3 NEAR to ei
 - `docs/SECURITY_REVIEW.md`: honest audit blockers and changed contract policy.
 - `docs/WITHDRAWAL_REVIEW.md`: callback non-execution analysis and rejected/possible redesigns.
 - `docs/GITHUB_RELEASE.md` and `evidence/`: GitHub-ready CI/release instructions and preserved RC1 evidence/artifacts.
+- `docs/COMPETITIVE_ADVANTAGE.md` and `evidence/competitive-benchmark.json`: reproducible prior-art comparison and honest capability results.
 
 ## Run immediately
 
@@ -50,6 +52,8 @@ npm ci
 npm test
 node scripts/certificate.js
 node scripts/certificate.js --topup
+npm run test:benchmark
+npm run benchmark
 npm run test:counterfactual
 NPM_CONFIG_CACHE=/tmp/pact-npm-cache npm run preview
 # Open http://127.0.0.1:4173 in a browser, then stop the preview server.
@@ -65,11 +69,13 @@ npm ci
 RUSTUP_TOOLCHAIN=1.93.0 bash scripts/verify-rust.sh
 ```
 
-The script checks Rust formatting, the locked Wasm target, unit tests and clippy, builds optimized Wasm with `wasm-opt`, runs the 26-case reference suite, and runs five real sandbox scenarios. The sandbox runner uses `near-sandbox` 2.13.4 through the pinned `near-sandbox-modern` alias because the older binary bundled by `near-workspaces` 5.0.0 cannot prepare this SDK's Wasm.
+The script checks Rust formatting, the locked Wasm target, unit tests and clippy, builds optimized Wasm with `wasm-opt`, runs the 26-case reference suite and the 9-case competitive benchmark regression suite, and runs five real sandbox scenarios. The sandbox runner uses `near-sandbox` 2.13.4 through the pinned `near-sandbox-modern` alias because the older binary bundled by `near-workspaces` 5.0.0 cannot prepare this SDK's Wasm.
 
 The product checks are separate and reproducible with `npm run test:counterfactual` and `NPM_CONFIG_CACHE=/tmp/pact-npm-cache PLAYWRIGHT_BROWSERS_PATH=/tmp/pact-playwright-browsers npm run test:browser`. The browser campaign covers first-viewport comprehension, exact/blocked counterfactual states, evidence reconciliation, injected-adapter wallet safety, direct hosted routes, console/page errors, automated accessibility, narrow mobile layout and a local load-time budget. Fresh CI captures go to ignored `test-results/screenshots/`; the preserved RC1 captures are in `evidence/screenshots/`.
 
 The wallet request layer is covered with `npm run test:workflow` (5 tests), and the optional host bridge with `npm run test:wallet-adapter` (4 tests), without signing or submitting a transaction.
+
+The competitive benchmark is separate from the product and chain evidence. It compares explicit baseline semantics with the bounded exact reference solver, checks small cases against an independent exhaustive oracle, and labels aggregate/independent results as uncertified whenever they cannot prove PACT's one-use, condition and dependency rules. See `docs/COMPETITIVE_ADVANTAGE.md`.
 
 ## Build contract (individual commands)
 

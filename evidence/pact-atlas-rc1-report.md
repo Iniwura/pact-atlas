@@ -13,9 +13,10 @@ RC1 is not a production financial release. The missing-withdrawal-callback recov
 
 | Surface | Result | Evidence |
 | --- | ---: | --- |
-| Rust contract unit tests | **13 passed** | exact activation/deadline boundaries, 8-project/32-pledge capacity, conservation, callbacks and repeated transactions |
+| Rust contract unit tests | **14 passed** | exact activation/deadline boundaries, 8-project/32-pledge capacity, conservation, callback amount validation, callbacks and repeated transactions |
 | JavaScript reference tests | **26 passed** | independent financial and adversarial model |
 | Exact counterfactual tests | **6 passed** | exact certificate, blocked reasons, minimum top-up and model-only condition changes |
+| Competitive benchmark tests | **9 passed** | independent and threshold baselines, bounded exact top-up and independent exhaustive oracle |
 | Baseline NEAR sandbox campaigns | **5 passed** | `pact-atlas-sandbox-evidence.json` |
 | RC1 maximum-capacity sandbox | **1 passed** | `pact-atlas-rc1-sandbox-evidence.json` |
 | Browser checks | **10 passed** | Playwright Chromium, responsive layout, direct routes, console/page errors, wallet boundary, evidence reconciliation |
@@ -34,17 +35,17 @@ and rejects transitions unless the account balance covers `liabilities + measure
 
 The RC1 sandbox campaign is genuine NEAR sandbox execution on version 2.13.4:
 
-- Contract: `dev-10452-66528.test.near`
-- Wasm code hash: `AbssULo2nfejWq1WjWFExt6xsTHSd9grj9XcxJEnuifm`
-- Deploy: `C7xDvN1buM8RfQpEwRyfmbobwEZcuRVsR6qKjEURfPz4`
-- Initialize: `9cENLEbibkGXimji99huNT6RE1dWp58nLhMkA5pRbPrP`
-- Storage sponsorship: `2JLENiyzvWLuek1x8xsU5JpUmitfwMQqNehMSqeswPv1`
+- Contract: `dev-41957-9920.test.near`
+- Wasm code hash: `8kYswvde6AC41E17ae1LtuepvC4FcTrEzRTSpr1TBgCS`
+- Deploy: `DkZiWNHUyTLmNQC7co4sNEHrDEo4YzV2uGfqQvSzD63g`
+- Initialize: `8PbiU9XWy8VxgkZAmKD9eabCBwB1rg4G2FNrGGrwqi8W`
+- Storage sponsorship: `4Ub4V6LkkK2JA4zdw2obpNVYGoScuoxc8Z8NZGvPC7gL`
 - 32 commit receipts and 8-project activation
-- Activation: `5PtThUWGWTQiufSkL9KNZd7mbgzFVsL2XKptsf99PR9j`
-- 32 successful withdrawal receipts; repeated withdrawal rejection: `BSUVy3KwwnMwaUEsmmBtfsx99XaYYHFuLABpybVF41Kr`
+- Activation: `8EFvMLxwzMnZQe2RqsvjLyimZSd8ZmzyZpXAmqbg4y7k`
+- 32 successful withdrawal receipts; repeated withdrawal rejection: `b7eA3wbQQgFRsTVFya9mQYTLwmzfqWNVZMYzvChKbZT`
 - Final liabilities: `0`
-- Final contract balance: `31001603877788488500000000` yoctoNEAR
-- Open-state measured storage reserve: `2271200000000000000000000` yoctoNEAR
+- Final contract balance: `31001587553134354800000000` yoctoNEAR
+- Open-state measured storage reserve: `2271250000000000000000000` yoctoNEAR
 
 The exact timestamp predicates are verified in Rust VM tests: contributions are frozen at `activate_after_ms`, activation is allowed at that exact boundary, expiry is allowed at `deadline_ms`, and activation before the deadline remains required. The sandbox runner crosses boundaries but does not inject exact timestamps.
 
@@ -82,7 +83,7 @@ Current upstream compatibility was reviewed: [HOT/NEAR Connect](https://github.c
 
 The existing Coalition Atlas design was preserved and refined rather than redesigned: editorial ink/lime/coral visual system, orbital dependency map, exact/blocked counterfactual result, commitment inspector, five-step workflow rail, read-only evidence separation, desktop/mobile screenshots and keyboard/accessibility behavior.
 
-The static Vercel package is deployed as a sandbox-backed preview at https://pact-atlas-rc1-preview-lbtitxcri-iniwura-akurus-projects.vercel.app/ (`dpl_956XYXB54TgehyFobxguQVqFyU1a`, project `prj_6q7qCVVeB6WTC57jBJCTdPaVgxpP`). Vercel fetch returned HTTP 200 for the root, module, stylesheet, evidence and documentation routes. It contains no testnet credentials and is not live-chain evidence. An earlier API request accidentally created `dpl_6rpBLndJMtUAWFpQjGAvuXgSab3A` with target `production`; it was not promoted or used as evidence, and the project was paused so that deployment returns `503 DEPLOYMENT_PAUSED`.
+The static Vercel package is deployed as a sandbox-backed preview at https://pact-atlas-rc1-preview-lbtitxcri-iniwura-akurus-projects.vercel.app/ (`dpl_956XYXB54TgehyFobxguQVqFyU1a`, project `prj_6q7qCVVeB6WTC57jBJCTdPaVgxpP`). Vercel fetch returned HTTP 200 for the root, module, stylesheet, evidence and documentation routes. It contains no testnet credentials and is not live-chain evidence. The recorded deployment predates the final local callback/Wasm/evidence refresh and must be redeployed from the current checkout before being called the final hosted artifact. The Vercel CLI is not installed in this environment, so no unverified redeploy was attempted. An earlier API request accidentally created `dpl_6rpBLndJMtUAWFpQjGAvuXgSab3A` with target `production`; it was not promoted or used as evidence, and the project was paused so that deployment returns `503 DEPLOYMENT_PAUSED`.
 
 ## Reproduction
 
@@ -99,7 +100,7 @@ PACT_SCENARIOS=max-capacity PACT_EVIDENCE_PATH=../../outputs/pact-atlas-rc1-sand
 NPM_CONFIG_CACHE=/tmp/pact-npm-cache PLAYWRIGHT_BROWSERS_PATH=/tmp/pact-playwright-browsers npm run test:browser
 ```
 
-The full verifier preserves the baseline five-campaign evidence. The final Wasm SHA-256 is `8ea872ef10f44241840d70ad2ac0bbdd25289d0c770098f158900975e5c8b35c`; ABI SHA-256 is `4f9d6ea16bbc8986e304f5b894403501c262b409379efa3eef2f1dd248201075`. The exact Wasm/ABI comparison was replayed under Rust 1.93.0 and cargo-near 0.22.0 using the canonical `CARGO_HOME=/tmp/pact-atlas-cargo-final` path; the canonical path is required because the optimized Wasm retains Cargo source paths.
+The full verifier preserves the baseline five-campaign evidence. The final Wasm SHA-256 is `7329d40af43d7e4d6cd3ff942cbe31ba9c54124e667a9af0233e63fa9020d103`; ABI SHA-256 is `4f9d6ea16bbc8986e304f5b894403501c262b409379efa3eef2f1dd248201075`. The exact Wasm/ABI comparison was replayed under Rust 1.93.0 and cargo-near 0.22.0 using the canonical `CARGO_HOME=/tmp/pact-atlas-cargo-final` path; the canonical path is required because the optimized Wasm retains Cargo source paths.
 
 ## Before hackathon submission
 

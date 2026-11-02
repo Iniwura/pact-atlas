@@ -2,7 +2,7 @@
   "type": "PACT-LOCAL-SANDBOX-EVIDENCE",
   "version": 2,
   "network": "NEAR-SANDBOX",
-  "generatedAt": "2026-11-01T21:55:21.469Z",
+  "generatedAt": "2026-11-02T09:32:35.490Z",
   "sandboxVersion": "2.13.4",
   "sandboxBinaryPath": "/tmp/pact-atlas-near-sandbox/near-sandbox-2.13.4/near-sandbox",
   "wasmPath": "/mnt/c/Users/DELL 7400/Documents/Codex/2026-10-30/target-post-https-x-com-bitget-2/work/pact-atlas-checkpoint/contract/target/near-build/pact_atlas_poc.wasm",
@@ -13,50 +13,50 @@
   "scenarios": [
     {
       "name": "maximum 8-project / 32-pledge campaign with storage reconciliation",
-      "contract": "dev-10452-66528.test.near",
-      "wasmCodeHash": "AbssULo2nfejWq1WjWFExt6xsTHSd9grj9XcxJEnuifm",
+      "contract": "dev-41957-9920.test.near",
+      "wasmCodeHash": "8kYswvde6AC41E17ae1LtuepvC4FcTrEzRTSpr1TBgCS",
       "receipts": {
-        "deploy": "C7xDvN1buM8RfQpEwRyfmbobwEZcuRVsR6qKjEURfPz4",
-        "initialize": "9cENLEbibkGXimji99huNT6RE1dWp58nLhMkA5pRbPrP",
-        "sponsorStorage": "2JLENiyzvWLuek1x8xsU5JpUmitfwMQqNehMSqeswPv1",
+        "deploy": "DkZiWNHUyTLmNQC7co4sNEHrDEo4YzV2uGfqQvSzD63g",
+        "initialize": "8PbiU9XWy8VxgkZAmKD9eabCBwB1rg4G2FNrGGrwqi8W",
+        "sponsorStorage": "4Ub4V6LkkK2JA4zdw2obpNVYGoScuoxc8Z8NZGvPC7gL",
         "commits": [
-          "FFK6F8tpMSwfzELtRbJwqYMVUKH4qFah3BahYRWEdo3H",
-          "AqgeBE6vfDpkgoKS948mGwnjPQU1TCLzeQfZf2ZFUBWJ",
-          "7XVWi9UumUDyaC9y2b1bVjsBUqmc5YKGk7fnMTKvaBKb",
-          "36D5RWv8uCNy1AucfL8udgGBPvPxwHAXURBWjuMDcnS4",
-          "9PSoVmo2H75JANqBRnyT7ny9otWfYn1Yw8z9g8ibC1Xi",
-          "A1StS7JDt4ceShXnGjM8KDrwkg8rPE99BpTsbGyvVNbw",
-          "FD2iZvUeBSkBoLuFN1fEmejg98qSKWNqBx5CjiEvEkUG",
-          "86jqXyBcE7xikZ3YXc5X6HfT5YZUAoUTeJgyPmGyMWmU",
-          "CmQHsuFJpJFiD6ShsoUzAHVafEgG9c7vfTci9RPvHEma",
-          "8RJNGXPWbxXTBXQKAq7P4oW79iWHRWNZx9ApmLC2NgFQ",
-          "D2YbXH1CQtgeXoAog5kji4WR5GvcdvHc5XfFEKKmL8Vc",
-          "8jTWkP7NJWvejJEMoEVYnkrubn9rs7UMjV726HLiLmrW",
-          "T7RQ1Y3EyyH4JSN4nkAZ5R2e4ct66z7onJaz6WGcrfd",
-          "2xBfwfNJesx4xC267EhjGS5jc871T5YFSVEnzkArMLKv",
-          "41ZGKVUg5ZE29EM7wS7aNNMZs15aYMtWRg2L6EtSxzUk",
-          "G4bcsvP8Uhn41ALUciWnq5uSqmEDYfNEWMNk7HqYjFco",
-          "9rhbQk29jh81TWPwa8UPZWZsmAo1FzQfLfLL3YVpoUuL",
-          "5NggcFRfswHxQTXU2TmJSHfQNTcnrzNAb6P35oiNCDbC",
-          "3Yiurd8aErc5URfhoG9NGHvSGrkC6nMYgQs74J9AF6Hb",
-          "GDPjKhwjPGxzFcs79MBKXRtPgHrfiyZ9DEhoyq3PZBck",
-          "6qYfr68gNJCVdxvEJue8sPJ2GM1v3U8fckerSSeB3jr5",
-          "A2QSFqJKkixRQi6mCNghbZTw79s4x7MR98gvJ8o3Pqqi",
-          "BaY6to5ziSRmKum5A6cYDaMkt5ze4XVT2mFbELNurb7a",
-          "DysrCKbWh5ArihXhGETT9qVqHcJU5kaWc1oD8JueR14Q",
-          "D9QwxsXhycxzSw141Y5L9Dzqtce6EKS5GBmMzETXPmgd",
-          "Dq3HWALm7CAekuRcaZt1rknEBbuMFn2jPRHvRVK1nCf3",
-          "g2LRtMt1KjEPj4Ci54PnGwwZMzEV3EdwSCMdgqSHDpm",
-          "5P6EnLFuJGWQqPG3LxEVJvvBWys5MCAdNGd14mb3enyp",
-          "Ar6gQoWUH6NDzavjteANhbehMbfhmdMBUZg6nq7WAitq",
-          "A49pebR74yxy7S2uVHp5WNtudPEu2qc5wjR2M59mLhJB",
-          "CuEp6LxtD3hDNguW3SKQqGADeVnf9ZRd5TbMcF2T1X75",
-          "4ZExuW2h1Ku8TZBoenHoniWYQxFcsbxGU5WvmXbQrimr"
+          "AHki94w9Nu4TXRQxV84Jz1aYCKGnuZPprvJKicY28Fcv",
+          "99Wu1wAnQR7EQWcHnZVr5cpp3y2MdS6fUHSoLZQzTcua",
+          "BQ59hnV84govEJpuuFejjGdXYVvBsxkESSKKF1ATp11v",
+          "5CW1yUnoLLvkaMaFYdYE2attqGVfVSXUWcG1fiTdKDJM",
+          "CeCVGcLnrLs1DeXHLLWuQLNu7ehmXHcypkr3n31gjdgj",
+          "EP9agXLtVqK4aHBJJVSSeGRKFa7wkYku8nJM9fc2dMT4",
+          "3b8EmVbueiTwbK3j4Pzjzcud1mwWfJFTmNu3iY89iVev",
+          "4JcToCscyWMRsrTZ3975tDmj9wuHt52FH26sJHE28NUT",
+          "7TPu8kkQ8zdK57Xtph7aryC6crg6uerJkUD4kfcrJfJK",
+          "CCWZRV8HqFq67VUXM7u4LAUknVzeyGo7jkkU7sXv5MdH",
+          "EEGpxiX9KpaE68X4eeEtf4JxSqumEQXDrcLkh3mGsJsK",
+          "42gGpYnn9E6xePaNDNhb9oQhtcSy9wDGvT6a5PUspXZt",
+          "9FDEBxCj7iMkcBE3Hjsz3EBu2SKzphmwRSB3kZM6tGF7",
+          "CvZV6VCjeECniXSDjZuCnJPbmAQzj2tvenM1FSDyPZNV",
+          "QiZL1sjFoE1MUftbBYc8F2H4rCFnmRB1jHrwsJCuPYA",
+          "9HcEXCacrHfVgmSLkrJH4VkmZxDjPybCCsLSdi3akrUZ",
+          "Efrwr9651XZbjXusWyQKtWMKkgBiAtkXqchWPik9k4nq",
+          "HGLrXmvkdg6C3xkyX5Rsd1T3WSFvNGRh11vEGby6cGEx",
+          "FZjMbEis3Gzubcqh5D9VTMAzwm5M8Y9g9nu7TVXnfiCv",
+          "4LpGjN7RorY1k4ecpNgzsqYR2ZpkHWUxpoHqmVpqQpBn",
+          "EXnzcf5WyaSXrx2DHGJAWrPZEz9VVycSJMfiw22g5SaZ",
+          "4t5cz5vdRSU1RGYpgCZWo3qd9Z2QCFBZR8maDfpY1MSC",
+          "8RuopFo9Cvkggh27LDGKw96M4LwuQHWQyVfP8CcC7zdj",
+          "3i76iPEs8QkCekCQ6wfn2EuaBw7doYYFEqqejFJ6yvUi",
+          "UUA3iHA3uh3meewE6c1UnayaHQHWowUyeJuBJuidk9m",
+          "H35xbQC3JY6xUAszLkyzZC5RXS3uN5spGbusRBv1uUzU",
+          "Ek22Jd2CmKNRT8riRk1E2xCjUewvzHW1xZ3KEG94mpzQ",
+          "BUQXvrZ5JCHUerbM97Q9wxn4VFjwp2RbVcX2e8MyamQs",
+          "5RnnGp3GWL2J9SR2sHu2rSZa5dRp99B3khzcvrhH6csA",
+          "FchH5NkKeiGyKakCMXLB9bpHBc1q3VnY7xgEjZArwrm1",
+          "J1DpRckHamLL3uetq6s8dkB2adaY6qwpxWdkp52PF6xD",
+          "DHnAWogPvTf3nswvvUF7BQAyBYpXpFaS1fS9Mrh8qFod"
         ],
-        "activation": "5PtThUWGWTQiufSkL9KNZd7mbgzFVsL2XKptsf99PR9j",
+        "activation": "8EFvMLxwzMnZQe2RqsvjLyimZSd8ZmzyZpXAmqbg4y7k",
         "repeated": {
           "label": "maximum-capacity repeated withdrawal",
-          "hash": "BSUVy3KwwnMwaUEsmmBtfsx99XaYYHFuLABpybVF41Kr",
+          "hash": "b7eA3wbQQgFRsTVFya9mQYTLwmzfqWNVZMYzvChKbZT",
           "failure": {
             "ActionError": {
               "index": 0,
@@ -77,8 +77,8 @@
           "pending": "0",
           "accounted": "32000000000000000000000000",
           "liabilities": "32000000000000000000000000",
-          "contract_balance": "62998988246087401600000000",
-          "storage_reserve": "2271200000000000000000000",
+          "contract_balance": "62998988225086656900000000",
+          "storage_reserve": "2271250000000000000000000",
           "solvent": true
         },
         "activated": {
@@ -88,8 +88,8 @@
           "pending": "0",
           "accounted": "32000000000000000000000000",
           "liabilities": "32000000000000000000000000",
-          "contract_balance": "62999025141016241200000000",
-          "storage_reserve": "2284220000000000000000000",
+          "contract_balance": "62999025120178890800000000",
+          "storage_reserve": "2284270000000000000000000",
           "solvent": true
         },
         "settled": {
@@ -99,8 +99,8 @@
           "pending": "0",
           "accounted": "0",
           "liabilities": "0",
-          "contract_balance": "31001587536693426300000000",
-          "storage_reserve": "2272480000000000000000000",
+          "contract_balance": "31001587553134354800000000",
+          "storage_reserve": "2272530000000000000000000",
           "solvent": true
         }
       },
@@ -108,232 +108,232 @@
         {
           "account": "max-d8.test.near",
           "amountNear": "1",
-          "hash": "4qoZqLph6jvYwQfZ5b21VoLrrJk1V8ofzooWrCP2UTWY",
-          "beforeTotal": "1999819852660924800000000",
-          "afterTotal": "2701486981790057400000000"
+          "hash": "3Fjj9EtKYy8kK25qudKxc5Vfayy4G1XwXrKj3uWzeNQe",
+          "beforeTotal": "1999819852116277300000000",
+          "afterTotal": "2701486666210872400000000"
         },
         {
           "account": "max-d9.test.near",
           "amountNear": "1",
-          "hash": "4MJd7LJLuAeCk7TfRRmwwMatpmsAg4i2VYBv4gkDRjdV",
-          "beforeTotal": "1999818846231135800000000",
-          "afterTotal": "2701479835635026000000000"
+          "hash": "EH97QmanbWczta5UmNBBH8iypAvEqtUYWgvzWyz6r6ub",
+          "beforeTotal": "1999818845686488300000000",
+          "afterTotal": "2701479520055841000000000"
         },
         {
           "account": "max-d10.test.near",
           "amountNear": "1",
-          "hash": "F25e3CzYzrn9szzJ5WHAqZq5HWfaCFzE2mbobHhjM1Gm",
-          "beforeTotal": "1999817642916483700000000",
-          "afterTotal": "2701471251108510400000000"
+          "hash": "2dtTkwErzPxsxiBtHo4tQA9ZvnrAtjjG87Vu3TmTg3PJ",
+          "beforeTotal": "1999817642371836200000000",
+          "afterTotal": "2701470935529325400000000"
         },
         {
           "account": "max-d11.test.near",
           "amountNear": "1",
-          "hash": "DtmcBgHryU3BHQSmKXoDjLDJ6BeHqEZB5JCH1fLiG92Q",
-          "beforeTotal": "1999816610006422600000000",
-          "afterTotal": "2701463937894170800000000"
+          "hash": "Ba5jGEASP8mFfgNSJbUBy6Lpt1SyfyD3xBQU8PzABapM",
+          "beforeTotal": "1999816609461775100000000",
+          "afterTotal": "2701463622314985800000000"
         },
         {
           "account": "max-d12.test.near",
           "amountNear": "1",
-          "hash": "Hn87fWwg6pSRcnyzL2FX9BZgipJ7v9jEZ2gDj5wvkR5J",
-          "beforeTotal": "1999815577096361500000000",
-          "afterTotal": "2701456922352952000000000"
+          "hash": "8rpVLZ77GD7tkq81orP8SydN3kf8Srra6STdzVuXqL1o",
+          "beforeTotal": "1999815576551714000000000",
+          "afterTotal": "2701456606773767000000000"
         },
         {
           "account": "max-d13.test.near",
           "amountNear": "1",
-          "hash": "9NGWoTf688iyg9qp9tBe24UFng2MR28zuBid8g5nfEJc",
-          "beforeTotal": "1999814544186300400000000",
-          "afterTotal": "2701449660972240400000000"
+          "hash": "7ctYuEy6We8avBXNtg8VKXS5YMAwDsXqcCajBabDWr76",
+          "beforeTotal": "1999814543641652900000000",
+          "afterTotal": "2701449345393055400000000"
         },
         {
           "account": "max-d14.test.near",
           "amountNear": "1",
-          "hash": "F6VmdNiWBv6gJga7u61d1n7J9u8BN5TBihai4ob3nWYs",
-          "beforeTotal": "1999813511276239300000000",
-          "afterTotal": "2701442347757900800000000"
+          "hash": "2shbduG9EUaAZED1MsXxvDtpESUW25L3Jj9AXtgUWrxP",
+          "beforeTotal": "1999813510731591800000000",
+          "afterTotal": "2701442032178715800000000"
         },
         {
           "account": "max-d15.test.near",
           "amountNear": "1",
-          "hash": "9D77wziVr9Hut76wdrG58D6nXgRnkDHsJXHXNPu2m1b2",
-          "beforeTotal": "1999812478366178200000000",
-          "afterTotal": "2701435034543561200000000"
+          "hash": "N99nPD1ncx6BPn4cE5wKtjZckPhdq974tyPGFqr24ti",
+          "beforeTotal": "1999812477821530700000000",
+          "afterTotal": "2701434718964376200000000"
         },
         {
           "account": "max-d16.test.near",
           "amountNear": "1",
-          "hash": "CHv7M2xZ8pnLUfpeTERKLdVYUBGbjK7JW8gEo3JRoBhy",
-          "beforeTotal": "1999811506669163500000000",
-          "afterTotal": "2701427724784796800000000"
+          "hash": "9n7vX67L5c1wJKCaxCJG16F4zv2RtNKcMMGHcBiZG63T",
+          "beforeTotal": "1999811506124516000000000",
+          "afterTotal": "2701427409205611800000000"
         },
         {
           "account": "max-d17.test.near",
           "amountNear": "1",
-          "hash": "9oTuJ9aNPCDA1YVF1odQkwL6qW2VZG6F3CksJMdVdi9r",
-          "beforeTotal": "1999810473759102400000000",
-          "afterTotal": "2701419431914888000000000"
+          "hash": "M3oQHvgA1myyq86QfvoY5B612U7yYWYF5nskpmAVRbK",
+          "beforeTotal": "1999810473214454900000000",
+          "afterTotal": "2701419116335703000000000"
         },
         {
           "account": "max-d18.test.near",
           "amountNear": "1",
-          "hash": "C4KTjz7mtTadNc84QNQqMjkbLSFADnydn62g6ubnTs9M",
-          "beforeTotal": "1999809440849041300000000",
-          "afterTotal": "2701412118700548400000000"
+          "hash": "9ZR1EwxybFs3kzgM2FRTaBDqFGGDPidXdX5HmGaSHsN2",
+          "beforeTotal": "1999809440304393800000000",
+          "afterTotal": "2701411803121363400000000"
         },
         {
           "account": "max-d19.test.near",
           "amountNear": "1",
-          "hash": "GfNngQUCj9aE47AfqnSWEMrcyb8yszpMXabsmi3rPQbp",
-          "beforeTotal": "1999808407938980200000000",
-          "afterTotal": "2701404805486208800000000"
+          "hash": "AXhptf5GjvukMMQrcWSjY365Jt9UWovZAUVYWtB1FYW",
+          "beforeTotal": "1999808407394332700000000",
+          "afterTotal": "2701404489907023800000000"
         },
         {
           "account": "max-d20.test.near",
           "amountNear": "1",
-          "hash": "BDuaPRywovjncadXHeDdzuG2JTR7bvNbeGUApbn5p6yw",
-          "beforeTotal": "1999807375028919100000000",
-          "afterTotal": "2701397644070351200000000"
+          "hash": "HHvvxDrDYuUjrpRKuZo1os2dou6ASC5bkWYj6dfpRpqS",
+          "beforeTotal": "1999807374484271600000000",
+          "afterTotal": "2701397328491166200000000"
         },
         {
           "account": "max-d21.test.near",
           "amountNear": "1",
-          "hash": "5oep9ukTd2UZtedWq1Zw48jTr5S5rwd44nUm2wxFsNiV",
-          "beforeTotal": "1999806342118858000000000",
-          "afterTotal": "2701390298274874000000000"
+          "hash": "C2zhShq9r2JqJR5TZFAkjcRMMZ7eZuQBB6ink4maDwbR",
+          "beforeTotal": "1999806341574210500000000",
+          "afterTotal": "2701389982695689000000000"
         },
         {
           "account": "max-d22.test.near",
           "amountNear": "1",
-          "hash": "37qs5uGzviCcEML3BCgcsVpNySXZDQcDTKzzwTVTEZ44",
-          "beforeTotal": "1999805309208796900000000",
-          "afterTotal": "2701382968769965600000000"
+          "hash": "9y9ZE1mZvaJmAEXHiBtJLQN7DwSu532c5iab5VPnsNnT",
+          "beforeTotal": "1999805308664149400000000",
+          "afterTotal": "2701382653190780600000000"
         },
         {
           "account": "max-d23.test.near",
           "amountNear": "1",
-          "hash": "DkBJdLvfaz6e9hzFW44VDbiVEbwZQCKaczX61Y2Cj5vg",
-          "beforeTotal": "1999804276298735800000000",
-          "afterTotal": "2701375639265057200000000"
+          "hash": "BBft3YCV1CNjuueGWTHJ3qXqVdVio2ZbWJuexY78SKyU",
+          "beforeTotal": "1999804275754088300000000",
+          "afterTotal": "2701375323685872200000000"
         },
         {
           "account": "max-d24.test.near",
           "amountNear": "1",
-          "hash": "2knphEC4uKiiK8Um1J72F2p8aVN4dht8U5n82vSB9xFn",
-          "beforeTotal": "1999803317272163500000000",
-          "afterTotal": "2701368663545228800000000"
+          "hash": "5xgS5fjJvcWhCQDNCrYC8MoHGNKr3Es1X3aGDEdLPsVN",
+          "beforeTotal": "1999803316727516000000000",
+          "afterTotal": "2701368347966043800000000"
         },
         {
           "account": "max-d25.test.near",
           "amountNear": "1",
-          "hash": "6i62qSDQz22iFA8qnHo7YmwnfCGyVeFRPQCkVQJEmnnZ",
-          "beforeTotal": "1999802284362102400000000",
-          "afterTotal": "2701361368102418800000000"
+          "hash": "FHG6ZvQKN1B24mKqDUK4rQmVcYuEk8c9X18dJppoopu5",
+          "beforeTotal": "1999802283817454900000000",
+          "afterTotal": "2701361052523233800000000"
         },
         {
           "account": "max-d26.test.near",
           "amountNear": "1",
-          "hash": "AKMhVQqENNDrXz7mNNWdFZpnyKpuVYs6LKW55JzMiume",
-          "beforeTotal": "1999801231870448500000000",
-          "afterTotal": "2701354001244388000000000"
+          "hash": "A36uRsmfm5C55JhEwZBUEBBthqwnkV4C6qWb3i7ALimy",
+          "beforeTotal": "1999801231325801000000000",
+          "afterTotal": "2701353685665203000000000"
         },
         {
           "account": "max-d27.test.near",
           "amountNear": "1",
-          "hash": "Q7PUaNUd4p9rWLEgmn3CJa38tNqbEUPzCUXfPBuHyFw",
-          "beforeTotal": "1999800198960387400000000",
-          "afterTotal": "2701346653967950000000000"
+          "hash": "7WUB6rHMVKQFpoJHedd1cyBETorkLxwxcFMxhwJX36wv",
+          "beforeTotal": "1999800198415739900000000",
+          "afterTotal": "2701346338388765000000000"
         },
         {
           "account": "max-d28.test.near",
           "amountNear": "1",
-          "hash": "88X94A9tE5d1GgXLJFD6FfWNWZFhYBb3zCtknQ6kaBRD",
-          "beforeTotal": "1999799166050326300000000",
-          "afterTotal": "2701339248934040800000000"
+          "hash": "2pnFZueZdVke55GEyU7VKPB1BmNiENr5Dv1SpWoXJApe",
+          "beforeTotal": "1999799165505678800000000",
+          "afterTotal": "2701338933354855800000000"
         },
         {
           "account": "max-d29.test.near",
           "amountNear": "1",
-          "hash": "CzNeczGxCaG3iCVX8qz6ZDG135WmTi6iXLw2BCMK6Awe",
-          "beforeTotal": "1999798133140265200000000",
-          "afterTotal": "2701329936422621200000000"
+          "hash": "2MH25kC2makn4bWqbunBgPazNLGtkS1oJAYTkQq64wb1",
+          "beforeTotal": "1999798132595617700000000",
+          "afterTotal": "2701329620843436200000000"
         },
         {
           "account": "max-d30.test.near",
           "amountNear": "1",
-          "hash": "AiKgmP1xPPt61RV4TU6UANv2D6TN4q9qYvSaLrzhKkDP",
-          "beforeTotal": "1999796865909295300000000",
-          "afterTotal": "2701322387406412000000000"
+          "hash": "GTEKo5PS3bUDfWSehGiqsC4UvrEpu4GsG35RC5qNz43i",
+          "beforeTotal": "1999796865364647800000000",
+          "afterTotal": "2701322071827227000000000"
         },
         {
           "account": "max-d31.test.near",
           "amountNear": "1",
-          "hash": "EhtSor5jTgaPQXvZfY1r9SXEkpzeyo7cZqDYBCiqXNSW",
-          "beforeTotal": "1999795832999234200000000",
-          "afterTotal": "2701315040129974000000000"
+          "hash": "AKZ7CN9fcP3VNHjJsDKzk1A2TEEgJ6TvqFSwn3pjcHav",
+          "beforeTotal": "1999795832454586700000000",
+          "afterTotal": "2701314724550789000000000"
         },
         {
           "account": "max-p0.test.near",
           "amountNear": "1",
-          "hash": "6s2CBMdzGBikbbop6CPLiSqgvMpbPCoepJEovCFAuvfs",
+          "hash": "6UqZh4ms5BTpmdCLZwx6m7XWLH4J5Cyffth9dArpzxPP",
           "beforeTotal": "3000000000000000000000000",
-          "afterTotal": "3701512658473546800000000"
+          "afterTotal": "3701512343439009300000000"
         },
         {
           "account": "max-p1.test.near",
           "amountNear": "1",
-          "hash": "7uNJr9CUHAbFa2wPkibQUr377vnMsqqPjMADmehiJa7Q",
+          "hash": "4s8bCScaXska7G59ZPFqYrf9aF7fYu2ZakGeLT9BQyaN",
           "beforeTotal": "3000000000000000000000000",
-          "afterTotal": "3701506500976774800000000"
+          "afterTotal": "3701506185942237300000000"
         },
         {
           "account": "max-p2.test.near",
           "amountNear": "1",
-          "hash": "56mytvaXpQpgE1q5zaNiCaDdDcDpCpgkAj4Cg755XGPg",
+          "hash": "36fqk1rjrwGvRierzEiFjChktNzzuX7mnKgXGeML1ZDt",
           "beforeTotal": "3000000000000000000000000",
-          "afterTotal": "3701500343480002800000000"
+          "afterTotal": "3701500028445465300000000"
         },
         {
           "account": "max-p3.test.near",
           "amountNear": "1",
-          "hash": "CjJWAsniFUEtBLqU9SH3qj3Yy78WTQYNrcyJ2LfaPKdP",
+          "hash": "AwjVEkxAc8dhgmr8Jkgh2swNgWzPmrAuidnsSP8AtARj",
           "beforeTotal": "3000000000000000000000000",
-          "afterTotal": "3701494103789906400000000"
+          "afterTotal": "3701493788755368900000000"
         },
         {
           "account": "max-p4.test.near",
           "amountNear": "1",
-          "hash": "2L6TQRSzfokEEjczPWUfRxwATPWZYMbbPvRY2P82hME6",
+          "hash": "iTGty4Whk9mnwU5FFKUdwzSXLr6oG6DdxWtFPWR8Nz4",
           "beforeTotal": "3000000000000000000000000",
-          "afterTotal": "3701487946293134400000000"
+          "afterTotal": "3701487631258596900000000"
         },
         {
           "account": "max-p5.test.near",
           "amountNear": "1",
-          "hash": "ChxYPSBBbB8V4VJEZ6iHhM3gPXKcyg1ie3RGTQVfG9Xi",
+          "hash": "BrV6nhJvW1aSdEu5FUQPg78dkJQRCYbqGogRYXn8cM8T",
           "beforeTotal": "3000000000000000000000000",
-          "afterTotal": "3701481910235148000000000"
+          "afterTotal": "3701481595200610500000000"
         },
         {
           "account": "max-p6.test.near",
           "amountNear": "1",
-          "hash": "6udMGXPRaN7eEb3wg6bJ6cNbN1CG43kDvioR8DMpYBm3",
+          "hash": "GS7ppsA4W3TMhVbNqtaKj683fNnZiQKY6RKxJtRdoxjm",
           "beforeTotal": "3000000000000000000000000",
-          "afterTotal": "3701475752738376000000000"
+          "afterTotal": "3701475437703838500000000"
         },
         {
           "account": "max-p7.test.near",
           "amountNear": "1",
-          "hash": "6CAnFfXjMcLVFbx3PmBQ6WxU8j5oxTtpxcv5bH9ZwnEa",
+          "hash": "9Jx3c6Jj5LmiiWytNCjuyK7wNbEVkpBG2AZXX9HjtwmC",
           "beforeTotal": "3000000000000000000000000",
-          "afterTotal": "3701469476764740000000000"
+          "afterTotal": "3701469161730202500000000"
         }
       ],
       "finalStatus": {
         "phase": "ACTIVATED",
-        "deadline_ms": 1793571109853,
-        "activate_after_ms": 1793570509853,
+        "deadline_ms": 1793612941356,
+        "activate_after_ms": 1793612341356,
         "min_funded_projects": 8,
         "activation_authorities": [
           "max-observer.test.near"
@@ -372,10 +372,10 @@
         ]
       },
       "finalContractBalance": {
-        "total": "31001603877788488500000000",
-        "stateStaked": "2072480000000000000000000",
+        "total": "31001603894392811200000000",
+        "stateStaked": "2072530000000000000000000",
         "staked": "0",
-        "available": "28929123877788488500000000"
+        "available": "28929073894392811200000000"
       }
     }
   ],
@@ -386,6 +386,6 @@
     "Duplicate callback execution is tested as a private-method guard and in the Rust VM; a forged callback cannot be submitted by an external signer. A callback that never executes remains an unresolved operational recovery risk.",
     "The RC1 maximum-capacity campaign is a genuine sandbox run. It exercises all 8 project slots, all 32 pledge slots, measured storage reserve, activation, 32 credits, 32 successful withdrawals, and a repeated withdrawal failure. It does not prove behavior on testnet or mainnet."
   ],
-  "wasmSha256": "8ea872ef10f44241840d70ad2ac0bbdd25289d0c770098f158900975e5c8b35c",
+  "wasmSha256": "7329d40af43d7e4d6cd3ff942cbe31ba9c54124e667a9af0233e63fa9020d103",
   "sputnikWasmSha256": "6e3f1814d40769d8f57b9a7af689d22aaab96d3232cec4d861311829c1d2318f"
 }

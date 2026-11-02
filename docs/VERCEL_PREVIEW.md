@@ -12,6 +12,8 @@ RC1 preview evidence (2026-11-02):
 
 The project currently has Vercel SSO protection enabled. This is an account-verified hosted preview, not an unauthenticated public URL; disable or separately configure access only with explicit authorization.
 
+The local final engineering pass refreshed the sandbox evidence and Wasm after a callback validation hardening change. The recorded deployment above is the previously verified RC1 preview and was not silently replaced; it should be redeployed from the current checkout, with the same SSO protection, before being presented as the current artifact. The local browser campaign below is the authoritative result for the current checkout.
+
 The first API attempt supplied `target: "preview"`, which Vercel interpreted as a production deployment (`dpl_6rpBLndJMtUAWFpQjGAvuXgSab3A`). It was not promoted or used as release evidence; the project was paused and its URL returns `503 DEPLOYMENT_PAUSED`. The valid preview above was then created by omitting `target`, as required by the Vercel MCP API. This is recorded explicitly so the two deployment IDs are not confused.
 
 ## What a preview contains

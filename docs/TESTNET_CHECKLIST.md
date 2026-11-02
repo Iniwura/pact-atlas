@@ -4,7 +4,7 @@
 - [x] Install stable Rust >= near-sdk 5.29.1 MSRV (Rust 1.93.0 used).
 - [x] `cargo fmt --check`.
 - [x] Locked `cargo check --target wasm32-unknown-unknown`.
-- [x] Locked `cargo test` (13/13).
+- [x] Locked `cargo test` (14/14).
 - [x] Build actual WASM artifact via supported `cargo near build` workflow with `wasm-opt`.
 - [x] Generate ABI and confirm exact JSON argument names for `new`, `commit`, `activate`, `accounting`, views and callback.
 
