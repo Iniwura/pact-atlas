@@ -7,6 +7,7 @@ This directory contains the preserved PACT Atlas RC1 release evidence copied fro
 - `competitive-benchmark.json`: reproducible independent/threshold/PACT comparison with bounded exact top-up and oracle results.
 - `pact_atlas_poc.wasm` and `pact_atlas_poc_abi.json`: the Wasm and ABI used by the evidence.
 - `pact-atlas-rc1-report.md` and `pact-atlas-verification-report.md`: truthful release and verification reports.
+- `../FINAL_ENGINEERING_REVIEW.md`: final frozen benchmark, security classification, verification and release recommendation.
 - `screenshots/`: local Chromium desktop and mobile captures; these are UI evidence, not chain evidence.
 - `SHA256SUMS`: hashes for every preserved file in this bundle.
 

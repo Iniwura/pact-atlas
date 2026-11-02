@@ -44,6 +44,7 @@ Five contributors put in 12 NEAR total. A flexible donor can pledge 3 NEAR to ei
 - `docs/WITHDRAWAL_REVIEW.md`: callback non-execution analysis and rejected/possible redesigns.
 - `docs/GITHUB_RELEASE.md` and `evidence/`: GitHub-ready CI/release instructions and preserved RC1 evidence/artifacts.
 - `docs/COMPETITIVE_ADVANTAGE.md` and `evidence/competitive-benchmark.json`: reproducible prior-art comparison and honest capability results.
+- `FINAL_ENGINEERING_REVIEW.md`: frozen final evidence review and release recommendation.
 
 ## Run immediately
 

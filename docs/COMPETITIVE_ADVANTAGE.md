@@ -25,14 +25,14 @@ npm run benchmark
 
 | Scenario | Independent nominal | Threshold nominal | PACT valid | PACT allocated | Exact top-up for all targets |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Cyclic dependencies | 4 | 3 | 3 | 10 | 1 |
+| Dependency coalition (fixture name: `cyclic-dependencies`) | 4 | 3 | 3 | 10 | 1 |
 | Competing coalitions | 4 | 3 | 2 | 10 | 5 |
 | Restricted budgets | 3 | 2 | 2 | 8 | 1 |
 | Mutual conditions | 3 | 3 | 3 | 12 | 0 |
 | Infeasible network | 2 | 2 | 1 | 4 | 2 |
 | Large realistic network (8/12 bound) | 8 | 8 | 8 | 29 | 0 |
 
-The table is intentionally not a “more projects is always better” claim. In the cyclic case, independent evaluation double-counts a flexible pledge and reports four nominal projects while allocating 13 units from 12. In the competing-cycle case, the threshold pool can report three nominal projects, but PACT's valid certificate funds only two because the third pledge cannot fund both members of the other dependency cycle. PACT's differentiator in these examples is executable constraint validation and a conserved one-use allocation, not a promise to activate more projects.
+The table is intentionally not a “more projects is always better” claim. Accuracy note: the preserved fixture named `cyclic-dependencies` is not a literal directed cycle in `reference/competitive.js`; A has no dependency and B/C depend on A. It demonstrates dependency-aware one-use allocation and should not be cited as a cyclic-network result. In that dependency-coalition fixture, independent evaluation double-counts a flexible pledge and reports four nominal projects while allocating 13 units from 12. In the competing-cycle case, the threshold pool can report three nominal projects, but PACT's valid certificate funds only two because the third pledge cannot fund both members of the other dependency cycle. PACT's differentiator in these examples is executable constraint validation and a conserved one-use allocation, not a promise to activate more projects.
 
 The independent exhaustive oracle in the benchmark checks the PACT ranking for the five oracle-eligible bounded scenarios. The 8-project/12-pledge scenario is measured for scale but is not independently re-enumerated in the benchmark test because the reference solver is already at its declared practical bound.
 
