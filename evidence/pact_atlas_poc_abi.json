@@ -1,0 +1,436 @@
+{
+  "schema_version": "0.4.0",
+  "metadata": {
+    "name": "pact-atlas-poc",
+    "version": "0.1.0"
+  },
+  "body": {
+    "functions": [
+      {
+        "name": "accounting",
+        "doc": " Exposes the accounting identity used by every state-changing method so\n an independent verifier can check conservation without reading private\n storage. This is evidence only; it is not an authorization surface.",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Accounting"
+          }
+        }
+      },
+      {
+        "name": "activate",
+        "doc": " The solver supplies one entry for each used pledge; pledged amounts are\n ALL-OR-NOTHING (never split across projects in this proof-of-concept).\n Any unallocated pledge becomes claimable immediately after activation.",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "allocations",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Allocation"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "activation_certificate",
+        "doc": " Public evidence of the on-chain verified allocation. Empty until activation.",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Allocation"
+            }
+          }
+        }
+      },
+      {
+        "name": "claimable",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "account_id",
+              "type_schema": {
+                "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "commit",
+        "doc": " Deposits are real attached native NEAR. Contributions cannot be altered\n once accepted; the `activate` verifier can choose one allowed project.",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "allowed",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "requires",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          }
+        }
+      },
+      {
+        "name": "contract_source_metadata",
+        "kind": "view"
+      },
+      {
+        "name": "expire",
+        "doc": " After the deadline, EVERY contribution becomes a recoverable credit.",
+        "kind": "call"
+      },
+      {
+        "name": "new",
+        "kind": "call",
+        "modifiers": [
+          "init"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "projects",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/ProjectInput"
+                }
+              }
+            },
+            {
+              "name": "deadline_ms",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint64",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "activate_after_ms",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint64",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "min_funded_projects",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "required_for_activation",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "name": "activation_authorities",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "on_withdraw_result",
+        "doc": " Callback is callable only by this contract. A failed transfer restores\n the claim in full, without changing liabilities or freezing the campaign.",
+        "kind": "call",
+        "modifiers": [
+          "private"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "owner",
+              "type_schema": {
+                "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+                "type": "string"
+              }
+            },
+            {
+              "name": "amount",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "name": "pending_withdrawal",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "account_id",
+              "type_schema": {
+                "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "sponsor_storage",
+        "doc": " Sponsor storage with an ordinary NEAR transfer to the contract account.\n Do NOT attach storage sponsorship to the `commit` method: that deposit\n represents a participant's fully refundable funding liability.",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ]
+      },
+      {
+        "name": "status",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Status"
+          }
+        }
+      },
+      {
+        "name": "withdraw",
+        "doc": " Pull withdrawals prevent an unsuccessful recipient transfer from blocking\n any other participant's recovery.",
+        "kind": "call",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Promise"
+          }
+        }
+      }
+    ],
+    "root_schema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "String",
+      "type": "string",
+      "definitions": {
+        "Accounting": {
+          "description": "Machine-readable conservation evidence. `locked_pledges` is non-zero only while the campaign is OPEN; after activation or expiry the same liability is represented by `credits` and/or `pending` withdrawals.",
+          "type": "object",
+          "required": [
+            "accounted",
+            "contract_balance",
+            "credits",
+            "liabilities",
+            "locked_pledges",
+            "pending",
+            "phase",
+            "solvent",
+            "storage_reserve"
+          ],
+          "properties": {
+            "accounted": {
+              "type": "string"
+            },
+            "contract_balance": {
+              "type": "string"
+            },
+            "credits": {
+              "type": "string"
+            },
+            "liabilities": {
+              "type": "string"
+            },
+            "locked_pledges": {
+              "type": "string"
+            },
+            "pending": {
+              "type": "string"
+            },
+            "phase": {
+              "type": "string"
+            },
+            "solvent": {
+              "type": "boolean"
+            },
+            "storage_reserve": {
+              "type": "string"
+            }
+          }
+        },
+        "Allocation": {
+          "type": "object",
+          "required": [
+            "pledge_index",
+            "project_id"
+          ],
+          "properties": {
+            "pledge_index": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "project_id": {
+              "type": "string"
+            }
+          }
+        },
+        "ProjectInput": {
+          "type": "object",
+          "required": [
+            "beneficiary",
+            "dependencies",
+            "id",
+            "required"
+          ],
+          "properties": {
+            "beneficiary": {
+              "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+              "type": "string"
+            },
+            "dependencies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "id": {
+              "type": "string"
+            },
+            "required": {
+              "type": "string"
+            }
+          }
+        },
+        "Promise": true,
+        "Status": {
+          "type": "object",
+          "required": [
+            "activate_after_ms",
+            "activation_authorities",
+            "deadline_ms",
+            "funded_project_ids",
+            "liabilities",
+            "min_funded_projects",
+            "phase",
+            "pledge_count",
+            "project_ids",
+            "required_for_activation"
+          ],
+          "properties": {
+            "activate_after_ms": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "activation_authorities": {
+              "type": "array",
+              "items": {
+                "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+                "type": "string"
+              }
+            },
+            "deadline_ms": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "funded_project_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "liabilities": {
+              "type": "string"
+            },
+            "min_funded_projects": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "phase": {
+              "type": "string"
+            },
+            "pledge_count": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "project_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "required_for_activation": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

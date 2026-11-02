@@ -1,0 +1,138 @@
+{
+  "type": "PACT-LOCAL-REFERENCE-CERTIFICATE",
+  "version": 1,
+  "network": "OFFLINE-NOT-ONCHAIN",
+  "projects": [
+    {
+      "id": "A",
+      "beneficiary": "training.near",
+      "requiredYocto": "4000000000000000000000000",
+      "dependencies": [
+        "B",
+        "C"
+      ]
+    },
+    {
+      "id": "B",
+      "beneficiary": "internet.near",
+      "requiredYocto": "3000000000000000000000000",
+      "dependencies": [
+        "A"
+      ]
+    },
+    {
+      "id": "C",
+      "beneficiary": "equipment.near",
+      "requiredYocto": "3000000000000000000000000",
+      "dependencies": [
+        "A"
+      ]
+    },
+    {
+      "id": "D",
+      "beneficiary": "events.near",
+      "requiredYocto": "3000000000000000000000000",
+      "dependencies": []
+    }
+  ],
+  "pledges": [
+    {
+      "index": 0,
+      "owner": "donor1.near",
+      "amountYocto": "3000000000000000000000000",
+      "allowed": [
+        "A",
+        "D"
+      ],
+      "requires": []
+    },
+    {
+      "index": 1,
+      "owner": "donor2.near",
+      "amountYocto": "1000000000000000000000000",
+      "allowed": [
+        "A"
+      ],
+      "requires": [
+        "B",
+        "C"
+      ]
+    },
+    {
+      "index": 2,
+      "owner": "donor3.near",
+      "amountYocto": "3000000000000000000000000",
+      "allowed": [
+        "B"
+      ],
+      "requires": [
+        "A"
+      ]
+    },
+    {
+      "index": 3,
+      "owner": "donor4.near",
+      "amountYocto": "3000000000000000000000000",
+      "allowed": [
+        "C"
+      ],
+      "requires": [
+        "A"
+      ]
+    },
+    {
+      "index": 4,
+      "owner": "donor5.near",
+      "amountYocto": "2000000000000000000000000",
+      "allowed": [
+        "D"
+      ],
+      "requires": []
+    },
+    {
+      "index": 5,
+      "owner": "donor6.near",
+      "amountYocto": "1000000000000000000000000",
+      "allowed": [
+        "D"
+      ],
+      "requires": []
+    }
+  ],
+  "allocations": [
+    {
+      "pledgeIndex": 0,
+      "projectId": "A"
+    },
+    {
+      "pledgeIndex": 1,
+      "projectId": "A"
+    },
+    {
+      "pledgeIndex": 2,
+      "projectId": "B"
+    },
+    {
+      "pledgeIndex": 3,
+      "projectId": "C"
+    },
+    {
+      "pledgeIndex": 4,
+      "projectId": "D"
+    },
+    {
+      "pledgeIndex": 5,
+      "projectId": "D"
+    }
+  ],
+  "funded": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ],
+  "creditedProjectsYocto": "13000000000000000000000000",
+  "refundsYocto": "0",
+  "evaluation": "exhaustive, bounded: max projects then max allocated volume",
+  "sha256": "a4e51c748a5240ffc69b3b03840193292c9270c88532af47279042e46d5e2ba5"
+}

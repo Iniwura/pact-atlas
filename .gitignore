@@ -1,0 +1,14 @@
+target/
+node_modules/
+test-results/
+playwright-report/
+.vercel/
+.pact-*
+.env
+.env.*
+*.wasm
+*.key
+*.json.key
+!vendor/**/*.wasm
+!evidence/*.wasm
+.DS_Store

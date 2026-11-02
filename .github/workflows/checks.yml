@@ -1,0 +1,117 @@
+name: PACT Atlas verification
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pact-atlas-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '22.22.2'
+  RUST_TOOLCHAIN: '1.93.0'
+  CARGO_TERM_COLOR: always
+
+jobs:
+  node-model:
+    name: Node model and request safety
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run test:counterfactual
+      - run: npm run test:workflow
+      - run: npm run test:wallet-adapter
+      - run: node scripts/certificate.js
+
+  rust-contract:
+    name: Rust, ABI, and optimized Wasm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.RUST_TOOLCHAIN }}
+          targets: wasm32-unknown-unknown
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: contract
+      - name: Install cargo-near
+        run: cargo install cargo-near --version 0.22.0 --locked --no-default-features
+      - name: Check formatting without modifying source
+        run: cargo fmt --manifest-path contract/Cargo.toml --all -- --check
+      - name: Check near-sdk WebAssembly target
+        run: RUSTFLAGS='--cfg near' cargo check --locked --manifest-path contract/Cargo.toml --target wasm32-unknown-unknown
+      - name: Run Rust unit tests
+        run: RUSTFLAGS='--cfg near' cargo test --locked --manifest-path contract/Cargo.toml
+      - name: Run clippy with warnings denied
+        run: RUSTFLAGS='--cfg near' cargo clippy --locked --manifest-path contract/Cargo.toml --all-targets -- -D warnings
+      - name: Generate ABI
+        run: cargo near abi --locked --manifest-path contract/Cargo.toml --out-dir contract/target/near-build
+      - name: Build nearcore-compatible optimized Wasm
+        run: cargo near build non-reproducible-wasm --locked --no-abi --manifest-path contract/Cargo.toml --out-dir contract/target/near-build
+      - name: Compare preserved RC1 artifacts
+        run: |
+          cmp contract/target/near-build/pact_atlas_poc.wasm evidence/pact_atlas_poc.wasm
+          cmp contract/target/near-build/pact_atlas_poc_abi.json evidence/pact_atlas_poc_abi.json
+          sha256sum contract/target/near-build/pact_atlas_poc.wasm contract/target/near-build/pact_atlas_poc_abi.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pact-atlas-rust-artifacts
+          path: |
+            contract/target/near-build/pact_atlas_poc.wasm
+            contract/target/near-build/pact_atlas_poc_abi.json
+
+  sandbox:
+    name: NEAR sandbox accounting campaigns
+    runs-on: ubuntu-latest
+    needs: rust-contract
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Run five fresh sandbox campaigns
+        run: |
+          mkdir -p artifacts
+          PACT_WASM_PATH=evidence/pact_atlas_poc.wasm \
+          PACT_EVIDENCE_PATH=artifacts/pact-atlas-sandbox-evidence.json \
+          npm run test:sandbox
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pact-atlas-sandbox-evidence
+          path: artifacts/pact-atlas-sandbox-evidence.json
+
+  browser:
+    name: Chromium product verification
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Install Chromium and Linux dependencies
+        run: npx playwright install --with-deps chromium
+      - run: npm run test:browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pact-atlas-browser-report
+          path: |
+            test-results/
+            web/test-results/report/

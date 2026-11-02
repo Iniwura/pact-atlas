@@ -1,0 +1,856 @@
+{
+  "type": "PACT-LOCAL-SANDBOX-EVIDENCE",
+  "version": 2,
+  "network": "NEAR-SANDBOX",
+  "generatedAt": "2026-11-02T07:18:18.229Z",
+  "sandboxVersion": "2.13.4",
+  "sandboxBinaryPath": "/tmp/pact-atlas-near-sandbox/near-sandbox-2.13.4/near-sandbox",
+  "wasmPath": "/mnt/c/Users/DELL 7400/Documents/Codex/2026-10-30/target-post-https-x-com-bitget-2/work/pact-atlas-checkpoint/contract/target/near-build/pact_atlas_poc.wasm",
+  "sputnikWasmPath": "/mnt/c/Users/DELL 7400/Documents/Codex/2026-10-30/target-post-https-x-com-bitget-2/work/pact-atlas-checkpoint/vendor/sputnik/sputnikdao2_original.wasm",
+  "selectedScenarios": [
+    "cycle",
+    "all-four",
+    "expiry",
+    "concurrent",
+    "sputnik"
+  ],
+  "scenarios": [
+    {
+      "name": "three-project dependency cycle with adversarial plans",
+      "contract": "dev-23822-25056.test.near",
+      "wasmCodeHash": "AbssULo2nfejWq1WjWFExt6xsTHSd9grj9XcxJEnuifm",
+      "receipts": {
+        "deploy": "GiifwNo3P8fVHpxExzVfgT4wzsAuW2ovKaWyf7nLqANR",
+        "initialize": "8D2vGSMYJgiqTQtSMTz5EHJYSCwR2uLVUFTBrzHRZqk3",
+        "sponsorStorage": "BVYXW38fzhbw4AApih8R4RBry1BVKyJSdzhZvDom8vK9",
+        "commits": [
+          {
+            "name": "donor1",
+            "hash": "9qWCv5zohfdCZpH8KmE7yDsrjmEBKxA3zGwmPmyDEMV6",
+            "amountNear": "3"
+          },
+          {
+            "name": "donor2",
+            "hash": "988UpTT2AiXyzDFcahsNGAXGXWrnmG1rqXxazxGxjPGw",
+            "amountNear": "1"
+          },
+          {
+            "name": "donor3",
+            "hash": "4qFb2SitFfRgP2vqdWWwwhH6StQ7fmb8U9fykfbgrUKd",
+            "amountNear": "3"
+          },
+          {
+            "name": "donor4",
+            "hash": "EZrN7dpYvh48oPHQU2iS6Xets865qQqQb2jK5jc9mxcj",
+            "amountNear": "3"
+          },
+          {
+            "name": "donor5",
+            "hash": "Dd4CfDqwj7eE5M8UFqPq95gxc9n8knKKcLWitzoj1NTj",
+            "amountNear": "2"
+          }
+        ],
+        "invalidPlans": [
+          {
+            "label": "premature activation",
+            "hash": "44ugcm8tARnSX8gNtneohrWCdCMi21mFVsguGbEt2a2P",
+            "failure": {
+              "ActionError": {
+                "index": 0,
+                "kind": {
+                  "FunctionCallError": {
+                    "ExecutionError": "Smart contract panicked: activation not yet permitted"
+                  }
+                }
+              }
+            },
+            "balanceBefore": {
+              "total": "32998414506607218200000000",
+              "stateStaked": "2055430000000000000000000",
+              "staked": "0",
+              "available": "30942984506607218200000000"
+            },
+            "balanceAfter": {
+              "total": "32998426530353920900000000",
+              "stateStaked": "2055430000000000000000000",
+              "staked": "0",
+              "available": "30942996530353920900000000"
+            },
+            "balanceDeltaYocto": "12023746702700000000"
+          },
+          {
+            "label": "duplicate pledge index",
+            "hash": "Dkc947vbtuXvXc1WpYUSKuZRRLtKnpzuFX69rBjQvKFa",
+            "failure": {
+              "ActionError": {
+                "index": 0,
+                "kind": {
+                  "FunctionCallError": {
+                    "ExecutionError": "Smart contract panicked: invalid or repeated pledge"
+                  }
+                }
+              }
+            },
+            "balanceBefore": {
+              "total": "32998426530353920900000000",
+              "stateStaked": "2055430000000000000000000",
+              "staked": "0",
+              "available": "30942996530353920900000000"
+            },
+            "balanceAfter": {
+              "total": "32998439210633723400000000",
+              "stateStaked": "2055430000000000000000000",
+              "staked": "0",
+              "available": "30943009210633723400000000"
+            },
+            "balanceDeltaYocto": "12680279802500000000"
+          },
+          {
+            "label": "underfunded allocation",
+            "hash": "7X56X9gEFP5hL19ixEkYrVSYqrTF7KDsxCtrqEgWGpfT",
+            "failure": {
+              "ActionError": {
+                "index": 0,
+                "kind": {
+                  "FunctionCallError": {
+                    "ExecutionError": "Smart contract panicked: too few funded projects"
+                  }
+                }
+              }
+            },
+            "balanceBefore": {
+              "total": "32998439210633723400000000",
+              "stateStaked": "2055430000000000000000000",
+              "staked": "0",
+              "available": "30943009210633723400000000"
+            },
+            "balanceAfter": {
+              "total": "32998451755701068600000000",
+              "stateStaked": "2055430000000000000000000",
+              "staked": "0",
+              "available": "30943021755701068600000000"
+            },
+            "balanceDeltaYocto": "12545067345200000000"
+          },
+          {
+            "label": "disallowed project target",
+            "hash": "5euhCK94cNMEFGZ9rXk2RvK2ga7EMgHZ7CF8yr7W4u9Z",
+            "failure": {
+              "ActionError": {
+                "index": 0,
+                "kind": {
+                  "FunctionCallError": {
+                    "ExecutionError": "Smart contract panicked: disallowed allocation"
+                  }
+                }
+              }
+            },
+            "balanceBefore": {
+              "total": "32998451755701068600000000",
+              "stateStaked": "2055430000000000000000000",
+              "staked": "0",
+              "available": "30943021755701068600000000"
+            },
+            "balanceAfter": {
+              "total": "32998464232359431500000000",
+              "stateStaked": "2055430000000000000000000",
+              "staked": "0",
+              "available": "30943034232359431500000000"
+            },
+            "balanceDeltaYocto": "12476658362900000000"
+          },
+          {
+            "label": "broken dependency cycle",
+            "hash": "DjkgWQKgzSiQmUY123dAvKvEskWf8uRUF4SHE1TWUYM2",
+            "failure": {
+              "ActionError": {
+                "index": 0,
+                "kind": {
+                  "FunctionCallError": {
+                    "ExecutionError": "Smart contract panicked: project dependency unmet"
+                  }
+                }
+              }
+            },
+            "balanceBefore": {
+              "total": "32998415248801991600000000",
+              "stateStaked": "2055640000000000000000000",
+              "staked": "0",
+              "available": "30942775248801991600000000"
+            },
+            "balanceAfter": {
+              "total": "32998427803132706200000000",
+              "stateStaked": "2055640000000000000000000",
+              "staked": "0",
+              "available": "30942787803132706200000000"
+            },
+            "balanceDeltaYocto": "12554330714600000000"
+          }
+        ],
+        "activation": "Bo6ji23v37HCtgo1nFy5sucqNhi5zmx5omLSQBrJosYS"
+      },
+      "finalStatus": {
+        "phase": "ACTIVATED",
+        "deadline_ms": 1793604523196,
+        "activate_after_ms": 1793603953196,
+        "min_funded_projects": 3,
+        "activation_authorities": [
+          "observer.test.near"
+        ],
+        "pledge_count": 5,
+        "liabilities": "0",
+        "project_ids": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "required_for_activation": [
+          "a",
+          "b",
+          "c"
+        ],
+        "funded_project_ids": [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      "accounting": {
+        "activated": {
+          "phase": "ACTIVATED",
+          "locked_pledges": "0",
+          "credits": "12000000000000000000000000",
+          "pending": "0",
+          "accounted": "12000000000000000000000000",
+          "liabilities": "12000000000000000000000000",
+          "contract_balance": "32998482832895261800000000",
+          "storage_reserve": "2257230000000000000000000",
+          "solvent": true
+        },
+        "settled": {
+          "phase": "ACTIVATED",
+          "locked_pledges": "0",
+          "credits": "0",
+          "pending": "0",
+          "accounted": "0",
+          "liabilities": "0",
+          "contract_balance": "20998701820773218100000000",
+          "storage_reserve": "2255940000000000000000000",
+          "solvent": true
+        }
+      },
+      "withdrawals": [
+        {
+          "account": "a.test.near",
+          "amountNear": "4",
+          "hash": "5533Yof4ckzp8Y1ozqjoViZMD7xfGth4MqYHe7uwuNkN",
+          "beforeTotal": "2000000000000000000000000",
+          "afterTotal": "5701193219033753000000000"
+        },
+        {
+          "account": "b.test.near",
+          "amountNear": "3",
+          "hash": "DCgV5xUWteEF3KedyHe19AKdXN8YNgjEEwX8CmpT9wik",
+          "beforeTotal": "2000000000000000000000000",
+          "afterTotal": "4701187980652438300000000"
+        },
+        {
+          "account": "c.test.near",
+          "amountNear": "3",
+          "hash": "2yn6aToWyaGiDdmRz8KwLYxj7jkEiNAbBRRUjyfwbti1",
+          "beforeTotal": "2000000000000000000000000",
+          "afterTotal": "4701182723759113600000000"
+        },
+        {
+          "account": "donor5.test.near",
+          "amountNear": "2",
+          "hash": "BwqotyCVH2KN2EdWz9n3YzvERjXoR9o8kY8dz15TnFaU",
+          "beforeTotal": "2999826667070678300000000",
+          "afterTotal": "4701005755602630900000000"
+        }
+      ],
+      "finalContractBalance": {
+        "total": "20998701820773218100000000",
+        "stateStaked": "2055940000000000000000000",
+        "staked": "0",
+        "available": "18942761820773218100000000"
+      }
+    },
+    {
+      "name": "all-four coalition after sixth donor topup",
+      "contract": "dev-30284-93568.test.near",
+      "wasmCodeHash": "AbssULo2nfejWq1WjWFExt6xsTHSd9grj9XcxJEnuifm",
+      "receipts": {
+        "deploy": "7eexdbmtsBhm4Epu2AgQ9iT6qXzTTwKBLtMvKzYitLJ1",
+        "initialize": "14CRKJEVyY9Asi9LpfmbYJWEnsqnB54DdKv9eueBHYUe",
+        "sponsorStorage": "J6LZLR69LWLURdsnEw18CsR4vzoUcL1CwpdrPYApcG8h",
+        "commits": [
+          {
+            "name": "donor1",
+            "hash": "988C9dXnfQG23WWa9vJDRssNLVB6nVR7meM1CjNmsHn7",
+            "amountNear": "3"
+          },
+          {
+            "name": "donor2",
+            "hash": "FjCdbdxL4wDyijbiAynVNgAeuU4y6U54mYycj4wEnpzM",
+            "amountNear": "1"
+          },
+          {
+            "name": "donor3",
+            "hash": "7UAoDAbMXJEr2pvtnqYYzB8jy52GjVdQBHg82aniuUrc",
+            "amountNear": "3"
+          },
+          {
+            "name": "donor4",
+            "hash": "Bu8X4K88LHoamjCEGSGey8DM35bKMbueTwoGFJExRCtS",
+            "amountNear": "3"
+          },
+          {
+            "name": "donor5",
+            "hash": "34fhKBBjgrzptL2k53Kyqq4ZgGu2MHPRe9Ab3ZudUdvL",
+            "amountNear": "2"
+          },
+          {
+            "name": "donor6",
+            "hash": "Azci7mfRtW41u9ackxuF1FztvsbSnmpJdvHhNa89rGPP",
+            "amountNear": "1"
+          }
+        ],
+        "activation": "24EqemkwBYYviBwhXChHBL43AwKWemHzdR3Mp4gRiVXv"
+      },
+      "finalStatus": {
+        "phase": "ACTIVATED",
+        "deadline_ms": 1793604209670,
+        "activate_after_ms": 1793604059670,
+        "min_funded_projects": 3,
+        "activation_authorities": [
+          "donor6.test.near"
+        ],
+        "pledge_count": 6,
+        "liabilities": "0",
+        "project_ids": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "required_for_activation": [
+          "a",
+          "b",
+          "c"
+        ],
+        "funded_project_ids": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ]
+      },
+      "accounting": {
+        "activated": {
+          "phase": "ACTIVATED",
+          "locked_pledges": "0",
+          "credits": "13000000000000000000000000",
+          "pending": "0",
+          "accounted": "13000000000000000000000000",
+          "liabilities": "13000000000000000000000000",
+          "contract_balance": "33998450136728241800000000",
+          "storage_reserve": "2257880000000000000000000",
+          "solvent": true
+        },
+        "settled": {
+          "phase": "ACTIVATED",
+          "locked_pledges": "0",
+          "credits": "0",
+          "pending": "0",
+          "accounted": "0",
+          "liabilities": "0",
+          "contract_balance": "20998671733882176000000000",
+          "storage_reserve": "2256640000000000000000000",
+          "solvent": true
+        }
+      },
+      "withdrawals": [
+        {
+          "account": "a.test.near",
+          "amountNear": "4",
+          "hash": "BX6NH7HrBbs4CAwBz9MN5NYPD8c2U1KPNZdweTZ9qnj2",
+          "beforeTotal": "2000000000000000000000000",
+          "afterTotal": "5701203484165125500000000"
+        },
+        {
+          "account": "b.test.near",
+          "amountNear": "3",
+          "hash": "6P3KehAwTWu9DdXRa5vjoPCp2Jeq3DHWMYiJ4V1GgQ6q",
+          "beforeTotal": "2000000000000000000000000",
+          "afterTotal": "4701198183583457200000000"
+        },
+        {
+          "account": "c.test.near",
+          "amountNear": "3",
+          "hash": "7Gwqx7HhZNqimQqmfXRmwf5DfT4DLi6yt9SN6w7S9a9e",
+          "beforeTotal": "2000000000000000000000000",
+          "afterTotal": "4701192585328668100000000"
+        },
+        {
+          "account": "d.test.near",
+          "amountNear": "3",
+          "hash": "4EStErNyhakf887WPeh8iVFDY2EKPzimkBH3hsJ8BZ5u",
+          "beforeTotal": "2000000000000000000000000",
+          "afterTotal": "4701186930797368600000000"
+        }
+      ],
+      "finalContractBalance": {
+        "total": "20998671733882176000000000",
+        "stateStaked": "2056640000000000000000000",
+        "staked": "0",
+        "available": "18942031733882176000000000"
+      }
+    },
+    {
+      "name": "expired campaign refunds every contributor",
+      "contract": "dev-89867-48000.test.near",
+      "wasmCodeHash": "AbssULo2nfejWq1WjWFExt6xsTHSd9grj9XcxJEnuifm",
+      "receipts": {
+        "deploy": "GXyMUNBk5PKnfGYqYuGxR9TpqmUD3HbbBcDFYS5gvtZX",
+        "initialize": "GscMigQLHDW4GjSzeAsm5NhEifb6EqpaGc5ARrgRtA7n",
+        "sponsorStorage": "9BVLkazXVjQ7SLcdzCzQbLmmS3uAkehbJGPMYSn56YGD",
+        "commits": [
+          {
+            "name": "donor1",
+            "hash": "8NYtsP5BRSFRAMR5tKLLfnzhib4vSwfLxjbEHjXqc8S1",
+            "amountNear": "3"
+          },
+          {
+            "name": "donor2",
+            "hash": "2MdJ7aSMo4RfDiNz5JuNdVvii7WfcZyw6G46Q49xKJCs",
+            "amountNear": "1"
+          },
+          {
+            "name": "donor3",
+            "hash": "FnRWZ5U1BCRdEvhfLkKhkLiieJQs1qVt3nW3aWB89sB1",
+            "amountNear": "3"
+          },
+          {
+            "name": "donor4",
+            "hash": "EJZiUutV5bfgXiN6ZS5GhETBgqVUPWkbyNis62nS8whj",
+            "amountNear": "3"
+          },
+          {
+            "name": "donor5",
+            "hash": "2SU6YxdDh3UT3LSwseQNbq2awBkkdSsURjhm85XDL6tz",
+            "amountNear": "2"
+          }
+        ],
+        "expiry": "3WPRym33mXKSo18p7FTNij8en2wtFRc7dMzmAgfk6idq"
+      },
+      "finalStatus": {
+        "phase": "EXPIRED",
+        "deadline_ms": 1793604269254,
+        "activate_after_ms": 1793604119254,
+        "min_funded_projects": 3,
+        "activation_authorities": [
+          "donor1.test.near"
+        ],
+        "pledge_count": 5,
+        "liabilities": "0",
+        "project_ids": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "required_for_activation": [
+          "a",
+          "b",
+          "c"
+        ],
+        "funded_project_ids": []
+      },
+      "accounting": {
+        "expired": {
+          "phase": "EXPIRED",
+          "locked_pledges": "0",
+          "credits": "12000000000000000000000000",
+          "pending": "0",
+          "accounted": "12000000000000000000000000",
+          "liabilities": "12000000000000000000000000",
+          "contract_balance": "32998430816203567500000000",
+          "storage_reserve": "2257210000000000000000000",
+          "solvent": true
+        },
+        "settled": {
+          "phase": "EXPIRED",
+          "locked_pledges": "0",
+          "credits": "0",
+          "pending": "0",
+          "accounted": "0",
+          "liabilities": "0",
+          "contract_balance": "20998699719702122500000000",
+          "storage_reserve": "2255410000000000000000000",
+          "solvent": true
+        }
+      },
+      "withdrawals": [
+        {
+          "account": "donor1.test.near",
+          "amountNear": "3",
+          "hash": "AvqhqfACrRFoq5pMPKwUXuVsJdmtJQUmkYbnbMqYELjR",
+          "beforeTotal": "1999831586919298200000000",
+          "afterTotal": "4701015694322673500000000"
+        },
+        {
+          "account": "donor2.test.near",
+          "amountNear": "1",
+          "hash": "8syqyfF8aS26HxZfWDYmuPZmit3V2sqLtTRBEoaRfV9N",
+          "beforeTotal": "3999829913702467100000000",
+          "afterTotal": "4701008161282191200000000"
+        },
+        {
+          "account": "donor3.test.near",
+          "amountNear": "3",
+          "hash": "E1G3CkVGjPEqQaPPSwuesXX39DwyYUwrHykAe5hAbDVM",
+          "beforeTotal": "1999828787017463600000000",
+          "afterTotal": "4701000888207621700000000"
+        },
+        {
+          "account": "donor4.test.near",
+          "amountNear": "3",
+          "hash": "9TaGF9bc4r8RfznKcgckD7x3SFhVjJcFS9UQFZwrs6SW",
+          "beforeTotal": "1999827532658900600000000",
+          "afterTotal": "4700993436366345100000000"
+        },
+        {
+          "account": "donor5.test.near",
+          "amountNear": "2",
+          "hash": "AL2fVRGJ5KvjdmMTQZDBWmk8UTDjhPQgBE6Q91epBUTL",
+          "beforeTotal": "2999826694937164500000000",
+          "afterTotal": "4700986333778179000000000"
+        }
+      ],
+      "finalContractBalance": {
+        "total": "20998699719702122500000000",
+        "stateStaked": "2055410000000000000000000",
+        "staked": "0",
+        "available": "18943289719702122500000000"
+      }
+    },
+    {
+      "name": "concurrent deposits, competing activation, repeated withdrawal, and callback guard",
+      "contract": "dev-41562-61184.test.near",
+      "wasmCodeHash": "AbssULo2nfejWq1WjWFExt6xsTHSd9grj9XcxJEnuifm",
+      "receipts": {
+        "deploy": "3q3hnneLxtgukTdPuo5SAySkkiQasJA6mvzwhkEp2ogr",
+        "initialize": "8vi4ckhka2xy5rQFv8i5YxZYkJjtP9k4BsGSDb59kGdD",
+        "sponsorStorage": "5zBGkzG1sAU4S3yBebEQHGhRoSfUW6kdxJxeRoY2Rkq2",
+        "deposits": [
+          "DFELWkUxtsgH1vhMgwNQRqRBg1BoQxoSee5jmtd6uPTQ",
+          "6hdq1bn5fUs2abGZF4m8x1Jsf2z7hU9zQ5PMPUU3qwGM"
+        ],
+        "activations": [
+          {
+            "hash": "2BLR5NaAvWeWr8SNHDnV8HPugm6XHy86WYRoBkoptWqJ",
+            "failed": true
+          },
+          {
+            "hash": "7LLx2Nufzs9w1z26QJY8Qo99Stw8WHrCpjcYpSvezhXj",
+            "failed": false
+          }
+        ],
+        "unauthorizedActivation": {
+          "label": "unauthorized activation",
+          "hash": "C3pU9RT514vUWqTjS21uG4eWpPnE2LHGRDhjYHL7gsfF",
+          "failure": {
+            "ActionError": {
+              "index": 0,
+              "kind": {
+                "FunctionCallError": {
+                  "ExecutionError": "Smart contract panicked: activation unauthorized"
+                }
+              }
+            }
+          }
+        },
+        "withdrawals": [
+          {
+            "hash": "7GDcKkr8es3kgAjJTyp4Xn9MEYq7fH5vVjicPj73Mb19",
+            "failed": false
+          },
+          {
+            "label": "repeated withdrawal",
+            "hash": "GWGh758PNBJmeLSJqw5Ab84NsvwnztwpqnuKzYxwbPqG",
+            "failure": {
+              "ActionError": {
+                "index": 0,
+                "kind": {
+                  "FunctionCallError": {
+                    "ExecutionError": "Smart contract panicked: nothing to withdraw"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "unauthorizedCallback": {
+          "label": "unauthorized duplicate callback",
+          "hash": "7z7UrcwHDWwmFP7LA1gVrAXRGbQxMSieWwZ9RhUewu5x",
+          "failure": {
+            "ActionError": {
+              "index": 0,
+              "kind": {
+                "FunctionCallError": {
+                  "ExecutionError": "Smart contract panicked: Method on_withdraw_result is private"
+                }
+              }
+            }
+          }
+        }
+      },
+      "accounting": {
+        "open": {
+          "phase": "OPEN",
+          "locked_pledges": "3000000000000000000000000",
+          "credits": "0",
+          "pending": "0",
+          "accounted": "3000000000000000000000000",
+          "liabilities": "3000000000000000000000000",
+          "contract_balance": "23998368561349036300000000",
+          "storage_reserve": "2252930000000000000000000",
+          "solvent": true
+        },
+        "activated": {
+          "phase": "ACTIVATED",
+          "locked_pledges": "0",
+          "credits": "3000000000000000000000000",
+          "pending": "0",
+          "accounted": "3000000000000000000000000",
+          "liabilities": "3000000000000000000000000",
+          "contract_balance": "23998405448996963200000000",
+          "storage_reserve": "2253840000000000000000000",
+          "solvent": true
+        },
+        "settled": {
+          "phase": "ACTIVATED",
+          "locked_pledges": "0",
+          "credits": "0",
+          "pending": "0",
+          "accounted": "0",
+          "liabilities": "0",
+          "contract_balance": "20998473533098005100000000",
+          "storage_reserve": "2253430000000000000000000",
+          "solvent": true
+        }
+      },
+      "finalStatus": {
+        "phase": "ACTIVATED",
+        "deadline_ms": 1793604740946,
+        "activate_after_ms": 1793604170946,
+        "min_funded_projects": 1,
+        "activation_authorities": [
+          "activator1.test.near",
+          "activator2.test.near"
+        ],
+        "pledge_count": 2,
+        "liabilities": "0",
+        "project_ids": [
+          "commitment"
+        ],
+        "required_for_activation": [
+          "commitment"
+        ],
+        "funded_project_ids": [
+          "commitment"
+        ]
+      },
+      "finalContractBalance": {
+        "total": "20998473533098005100000000",
+        "stateStaked": "2053430000000000000000000",
+        "staked": "0",
+        "available": "18945043533098005100000000"
+      }
+    },
+    {
+      "name": "real Sputnik DAO proposal quorum funds PACT and recovers expired DAO-owned funds",
+      "dao": "dev-80479-74784.test.near",
+      "sputnikWasmSha256": "6e3f1814d40769d8f57b9a7af689d22aaab96d3232cec4d861311829c1d2318f",
+      "contracts": {
+        "funded": "dev-88270-68736.test.near",
+        "refund": "dev-11290-82592.test.near"
+      },
+      "receipts": {
+        "dao": {
+          "deploy": "mtj7ckdXuC3r3CnAdJDWp3qu6hozBoNGw9PGssqpTUP",
+          "initialize": "6hb43F4YcdxKAKJhP3q2ZkhSZJqUdymxHE2tFwxuecfN"
+        },
+        "unauthorizedFunding": {
+          "label": "non-council DAO approval",
+          "hash": "F6qpVEyecvNyUaufCgU4m4hZRRaPA5fzNj9vP7T1FhyD",
+          "failure": {
+            "ActionError": {
+              "index": 0,
+              "kind": {
+                "FunctionCallError": {
+                  "ExecutionError": "Smart contract panicked: panicked at 'ERR_PERMISSION_DENIED', src/proposals.rs:447:9"
+                }
+              }
+            }
+          }
+        },
+        "fundProposal": {
+          "add": "2VKzRAi93t2of1jUKmmrmovYGhNoh7FV92jLGqtcdcbq",
+          "receipts": {
+            "first": "3P7fZ9PPDYSYymH6Ho3jzgWBJuMvSe4hEXSe8W2vDyoU",
+            "second": "9mL283XQ5cV9b54VNSQF7DMAbtvCqwFbH2u8m7MsBsyA"
+          },
+          "statusAfterFirst": "InProgress",
+          "statusAfterSecond": "Approved"
+        },
+        "unapprovedProposal": {
+          "add": "H9cnTC6GSNDVXepLNwbUfSzaCqdZmMqy7KjUX644xj6s"
+        },
+        "activation": "ENWAoEdNgVMs68UP41Sf2ajHde8cwcue36fyfEjmxoC7",
+        "beneficiaryWithdrawal": "45PkTbfPPQJUZDBbd9RZzbWFa2VVPtWP782bcu5mtFPC",
+        "refundProposal": {
+          "add": "Fdyn7jabHDDmmsdZBiVbbHxUC4w6c6bPUuDhuV6d61iS",
+          "receipts": {
+            "first": "8Ei4FE2hmB3KRmVT9pVeYhWfsSt9h6ovHYtmhhvPwmeD",
+            "second": "E1AwKhPLNzcu722FSvGxV3GzqXXGX3bLBVuPcyVXgxBq"
+          },
+          "statusAfterFirst": "InProgress",
+          "statusAfterSecond": "Approved"
+        },
+        "expiry": "5MnXo898LfpdwbQvu79rBsX5SAZvVAC1KqfkiwHxVATh",
+        "withdrawProposal": {
+          "add": "CbaANeoiupj54eugasjbJKLApLtfExQbBXNka38rkTwp",
+          "receipts": {
+            "first": "H6ngGJ72mjCRS7bA7L8NNU5HvYeK8UahVaau37yuckVR",
+            "second": "6dWFfktEzBewmHTsh3qVGb77bKF6eA1hcSUgaHApkeep"
+          },
+          "statusAfterFirst": "InProgress",
+          "statusAfterSecond": "Approved"
+        }
+      },
+      "accounting": {
+        "funded": {
+          "phase": "OPEN",
+          "locked_pledges": "1000000000000000000000000",
+          "credits": "0",
+          "pending": "0",
+          "accounted": "1000000000000000000000000",
+          "liabilities": "1000000000000000000000000",
+          "contract_balance": "21998355009380677100000000",
+          "storage_reserve": "2252180000000000000000000",
+          "solvent": true
+        },
+        "activated": {
+          "phase": "ACTIVATED",
+          "locked_pledges": "0",
+          "credits": "1000000000000000000000000",
+          "pending": "0",
+          "accounted": "1000000000000000000000000",
+          "liabilities": "1000000000000000000000000",
+          "contract_balance": "21998369434947562200000000",
+          "storage_reserve": "2252910000000000000000000",
+          "solvent": true
+        },
+        "fundedSettled": {
+          "phase": "ACTIVATED",
+          "locked_pledges": "0",
+          "credits": "0",
+          "pending": "0",
+          "accounted": "0",
+          "liabilities": "0",
+          "contract_balance": "20998418317685135900000000",
+          "storage_reserve": "2252500000000000000000000",
+          "solvent": true
+        },
+        "expired": {
+          "phase": "EXPIRED",
+          "locked_pledges": "0",
+          "credits": "1000000000000000000000000",
+          "pending": "0",
+          "accounted": "1000000000000000000000000",
+          "liabilities": "1000000000000000000000000",
+          "contract_balance": "21998368163760397700000000",
+          "storage_reserve": "2252700000000000000000000",
+          "solvent": true
+        },
+        "refundSettled": {
+          "phase": "EXPIRED",
+          "locked_pledges": "0",
+          "credits": "0",
+          "pending": "0",
+          "accounted": "0",
+          "liabilities": "0",
+          "contract_balance": "20998416747452956400000000",
+          "storage_reserve": "2252250000000000000000000",
+          "solvent": true
+        }
+      },
+      "balances": {
+        "daoBeforeRefund": {
+          "total": "28996749705062139800000000",
+          "stateStaked": "4714480000000000000000000",
+          "staked": "0",
+          "available": "24282269705062139800000000"
+        },
+        "daoAfterRefund": {
+          "total": "29996889332417729500000000",
+          "stateStaked": "4717760000000000000000000",
+          "staked": "0",
+          "available": "25279129332417729500000000"
+        }
+      },
+      "finalStatuses": {
+        "funded": {
+          "phase": "ACTIVATED",
+          "deadline_ms": 1793604787641,
+          "activate_after_ms": 1793604307641,
+          "min_funded_projects": 1,
+          "activation_authorities": [
+            "observer.test.near"
+          ],
+          "pledge_count": 1,
+          "liabilities": "0",
+          "project_ids": [
+            "commitment"
+          ],
+          "required_for_activation": [
+            "commitment"
+          ],
+          "funded_project_ids": [
+            "commitment"
+          ]
+        },
+        "refund": {
+          "phase": "EXPIRED",
+          "deadline_ms": 1793604940678,
+          "activate_after_ms": 1793604460678,
+          "min_funded_projects": 1,
+          "activation_authorities": [
+            "observer.test.near"
+          ],
+          "pledge_count": 1,
+          "liabilities": "0",
+          "project_ids": [
+            "commitment"
+          ],
+          "required_for_activation": [
+            "commitment"
+          ],
+          "funded_project_ids": []
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "No mainnet or testnet calls are made by this runner.",
+    "Native-transfer failure injection is not safely reachable through an ordinary authenticated sandbox transaction while preserving the predecessor account. The callback failure branch is tested with an explicit NEAR VM PromiseResult::Failed unit test; missing callback execution remains unresolved and blocks production use.",
+    "Exact timestamp equality at the activation/deadline boundaries is not directly controllable through near-workspaces fast-forward; the campaign tests cross each boundary and verify the strict/open and inclusive/expiry predicates around it.",
+    "Duplicate callback execution is tested as a private-method guard and in the Rust VM; a forged callback cannot be submitted by an external signer. A callback that never executes remains an unresolved operational recovery risk.",
+    "The RC1 maximum-capacity campaign is a genuine sandbox run. It exercises all 8 project slots, all 32 pledge slots, measured storage reserve, activation, 32 credits, 32 successful withdrawals, and a repeated withdrawal failure. It does not prove behavior on testnet or mainnet."
+  ],
+  "wasmSha256": "8ea872ef10f44241840d70ad2ac0bbdd25289d0c770098f158900975e5c8b35c",
+  "sputnikWasmSha256": "6e3f1814d40769d8f57b9a7af689d22aaab96d3232cec4d861311829c1d2318f"
+}
