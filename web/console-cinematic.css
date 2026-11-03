@@ -1,0 +1,360 @@
+/* PACT Atlas / Cinematic Console Alignment
+   Uses the approved homepage's black, parchment and copper-orange visual grammar.
+   The existing functional HTML structure, graph events and near adapter remain intact. */
+body.console-cinematic {
+ --ink:#0a0a0a;
+ --ink-soft:#141414;
+ --ink-light:#20201e;
+ --paper:#f2f0eb;
+ --paper-dim:#b6b1a7;
+ --lime:#f56d39;
+ --lime-soft:#ffb287;
+ --gold:#e5a175;
+ --coral:#ed8458;
+ --line:rgba(255,255,255,.18);
+ --line-bright:rgba(255,255,255,.38);
+ --display:"Inter Display","Arial Narrow",Inter,"Helvetica Neue",Arial,sans-serif;
+ --sans:Inter,"Helvetica Neue",Arial,sans-serif;
+ --mono:"SFMono-Regular",Consolas,monospace;
+ background:#080909;
+ background-image:none;
+ color:var(--paper);
+ padding:16px 16px 0;
+ font-family:var(--sans);
+ -webkit-font-smoothing:antialiased;
+}
+.console-cinematic ::selection {background:var(--lime);color:#111}
+.console-cinematic a:focus-visible,
+.console-cinematic button:focus-visible,
+.console-cinematic select:focus-visible,
+.console-cinematic input:focus-visible,
+.console-cinematic [role="button"]:focus-visible {outline:2px solid var(--lime);outline-offset:3px}
+.console-cinematic .grain {opacity:.026}
+.console-cinematic .section-wrap {width:min(1540px,100%)}
+.console-cinematic .site-header {
+ max-width:1540px;width:100%;height:70px;margin:0 auto;
+ background:#111211;border:1px solid #393c36;
+ border-bottom:0;padding:0 clamp(22px,3.4vw,58px);
+ backdrop-filter:none;z-index:15;
+}
+.console-cinematic .wordmark {
+ gap:12px;font:800 18px/1 var(--sans);letter-spacing:-.076em;
+ color:var(--paper);text-transform:none;white-space:nowrap;
+}
+.console-cinematic .wordmark em {font:450 18px var(--sans);letter-spacing:-.07em;color:#c2c0bb}
+.console-cinematic .brand-icon {width:27px;height:26px;position:relative;display:inline-block;flex:none;margin-right:2px}
+.console-cinematic .brand-icon b {position:absolute;width:13px;height:13px;border:2px solid var(--lime);border-radius:60% 24% 60% 24%;transform:rotate(-40deg)}
+.console-cinematic .brand-icon b:nth-child(1) {left:0;top:4px}
+.console-cinematic .brand-icon b:nth-child(2) {left:8px;top:9px}
+.console-cinematic .brand-icon b:nth-child(3) {left:14px;top:1px}
+.console-cinematic .main-nav {
+ display:flex;align-items:center;gap:clamp(18px,2vw,36px);
+ margin-left:auto;color:#d8d4cc;letter-spacing:0;text-transform:none;
+}
+.console-cinematic .main-nav a {font:650 11px var(--sans);transition:color .2s}
+.console-cinematic .main-nav a:hover {color:var(--lime-soft)}
+.console-cinematic .header-actions {gap:20px;margin-left:clamp(20px,2.4vw,42px)}
+.console-cinematic .network-chip {
+ border:0;background:none;padding:0;color:#b7b5ae;
+ font:600 9px var(--mono);letter-spacing:.035em;text-transform:uppercase;
+ white-space:nowrap;
+}
+.console-cinematic .status-dot {background:var(--lime);box-shadow:0 0 12px rgba(245,109,57,.5)}
+.console-cinematic .button-quiet {
+ border:1px solid #66675e;border-radius:28px;
+ color:var(--paper);background:transparent;
+ font:700 10px var(--sans);letter-spacing:.02em;
+ padding:11px 18px;text-transform:none;white-space:nowrap;
+}
+.console-cinematic .button-quiet:hover {border-color:var(--lime);color:var(--lime-soft)}
+.console-cinematic .hero {
+ position:relative;isolation:isolate;overflow:hidden;
+ display:grid;align-items:stretch;gap:0;
+ grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr);
+ min-height:600px;padding:0;margin-top:0;
+ border:1px solid #393c36;
+ background:radial-gradient(ellipse 45% 55% at 74% 46%,#26160f 0%,#11100f 54%,#090a09 100%);
+}
+.console-cinematic .hero::before {
+ content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+ background-size:140px 140px;
+ mask-image:linear-gradient(to bottom,transparent 9%,#000 48%,transparent 97%);
+}
+.console-cinematic .hero-copy {
+ min-width:0;display:flex;flex-direction:column;justify-content:center;
+ padding:clamp(55px,6.2vw,120px) clamp(23px,3.4vw,58px) 60px;
+ position:relative;z-index:3;
+}
+.console-cinematic .eyebrow {
+ color:var(--lime-soft);font:700 10px var(--mono);
+ letter-spacing:.12em;margin-bottom:36px;
+}
+.console-cinematic .eyebrow-line {width:23px;height:1px;background:var(--lime)}
+.console-cinematic .hero h1 {
+ max-width:700px;margin:0 0 29px;
+ font:850 clamp(65px,7vw,115px)/.87 var(--display);
+ text-transform:uppercase;letter-spacing:-.09em;color:var(--paper);
+}
+.console-cinematic .hero h1 span {
+ display:block;margin-top:7px;color:var(--lime);font:inherit;
+ text-transform:uppercase;letter-spacing:-.095em;
+}
+.console-cinematic .hero-lede {
+ color:#d3d0c9;max-width:370px;font:400 clamp(15px,1.3vw,18px)/1.55 var(--sans);
+ letter-spacing:-.025em;margin:0 0 28px;
+}
+.console-cinematic .hero-actions {gap:25px;flex-wrap:wrap}
+.console-cinematic .button-primary {
+ background:var(--lime);color:#13110f;border:1px solid var(--lime);
+ border-radius:99px;display:inline-flex;align-items:center;gap:20px;
+ font:780 11px var(--sans);letter-spacing:.015em;padding:14px 21px;
+ text-transform:none;
+}
+.console-cinematic .button-primary:hover {background:#ff9769;border-color:#ff9769}
+.console-cinematic .hero .text-link {
+ color:#dedad2;border-color:#8b857e;font:700 11px var(--sans);
+ letter-spacing:.02em;text-transform:none;
+}
+.console-cinematic .hero .text-link:hover {color:#ffa77d;border-color:#ffa77d}
+.console-cinematic .hero-note {
+ margin-top:clamp(37px,6vw,85px);max-width:480px;
+ color:#99988f;font:600 9px/1.6 var(--mono);letter-spacing:.02em;
+}
+.console-cinematic .note-symbol {color:var(--lime);font-size:15px}
+.console-cinematic .hero-map-panel {
+ min-width:0;min-height:590px;margin:0;overflow:hidden;
+ border:0;border-left:1px solid rgba(255,255,255,.1);
+ background:radial-gradient(circle at 50% 43%,rgba(210,91,42,.21) 0%,rgba(96,45,28,.09) 30%,transparent 65%);
+}
+.console-cinematic .hero-map-panel::before {
+ border:1px solid rgba(248,164,106,.14);inset:clamp(20px,2.4vw,40px);
+ border-radius:0;
+}
+.console-cinematic .hero-map-panel::after {
+ background:rgba(251,112,51,.09);
+ width:min(50vw,460px);height:min(50vw,460px);
+ left:50%;top:50%;transform:translate(-50%,-50%);filter:blur(40px);
+}
+.console-cinematic .map-label {color:#c8b4a4;font:600 9px var(--mono);letter-spacing:.055em}
+.console-cinematic .map-label strong {color:#ede7df}
+.console-cinematic .map-label-bottom {color:#c6b7aa}
+.console-cinematic #network-map {height:100%;max-height:660px;min-height:555px;overflow:visible}
+.console-cinematic .map-orbit circle {stroke:rgba(245,142,82,.16)}
+.console-cinematic .map-orbit circle:last-child {stroke:rgba(245,142,82,.09)}
+.console-cinematic .edge {stroke:#c87e57;opacity:.8}
+.console-cinematic .edge-a-b,
+.console-cinematic .edge-a-c,
+.console-cinematic .edge-b-a,
+.console-cinematic .edge-c-a {stroke:rgba(245,142,82,.68)}
+.console-cinematic .edge-d {stroke:#ffb28a}
+.console-cinematic .edge-donor,.console-cinematic .edge-donor-right {stroke:#bb7450}
+.console-cinematic .map-node .node-halo {fill:rgba(245,109,57,.09);stroke:rgba(249,155,98,.44)}
+.console-cinematic .map-node .node-core {fill:#191511;stroke:#f4a06c}
+.console-cinematic .map-node .node-caption {fill:#e4b79c}
+.console-cinematic .map-node text {fill:#f3ede4}
+.console-cinematic .map-node:hover .node-halo,
+.console-cinematic .map-node:focus-visible .node-halo,
+.console-cinematic .map-node.selected .node-halo {stroke:#ffb48e;fill:rgba(245,109,57,.22)}
+.console-cinematic .map-node:hover .node-core,
+.console-cinematic .map-node:focus-visible .node-core,
+.console-cinematic .map-node.selected .node-core {fill:#ad5531}
+.console-cinematic .map-node:hover text:not(.node-caption),
+.console-cinematic .map-node:focus-visible text:not(.node-caption),
+.console-cinematic .map-node.selected text:not(.node-caption){fill:#fff}
+.console-cinematic .donor-pip circle {fill:var(--lime);stroke:var(--lime)}
+.console-cinematic .donor-pip text {fill:#1b1511}
+.console-cinematic .map-panel-data {background:rgba(15,13,12,.65);border:1px solid rgba(238,223,208,.22);backdrop-filter:blur(10px)}
+.console-cinematic .legend-dot.funded {background:var(--lime)}
+.console-cinematic .legend-dot.optional {background:#efba89}
+.console-cinematic .hero-metrics {
+ grid-column:1/-1;margin:0;padding:18px clamp(23px,3.4vw,58px);
+ border-top:1px solid #454038;border-bottom:0;gap:35px;background:rgba(14,14,13,.84);
+}
+.console-cinematic .metric strong {font:800 40px/.95 var(--display);letter-spacing:-.065em;color:var(--paper)}
+.console-cinematic .metric span {color:#acaaa2}
+.console-cinematic .metric-arrow {color:var(--lime)}
+.console-cinematic .metric-source {color:#afa59a}
+.console-cinematic .metric-source span {color:#f3ad81}
+.console-cinematic .insight-section,
+.console-cinematic .commitments-section,
+.console-cinematic .workflow-section,
+.console-cinematic .evidence-section {
+ margin-top:16px;padding:clamp(70px,8vw,128px) clamp(22px,5vw,88px) clamp(66px,7vw,112px);
+ border:1px solid #32332d;
+ background:#111211;
+}
+.console-cinematic .section-intro {margin-bottom:clamp(35px,4vw,65px)}
+.console-cinematic .section-intro h2 {
+ font:820 clamp(49px,6.4vw,106px)/.93 var(--display);letter-spacing:-.08em;text-transform:uppercase;
+}
+.console-cinematic .section-intro h2 em {
+ font:italic 400 .81em/1.06 Georgia,serif;letter-spacing:-.075em;
+ color:var(--lime);text-transform:none;
+}
+.console-cinematic .split-intro {grid-template-columns:minmax(0,1.2fr) minmax(0,.68fr);gap:clamp(35px,5vw,90px)}
+.console-cinematic .section-description {color:#bcb7ae;font-size:14px;line-height:1.65}
+.console-cinematic .insight-section {background:#f2f0eb;color:#101211;border-color:#f2f0eb}
+.console-cinematic .insight-section .section-intro h2 {color:#101211}
+.console-cinematic .insight-section .section-intro h2 em {color:#a34e2a}
+.console-cinematic .insight-section .section-description {color:#52544d}
+.console-cinematic .insight-section .eyebrow {color:#984421}
+.console-cinematic .engine-shell {background:#fcfaf5;border:1px solid #a7a59c;overflow:hidden}
+.console-cinematic .engine-controls {background:#fcfaf5;border-bottom:1px solid #bcb9b0;padding:30px clamp(20px,3vw,45px)}
+.console-cinematic .control-block label,.console-cinematic .control-label {color:#555a51;letter-spacing:.035em;font-size:10px}
+.console-cinematic .control-block select {
+ color:#1a1b17;border-color:#a19e97;font-size:13px;
+ background-image:linear-gradient(45deg,transparent 50%,#a14a2a 50%),linear-gradient(135deg,#a14a2a 50%,transparent 50%);
+}
+.console-cinematic .control-block select option {color:#151513;background:#fcfaf5}
+.console-cinematic .toggle-label {color:#282920;font-weight:700}
+.console-cinematic .toggle-track {border-color:#98958d;background:#dad8d1}
+.console-cinematic .toggle-track i {background:#5f6457}
+.console-cinematic .toggle-label input:checked+.toggle-track {background:#d99573;border-color:#a24f2b}
+.console-cinematic .toggle-label input:checked+.toggle-track i {background:#8a371e}
+.console-cinematic .control-warning {color:#565a51;font-size:11px}
+.console-cinematic .control-warning span {color:#a34b2b}
+.console-cinematic .engine-result {background:#171815;min-height:0}
+.console-cinematic .result-main {padding:clamp(26px,3vw,48px)}
+.console-cinematic .result-kicker {color:#ffa875}
+.console-cinematic .result-title {
+ font:800 clamp(34px,4.2vw,67px)/.96 var(--display);
+ letter-spacing:-.067em;color:#f3efe6;text-transform:uppercase;
+}
+.console-cinematic .result-title em {color:#fba274;font:italic 400 1.02em Georgia,serif;text-transform:none}
+.console-cinematic .result-copy {color:#c3bdb4}
+.console-cinematic .result-badge {border-color:#a86746;color:#fec09b}
+.console-cinematic .result-side {background:#20201b;padding:clamp(26px,3vw,48px)}
+.console-cinematic .result-side-label {color:#b7b2a9}
+.console-cinematic .result-number {color:#f6a476;font:820 clamp(55px,6vw,98px)/1 var(--display);letter-spacing:-.07em}
+.console-cinematic .result-number small {color:#d0cbc1}
+.console-cinematic .reason-list li {color:#c4c1b7}
+.console-cinematic .reason-list li::before {color:#f7a376}
+.console-cinematic .result-certificate {border-color:#786a5f;color:#d5cec4;overflow-wrap:anywhere}
+.console-cinematic .result-certificate strong {color:#ffc09c;overflow-wrap:anywhere}
+.console-cinematic .commitments-layout {border-color:#49453e}
+.console-cinematic .commitment-row {border-color:#403d37}
+.console-cinematic .commitment-row:hover,
+.console-cinematic .commitment-row.selected {background:rgba(245,109,57,.085)}
+.console-cinematic .pledge-index {color:#b5afa7}
+.console-cinematic .pledge-name strong {color:#f3efe7}
+.console-cinematic .pledge-name span {color:#c0b9af}
+.console-cinematic .pledge-amount {color:#ffc09a;font-weight:800}
+.console-cinematic .target-pill {border-color:#776356;color:#e9c1a7}
+.console-cinematic .target-pill.conditioned {border-color:#b87851;color:#ffbb91}
+.console-cinematic .project-inspector {background:#1f211b;border-color:#545047}
+.console-cinematic .inspector-kicker {color:#eda880}
+.console-cinematic .inspector-symbol {color:#ffac79;border-color:#db9669;font:800 32px var(--display)}
+.console-cinematic .project-inspector h3 {font:800 38px/.98 var(--display);letter-spacing:-.055em;color:#f2ede5}
+.console-cinematic .project-inspector>p:not(.inspector-kicker){color:#c2beb5}
+.console-cinematic .inspector-stat {border-color:#56534a;color:#cac7bb}
+.console-cinematic .inspector-stat strong {color:#ffba95}
+.console-cinematic .workflow-backdrop {opacity:.13}
+.console-cinematic .workflow-step {background:#1c1d1a;border-color:#4b4941}
+.console-cinematic .workflow-step.active {border-color:#e38b5a;background:#29201a}
+.console-cinematic .step-icon {color:#fcaa7a;font-family:var(--display)}
+.console-cinematic .step-index,.console-cinematic .workflow-step p {color:#c0bcb1}
+.console-cinematic .workflow-step h3 {color:#f2eee6}
+.console-cinematic .step-action {border-color:#7d6253;color:#ffc3a1}
+.console-cinematic .step-action:hover {color:#fff;border-color:#ffae80}
+.console-cinematic .wallet-status {background:#242521;border-color:#605f54}
+.console-cinematic .wallet-status strong {color:#f1eee4}
+.console-cinematic .workflow-result {color:#ddd8cb}
+.console-cinematic .evidence-section {background:#f2f0eb;border-color:#f2f0eb;color:#131411}
+.console-cinematic .evidence-section .section-intro h2 {color:#111211}
+.console-cinematic .evidence-section .section-intro h2 em {color:#a34e2a}
+.console-cinematic .evidence-section .section-description {color:#57574e}
+.console-cinematic .evidence-grid {border-color:#aba9a0}
+.console-cinematic .evidence-card-main {background:#f9f7f1;border-color:#b8b5ab}
+.console-cinematic .evidence-card-main .live-tag {color:#9e4726}
+.console-cinematic .evidence-card-main .live-tag i {background:#ae5832}
+.console-cinematic .evidence-card-main .evidence-big-number span {color:#171815;font:820 clamp(100px,10vw,160px)/.9 var(--display);letter-spacing:-.07em}
+.console-cinematic .evidence-card-main .evidence-big-number small,
+.console-cinematic .evidence-card-main .evidence-date,
+.console-cinematic .evidence-card-main .evidence-row {color:#50564c}
+.console-cinematic .evidence-card-main .evidence-row code,
+.console-cinematic .evidence-card-main .evidence-row strong {color:#242b21}
+.console-cinematic .evidence-divider {background:#b9b7ae}
+.console-cinematic .evidence-card-main .evidence-row {border-color:#c4c1b8}
+.console-cinematic .receipt-card {background:#1b1d19;color:#f5efe5}
+.console-cinematic .receipt-card .card-label {color:#c0bcb0}
+.console-cinematic .receipt-card .evidence-card-head select {color:#ffb891;border-color:#846c5a}
+.console-cinematic .receipt-card .evidence-card-head select option {background:#1b1d19;color:#fff}
+.console-cinematic .receipt-card .receipt-title {color:#f5f1e7;font:800 clamp(27px,3vw,46px)/1.04 var(--display);letter-spacing:-.055em}
+.console-cinematic .receipt-card .receipt-item {border-color:#625d51}
+.console-cinematic .receipt-card .receipt-item span {color:#bfbab0}
+.console-cinematic .receipt-card .receipt-item code {color:#ffbb91}
+.console-cinematic .receipt-card .text-link {color:#ffbd92;border-color:#9b6d52}
+.console-cinematic .evidence-footnote {color:#5b5e55}
+.console-cinematic .evidence-footnote span {color:#a14c2b}
+.console-cinematic .site-footer {
+ max-width:1540px;width:100%;padding:30px clamp(22px,5vw,88px) 38px;
+ margin-top:16px;border:1px solid #383932;background:#111211;color:#b7b2a9;
+}
+.console-cinematic .footer-brand {color:#f2f0e9;letter-spacing:-.025em;font-size:14px}
+.console-cinematic .footer-links a:hover {color:#ffb086}
+.console-cinematic .toast {background:#25211b;border-color:#b47b5d;color:#f2eee6}
+@media(max-width:1250px) {
+ .console-cinematic .site-header {gap:18px}
+ .console-cinematic .main-nav {gap:20px;margin-left:auto}
+ .console-cinematic .header-actions {margin-left:5px}
+ .console-cinematic .network-chip {display:none}
+ .console-cinematic .hero {grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr)}
+ .console-cinematic .hero h1 {font-size:clamp(57px,7vw,95px)}
+}
+@media(max-width:980px) {
+ .console-cinematic .site-header {height:64px;padding:0 24px}
+ .console-cinematic .hero {grid-template-columns:1fr;min-height:0}
+ .console-cinematic .hero-copy {padding:70px 35px 52px}
+ .console-cinematic .hero h1 {max-width:790px;font-size:clamp(65px,11vw,108px)}
+ .console-cinematic .hero-map-panel {min-height:490px;border-top:1px solid #48443e;border-left:0}
+ .console-cinematic #network-map {min-height:485px;max-height:510px}
+ .console-cinematic .hero-metrics {gap:22px;padding:18px 35px}
+ .console-cinematic .split-intro {grid-template-columns:1fr;gap:24px}
+ .console-cinematic .section-description {max-width:690px}
+}
+@media(max-width:680px) {
+ body.console-cinematic {padding:9px 9px 0}
+ .console-cinematic .site-header {padding:0 15px;gap:15px}
+ .console-cinematic .main-nav {display:none}
+ .console-cinematic .header-actions {margin-left:auto}
+ .console-cinematic .button-quiet {font-size:9px;padding:10px 12px}
+ .console-cinematic .wordmark,.console-cinematic .wordmark em {font-size:16px}
+ .console-cinematic .hero-copy {padding:65px 21px 34px}
+ .console-cinematic .hero h1 {font-size:clamp(56px,12vw,83px);margin-bottom:25px}
+ .console-cinematic .hero-lede {font-size:15px}
+ .console-cinematic .hero-actions {gap:17px}
+ .console-cinematic .button-primary {font-size:10px;padding:13px 16px}
+ .console-cinematic .hero .text-link {font-size:10px}
+ .console-cinematic .hero-note {margin-top:30px}
+ .console-cinematic .hero-map-panel {min-height:380px}
+ .console-cinematic #network-map {min-height:365px;max-height:420px}
+ .console-cinematic .map-label {left:15px;right:15px;font-size:8px}
+ .console-cinematic .map-panel-data {left:13px;right:13px}
+ .console-cinematic .hero-metrics {flex-wrap:wrap;gap:16px;padding:18px 21px}
+ .console-cinematic .metric strong {font-size:30px}
+ .console-cinematic .metric-source {width:100%;text-align:left;margin:0}
+ .console-cinematic .insight-section,.console-cinematic .commitments-section,
+ .console-cinematic .workflow-section,.console-cinematic .evidence-section {
+   padding:65px 20px 72px;margin-top:9px;
+ }
+ .console-cinematic .section-intro h2 {font-size:clamp(46px,10.4vw,73px)}
+ .console-cinematic .section-description {font-size:13px}
+ .console-cinematic .engine-controls {padding:23px 19px}
+ .console-cinematic .result-title {font-size:clamp(34px,9vw,55px)}
+ .console-cinematic .result-main,.console-cinematic .result-side {padding:26px 20px}
+ .console-cinematic .evidence-card {padding:24px 20px}
+ .console-cinematic .receipt-card .evidence-card-head select {max-width:100%}
+ .console-cinematic .site-footer {padding:24px 20px}
+}
+@media(max-width:380px) {
+ .console-cinematic .wordmark,.console-cinematic .wordmark em {font-size:15px}
+ .console-cinematic .hero h1 {font-size:clamp(47px,12vw,58px)}
+ .console-cinematic .hero-map-panel {min-height:345px}
+ .console-cinematic #network-map {min-height:335px}
+ .console-cinematic .section-intro h2 {font-size:clamp(40px,10.5vw,52px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .console-cinematic *, .console-cinematic *::before, .console-cinematic *::after {animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
