@@ -360,3 +360,6 @@ body .button:focus-visible, body a:focus-visible, body button:focus-visible, bod
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+/* Accessible keyboard bypass for the editorial hero. */
+.skip-link { position: fixed; z-index: 100; left: 18px; top: -90px; padding: 12px 18px; background: #f8ede2; color: #161513; font: 700 12px var(--mono); border-radius: 3px; }
+.skip-link:focus { top: 12px; }
