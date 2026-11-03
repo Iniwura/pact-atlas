@@ -5,7 +5,7 @@ test.describe("Atlas product workspace",()=>{
   test("is a light, focused funding workspace, not another marketing hero",async({page,request})=>{
     await page.goto("/console");
     await expect(page.getByRole("heading",{name:"Atlas."})).toBeVisible();
-    await expect(page.getByRole("heading",{name:"Build a coalition"})).toBeVisible();
+    await expect(page.getByRole("heading",{name:"Scenario"})).toBeVisible();
     await expect(page.locator("#network-map")).toBeVisible();
     await expect(page.locator("#engine-result")).toContainText("viable");
     await expect(page.locator("#commitment-list .commitment-row")).toHaveCount(5);
@@ -47,7 +47,14 @@ test.describe("Atlas product workspace",()=>{
       const dims=await page.evaluate(()=>({viewport:innerWidth,width:document.documentElement.scrollWidth}));
       expect(dims.width,JSON.stringify(dims)).toBeLessThanOrEqual(dims.viewport+1);
       await expect(page.locator("#topup-toggle")).toBeAttached();
-      if(width===390)await page.screenshot({path:"test-results/atlas-workspace-mobile.png",fullPage:true});
+      if(width===390){
+        const order=await page.evaluate(()=>({
+          map:document.querySelector(".map-workspace").getBoundingClientRect().top,
+          scenario:document.querySelector(".workspace-sidebar").getBoundingClientRect().top
+        }));
+        expect(order.map).toBeLessThan(order.scenario);
+        await page.screenshot({path:"test-results/atlas-workspace-mobile.png",fullPage:true});
+      }
     });
   }
 
