@@ -116,7 +116,9 @@ body {
   flex: 1;
   padding: clamp(36px,7.2vw,106px) 0 45px;
   width: min(100%,1040px);
+  pointer-events: none; /* Transparent hero overlay must not block clickable map nodes. */
 }
+.hero-copy a, .hero-copy button { pointer-events: auto; }
 .eyebrow {
   color: var(--editorial-signal);
   font-family: var(--mono);
