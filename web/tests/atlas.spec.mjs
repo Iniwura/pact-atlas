@@ -123,7 +123,7 @@ test.describe("Coalition Atlas product", () => {
   });
 
   test("meets the local preview performance budget", async ({ page }) => {
-    await page.goto("/", { waitUntil: "load" });
+    await page.goto("/console", { waitUntil: "load" });
     const navigation = await page.evaluate(() => performance.getEntriesByType("navigation")[0].toJSON());
     expect(navigation.domContentLoadedEventEnd - navigation.startTime).toBeLessThan(1500);
     expect(navigation.loadEventEnd - navigation.startTime).toBeLessThan(2500);
