@@ -22,7 +22,7 @@
     </div>
     <section class="workspace" aria-label="Coalition workspace">
       <div class="workspace-sidebar" id="counterfactual">
-        <div class="panel-heading"><span>01</span><h2 id="counterfactual-title">Build a coalition</h2></div>
+        <div class="panel-heading"><h2 id="counterfactual-title">Scenario</h2></div>
         <div class="engine-controls" aria-label="Counterfactual controls">
             <div class="control-block">
               <label for="coalition-select">Coalition lens</label>
@@ -44,12 +44,12 @@
                 <option value="donor5">Donor 05 increases D commitment to 3N</option>
               </select>
             </div>
-            <div class="control-warning"><span>⌁</span> Suggestions are model-only. PACT never changes a DAO-approved condition automatically.</div>
+            <div class="control-warning"><span>◎</span> Simulation only. Approved conditions remain unchanged.</div>
           </div>
-        <div class="safe-note"><span aria-hidden="true">◎</span><span>All changes stay in the model until a wallet explicitly approves a transaction.</span></div>
+        
       </div>
       <div class="map-workspace" aria-label="Interactive funding network">
-        <div class="panel-heading"><span>02</span><h2>Funding map</h2><span class="map-helper">Select a project</span></div>
+        <div class="panel-heading"><h2>Funding map</h2><span class="map-helper">Select a project</span></div>
         <div class="map-canvas"><svg id="network-map" viewBox="0 0 640 470" role="group" aria-labelledby="map-title map-desc">
             <title id="map-title">PACT Atlas funding network</title>
             <desc id="map-desc">Four projects connected by dependency lines and five contributor commitments.</desc>
@@ -111,7 +111,7 @@
         </div>
       </div>
       <aside class="workspace-result" aria-labelledby="outcome-title">
-        <div class="panel-heading"><span>03</span><h2 id="outcome-title">Outcome</h2></div>
+        <div class="panel-heading"><h2 id="outcome-title">Outcome</h2></div>
         <div id="engine-result" class="engine-result" aria-live="polite"></div>
         <div class="inspector-divider"><span>INSPECT SELECTION</span></div>
         <div class="project-inspector" id="project-inspector" aria-live="polite">
