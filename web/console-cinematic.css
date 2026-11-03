@@ -358,3 +358,8 @@ body.console-cinematic {
 @media(prefers-reduced-motion:reduce){
  .console-cinematic *, .console-cinematic *::before, .console-cinematic *::after {animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+/* Color contrast on parchment sections: never inherit the dark-panel white. */
+.console-cinematic .insight-section .toggle-label,
+.console-cinematic .insight-section .toggle-label > span:last-child {color:#272820}
+.console-cinematic .evidence-section .eyebrow {color:#903b1b}
