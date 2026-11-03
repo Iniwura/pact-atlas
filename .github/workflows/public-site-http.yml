@@ -1,0 +1,38 @@
+name: Public production site HTTP verification
+on:
+  push:
+    branches: [ops/public-site-http-verification]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public-http:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify public homepage, console, stylesheet, script and sandbox evidence
+        shell: bash
+        env:
+          BASE_URL: https://pact-atlas.vercel.app
+        run: |
+          set -euo pipefail
+          for path in / /console /studio.css /studio.js /data/evidence.json; do
+            ok=0
+            for attempt in 1 2 3 4 5 6; do
+              code="$(curl --location --silent --show-error --max-time 20 --output /tmp/pact-response --write-out '%{http_code}' "$BASE_URL$path")" || code="000"
+              echo "$path: HTTP $code (attempt $attempt)"
+              if [ "$code" = "200" ]; then ok=1; break; fi
+              sleep 5
+            done
+            [ "$ok" -eq 1 ] || { echo "ERROR: $path does not return HTTP 200"; exit 1; }
+            case "$path" in
+              /) grep -q 'FUND THE' /tmp/pact-response && grep -q 'IMPOSSIBLE' /tmp/pact-response || { echo "Approved cinematic homepage missing"; exit 1; } ;;
+              /console) grep -q 'network-map' /tmp/pact-response || { echo "Protocol console missing"; exit 1; } ;;
+              /studio.css) grep -q 'hero-art' /tmp/pact-response || { echo "Hero CSS missing"; exit 1; } ;;
+              /studio.js) grep -q 'benchmark' /tmp/pact-response || { echo "Interactive app JS missing"; exit 1; } ;;
+              /data/evidence.json) grep -q 'PACT-LOCAL-SANDBOX-EVIDENCE' /tmp/pact-response || { echo "Sandbox evidence missing"; exit 1; } ;;
+            esac
+          done
+          echo "PUBLIC PRODUCTION ROUTES VERIFIED"
