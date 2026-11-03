@@ -27,7 +27,17 @@ test.describe("Lurais-inspired editorial integration", () => {
     await page.goto("/");
     await expect(page.getByRole("heading", { name: /Fund the impossible/i })).toBeVisible();
     await expect(page.locator("#counterfactual")).toBeAttached();
-    const layout = await page.evaluate(() => ({ viewport: innerWidth, scroll: document.documentElement.scrollWidth }));
+    const layout = await page.evaluate(() => ({
+      viewport: innerWidth, scroll: document.documentElement.scrollWidth,
+      over: [...document.querySelectorAll("body *")].map(el => {
+        const r = el.getBoundingClientRect();
+        return { tag: el.tagName, cls: (el.getAttribute("class") || "").slice(0, 90), id: el.id,
+          right: Math.round(r.right), left: Math.round(r.left), width: Math.round(r.width),
+          text: el.textContent?.trim().slice(0, 40) };
+      }).filter(x => x.right > innerWidth + 2 && x.width > 0 && !x.cls.includes("hero-map-panel"))
+        .sort((a,b) => b.right - a.right).slice(0, 25),
+    }));
+    console.log("PACT NARROW LAYOUT:", JSON.stringify(layout));
     expect(layout.scroll, JSON.stringify(layout)).toBeLessThanOrEqual(layout.viewport + 1);
     await page.getByRole("link", { name: /Explore the Atlas/i }).click();
     await expect(page.locator("#coalition-select")).toBeVisible();
