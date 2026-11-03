@@ -18,7 +18,7 @@ jobs:
           BASE_URL: https://pact-atlas.vercel.app
         run: |
           set -euo pipefail
-          for path in / /console /studio.css /studio.js /data/evidence.json; do
+          for path in / /console /console-cinematic.css /studio.css /studio.js /data/evidence.json; do
             ok=0
             for attempt in 1 2 3 4 5 6; do
               code="$(curl --location --silent --show-error --max-time 20 --output /tmp/pact-response --write-out '%{http_code}' "$BASE_URL$path")" || code="000"
@@ -29,7 +29,8 @@ jobs:
             [ "$ok" -eq 1 ] || { echo "ERROR: $path does not return HTTP 200"; exit 1; }
             case "$path" in
               /) grep -q 'FUND THE' /tmp/pact-response && grep -q 'IMPOSSIBLE' /tmp/pact-response || { echo "Approved cinematic homepage missing"; exit 1; } ;;
-              /console) grep -q 'network-map' /tmp/pact-response || { echo "Protocol console missing"; exit 1; } ;;
+              /console) grep -q 'network-map' /tmp/pact-response && grep -q 'console-cinematic.css' /tmp/pact-response && grep -q 'Explore the' /tmp/pact-response && grep -q 'brand-icon' /tmp/pact-response || { echo "Approved cinematic protocol console missing"; exit 1; } ;;
+              /console-cinematic.css) grep -q 'PACT Atlas / Cinematic Console Alignment' /tmp/pact-response && grep -q '#f56d39' /tmp/pact-response || { echo "Cinematic CSS missing"; exit 1; } ;;
               /studio.css) grep -q 'hero-art' /tmp/pact-response || { echo "Hero CSS missing"; exit 1; } ;;
               /studio.js) grep -q 'benchmark' /tmp/pact-response || { echo "Interactive app JS missing"; exit 1; } ;;
               /data/evidence.json) grep -q 'PACT-LOCAL-SANDBOX-EVIDENCE' /tmp/pact-response || { echo "Sandbox evidence missing"; exit 1; } ;;
