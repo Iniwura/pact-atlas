@@ -155,6 +155,18 @@ test.describe("Coalition Atlas product", () => {
     await page.screenshot({ path: path.join(outputs, "pact-atlas-mobile-preview.png"), fullPage: true });
   });
 
+  test("mobile project D remains unobscured by the graph counters", async ({ page }) => {
+    await page.setViewportSize({width:390,height:844});
+    await page.goto("/console");
+    const rect=await page.evaluate(()=>({
+      project:document.querySelector(".map-node-d").getBoundingClientRect().toJSON(),
+      counters:document.querySelector(".map-panel-data").getBoundingClientRect().toJSON()
+    }));
+    expect(rect.project.bottom).toBeLessThan(rect.counters.top);
+    await page.locator(".map-node-d").click();
+    await expect(page.locator("#project-inspector")).toContainText("Events");
+  });
+
   test("meets the local preview performance budget", async ({ page }) => {
     await page.goto("/console", { waitUntil: "load" });
     const navigation = await page.evaluate(() => performance.getEntriesByType("navigation")[0].toJSON());
