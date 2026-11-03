@@ -300,3 +300,9 @@
 @media(prefers-reduced-motion:reduce){
  .protocol-workspace *,.protocol-workspace *::before,.protocol-workspace *::after {animation:none!important;scroll-behavior:auto!important;transition-duration:.01ms!important;}
 }
+
+/* The light simulation sheet must use dark toggle text. */
+.protocol-workspace .insight-section .toggle-label,
+.protocol-workspace .insight-section .toggle-label > span:last-child {
+  color:#1b211b;
+}
