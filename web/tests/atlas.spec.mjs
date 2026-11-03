@@ -13,10 +13,43 @@ test.describe("Coalition Atlas product", () => {
   test("explains the verified coalition within the first viewport", async ({ page }) => {
     await page.goto("/console");
     await expect(page).toHaveTitle(/PACT Atlas/);
-    await expect(page.getByRole("heading", { name: /The impossible is often just unconnected/ })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Explore the Atlas/i })).toBeVisible();
     await expect(page.getByText("12N", { exact: true })).toBeVisible();
     await expect(page.getByText("Sandbox evidence", { exact: true })).toBeVisible();
     await page.screenshot({ path: path.join(outputs, "pact-atlas-desktop-preview.png"), fullPage: true });
+  });
+
+  test("shares the exact approved cinematic palette and typography without changing model behavior",async({page})=>{
+    await page.goto("/console");
+    await expect(page.getByRole("heading",{name:/Explore the Atlas/i})).toBeVisible();
+    await expect(page.locator(".brand-icon b")).toHaveCount(3);
+    await expect(page.locator(".wordmark")).toHaveAttribute("href","/");
+    await expect(page.locator("body")).toHaveClass(/console-cinematic/);
+    const styles=await page.evaluate(()=>{
+      const hero=document.querySelector("#hero-title");
+      const stage=document.querySelector(".insight-section");
+      const graph=document.querySelector(".map-node-a .node-core");
+      const css=v=>getComputedStyle(v);
+      return {headlineFont:css(hero).fontFamily,headlineWeight:css(hero).fontWeight,
+        accent:css(document.querySelector("#hero-title span")).color,
+        modelPanel:css(stage).backgroundColor,
+        graphStroke:css(graph).stroke,
+        background:css(document.body).backgroundColor}
+    });
+    expect(styles.headlineFont).not.toMatch(/Georgia|Times New Roman/);
+    expect(Number(styles.headlineWeight)).toBeGreaterThanOrEqual(800);
+    expect(styles.accent).toBe("rgb(245, 109, 57)");
+    expect(styles.modelPanel).toBe("rgb(242, 240, 235)");
+    expect(styles.graphStroke).toBe("rgb(244, 160, 108)");
+    expect(styles.background).toBe("rgb(8, 9, 9)");
+  });
+
+  test("opens the real raw evidence from the console",async({page})=>{
+    await page.goto("/console#evidence");
+    const a=page.getByRole("link",{name:/Open raw evidence JSON/i});
+    await expect(a).toHaveAttribute("href","./data/evidence.json");
+    const r=await page.request.get("/data/evidence.json");
+    expect(r.ok()).toBe(true);
   });
 
   test("runs the counterfactual flow without fabricating a transaction", async ({ page }) => {
@@ -64,7 +97,7 @@ test.describe("Coalition Atlas product", () => {
   });
 
   test("serves the direct preview routes used by a hosted deployment", async ({ request }) => {
-    for (const route of ["/console", "/studio.css", "/studio.js", "/styles.css", "/app.js", "/engine.mjs", "/near-workflow.mjs", "/near-adapter.mjs", "/data/evidence.json", "/HACKATHON.md"]) {
+    for (const route of ["/console", "/console-cinematic.css", "/studio.css", "/studio.js", "/styles.css", "/app.js", "/engine.mjs", "/near-workflow.mjs", "/near-adapter.mjs", "/data/evidence.json", "/HACKATHON.md"]) {
       const response = await request.get(route);
       expect(response.ok(), `${route} should return a successful response`).toBeTruthy();
     }
@@ -117,7 +150,7 @@ test.describe("Coalition Atlas product", () => {
   test("renders a narrow mobile layout without horizontal overflow", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/console");
-    await expect(page.getByRole("heading", { name: /The impossible is often just unconnected/ })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Explore the Atlas/i })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBeTruthy();
     await page.screenshot({ path: path.join(outputs, "pact-atlas-mobile-preview.png"), fullPage: true });
   });
