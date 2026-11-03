@@ -12,9 +12,6 @@ function renderEngine() {
   const result = evaluate(targetKey, topUp, condition);
   const feasible = result.plans.length > 0;
   document.body.dataset.coalitionState = feasible ? "viable" : "blocked";
-  const scenarioLabel = document.getElementById("map-scenario");
-  if (scenarioLabel) scenarioLabel.textContent = topUp ? "SIMULATED / +1N" : "BASELINE / MODEL";
-  document.body.dataset.simulatedD = targetKey === "abcd" && feasible && topUp ? "fundable" : "baseline";
   const plan = result.plans[0];
   const allocationText = plan ? plan.allocations.filter(Boolean).map((item) => `${item.pledge}→${item.project.toUpperCase()}`).join(" · ") : "No exact certificate";
   const headline = feasible ? `${result.targetLabel} becomes <em>viable.</em>` : `${result.targetLabel} is still <em>blocked.</em>`;
@@ -51,11 +48,7 @@ function renderPledgeInspector(pledgeId) {
 function renderProjectInspector(projectId) {
   const project = MODEL.projects[projectId];
   if (!project) return;
-  $("#project-inspector").innerHTML = `<p class="inspector-kicker">Project node / ${project.short}</p><div class="inspector-symbol">${project.short}</div><h3>${project.label}</h3><p>${project.copy}</p><div class="inspector-stat"><span>Required</span><strong>${near(project.required)}</strong></div><div class="inspector-stat"><span>Dependencies</span><strong>${project.dependencies.length ? project.dependencies.map((id) => id.toUpperCase()).join(" + ") : "None"}</strong></div><div class="inspector-stat"><span>Eligible pledge capacity</span><strong>${near(MODEL.pledges.filter((pledge) => pledge.allowed.includes(projectId)).reduce((sum, pledge) => sum + pledge.amount, 0n))}</strong></div>`;
-  const name = document.getElementById("map-selection-name");
-  const detail = document.getElementById("map-selection-detail");
-  if (name) name.textContent = `${project.short} / ${project.label}`;
-  if (detail) detail.textContent = `${near(project.required)} required. ${project.dependencies.length ? `Depends on ${project.dependencies.map((id) => id.toUpperCase()).join(" + ")}.` : "No project dependencies."} Model-only evidence.`;
+  $("#project-inspector").innerHTML = `<p class="inspector-kicker">Project node / ${project.short}</p><div class="inspector-symbol">${project.short}</div><h3>${project.label}</h3><p>${project.copy}</p><div class="inspector-stat"><span>Required</span><strong>${near(project.required)}</strong></div><div class="inspector-stat"><span>Dependencies</span><strong>${project.dependencies.length ? project.dependencies.map((id) => id.toUpperCase()).join(" + ") : "None"}</strong></div><div class="inspector-stat"><span>Current coverage</span><strong>${near(MODEL.pledges.filter((pledge) => pledge.allowed.includes(projectId)).reduce((sum, pledge) => sum + pledge.amount, 0n))}</strong></div>`;
   $$(".map-node").forEach((node) => {
     const selected = node.dataset.project === projectId;
     node.classList.toggle("selected", selected);
