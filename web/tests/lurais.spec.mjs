@@ -27,17 +27,8 @@ test.describe("Lurais-inspired editorial integration", () => {
     await page.goto("/");
     await expect(page.getByRole("heading", { name: /Fund the impossible/i })).toBeVisible();
     await expect(page.locator("#counterfactual")).toBeAttached();
-    const layout = await page.evaluate(() => ({
-      viewport: innerWidth,
-      htmlScroll: document.documentElement.scrollWidth,
-      bodyScroll: document.body.scrollWidth,
-      overflow: [...document.querySelectorAll("body *")].map((el) => {
-        const r = el.getBoundingClientRect();
-        return { tag: el.tagName, id: el.id, className: typeof el.className === "object" ? el.className.baseVal : el.className, right: Math.round(r.right), left: Math.round(r.left), width: Math.round(r.width), scrollWidth: el.scrollWidth, clientWidth: el.clientWidth };
-      }).filter((x) => x.right > innerWidth + 2 && x.width > 0).sort((a, b) => b.right - a.right).slice(0, 15),
-    }));
-    console.log("PACT 320px layout diagnostic:", JSON.stringify(layout));
-    expect(layout.htmlScroll, JSON.stringify(layout)).toBeLessThanOrEqual(layout.viewport + 1);
+    const layout = await page.evaluate(() => ({ viewport: innerWidth, scroll: document.documentElement.scrollWidth }));
+    expect(layout.scroll, JSON.stringify(layout)).toBeLessThanOrEqual(layout.viewport + 1);
     await page.getByRole("link", { name: /Explore the Atlas/i }).click();
     await expect(page.locator("#coalition-select")).toBeVisible();
     await page.screenshot({ path: "test-results/lurais-editorial-mobile.png", fullPage: true });
