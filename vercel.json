@@ -10,10 +10,6 @@
       "destination": "/web/console.html"
     },
     {
-      "source": "/console-studio.css",
-      "destination": "/web/console-studio.css"
-    },
-    {
       "source": "/studio.css",
       "destination": "/web/studio.css"
     },
