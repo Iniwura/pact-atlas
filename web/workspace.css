@@ -223,6 +223,14 @@ button:disabled{cursor:not-allowed;opacity:.5}
   .workflow-step:nth-child(3){border-right:0}
 }
 @media(max-width:760px){
+  /* Visual first: map before simulator controls on narrow screens. */
+  .map-workspace{order:0}
+  .workspace-sidebar{order:1}
+  .workspace-result{order:2}
+  .map-canvas{min-height:360px}
+  .map-workspace #network-map{width:107%;max-width:none}
+  .map-node .node-halo{r:37px}
+
   .product-header{height:65px;padding:0 17px}
   .network-status{display:none}
   .product-main,.product-footer{width:calc(100% - 28px)}
@@ -282,3 +290,5 @@ button:disabled{cursor:not-allowed;opacity:.5}
   html{scroll-behavior:auto}
   .toast,.map-node *,.toggle-track,.toggle-track i{transition:none!important;animation:none!important}
 }
+
+@media(max-width:470px){ .map-canvas{min-height:285px} }
