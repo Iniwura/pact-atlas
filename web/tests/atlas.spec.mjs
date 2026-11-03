@@ -13,8 +13,8 @@ test.describe("Coalition Atlas product", () => {
   test("explains the verified coalition within the first viewport", async ({ page }) => {
     await page.goto("/console");
     await expect(page).toHaveTitle(/PACT Atlas/);
-    await expect(page.getByRole("heading", { name: /The impossible is often just unconnected/ })).toBeVisible();
-    await expect(page.getByText("12N", { exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /^Atlas\.$/ })).toBeVisible();
+    await expect(page.locator(".map-stats")).toBeVisible();
     await expect(page.getByText("Sandbox evidence", { exact: true })).toBeVisible();
     await page.screenshot({ path: path.join(outputs, "pact-atlas-desktop-preview.png"), fullPage: true });
   });
@@ -64,7 +64,7 @@ test.describe("Coalition Atlas product", () => {
   });
 
   test("serves the direct preview routes used by a hosted deployment", async ({ request }) => {
-    for (const route of ["/console", "/studio.css", "/studio.js", "/styles.css", "/app.js", "/engine.mjs", "/near-workflow.mjs", "/near-adapter.mjs", "/data/evidence.json", "/HACKATHON.md"]) {
+    for (const route of ["/console", "/workspace.css", "/studio.css", "/studio.js", "/styles.css", "/app.js", "/engine.mjs", "/near-workflow.mjs", "/near-adapter.mjs", "/data/evidence.json", "/HACKATHON.md"]) {
       const response = await request.get(route);
       expect(response.ok(), `${route} should return a successful response`).toBeTruthy();
     }
@@ -117,7 +117,7 @@ test.describe("Coalition Atlas product", () => {
   test("renders a narrow mobile layout without horizontal overflow", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/console");
-    await expect(page.getByRole("heading", { name: /The impossible is often just unconnected/ })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /^Atlas\.$/ })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBeTruthy();
     await page.screenshot({ path: path.join(outputs, "pact-atlas-mobile-preview.png"), fullPage: true });
   });
