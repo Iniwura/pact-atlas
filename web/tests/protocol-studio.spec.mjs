@@ -18,11 +18,15 @@ test.describe("Protocol Studio design integration",()=>{
     await page.goto("/console");
     await page.locator(".map-node[data-project='d']").click();
     await expect(page.locator("#project-inspector")).toContainText("Events");
+    await expect(page.locator("#map-selection-name")).toContainText("D / Events");
+    await expect(page.locator("#map-selection-detail")).toContainText("3N required");
     await page.selectOption("#coalition-select","abcd");
     await expect(page.locator("#engine-result")).toContainText("blocked");
     await page.check("#topup-toggle");
     await expect(page.locator("#engine-result")).toContainText("viable");
     await expect(page.locator("#engine-result")).toContainText("exact result");
+    await expect(page.locator("#map-scenario")).toContainText("+1N");
+    await expect(page.locator("body")).toHaveAttribute("data-simulated-d","fundable");
     await page.selectOption("#condition-select","donor5");
     await expect(page.locator("#engine-result")).toContainText("model-only change");
     await page.click("[data-action='activate']");
