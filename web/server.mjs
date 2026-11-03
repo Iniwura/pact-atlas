@@ -13,6 +13,7 @@ const types = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=
 function safePath(urlPath) {
   const decoded = decodeURIComponent((urlPath || "/").split("?")[0]);
   const relative = decoded === "/" ? "index.html" : decoded.replace(/^\/+/, "");
+  if (relative === "console") return path.join(root, "console.html");
   if (relative === "HACKATHON.md") return path.join(checkpointRoot, relative);
   if (relative.startsWith("outputs/")) {
     const candidate = path.resolve(outputsRoot, relative.slice("outputs/".length));

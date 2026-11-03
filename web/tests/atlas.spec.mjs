@@ -11,7 +11,7 @@ test.describe("Coalition Atlas product", () => {
   test.beforeAll(async () => { await mkdir(outputs, { recursive: true }); });
 
   test("explains the verified coalition within the first viewport", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/console");
     await expect(page).toHaveTitle(/PACT Atlas/);
     await expect(page.getByRole("heading", { name: /The impossible is often just unconnected/ })).toBeVisible();
     await expect(page.getByText("12N", { exact: true })).toBeVisible();
@@ -20,7 +20,7 @@ test.describe("Coalition Atlas product", () => {
   });
 
   test("runs the counterfactual flow without fabricating a transaction", async ({ page }) => {
-    await page.goto("/#counterfactual");
+    await page.goto("/console#counterfactual");
     await page.selectOption("#coalition-select", "abcd");
     await expect(page.locator("#engine-result")).toContainText("blocked");
     await expect(page.locator("#engine-result")).toContainText("1N");
@@ -34,7 +34,7 @@ test.describe("Coalition Atlas product", () => {
   });
 
   test("moves from a graph selection to an inspectable project proof", async ({ page }) => {
-    await page.goto("/#atlas");
+    await page.goto("/console#atlas");
     await page.click("[data-project='d']");
     await expect(page.locator("#project-inspector")).toContainText("Events");
     await expect(page.locator("#project-inspector")).toContainText("3N");
@@ -45,7 +45,7 @@ test.describe("Coalition Atlas product", () => {
   });
 
   test("keeps the evidence ledger grounded when switching scenarios", async ({ page }) => {
-    await page.goto("/#evidence");
+    await page.goto("/console#evidence");
     await page.selectOption("#evidence-select", "4");
     await expect(page.locator("#receipt-title")).toContainText("Sputnik");
     await expect(page.locator("#receipt-list")).toContainText("PACT funded");
@@ -53,7 +53,7 @@ test.describe("Coalition Atlas product", () => {
   });
 
   test("loads genuine evidence receipts and separates wallet state", async ({ page }) => {
-    await page.goto("/#evidence");
+    await page.goto("/console#evidence");
     await expect(page.locator("#scenario-count")).toHaveText("5");
     await expect(page.locator("#sandbox-version")).toHaveText("2.13.4");
     await expect(page.locator("#receipt-list")).toContainText("PACT address");
@@ -64,7 +64,7 @@ test.describe("Coalition Atlas product", () => {
   });
 
   test("serves the direct preview routes used by a hosted deployment", async ({ request }) => {
-    for (const route of ["/styles.css", "/app.js", "/engine.mjs", "/near-workflow.mjs", "/near-adapter.mjs", "/data/evidence.json", "/HACKATHON.md"]) {
+    for (const route of ["/console", "/studio.css", "/studio.js", "/styles.css", "/app.js", "/engine.mjs", "/near-workflow.mjs", "/near-adapter.mjs", "/data/evidence.json", "/HACKATHON.md"]) {
       const response = await request.get(route);
       expect(response.ok(), `${route} should return a successful response`).toBeTruthy();
     }
@@ -78,7 +78,7 @@ test.describe("Coalition Atlas product", () => {
       };
       window.PACT_NEAR_CONFIG = { network: "testnet", contractId: "pact-demo.testnet", daoId: "dao-demo.testnet" };
     });
-    await page.goto("/");
+    await page.goto("/console");
     await page.click("#connect-wallet");
     await expect(page.locator("#connect-wallet")).toContainText("coalit");
     await expect(page.locator("#wallet-status")).toContainText("Wallet connected");
@@ -91,7 +91,7 @@ test.describe("Coalition Atlas product", () => {
   });
 
   test("has no serious automated accessibility violations", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/console");
     const results = await new AxeBuilder({ page }).analyze();
     expect(results.violations.filter((violation) => ["critical", "serious"].includes(violation.impact))).toEqual([]);
   });
@@ -100,7 +100,7 @@ test.describe("Coalition Atlas product", () => {
     const errors = [];
     page.on("console", (message) => { if (message.type() === "error") errors.push(`console: ${message.text()}`); });
     page.on("pageerror", (error) => errors.push(`page: ${error.message}`));
-    await page.goto("/");
+    await page.goto("/console");
     await expect(page.locator("#scenario-count")).toHaveText("5");
     expect(errors).toEqual([]);
   });
@@ -109,21 +109,21 @@ test.describe("Coalition Atlas product", () => {
     const response = await request.get("/data/evidence.json");
     expect(response.ok()).toBeTruthy();
     const evidence = await response.json();
-    await page.goto("/");
+    await page.goto("/console");
     await expect(page.locator("#scenario-count")).toHaveText(String(evidence.scenarios.length));
     expect(evidence.scenarios.every((scenario) => scenario.finalStatus?.liabilities === "0" || (scenario.finalStatuses?.funded?.liabilities === "0" && scenario.finalStatuses?.refund?.liabilities === "0"))).toBeTruthy();
   });
 
   test("renders a narrow mobile layout without horizontal overflow", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/");
+    await page.goto("/console");
     await expect(page.getByRole("heading", { name: /The impossible is often just unconnected/ })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBeTruthy();
     await page.screenshot({ path: path.join(outputs, "pact-atlas-mobile-preview.png"), fullPage: true });
   });
 
   test("meets the local preview performance budget", async ({ page }) => {
-    await page.goto("/", { waitUntil: "load" });
+    await page.goto("/console", { waitUntil: "load" });
     const navigation = await page.evaluate(() => performance.getEntriesByType("navigation")[0].toJSON());
     expect(navigation.domContentLoadedEventEnd - navigation.startTime).toBeLessThan(1500);
     expect(navigation.loadEventEnd - navigation.startTime).toBeLessThan(2500);
