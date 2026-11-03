@@ -380,3 +380,9 @@ body .button:focus-visible, body a:focus-visible, body button:focus-visible, bod
   .receipt-item { grid-template-columns: 86px minmax(0, 1fr); }
   .receipt-title { overflow-wrap: anywhere; }
 }
+
+/* Avoid oversized unbroken section headlines forcing 320px layout wider. */
+@media (max-width: 420px) {
+  .split-intro, .split-intro > div { min-width: 0; }
+  .section-intro h2 { font-size: clamp(41px, 12vw, 50px); }
+}
