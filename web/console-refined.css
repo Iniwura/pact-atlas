@@ -306,3 +306,7 @@
 .protocol-workspace .insight-section .toggle-label > span:last-child {
   color:#1b211b;
 }
+
+/* Remove old ghosted workflow lettering from the quieter product layout. */
+.protocol-workspace .workflow-backdrop { display:none; }
+.protocol-workspace .footer-brand .workspace-brand-symbol { transform:scale(.75); transform-origin:left center; margin-right:-5px; }
