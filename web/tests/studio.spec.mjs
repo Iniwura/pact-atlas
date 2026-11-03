@@ -15,6 +15,48 @@ test.describe("Art-directed Atlas homepage", () => {
     await page.screenshot({path:"test-results/pact-studio-desktop.png",fullPage:true});
   });
 
+  test("keeps the approved cinematic hero unchanged", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("#hero-title")).toContainText("FUND THE");
+    await expect(page.locator("#hero-title")).toContainText("IMPOSSIBLE");
+    await expect(page.locator(".hero-art img")).toHaveAttribute("width", "1600");
+    await expect(page.locator(".hero-art img")).toHaveAttribute("height", "1040");
+    await expect(page.locator(".hero-art img")).toHaveAttribute("fetchpriority", "high");
+    await expect(page.getByRole("heading", { name: /MONEY.*EXISTS/i })).toBeAttached();
+  });
+
+  test("mobile navigation closes with Escape, outside click, and returns focus", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    const toggle=page.locator("#menu-toggle");
+    const nav=page.locator("#mobile-menu");
+    await expect(nav).toBeHidden();
+    await toggle.click();
+    await expect(nav).toBeVisible();
+    await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    await expect(toggle).toHaveAttribute("aria-label", "Close menu");
+    await page.keyboard.press("Escape");
+    await expect(nav).toBeHidden();
+    await expect(toggle).toBeFocused();
+    await toggle.click();
+    await page.locator("#hero-title").click({ position: { x: 10, y: 10 }, force: true });
+    await expect(nav).toBeHidden();
+    await toggle.click();
+    await page.getByRole("link", {name:"The Atlas"}).last().click();
+    await expect(nav).toBeHidden();
+    await expect(page).toHaveURL(/#atlas$/);
+  });
+
+  test("mobile menu closes when viewport switches to desktop", async ({ page }) => {
+    await page.setViewportSize({width:390,height:820});
+    await page.goto("/");
+    await page.locator("#menu-toggle").click();
+    await expect(page.locator("#mobile-menu")).toBeVisible();
+    await page.setViewportSize({width:1024,height:768});
+    await expect(page.locator("#mobile-menu")).toBeHidden();
+    await expect(page.locator("#menu-toggle")).toHaveAttribute("aria-expanded","false");
+  });
+
   test("demonstrates a model-only one NEAR top-up with an inspectable certificate", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator("#funded-count")).toContainText("3");
