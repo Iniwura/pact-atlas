@@ -2,56 +2,11 @@
   "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/",
-      "destination": "/web/index.html"
-    },
-    {
       "source": "/console",
-      "destination": "/web/console.html"
-    },
-    {
-      "source": "/studio.css",
-      "destination": "/web/studio.css"
-    },
-    {
-      "source": "/studio.js",
-      "destination": "/web/studio.js"
-    },
-    {
-      "source": "/styles.css",
-      "destination": "/web/styles.css"
-    },
-    {
-      "source": "/app.js",
-      "destination": "/web/app.js"
-    },
-    {
-      "source": "/engine.mjs",
-      "destination": "/web/engine.mjs"
-    },
-    {
-      "source": "/near-workflow.mjs",
-      "destination": "/web/near-workflow.mjs"
-    },
-    {
-      "source": "/near-adapter.mjs",
-      "destination": "/web/near-adapter.mjs"
-    },
-    {
-      "source": "/data/evidence.json",
-      "destination": "/web/data/evidence.json"
+      "destination": "/console.html"
     }
   ],
   "headers": [
-    {
-      "source": "/outputs/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    },
     {
       "source": "/data/(.*)",
       "headers": [
