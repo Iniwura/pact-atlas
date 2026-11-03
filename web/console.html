@@ -1,58 +1,47 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b0d0c">
-  <meta name="description" content="PACT Atlas Protocol Studio. Inspect conditional funding, test counterfactual coalitions and explore verified local NEAR sandbox evidence.">
-  <title>Protocol Studio — PACT Atlas</title>
-  <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="./console-studio.css">
-</head>
-<body class="protocol-studio">
-  <a class="console-skip" href="#counterfactual">Skip to coalition controls</a>
-  <div class="grain" aria-hidden="true"></div>
-  <div class="protocol-shell" id="top">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a1016" />
+    <meta name="description" content="PACT Atlas maps the hidden cooperations that make impossible funding arrangements viable." />
+    <title>PACT Atlas — Coalition intelligence for social money</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
     <header class="site-header">
-      <a href="/" class="console-brand" aria-label="PACT Atlas, return to story">
-        <span class="console-brand-symbol" aria-hidden="true"><b></b><b></b><b></b></span>
-        <span>PACT<span class="brand-slash">/ATLAS</span></span>
+      <a class="wordmark" href="#atlas" aria-label="PACT Atlas home">
+        <span class="wordmark-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>PACT <em>Atlas</em></span>
       </a>
-      <span class="console-header-center">PROTOCOL <span aria-hidden="true">✳</span> STUDIO / 01</span>
-      <nav class="main-nav" aria-label="Protocol navigation">
-        <a href="#atlas">The map</a>
-        <a href="#counterfactual">Simulator</a>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a href="#atlas">Atlas</a>
+        <a href="#counterfactual">Counterfactuals</a>
         <a href="#commitments">Commitments</a>
         <a href="#evidence">Evidence</a>
       </nav>
       <div class="header-actions">
         <span class="network-chip"><span class="status-dot"></span><span id="network-label">Sandbox evidence</span></span>
-        <button id="connect-wallet" type="button" class="button button-small button-quiet">Connect wallet <span aria-hidden="true">↗</span></button>
+        <button class="button button-small button-quiet" id="connect-wallet" type="button">Connect wallet</button>
       </div>
     </header>
-    <main id="main">
-      <section class="console-hero" id="atlas" aria-labelledby="hero-title">
-        <div class="console-topline"><span>01 / THE CAPITAL MAP</span><span class="console-topline-right">FIVE COMMITMENTS &nbsp; / &nbsp; FOUR PROJECTS</span></div>
-        <div class="console-hero-stage">
-          <div class="console-hero-copy">
-            <p class="console-overline"><span class="console-cross" aria-hidden="true">✳</span> OPEN PROTOCOL / REFERENCE MODEL</p>
-            <h1 id="hero-title">MAKE THE<br><span>CONNECTION.</span></h1>
-            <p class="console-lede">Capital is available. The arrangement is not. Explore the commitments, trace the dependencies, and find out what makes a coalition possible.</p>
-            <div class="console-hero-action">
-              <a href="#counterfactual" class="console-primary-action">TEST AN ARRANGEMENT <span aria-hidden="true">↗</span></a>
-              <a href="/" class="console-secondary-action">BACK TO THE STORY ↖</a>
-            </div>
-            <div class="console-trustline"><span class="console-live-dot"></span><span>READ-ONLY MODEL &nbsp;·&nbsp; NO LIVE NETWORK TRANSACTIONS</span></div>
+
+    <main>
+      <section class="hero section-wrap" id="atlas" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span> PACT / SOCIAL MONEY / 001</p>
+          <h1 id="hero-title">The impossible is often just <span>unconnected.</span></h1>
+          <p class="hero-lede">Coalition Atlas makes hidden cooperation legible: follow the commitments, find the missing link, and see exactly what would make a dependency-aware coalition fundable.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#counterfactual">Explore the coalition <span aria-hidden="true">↘</span></a>
+            <a class="text-link" href="#evidence">Open the proof <span aria-hidden="true">↗</span></a>
           </div>
-          <div class="console-map-stage" aria-label="Interactive funding dependency network">
-            <div class="console-map-top"><span>DEPENDENCY GRAPH / 001</span><span><i class="console-small-dot"></i> TOUCH A NODE</span></div>
-            <div class="console-map-art" aria-hidden="true">
-              <div class="console-map-halo"></div>
-              <div class="console-map-ring console-map-ring-a"></div>
-              <div class="console-map-ring console-map-ring-b"></div>
-              <div class="console-map-ring console-map-ring-c"></div>
-            </div>
-            <svg id="network-map" viewBox="0 0 640 470" role="group" aria-labelledby="map-title map-desc">
+          <div class="hero-note"><span class="note-symbol">◎</span><span>Read-only product preview · every chain claim below maps to the verified local sandbox evidence.</span></div>
+        </div>
+        <div class="hero-map-panel" aria-label="Interactive coalition network">
+          <div class="map-label map-label-top"><span>live model / constraint graph</span><strong>01 / 04</strong></div>
+          <svg id="network-map" viewBox="0 0 640 470" role="group" aria-labelledby="map-title map-desc">
             <title id="map-title">PACT Atlas funding network</title>
             <desc id="map-desc">Four projects connected by dependency lines and five contributor commitments.</desc>
             <defs>
@@ -105,37 +94,34 @@
             <g class="donor-pip donor-left" aria-hidden="true"><circle cx="97" cy="319" r="10" /><text x="97" y="323" text-anchor="middle">01</text></g>
             <g class="donor-pip donor-right" aria-hidden="true"><circle cx="543" cy="319" r="10" /><text x="543" y="323" text-anchor="middle">05</text></g>
           </svg>
-            <div class="console-map-selection" id="map-selection" role="status" aria-live="polite">
-              <span class="console-selection-indicator" aria-hidden="true">✳</span>
-              <div class="console-selection-copy">
-                <span class="console-selection-overline">PROJECT FOCUS / SELECT A NODE</span>
-                <strong id="map-selection-name">Four projects. One connected future.</strong>
-                <span id="map-selection-detail">Choose A, B, C, or D to inspect its exact requirements.</span>
-              </div>
-              <span id="map-scenario" class="console-map-scenario">BASELINE / MODEL</span>
-            </div>
-            <div class="console-map-bottom"><span><i class="legend-dot funded"></i> CONDITIONAL ROUTE</span><span><i class="legend-dot optional"></i> PROJECT NOT YET FUNDED</span><span>NEAR / MODEL 01</span></div>
+          <div class="map-panel-data" aria-label="Network summary">
+            <span><b>05</b> commitments</span>
+            <span><b>03</b> required projects</span>
+            <span><b>0N</b> unassigned in proof</span>
           </div>
+          <div class="map-label map-label-bottom"><span><i class="legend-dot funded"></i> funded dependency</span><span><i class="legend-dot optional"></i> conditional route</span></div>
         </div>
-        <div class="console-metric-strip">
-          <div><span>COMMITTED CAPITAL</span><strong>12<small>N</small></strong></div>
-          <div><span>ACTIVATING CORE</span><strong>10<small>N</small></strong></div>
-          <div><span>RECOVERABLE</span><strong>02<small>N</small></strong></div>
-          <div class="console-metric-statement"><span>THE OUTCOME</span><p>3 projects funded.<br><em>1 connection missing.</em></p></div>
+        <div class="hero-metrics" aria-label="Verified scenario summary">
+          <div class="metric"><strong>12N</strong><span>committed</span></div>
+          <div class="metric metric-arrow" aria-hidden="true">→</div>
+          <div class="metric"><strong>10N</strong><span>activates A+B+C</span></div>
+          <div class="metric metric-arrow" aria-hidden="true">+</div>
+          <div class="metric"><strong>2N</strong><span>recoverable</span></div>
+          <div class="metric metric-state"><strong>03</strong><span>projects in proof</span></div>
+          <div class="metric-source">verified sandbox<br /><span>scenario / 01</span></div>
         </div>
       </section>
 
-      <section class="console-intervention" id="counterfactual" aria-labelledby="counterfactual-title">
-        <div class="console-section-meta"><span>02 / INTERVENTION</span><span>THE COUNTERFACTUAL ENGINE</span></div>
-        <div class="console-heading-row">
-          <div><p class="console-section-kicker">ONE SMALL CHANGE. A DIFFERENT OUTCOME.</p>
-          <h2 id="counterfactual-title">WHAT IF<br><em>we added one?</em></h2></div>
-          <p class="console-heading-aside">The engine searches the bounded commitment space. No optimistic guesses, no altered approvals. Only exact, reproducible arrangements count.</p>
+      <section class="section-wrap insight-section" id="counterfactual" aria-labelledby="counterfactual-title">
+        <div class="section-intro split-intro">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-line"></span> 02 / Find the coalition</p>
+            <h2 id="counterfactual-title">Try the coalition<br /><em>that does not exist yet.</em></h2>
+          </div>
+          <p class="section-description">The engine exhaustively searches the bounded commitment space. It distinguishes an exact feasible certificate from a recommendation, then names the one constraint holding the next arrangement back.</p>
         </div>
-        <div class="console-decision-grid">
-          <div class="console-decision-input">
-            <div class="console-sheet-label"><span>01 / INPUT</span><span>ALTER THE MODEL ↘</span></div>
-            <div class="engine-controls" aria-label="Counterfactual controls">
+        <div class="engine-shell">
+          <div class="engine-controls" aria-label="Counterfactual controls">
             <div class="control-block">
               <label for="coalition-select">Coalition lens</label>
               <select id="coalition-select">
@@ -158,43 +144,39 @@
             </div>
             <div class="control-warning"><span>⌁</span> Suggestions are model-only. PACT never changes a DAO-approved condition automatically.</div>
           </div>
-          </div>
-          <div class="console-decision-output">
-            <div class="console-sheet-label"><span>02 / OUTPUT</span><span>CONSTRAINT-VALID OR BLOCKED</span></div>
-            <div id="engine-result" class="engine-result" aria-live="polite"></div>
-          </div>
+          <div class="engine-result" id="engine-result" aria-live="polite"></div>
         </div>
-        <div class="console-paper-foot"><span>✳</span> SIMULATING A COMMITMENT DOES NOT CREATE ONE. NO TRANSACTION IS SUBMITTED.</div>
       </section>
 
-      <section class="console-commitments" id="commitments" aria-labelledby="commitments-title">
-        <div class="console-section-meta"><span>03 / THE PROMISES</span><span>FIVE DONORS / CONDITIONAL CAPITAL</span></div>
-        <div class="console-heading-row">
-          <div><p class="console-section-kicker">UNDERSTAND WHAT THE MONEY ALLOWS</p>
-          <h2 id="commitments-title">EVERY PLEDGE<br><em>has a condition.</em></h2></div>
-          <p class="console-heading-aside">A pledge is not just an amount. It has allowable routes and dependencies. Select any donor below or tap a project node above to inspect its constraints.</p>
+      <section class="section-wrap commitments-section" id="commitments" aria-labelledby="commitments-title">
+        <div class="section-intro split-intro">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-line"></span> 03 / Inspect the promises</p>
+            <h2 id="commitments-title">Every promise<br /><em>has a contour.</em></h2>
+          </div>
+          <p class="section-description">A contribution is not just an amount. It is a set of permissions, conditions and dependencies. Hover a project above or select a commitment below to see the shape of the promise.</p>
         </div>
-        <div class="console-pledge-head" aria-hidden="true"><span>COMMITMENT</span><span>DONOR / CONDITION</span><span>AMOUNT</span><span>PERMITTED ROUTES</span></div>
-        <div class="console-commitment-grid">
+        <div class="commitments-layout">
           <div class="commitment-list" id="commitment-list"></div>
-          <aside id="project-inspector" class="project-inspector" aria-live="polite">
-            <p class="inspector-kicker">SELECT A NODE / 01</p>
+          <aside class="project-inspector" id="project-inspector" aria-live="polite">
+            <p class="inspector-kicker">Select a node</p>
             <div class="inspector-symbol">A</div>
             <h3>Training</h3>
-            <p>Requires B and C to become fundable. The dependencies are circular, but feasible when the commitments are considered together.</p>
+            <p>Requires B and C to become fundable. The dependency is circular—but not impossible when the commitments are evaluated together.</p>
             <div class="inspector-stat"><span>Required</span><strong>4N</strong></div>
-            <div class="inspector-stat"><span>Dependencies</span><strong>B + C</strong></div>
+            <div class="inspector-stat"><span>Current exact coverage</span><strong>4N</strong></div>
           </aside>
         </div>
-        <div class="console-commitments-bottom"><span>THE RULE IS SIMPLE: PERMISSION FIRST. ALLOCATION SECOND.</span><span>001 — 005 / MODEL</span></div>
       </section>
 
-      <section class="console-workflow" id="workflow" aria-labelledby="workflow-title">
-        <div class="console-section-meta"><span>04 / EXECUTION PATH</span><span>NEAR + DAO GOVERNANCE</span></div>
-        <div class="console-heading-row">
-          <div><p class="console-section-kicker">FROM COALITION TO CONTRACT</p>
-          <h2 id="workflow-title">FIVE STEPS.<br><em>no shortcuts.</em></h2></div>
-          <p class="console-heading-aside">Real NEAR actions are intentionally separated from the model. A wallet and approved testnet configuration are required before any transaction can be signed.</p>
+      <section class="section-wrap workflow-section" id="workflow" aria-labelledby="workflow-title">
+        <div class="workflow-backdrop" aria-hidden="true"></div>
+        <div class="section-intro split-intro workflow-intro">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-line"></span> 04 / Make it executable</p>
+            <h2 id="workflow-title">A clear path from<br /><em>“maybe” to “funded”.</em></h2>
+          </div>
+          <p class="section-description">The product is designed around real NEAR actions. This checkpoint is intentionally read-only until a wallet adapter and authorized testnet account are present.</p>
         </div>
         <div class="workflow-rail" aria-label="PACT workflow">
           <article class="workflow-step active"><div class="step-index">01</div><div class="step-icon">◌</div><h3>Commit</h3><p>Choose an allowed project and attach native NEAR.</p><button class="step-action" data-action="commit" type="button">Create commitment <span>↗</span></button></article>
@@ -207,22 +189,17 @@
           <div class="step-connector" aria-hidden="true"></div>
           <article class="workflow-step"><div class="step-index">05</div><div class="step-icon">◇</div><h3>Settle</h3><p>Claim an earned allocation or a verified expiry refund.</p><button class="step-action" data-action="withdraw" type="button">Claim funds <span>↗</span></button></article>
         </div>
-        <div class="console-wallet-handoff">
-          <div class="wallet-status" id="wallet-status" role="status">
-            <span class="status-dot"></span>
-            <strong>Read-only evidence mode</strong>
-            <span>No wallet adapter detected. Genuine transaction actions stay disabled.</span>
-          </div>
-          <div class="workflow-result" id="workflow-result" role="status" aria-live="polite">Connect a testnet wallet to stage an explicit request. This preview never invents a receipt.</div>
-        </div>
+        <div class="wallet-status" id="wallet-status" role="status"><span class="status-dot"></span><strong>Read-only evidence mode</strong><span>No wallet adapter detected. Genuine transaction actions stay disabled.</span></div>
+        <div class="workflow-result" id="workflow-result" role="status" aria-live="polite">Connect a testnet wallet to stage an explicit request. This preview never invents a receipt.</div>
       </section>
 
-      <section class="console-evidence" id="evidence" aria-labelledby="evidence-title">
-        <div class="console-section-meta"><span>05 / EVIDENCE</span><span>SOURCE RECORDS / REPRODUCIBLE</span></div>
-        <div class="console-heading-row">
-          <div><p class="console-section-kicker">NO IMPLIED MAINNET ACTIVITY</p>
-          <h2 id="evidence-title">DON'T TRUST<br><em>the headline.</em></h2></div>
-          <p class="console-heading-aside">Inspect the local sandbox receipts, source contract hash and final liabilities. These records are not a public testnet deployment or an external security audit.</p>
+      <section class="section-wrap evidence-section" id="evidence" aria-labelledby="evidence-title">
+        <div class="section-intro split-intro">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-line"></span> 05 / Inspect the proof</p>
+            <h2 id="evidence-title">Proof you can<br /><em>inspect yourself.</em></h2>
+          </div>
+          <p class="section-description">The interface never presents simulated hashes as live activity. These records come from fresh local NEAR sandbox campaigns and are clearly separated from any future testnet run.</p>
         </div>
         <div class="evidence-grid">
           <div class="evidence-card evidence-card-main">
@@ -240,18 +217,17 @@
             <a class="text-link" href="../outputs/pact-atlas-sandbox-evidence.json" target="_blank" rel="noreferrer">Open raw evidence JSON <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <div class="evidence-footnote"><span>◎</span> LOCAL NEAR SANDBOX ONLY. NO TESTNET CREDENTIALS, MAINNET FUNDS, OR PRIVATE KEYS INCLUDED.</div>
+        <div class="evidence-footnote"><span>◎</span> No testnet credentials, signing keys, mainnet calls or real funds are included. This product preview is not an external audit.</div>
       </section>
     </main>
-    <footer class="console-footer">
-      <div class="console-footer-top"><span>PACT ATLAS / ON NEAR</span><span>COORDINATION IS THE PRIMITIVE</span></div>
-      <div class="console-footer-hero">THE FUTURE<br>IS <em>COLLECTIVE.</em></div>
-      <div class="console-footer-bottom">
-        <span>PROTOCOL STUDIO © 2026</span><a href="/">RETURN TO THE STORY ↖</a><a href="./data/evidence.json" target="_blank" rel="noreferrer">RAW EVIDENCE ↗</a><a href="#top">BACK TO TOP ↑</a>
-      </div>
+
+    <footer class="site-footer section-wrap">
+      <div class="footer-brand"><span class="wordmark-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>PACT Atlas</span></div>
+      <p>Coalition intelligence for communities that fund what no one can fund alone.</p>
+      <div class="footer-links"><a href="#atlas">Back to top ↑</a><a href="../HACKATHON.md" target="_blank" rel="noreferrer">Read the checkpoint ↗</a></div>
     </footer>
-  </div>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="./app.js"></script>
-</body>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="./app.js"></script>
+  </body>
 </html>
