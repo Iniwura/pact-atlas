@@ -64,7 +64,7 @@ test.describe("Coalition Atlas product", () => {
   });
 
   test("serves the direct preview routes used by a hosted deployment", async ({ request }) => {
-    for (const route of ["/styles.css", "/app.js", "/engine.mjs", "/near-workflow.mjs", "/near-adapter.mjs", "/data/evidence.json", "/HACKATHON.md"]) {
+    for (const route of ["/styles.css", "/styles-lurais.css", "/app.js", "/engine.mjs", "/near-workflow.mjs", "/near-adapter.mjs", "/data/evidence.json", "/HACKATHON.md"]) {
       const response = await request.get(route);
       expect(response.ok(), `${route} should return a successful response`).toBeTruthy();
     }
