@@ -363,3 +363,24 @@ body.console-cinematic {
 .console-cinematic .insight-section .toggle-label,
 .console-cinematic .insight-section .toggle-label > span:last-child {color:#272820}
 .console-cinematic .evidence-section .eyebrow {color:#903b1b}
+
+/* On phones, place the evidence counters after the SVG rather than over node D. */
+@media (max-width:680px) {
+  .console-cinematic .hero-map-panel {min-height:0}
+  .console-cinematic #network-map {
+    height:auto;
+    min-height:365px;
+    max-height:none;
+    display:block;
+  }
+  .console-cinematic .map-panel-data {
+    position:relative;
+    left:auto;
+    right:auto;
+    bottom:auto;
+    width:auto;
+    margin:0 13px 55px;
+    padding:12px 8px 6px;
+    background:rgba(20,17,15,.65);
+  }
+}
