@@ -94,3 +94,10 @@
 .certificate .cert-status span {
   color: #923716;
 }
+
+/* Contrast safeguard for the highlighted exact-valid benchmark status
+   on the light paper comparison panel. */
+.bench-approach.pact .bench-status,
+.bench-approach.pact .bench-status * {
+  color: #963b19;
+}
