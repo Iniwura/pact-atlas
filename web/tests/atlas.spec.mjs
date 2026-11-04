@@ -17,7 +17,7 @@ test.describe("PACT Atlas — one-task funding console", () => {
     await expect(page.locator("#coalition-select")).toHaveValue("abcd");
     await expect(page.locator("#graph-state")).toHaveText("Blocked");
     await expect(page.locator("#engine-result")).toContainText("1 NEAR is missing");
-    await expect(page.getByRole("button",{name:/Add 1 NEAR/i})).toBeVisible();
+    await expect(page.getByRole("button",{name:/Simulate \+1 NEAR/i})).toBeVisible();
     const layout = await page.evaluate(() => ({
       map:document.querySelector(".map-panel").getBoundingClientRect().toJSON(),
       decision:document.querySelector(".decision-panel").getBoundingClientRect().toJSON(),
@@ -40,13 +40,35 @@ test.describe("PACT Atlas — one-task funding console", () => {
     await expect(page.locator("#engine-result")).toContainText("All four projects can activate");
     await expect(page.locator("#topup-toggle")).toBeChecked();
     await expect(page.locator("#allocation-proof")).toBeVisible();
-    await page.locator("#allocation-proof summary").click();
-    await expect(page.locator("#allocation-proof li").first()).toContainText("N");
-    expect(await page.locator("#allocation-proof li").count()).toBeGreaterThanOrEqual(5);
-    await expect(page.locator("#allocation-proof")).toContainText("No transaction submitted");
+    await expect(page.locator("#allocation-proof")).toHaveAttribute("open","");
+    await expect(page.locator(".proof-project")).toHaveCount(4);
+    await expect(page.locator(".proof-project").last()).toContainText("Donor 05 2N + New commitment 1N");
+    await expect(page.locator(".allocation-overview")).toContainText("13 NEAR assigned");
+    await expect(page.locator("#allocation-proof")).toContainText("Conserved capital");
+    await expect(page.locator("#allocation-proof")).toContainText("Not a signed or audited transaction");
+    await expect(page.locator(".map-node-d .node-caption")).toHaveText("EVENTS · 3/3N");
+    await expect(page.locator("#committed-value")).toHaveText("13 NEAR");
+    await expect(page.locator("#gap-value")).toHaveText("0 NEAR");
+    await page.screenshot({path:path.join(screenshots,"pact-console-allocated-desktop.png"),fullPage:true});
     await page.locator("#solve-gap").click();
     await expect(page.locator("#graph-state")).toHaveText("Blocked");
     await expect(page.locator("#allocation-proof")).toHaveCount(0);
+  });
+
+  test("the blocked model exposes a real conservation problem, not four decorative circles", async ({page}) => {
+    await page.goto("/console");
+    await expect(page.locator("#committed-value")).toHaveText("12 NEAR");
+    await expect(page.locator("#required-value")).toHaveText("13 NEAR");
+    await expect(page.locator("#gap-value")).toHaveText("1 NEAR");
+    await expect(page.locator(".map-node-a")).toHaveAttribute("data-coverage","4/4");
+    await expect(page.locator(".map-node-d")).toHaveAttribute("data-coverage","2/3");
+    await expect(page.locator(".map-node-d .node-caption")).toHaveText("EVENTS · 2/3N");
+    await page.locator(".eligibility-explanation summary").click();
+    await expect(page.locator(".eligibility-explanation")).toContainText("15 NEAR");
+    await expect(page.locator(".eligibility-explanation")).toContainText("12 NEAR");
+    await expect(page.locator(".eligibility-explanation")).toContainText("not both");
+    await expect(page.locator(".node-progress")).toHaveCount(4);
+    await expect(page.locator(".map-edges .edge-d")).toHaveCount(0);
   });
 
   test("reset works and advanced scenarios preserve exact model results", async ({page}) => {
@@ -176,7 +198,7 @@ test.describe("PACT Atlas — one-task funding console", () => {
   }
 
   test("serves exact assets and performance stays in budget", async ({page,request}) => {
-    for(const route of ["/console","/protocol-workspace.css","/app.js","/engine.mjs","/near-workflow.mjs","/data/evidence.json","/HACKATHON.md"]) {
+    for(const route of ["/console","/protocol-workspace.css","/app.js","/engine.mjs","/near-workflow.mjs","/funding-view.mjs","/data/evidence.json","/HACKATHON.md"]) {
       expect((await request.get(route)).ok(),route).toBeTruthy();
     }
     await page.goto("/console",{waitUntil:"load"});
