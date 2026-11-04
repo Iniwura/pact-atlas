@@ -234,6 +234,9 @@ button:disabled{opacity:.52;cursor:not-allowed}
 }
 @media(max-width:520px){
   .app-header{height:62px;padding:0 14px;gap:12px}
+  .main-nav{display:none}
+  .app-header{justify-content:space-between}
+  #network-map{transform:scale(1.08);transform-origin:center}
   .wordmark,.wordmark em{font-size:16px}
   .main-nav{gap:13px}
   .main-nav a{font-size:11px}
