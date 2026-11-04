@@ -30,7 +30,7 @@ jobs:
             case "$path" in
               /) grep -q 'FUND THE' /tmp/pact-response && grep -q 'IMPOSSIBLE' /tmp/pact-response || { echo "Approved cinematic homepage missing"; exit 1; } ;;
               /console) grep -q 'id="workbench"' /tmp/pact-response && grep -q 'protocol-workspace.css' /tmp/pact-response && grep -q 'id="engine-result"' /tmp/pact-response && grep -q 'id="show-gap"' /tmp/pact-response && grep -q 'id="solve-gap"' /tmp/pact-response || { echo "Functional protocol workbench missing"; exit 1; } ;;
-              /protocol-workspace.css) grep -q 'PACT Atlas — Protocol Workspace' /tmp/pact-response && grep -q '--orange:#f56d39' /tmp/pact-response || { echo "Protocol workspace CSS missing"; exit 1; } ;;
+              /protocol-workspace.css) grep -q 'PACT Atlas — Protocol Workspace' /tmp/pact-response && grep -Fq -- '--orange:#f56d39' /tmp/pact-response || { echo "Protocol workspace CSS missing"; exit 1; } ;;
               /app.js) grep -q 'function renderEngine()' /tmp/pact-response && grep -q 'solve-gap' /tmp/pact-response || { echo "Functional application script missing"; exit 1; } ;;
               /studio.css) grep -q 'hero-art' /tmp/pact-response || { echo "Hero CSS missing"; exit 1; } ;;
               /studio.js) grep -q 'benchmark' /tmp/pact-response || { echo "Interactive app JS missing"; exit 1; } ;;
