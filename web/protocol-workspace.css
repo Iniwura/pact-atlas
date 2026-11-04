@@ -276,3 +276,136 @@ button:disabled{opacity:.52;cursor:not-allowed}
   html{scroll-behavior:auto}
   .map-edges path,.map-node,.node-core,.node-halo,.primary-action,.toast,.toggle-track i{transition:none!important;animation:none!important}
 }
+
+
+/* Funding is visible on the network; these rings are solver-derived amounts.
+   Full rings mean candidate coverage in the blocked state, not activation. */
+.node-progress {
+  fill:none;
+  stroke:#f2af83;
+  stroke-width:3.5;
+  stroke-linecap:round;
+  pointer-events:none;
+  opacity:.92;
+  transition:stroke-dasharray .65s cubic-bezier(.2,.8,.2,1),stroke .4s,filter .4s;
+}
+.map-panel[data-state=blocked] .map-node-d .node-progress {
+  stroke:#f27d52;
+  filter:drop-shadow(0 0 4px rgba(245,109,57,.28));
+}
+.map-panel[data-state=viable] .map-node-d .node-progress {
+  stroke:#ffd5a0;
+  filter:drop-shadow(0 0 7px rgba(245,153,82,.58));
+}
+.funding-strip {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:0;
+  border-top:1px solid #564337;
+  margin:0 -0px;
+  padding:19px 0 21px;
+  background:rgba(12,13,11,.24);
+}
+.funding-strip>div {
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  min-width:0;
+  padding:0 18px;
+}
+.funding-strip>div:first-child {padding-left:0}
+.funding-strip>div+div {border-left:1px solid #51443a}
+.funding-strip span {
+  color:#b8b6aa;
+  font:650 10px var(--sans);
+}
+.funding-strip strong {
+  font:750 clamp(19px,2.15vw,31px)/1.08 var(--sans);
+  color:var(--paper);
+  letter-spacing:-.045em;
+  overflow-wrap:anywhere;
+}
+.funding-strip>div:last-child strong {color:#ffb181}
+.map-panel[data-state=viable] .funding-strip>div:last-child strong {color:#e3cbb0}
+
+.blocker-detail {margin-top:18px}
+.blocker-detail>p {
+  font-size:12px;
+  line-height:1.65;
+  color:#454e43;
+}
+.eligibility-explanation {
+  border-top:1px solid #c8c3b7;
+  padding-top:13px;
+  margin-top:24px;
+}
+.eligibility-explanation summary {
+  cursor:pointer;
+  font:720 12px var(--sans);
+  color:#824022;
+  list-style:none;
+}
+.eligibility-explanation summary::after {
+  content:"+";
+  float:right;
+  font:750 17px var(--sans);
+}
+.eligibility-explanation[open] summary::after {content:"−"}
+.eligibility-explanation p {
+  margin-top:12px;
+  font-size:12px;
+  line-height:1.55;
+  color:#465047;
+}
+.allocation-overview {
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  padding-top:18px;
+}
+.allocation-overview strong {
+  font:760 22px/1.1 var(--sans);
+  letter-spacing:-.05em;
+  color:#222820;
+}
+.allocation-overview span {font-size:11px;color:#545a4e}
+.allocation-proof {margin-top:22px;padding-top:16px;border-top:1px solid #c6c2b7}
+.allocation-proof>summary {font-size:12px;color:#854022;font-weight:740;list-style:none;cursor:pointer}
+.allocation-proof>summary::after {content:"−";float:right;font-size:16px;color:#824022}
+.allocation-proof:not([open])>summary::after {content:"+"}
+.allocation-proof>summary span {display:none}
+.proof-groups {margin-top:15px}
+.proof-project {padding:12px 0;border-top:1px solid #d2cfc4}
+.proof-project-head {display:flex;justify-content:space-between;gap:15px;align-items:baseline}
+.proof-project-head strong {color:#202820;font-size:13px;font-weight:730}
+.proof-project-head span {color:#864323;font:720 11px var(--mono)}
+.proof-project p {margin-top:6px;font-size:11px;color:#4e574c}
+.proof-checks {display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}
+.proof-checks span {
+  font:620 9px var(--mono);
+  color:#354c39;
+  border:1px solid #bcc8b9;
+  padding:5px 7px;
+  border-radius:3px;
+}
+.proof-checks span::before {content:"✓";margin-right:5px}
+.proof-repro,.proof-limit {margin-top:14px;font-size:10px;line-height:1.6;color:#4d584d}
+.proof-repro code {
+  display:inline-block;
+  font:630 10px var(--mono);
+  color:#744024;
+  padding:2px 4px;
+  background:#e4ded2;
+  overflow-wrap:anywhere;
+}
+.proof-limit {font-weight:650;color:#5a6157}
+@media(max-width:520px) {
+  .funding-strip {padding:16px 0}
+  .funding-strip>div {padding:0 9px}
+  .funding-strip strong {font-size:18px}
+  .funding-strip span {font-size:9px}
+  .proof-checks span {font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  .node-progress {transition:none!important;filter:none!important}
+}
