@@ -2,85 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0c0d0b">
-  <meta name="description" content="PACT Atlas Protocol Workspace: evaluate constrained funding arrangements, inspect commitments, and verify local NEAR sandbox evidence.">
-  <title>Protocol workspace — PACT Atlas</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0c0b">
+  <meta name="description" content="Explore constraint-valid funding with PACT Atlas. Change one commitment, see the exact result.">
+  <title>Atlas — PACT</title>
   <link rel="stylesheet" href="./protocol-workspace.css">
 </head>
 <body class="protocol-app">
-  <a class="skip-link" href="#workbench">Skip to funding workspace</a>
+  <a class="skip-link" href="#workbench">Skip to Atlas</a>
   <header class="app-header">
-    <a class="wordmark" href="/" aria-label="PACT Atlas home">
+    <a href="/" class="wordmark" aria-label="PACT Atlas homepage">
       <span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b></span>
-      <span>PACT<em>/ATLAS</em></span>
+      PACT<em>/ATLAS</em>
     </a>
-    <span class="header-context">PROTOCOL <i>✳</i> WORKSPACE</span>
-    <nav class="main-nav" aria-label="Product navigation">
-      <a href="#workbench" aria-current="page">Workspace</a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#workbench" aria-current="page">Atlas</a>
       <a href="#commitments">Commitments</a>
-      <a href="#workflow">Execution</a>
       <a href="#evidence">Proof</a>
     </nav>
-    <div class="header-actions">
-      <span class="network-chip"><i class="status-dot"></i><span id="network-label">Sandbox evidence</span></span>
-      <button id="connect-wallet" type="button" class="connect-button">Connect wallet <span aria-hidden="true">↗</span></button>
-    </div>
+    <button id="connect-wallet" class="connect-button" type="button">Connect wallet</button>
   </header>
 
   <main class="app-main">
-    <div class="workspace-heading" id="atlas">
-      <div>
-        <p class="overline">MODEL / 01 &nbsp; <span>✳</span> &nbsp; NEAR PROTOCOL</p>
-        <h1 id="hero-title">Funding Atlas<span class="title-period">.</span></h1>
+    <section class="atlas-section" id="workbench" aria-labelledby="hero-title">
+      <div class="workspace-heading">
+        <h1 id="hero-title">Make the coalition fundable<span class="title-period">.</span></h1>
+        <span id="network-label" class="network-chip">Sandbox model</span>
       </div>
-      <div class="heading-meta">
-        <span>04 PROJECTS</span><span>05 COMMITMENTS</span>
-        <a href="#evidence">VIEW VERIFIED EVIDENCE ↗</a>
-      </div>
-    </div>
 
-    <section id="workbench" class="workbench" aria-label="Interactive coalition workspace">
-      <aside class="controls-panel" id="counterfactual" aria-labelledby="counterfactual-title">
-        <header class="panel-header"><div><span class="panel-index">01 / INPUT</span><h2 id="counterfactual-title">Scenario</h2></div><span class="panel-mark" aria-hidden="true">✳</span></header>
-        <p class="panel-summary">Set the funding conditions.</p>
-        <div class="engine-controls" aria-label="Counterfactual controls">
-            <div class="control-block">
-              <label for="coalition-select">Coalition lens</label>
-              <select id="coalition-select">
-                <option value="abc">A + B + C / connected core</option>
-                <option value="abcd">A + B + C + D / full atlas</option>
-                <option value="d">D only / isolated project</option>
-              </select>
-            </div>
-            <div class="control-block toggle-block">
-              <span class="control-label">One more commitment</span>
-              <label class="toggle-label"><input type="checkbox" id="topup-toggle" /><span class="toggle-track"><i></i></span><span>Add 1N to D</span></label>
-            </div>
-            <div class="control-block">
-              <label for="condition-select">Counterfactual change</label>
-              <select id="condition-select">
-                <option value="none">No approved conditions changed</option>
-                <option value="topup">New 1N commitment permitted for D</option>
-                <option value="donor5">Donor 05 increases D commitment to 3N</option>
-              </select>
-            </div>
-            <div class="control-warning"><span>⌁</span> Suggestions are model-only. PACT never changes a DAO-approved condition automatically.</div>
+      <div class="workbench">
+        <div class="map-panel">
+          <div class="map-top">
+            <h2>Projects</h2>
+            <span id="graph-state" class="graph-live" role="status" aria-live="polite">Blocked</span>
           </div>
-        <div class="scenario-shortcuts" aria-label="Quick scenarios">
-          <span class="small-label">QUICK EXPERIMENT</span>
-          <button id="show-gap" class="shortcut" type="button"><span>01</span> Show the funding gap <span aria-hidden="true">↗</span></button>
-          <button id="solve-gap" class="shortcut shortcut-emphasis" type="button"><span>02</span> Add the missing 1N <span aria-hidden="true">↗</span></button>
-        </div>
-        <button id="reset-scenario" type="button" class="reset-button">Reset to baseline <span aria-hidden="true">↺</span></button>
-        <p class="scenario-disclaimer"><i class="status-dot"></i> Simulation only. No funds move.</p>
-      </aside>
-
-      <div class="map-panel" aria-label="Interactive dependency graph">
-        <header class="panel-header"><div><span class="panel-index">02 / EXPLORE</span><h2>Funding network</h2></div><span class="graph-live" id="graph-state" role="status" aria-live="polite">Reference model</span></header>
-        <div class="map-canvas">
-          <div class="map-grid" aria-hidden="true"></div>
-          <svg id="network-map" viewBox="0 0 640 470" role="group" aria-labelledby="map-title map-desc">
+          <div class="map-canvas"><svg id="network-map" viewBox="0 0 640 470" role="group" aria-labelledby="map-title map-desc">
             <title id="map-title">PACT Atlas funding network</title>
             <desc id="map-desc">Four projects connected by dependency lines and five contributor commitments.</desc>
             <defs>
@@ -132,65 +88,59 @@
             </g>
             <g class="donor-pip donor-left" aria-hidden="true"><circle cx="97" cy="319" r="10" /><text x="97" y="323" text-anchor="middle">01</text></g>
             <g class="donor-pip donor-right" aria-hidden="true"><circle cx="543" cy="319" r="10" /><text x="543" y="323" text-anchor="middle">05</text></g>
-          </svg>
+          </svg></div>
+          <div id="project-inspector" class="project-inspector" aria-live="polite"></div>
         </div>
-        <div class="map-caption"><span class="map-hint"><i class="pulse-dot"></i> SELECT A NODE TO INSPECT IT</span><span class="map-key"><i class="key-dash"></i> DEPENDENCY</span></div>
-        <div class="map-metrics" aria-label="Baseline model funding">
-          <div><strong>12<small>N</small></strong><span>Pledged</span></div>
-          <div><strong>10<small>N</small></strong><span>Core requirement</span></div>
-          <div><strong>02<small>N</small></strong><span>Recoverable</span></div>
-        </div>
-      </div>
 
-      <aside class="result-panel" aria-labelledby="outcome-title">
-        <header class="panel-header"><div><span class="panel-index">03 / EVALUATE</span><h2 id="outcome-title">Exact result</h2></div><span class="result-indicator" id="result-indicator" role="status" aria-live="polite">CHECKING</span></header>
-        <div id="engine-result" class="engine-result" aria-live="polite"></div>
-        <div class="inspector-head"><span>SELECTED ITEM</span><span class="inspector-icon">⌕</span></div>
-        <div id="project-inspector" class="project-inspector" aria-live="polite">
-          <p class="inspector-kicker">Project node / A</p>
-          <div class="inspector-symbol">A</div>
-          <h3>Training</h3>
-          <p>Requires B and C. Select a node to inspect its requirements.</p>
-          <div class="inspector-stat"><span>Required</span><strong>4N</strong></div>
-        </div>
-      </aside>
-      <div class="workbench-foot"><span>PACT REFERENCE MODEL</span><span>EXACT CERTIFICATES ≠ LIVE TRANSFERS</span><a href="#commitments">VIEW COMMITMENTS ↓</a></div>
-    </section>
-
-    <section class="details-section" id="commitments" aria-labelledby="commitments-title">
-      <div class="section-head"><div><p class="overline">02 / FUNDING RULES</p><h2 id="commitments-title">Commitments</h2></div><p>Select a pledge to inspect where it can go.</p></div>
-      <div class="commitments-layout">
-        <div class="commitment-list" id="commitment-list"></div>
-        <aside class="pledge-detail" aria-labelledby="pledge-heading">
-          <p class="small-label" id="pledge-heading">COMMITMENT DETAILS</p>
-          <div id="commitment-detail" aria-live="polite">
-            <h3>Select a commitment</h3><p>Choose a pledge on the left to inspect its permitted routes and conditions.</p>
+        <aside class="decision-panel" id="counterfactual" aria-label="Funding decision">
+          <div class="decision-controls">
+            <div class="decision-title"><h2>One change</h2><span id="result-indicator" class="result-indicator" role="status">BLOCKED</span></div>
+            <button id="solve-gap" type="button" class="primary-action" aria-pressed="false">Add 1 NEAR <span aria-hidden="true">↗</span></button>
+            <button id="show-gap" type="button" class="reset-action">Reset</button>
+            <details class="advanced-controls">
+              <summary>Other scenarios</summary>
+              <div class="advanced-fields">
+                <label for="coalition-select">Projects</label>
+                <select id="coalition-select">
+                  <option value="abcd" selected>All four</option>
+                  <option value="abc">A + B + C</option>
+                  <option value="d">D only</option>
+                </select>
+                <label class="toggle-label">
+                  <input type="checkbox" id="topup-toggle">
+                  <span class="toggle-track" aria-hidden="true"><i></i></span>
+                  <span>Additional 1 NEAR</span>
+                </label>
+                <label for="condition-select">Commitment</label>
+                <select id="condition-select">
+                  <option value="none">Unchanged</option>
+                  <option value="topup">New 1 NEAR for D</option>
+                  <option value="donor5">Donor 05 adds 1 NEAR</option>
+                </select>
+              </div>
+            </details>
           </div>
+          <div id="engine-result" class="engine-result" aria-live="polite"></div>
+          <p class="model-disclosure">Simulation only. No money moves.</p>
         </aside>
       </div>
     </section>
 
-    <section class="details-section workflow-section" id="workflow" aria-labelledby="workflow-title">
-      <div class="section-head"><div><p class="overline">03 / EXECUTION</p><h2 id="workflow-title">From agreement to action</h2></div><p>Wallet approval is required for every onchain action.</p></div>
-      <div class="workflow-rail" aria-label="PACT workflow">
-          <article class="workflow-step active"><div class="step-index">01</div><div class="step-icon">◌</div><h3>Commit</h3><p>Choose an allowed project and attach native NEAR.</p><button class="step-action" data-action="commit" type="button">Create commitment <span>↗</span></button></article>
-          <div class="step-connector" aria-hidden="true"></div>
-          <article class="workflow-step"><div class="step-index">02</div><div class="step-icon">⌁</div><h3>Approve</h3><p>A Sputnik DAO confirms the conditions and amount.</p><button class="step-action" data-action="approve" type="button">Open proposal <span>↗</span></button></article>
-          <div class="step-connector" aria-hidden="true"></div>
-          <article class="workflow-step"><div class="step-index">03</div><div class="step-icon">✳</div><h3>Certify</h3><p>Generate an independently reproducible allocation.</p><button class="step-action" data-action="certify" type="button">Generate certificate <span>↗</span></button></article>
-          <div class="step-connector" aria-hidden="true"></div>
-          <article class="workflow-step"><div class="step-index">04</div><div class="step-icon">↗</div><h3>Activate</h3><p>Only configured authorities can activate a valid plan.</p><button class="step-action" data-action="activate" type="button">Activate agreement <span>↗</span></button></article>
-          <div class="step-connector" aria-hidden="true"></div>
-          <article class="workflow-step"><div class="step-index">05</div><div class="step-icon">◇</div><h3>Settle</h3><p>Claim an earned allocation or a verified expiry refund.</p><button class="step-action" data-action="withdraw" type="button">Claim funds <span>↗</span></button></article>
-        </div>
-      <div class="wallet-bar">
-        <div class="wallet-status" id="wallet-status" role="status"><i class="status-dot"></i><strong>Read-only evidence mode</strong><span>No wallet adapter detected. Genuine transaction actions stay disabled.</span></div>
-        <div class="workflow-result" id="workflow-result" role="status" aria-live="polite">No transaction submitted. Connect an authorized testnet wallet to prepare a request.</div>
+    <section class="details-section commitments-section" id="commitments" aria-labelledby="commitments-title">
+      <div class="section-head"><h2 id="commitments-title">Commitments</h2></div>
+      <div class="commitments-layout">
+        <div id="commitment-list" class="commitment-list"></div>
+        <aside class="pledge-detail">
+          <div id="commitment-detail" aria-live="polite"><h3>Select a pledge</h3></div>
+        </aside>
       </div>
     </section>
 
     <section class="details-section evidence-section" id="evidence" aria-labelledby="evidence-title">
-      <div class="section-head"><div><p class="overline">04 / PROOF</p><h2 id="evidence-title">Verify the evidence</h2></div><p>Reproducible local NEAR sandbox records. Not testnet transactions.</p></div>
+      <div class="section-head">
+        <h2 id="evidence-title">Proof</h2>
+        <span class="proof-source">Local NEAR sandbox</span>
+      </div>
       <div class="evidence-grid">
           <div class="evidence-card evidence-card-main">
             <div class="evidence-card-head"><span class="live-tag"><i></i> verified local evidence</span><span class="evidence-date" id="evidence-date">loading…</span></div>
@@ -207,10 +157,32 @@
             <a class="text-link" href="./data/evidence.json" target="_blank" rel="noreferrer">Open raw evidence JSON <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-      <p class="evidence-footnote">LOCAL SANDBOX EVIDENCE ONLY. NO REAL FUNDS OR AUDIT CLAIMED.</p>
+      <p class="evidence-footnote">Sandbox records, not live transactions or an external audit.</p>
     </section>
+
+    <details class="execution-section" id="workflow">
+      <summary>Execution <span>Requires wallet approval</span></summary>
+      <div class="workflow-rail" aria-label="PACT workflow">
+          <article class="workflow-step active"><div class="step-index">01</div><div class="step-icon">◌</div><h3>Commit</h3><p>Choose an allowed project and attach native NEAR.</p><button class="step-action" data-action="commit" type="button">Create commitment <span>↗</span></button></article>
+          <div class="step-connector" aria-hidden="true"></div>
+          <article class="workflow-step"><div class="step-index">02</div><div class="step-icon">⌁</div><h3>Approve</h3><p>A Sputnik DAO confirms the conditions and amount.</p><button class="step-action" data-action="approve" type="button">Open proposal <span>↗</span></button></article>
+          <div class="step-connector" aria-hidden="true"></div>
+          <article class="workflow-step"><div class="step-index">03</div><div class="step-icon">✳</div><h3>Certify</h3><p>Generate an independently reproducible allocation.</p><button class="step-action" data-action="certify" type="button">Generate certificate <span>↗</span></button></article>
+          <div class="step-connector" aria-hidden="true"></div>
+          <article class="workflow-step"><div class="step-index">04</div><div class="step-icon">↗</div><h3>Activate</h3><p>Only configured authorities can activate a valid plan.</p><button class="step-action" data-action="activate" type="button">Activate agreement <span>↗</span></button></article>
+          <div class="step-connector" aria-hidden="true"></div>
+          <article class="workflow-step"><div class="step-index">05</div><div class="step-icon">◇</div><h3>Settle</h3><p>Claim an earned allocation or a verified expiry refund.</p><button class="step-action" data-action="withdraw" type="button">Claim funds <span>↗</span></button></article>
+        </div>
+      <div class="wallet-bar">
+        <div class="wallet-status" id="wallet-status" role="status"><i class="status-dot"></i><strong>Read-only evidence mode</strong><span>No wallet adapter connected.</span></div>
+        <div id="workflow-result" class="workflow-result" role="status" aria-live="polite">No transaction submitted.</div>
+      </div>
+    </details>
   </main>
-  <footer class="site-footer"><span>PACT/ATLAS <span class="footer-muted">© 2026</span></span><p>Built to make conditional capital coordination inspectable.</p><nav aria-label="Footer"><a href="/">Home ↖</a><a href="./HACKATHON.md" target="_blank" rel="noreferrer">Checkpoint ↗</a><a href="#workbench">Back to top ↑</a></nav></footer>
+  <footer class="site-footer">
+    <span>PACT/ATLAS</span>
+    <a href="/">Home</a>
+  </footer>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script type="module" src="./app.js"></script>
 </body>
