@@ -4,6 +4,12 @@ PACT Atlas is a constrained, native-NEAR proof of coalition funding. It verifies
 
 This is a serious technical checkpoint, not an externally audited or production-ready financial protocol.
 
+## Judge-first demo — 60 seconds
+
+Open `/console` and follow [the allocation witness](docs/JUDGE_WITNESS.md). The default full coalition is blocked: **12 NEAR is pledged, 13 NEAR is required**. Eligibility totals *appear* to be 15 NEAR because Donor 01's flexible commitment can count for either A or D; PACT cannot spend it twice. Click **Add 1 NEAR** to run a model-only counterfactual, then inspect the exact one-use allocation for all four projects and reproduce it with `node scripts/certificate.js --topup`.
+
+This is a bounded, local reference-model demo accompanied by **separately obtained local NEAR sandbox evidence**. It is not a real wallet transfer, a public testnet deployment, or an independent audit. The approved cinematic homepage remains separate from the functional console.
+
 ## Coalition Atlas product
 
 The `web/` application is the judge-facing product surface. Its first viewport explains the cooperation thesis in seconds, the constraint graph makes dependencies inspectable, and the counterfactual engine lets a judge switch between the feasible A+B+C core, the blocked full A+B+C+D coalition, and a model-only additional commitment. The commitment inspector, workflow rail and evidence ledger keep model state, contract state and future wallet state visually distinct. The frontend design rationale and measured local redesign report are in `docs/DESIGN_DIRECTION.md` and `docs/FRONTEND_REDESIGN_REPORT.md`; final desktop/mobile captures are in `docs/design-evidence/`.
