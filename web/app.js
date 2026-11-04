@@ -57,30 +57,52 @@ function renderEngine() {
 }
 
 function renderCommitments() {
-  $("#commitment-list").innerHTML = MODEL.pledges.map((pledge, index) => `<article class="commitment-row" data-pledge="${pledge.id}" tabindex="0" role="button" aria-label="Inspect ${pledge.owner} commitment">
-    <span class="pledge-index">${pledge.id}</span><span class="pledge-name"><strong>${pledge.owner}</strong><span>${pledge.note}</span></span><strong class="pledge-amount">${near(pledge.amount)}</strong><span class="pledge-targets">${pledge.allowed.map((id) => `<i class="target-pill ${pledge.requires.length ? "conditioned" : ""}">${id.toUpperCase()}</i>`).join("")}</span>
+  $("#commitment-list").innerHTML = MODEL.pledges.map((pledge) => `<article class="commitment-row" data-pledge="${pledge.id}" tabindex="0" role="button" aria-label="Inspect ${pledge.owner} commitment">
+    <span class="pledge-index">${pledge.id}</span>
+    <span class="pledge-name"><strong>${pledge.owner}</strong></span>
+    <strong class="pledge-amount">${near(pledge.amount)}</strong>
+    <span class="pledge-targets">${pledge.allowed.map(id => `<i class="target-pill">${id.toUpperCase()}</i>`).join("")}</span>
   </article>`).join("");
-  $$(".commitment-row").forEach((row) => {
-    const select = () => { $$(".commitment-row").forEach((item) => item.classList.remove("selected")); row.classList.add("selected"); renderPledgeInspector(row.dataset.pledge); };
-    row.addEventListener("click", select); row.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(); } });
+  $$(".commitment-row").forEach(row => {
+    const select = () => {
+      $$(".commitment-row").forEach(item => item.classList.remove("selected"));
+      row.classList.add("selected");
+      renderPledgeInspector(row.dataset.pledge);
+    };
+    row.addEventListener("click", select);
+    row.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault(); select();
+      }
+    });
   });
 }
 
 function renderPledgeInspector(pledgeId) {
-  const pledge = MODEL.pledges.find((item) => item.id === pledgeId);
+  const pledge = MODEL.pledges.find(item => item.id === pledgeId);
   if (!pledge) return;
-  $$(".map-node").forEach(node => { node.classList.remove("selected"); node.setAttribute("aria-pressed","false"); });
-  const detail = document.getElementById("commitment-detail");
-  if (detail) detail.innerHTML = `<p class="inspector-kicker">COMMITMENT ${pledge.id}</p><h3>${pledge.owner}</h3><p>${near(pledge.amount)} permitted toward ${pledge.allowed.map(id=>MODEL.projects[id].label).join(" or ")}. ${pledge.requires.length?`Usable only if ${pledge.requires.map(id=>MODEL.projects[id].short).join(" + ")} are funded.`:"No additional dependency condition."}</p><div class="inspector-stat"><span>Amount</span><strong>${near(pledge.amount)}</strong></div><div class="inspector-stat"><span>Eligible routes</span><strong>${pledge.allowed.map(id=>id.toUpperCase()).join(" / ")}</strong></div>`;
-  $("#project-inspector").innerHTML = `<p class="inspector-kicker">Commitment ${pledge.id} / ${pledge.note}</p><div class="inspector-symbol">${pledge.id}</div><h3>${pledge.owner}</h3><p>${near(pledge.amount)} permitted toward ${pledge.allowed.map((id) => MODEL.projects[id].label).join(" or ")}. ${pledge.requires.length ? `It becomes usable only when ${pledge.requires.map((id) => MODEL.projects[id].short).join(" + ")} are funded.` : "It has no additional dependency condition."}</p><div class="inspector-stat"><span>Amount</span><strong>${near(pledge.amount)}</strong></div><div class="inspector-stat"><span>Allowed routes</span><strong>${pledge.allowed.map((id) => id.toUpperCase()).join(" / ")}</strong></div><div class="inspector-stat"><span>Requires</span><strong>${pledge.requires.length ? pledge.requires.map((id) => id.toUpperCase()).join(" + ") : "None"}</strong></div>`;
+  const destinations = pledge.allowed.map(id => MODEL.projects[id].label).join(" or ");
+  const condition = pledge.requires.length
+    ? `Requires ${pledge.requires.map(id => MODEL.projects[id].label).join(" and ")} to be funded.`
+    : "";
+  $("#commitment-detail").innerHTML = `<h3>${pledge.owner}</h3>
+    <p>${near(pledge.amount)} toward ${destinations}.</p>
+    ${condition ? `<p>${condition}</p>` : ""}
+  `;
 }
 
 function renderProjectInspector(projectId) {
-  $$(".commitment-row").forEach(item => item.classList.remove("selected"));
   const project = MODEL.projects[projectId];
   if (!project) return;
-  $("#project-inspector").innerHTML = `<p class="inspector-kicker">Project node / ${project.short}</p><div class="inspector-symbol">${project.short}</div><h3>${project.label}</h3><p>${project.copy}</p><div class="inspector-stat"><span>Required</span><strong>${near(project.required)}</strong></div><div class="inspector-stat"><span>Dependencies</span><strong>${project.dependencies.length ? project.dependencies.map((id) => id.toUpperCase()).join(" + ") : "None"}</strong></div><div class="inspector-stat"><span>Current coverage</span><strong>${near(MODEL.pledges.filter((pledge) => pledge.allowed.includes(projectId)).reduce((sum, pledge) => sum + pledge.amount, 0n))}</strong></div>`;
-  $$(".map-node").forEach((node) => {
+  const dependencies = project.dependencies.map(id => MODEL.projects[id].label);
+  $("#project-inspector").innerHTML = `
+    <div class="inspector-symbol">${project.short}</div>
+    <div class="inspector-body">
+      <strong>${project.label}</strong>
+      <span>${near(project.required)} required</span>
+      ${dependencies.length ? `<small>Needs ${dependencies.join(" + ")}</small>` : ""}
+    </div>`;
+  $$(".map-node").forEach(node => {
     const selected = node.dataset.project === projectId;
     node.classList.toggle("selected", selected);
     node.setAttribute("aria-pressed", String(selected));
