@@ -17,8 +17,6 @@ function renderEngine() {
   document.body.dataset.coalitionState = status;
   $(".map-panel").dataset.state = status;
   $("#graph-state").textContent = feasible ? "Fundable" : "Blocked";
-  $("#result-indicator").textContent = feasible ? "FUNDABLE" : "BLOCKED";
-  $("#result-indicator").dataset.state = status;
 
   const changed = topUp || condition !== "none";
   const action = $("#solve-gap");
@@ -212,7 +210,6 @@ function init() {
     $("#condition-select").value=condition;
     renderEngine();
   };
-  $("#show-gap").addEventListener("click", () => setScenario("abcd", false));
   $("#solve-gap").addEventListener("click", () => {
     const changed = $("#topup-toggle").checked || $("#condition-select").value !== "none";
     setScenario("abcd", !changed);
