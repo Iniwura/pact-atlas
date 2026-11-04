@@ -65,7 +65,7 @@ h1,h2,h3,p {margin:0}
 .workspace-heading {display:flex;justify-content:space-between;align-items:end;gap:25px;min-height:129px;padding:23px 0 22px}
 .overline,.small-label {font:700 9px var(--mono);letter-spacing:.1em;color:#aeb0a6;text-transform:uppercase}
 .workspace-heading .overline span {color:var(--orange);font-size:12px}
-.workspace-heading h1 {font-weight:780;letter-spacing:-.073em;font-size:clamp(39px,4.1vw,61px);line-height:1.05;margin:7px 0 0}
+.workspace-heading h1 {font-weight:800;letter-spacing:-.073em;font-size:clamp(39px,4.1vw,61px);line-height:1.05;margin:7px 0 0}
 .title-period {color:var(--orange)}
 .heading-meta {display:flex;align-items:center;gap:18px;color:#b4b0a5;font:680 9px var(--mono);letter-spacing:.04em;white-space:nowrap;padding-bottom:6px}
 .heading-meta span+span {padding-left:17px;border-left:1px solid #4e5148}
