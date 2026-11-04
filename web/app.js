@@ -23,7 +23,7 @@ function renderEngine() {
     indicator.dataset.state = feasible ? "viable" : "blocked";
     indicator.textContent = feasible ? "VIABLE" : "BLOCKED";
   }
-  $(".map-node").forEach(node => {
+  $$(".map-node").forEach(node => {
     node.dataset.inCoalition = String(targetKey.includes(node.dataset.project));
     node.dataset.simulated = node.dataset.project === "d" && targetKey.includes("d") && topUp ? "added" : "baseline";
   });
@@ -57,7 +57,7 @@ function renderCommitments() {
 function renderPledgeInspector(pledgeId) {
   const pledge = MODEL.pledges.find((item) => item.id === pledgeId);
   if (!pledge) return;
-  $(".map-node").forEach(node => { node.classList.remove("selected"); node.setAttribute("aria-pressed","false"); });
+  $$(".map-node").forEach(node => { node.classList.remove("selected"); node.setAttribute("aria-pressed","false"); });
   const detail = document.getElementById("commitment-detail");
   if (detail) detail.innerHTML = `<p class="inspector-kicker">COMMITMENT ${pledge.id}</p><h3>${pledge.owner}</h3><p>${near(pledge.amount)} permitted toward ${pledge.allowed.map(id=>MODEL.projects[id].label).join(" or ")}. ${pledge.requires.length?`Usable only if ${pledge.requires.map(id=>MODEL.projects[id].short).join(" + ")} are funded.`:"No additional dependency condition."}</p><div class="inspector-stat"><span>Amount</span><strong>${near(pledge.amount)}</strong></div><div class="inspector-stat"><span>Eligible routes</span><strong>${pledge.allowed.map(id=>id.toUpperCase()).join(" / ")}</strong></div>`;
   $("#project-inspector").innerHTML = `<p class="inspector-kicker">Commitment ${pledge.id} / ${pledge.note}</p><div class="inspector-symbol">${pledge.id}</div><h3>${pledge.owner}</h3><p>${near(pledge.amount)} permitted toward ${pledge.allowed.map((id) => MODEL.projects[id].label).join(" or ")}. ${pledge.requires.length ? `It becomes usable only when ${pledge.requires.map((id) => MODEL.projects[id].short).join(" + ")} are funded.` : "It has no additional dependency condition."}</p><div class="inspector-stat"><span>Amount</span><strong>${near(pledge.amount)}</strong></div><div class="inspector-stat"><span>Allowed routes</span><strong>${pledge.allowed.map((id) => id.toUpperCase()).join(" / ")}</strong></div><div class="inspector-stat"><span>Requires</span><strong>${pledge.requires.length ? pledge.requires.map((id) => id.toUpperCase()).join(" + ") : "None"}</strong></div>`;
