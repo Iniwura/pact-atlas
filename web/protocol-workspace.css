@@ -266,7 +266,7 @@ background-image:linear-gradient(rgba(255,255,255,.11) 1px,transparent 1px),line
 .evidence-row code {min-width:0;max-width:55%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#303e32;font-size:10px}
 .evidence-row strong {color:#27342a;font-weight:700;text-align:right}
 .receipt-card {background:#e7e3d9;border-left:1px solid #cfccc0}
-.card-label {color:#666a5d;font:700 10px var(--mono)}
+.card-label {color:#51594e;font:700 10px var(--mono)}
 .receipt-card .evidence-card-head select {max-width:66%;width:auto;min-width:0;background:#f8f5ed;color:#20251e;border:1px solid #b5b0a1;border-radius:5px;padding:10px;font:680 11px var(--sans)}
 .receipt-card .evidence-card-head option {color:#1b1c17}
 .receipt-title {font-size:clamp(22px,2.7vw,37px);font-weight:760;letter-spacing:-.06em;line-height:1.16;margin:34px 0 19px}
