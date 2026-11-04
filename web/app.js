@@ -64,7 +64,7 @@ function renderPledgeInspector(pledgeId) {
 }
 
 function renderProjectInspector(projectId) {
-  $(".commitment-row").forEach(item => item.classList.remove("selected"));
+  $$(".commitment-row").forEach(item => item.classList.remove("selected"));
   const project = MODEL.projects[projectId];
   if (!project) return;
   $("#project-inspector").innerHTML = `<p class="inspector-kicker">Project node / ${project.short}</p><div class="inspector-symbol">${project.short}</div><h3>${project.label}</h3><p>${project.copy}</p><div class="inspector-stat"><span>Required</span><strong>${near(project.required)}</strong></div><div class="inspector-stat"><span>Dependencies</span><strong>${project.dependencies.length ? project.dependencies.map((id) => id.toUpperCase()).join(" + ") : "None"}</strong></div><div class="inspector-stat"><span>Current coverage</span><strong>${near(MODEL.pledges.filter((pledge) => pledge.allowed.includes(projectId)).reduce((sum, pledge) => sum + pledge.amount, 0n))}</strong></div>`;
