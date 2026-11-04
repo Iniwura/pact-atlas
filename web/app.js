@@ -12,6 +12,21 @@ function renderEngine() {
   const result = evaluate(targetKey, topUp, condition);
   const feasible = result.plans.length > 0;
   document.body.dataset.coalitionState = feasible ? "viable" : "blocked";
+  // Presentation-only feedback. The solver result and wallet boundary are unchanged.
+  const graphState = document.getElementById("graph-state");
+  if (graphState) {
+    graphState.dataset.state = feasible ? "viable" : "blocked";
+    graphState.textContent = feasible ? "Certificate found" : "No exact certificate";
+  }
+  const indicator = document.getElementById("result-indicator");
+  if (indicator) {
+    indicator.dataset.state = feasible ? "viable" : "blocked";
+    indicator.textContent = feasible ? "VIABLE" : "BLOCKED";
+  }
+  $(".map-node").forEach(node => {
+    node.dataset.inCoalition = String(targetKey.includes(node.dataset.project));
+    node.dataset.simulated = node.dataset.project === "d" && targetKey.includes("d") && topUp ? "added" : "baseline";
+  });
   const plan = result.plans[0];
   const allocationText = plan ? plan.allocations.filter(Boolean).map((item) => `${item.pledge}→${item.project.toUpperCase()}`).join(" · ") : "No exact certificate";
   const headline = feasible ? `${result.targetLabel} becomes <em>viable.</em>` : `${result.targetLabel} is still <em>blocked.</em>`;
@@ -30,7 +45,7 @@ function renderEngine() {
 }
 
 function renderCommitments() {
-  $("#commitment-list").innerHTML = MODEL.pledges.map((pledge, index) => `<article class="commitment-row${index === 0 ? " selected" : ""}" data-pledge="${pledge.id}" tabindex="0" role="button" aria-label="Inspect ${pledge.owner} commitment">
+  $("#commitment-list").innerHTML = MODEL.pledges.map((pledge, index) => `<article class="commitment-row" data-pledge="${pledge.id}" tabindex="0" role="button" aria-label="Inspect ${pledge.owner} commitment">
     <span class="pledge-index">${pledge.id}</span><span class="pledge-name"><strong>${pledge.owner}</strong><span>${pledge.note}</span></span><strong class="pledge-amount">${near(pledge.amount)}</strong><span class="pledge-targets">${pledge.allowed.map((id) => `<i class="target-pill ${pledge.requires.length ? "conditioned" : ""}">${id.toUpperCase()}</i>`).join("")}</span>
   </article>`).join("");
   $$(".commitment-row").forEach((row) => {
@@ -42,10 +57,14 @@ function renderCommitments() {
 function renderPledgeInspector(pledgeId) {
   const pledge = MODEL.pledges.find((item) => item.id === pledgeId);
   if (!pledge) return;
+  $(".map-node").forEach(node => { node.classList.remove("selected"); node.setAttribute("aria-pressed","false"); });
+  const detail = document.getElementById("commitment-detail");
+  if (detail) detail.innerHTML = `<p class="inspector-kicker">COMMITMENT ${pledge.id}</p><h3>${pledge.owner}</h3><p>${near(pledge.amount)} permitted toward ${pledge.allowed.map(id=>MODEL.projects[id].label).join(" or ")}. ${pledge.requires.length?`Usable only if ${pledge.requires.map(id=>MODEL.projects[id].short).join(" + ")} are funded.`:"No additional dependency condition."}</p><div class="inspector-stat"><span>Amount</span><strong>${near(pledge.amount)}</strong></div><div class="inspector-stat"><span>Eligible routes</span><strong>${pledge.allowed.map(id=>id.toUpperCase()).join(" / ")}</strong></div>`;
   $("#project-inspector").innerHTML = `<p class="inspector-kicker">Commitment ${pledge.id} / ${pledge.note}</p><div class="inspector-symbol">${pledge.id}</div><h3>${pledge.owner}</h3><p>${near(pledge.amount)} permitted toward ${pledge.allowed.map((id) => MODEL.projects[id].label).join(" or ")}. ${pledge.requires.length ? `It becomes usable only when ${pledge.requires.map((id) => MODEL.projects[id].short).join(" + ")} are funded.` : "It has no additional dependency condition."}</p><div class="inspector-stat"><span>Amount</span><strong>${near(pledge.amount)}</strong></div><div class="inspector-stat"><span>Allowed routes</span><strong>${pledge.allowed.map((id) => id.toUpperCase()).join(" / ")}</strong></div><div class="inspector-stat"><span>Requires</span><strong>${pledge.requires.length ? pledge.requires.map((id) => id.toUpperCase()).join(" + ") : "None"}</strong></div>`;
 }
 
 function renderProjectInspector(projectId) {
+  $(".commitment-row").forEach(item => item.classList.remove("selected"));
   const project = MODEL.projects[projectId];
   if (!project) return;
   $("#project-inspector").innerHTML = `<p class="inspector-kicker">Project node / ${project.short}</p><div class="inspector-symbol">${project.short}</div><h3>${project.label}</h3><p>${project.copy}</p><div class="inspector-stat"><span>Required</span><strong>${near(project.required)}</strong></div><div class="inspector-stat"><span>Dependencies</span><strong>${project.dependencies.length ? project.dependencies.map((id) => id.toUpperCase()).join(" + ") : "None"}</strong></div><div class="inspector-stat"><span>Current coverage</span><strong>${near(MODEL.pledges.filter((pledge) => pledge.allowed.includes(projectId)).reduce((sum, pledge) => sum + pledge.amount, 0n))}</strong></div>`;
@@ -149,8 +168,17 @@ async function workflowAction(action) {
 }
 
 function init() {
-  renderEngine(); renderCommitments();
+  renderEngine(); renderCommitments(); renderProjectInspector("a");
   $("#coalition-select").addEventListener("change", renderEngine); $("#topup-toggle").addEventListener("change", renderEngine); $("#condition-select").addEventListener("change", renderEngine);
+  const setScenario = (targetKey,topUp=false,condition="none") => {
+    $("#coalition-select").value=targetKey;
+    $("#topup-toggle").checked=topUp;
+    $("#condition-select").value=condition;
+    renderEngine();
+  };
+  $("#show-gap")?.addEventListener("click",()=>setScenario("abcd",false));
+  $("#solve-gap")?.addEventListener("click",()=>setScenario("abcd",true));
+  $("#reset-scenario")?.addEventListener("click",()=>setScenario("abc"));
   $("#connect-wallet").addEventListener("click", connectWallet); $$(".step-action").forEach((button) => button.addEventListener("click", () => workflowAction(button.dataset.action)));
   $$(".map-node").forEach((node) => { const select = () => renderProjectInspector(node.dataset.project); node.addEventListener("click", select); node.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(); } }); });
   fetch("./data/evidence.json").then((response) => response.ok ? response.json() : null).then(renderEvidence).catch(() => { $("#evidence-date").textContent = "evidence unavailable"; });
