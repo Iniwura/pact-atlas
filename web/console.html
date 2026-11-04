@@ -38,7 +38,7 @@
           </div>
           <div class="map-canvas"><svg id="network-map" viewBox="0 0 640 470" role="group" aria-labelledby="map-title map-desc">
             <title id="map-title">PACT Atlas funding network</title>
-            <desc id="map-desc">Four projects connected by dependency lines and five contributor commitments.</desc>
+            <desc id="map-desc">Funding network with dependency arcs between projects A, B and C. Project D has no dependency; its funding gap is shown by its circular progress indicator.</desc>
             <defs>
               <filter id="soft-glow" x="-50%" y="-50%" width="200%" height="200%">
                 <feGaussianBlur stdDeviation="5" result="blur" />
@@ -58,9 +58,9 @@
               <path class="edge edge-a-c" d="M322 102 C402 112 444 164 430 220" />
               <path class="edge edge-b-a" d="M220 226 C236 156 274 119 315 109" />
               <path class="edge edge-c-a" d="M420 226 C407 156 367 119 325 109" />
-              <path class="edge edge-d" d="M320 373 C319 340 319 314 320 293" />
-              <path class="edge edge-donor" d="M116 316 C169 307 211 297 256 275" />
-              <path class="edge edge-donor edge-donor-right" d="M524 318 C476 307 433 297 383 276" />
+
+
+
             </g>
             <g class="map-node map-node-a" data-project="a" tabindex="0" role="button" aria-label="Project A, training, requires 4 NEAR">
               <circle class="node-halo" cx="320" cy="83" r="34" />
@@ -90,8 +90,8 @@
               <text x="320" y="389" text-anchor="middle">D</text>
               <text class="node-caption" x="320" y="430" text-anchor="middle">EVENTS · 3N</text>
             </g>
-            <g class="donor-pip donor-left" aria-hidden="true"><circle cx="97" cy="319" r="10" /><text x="97" y="323" text-anchor="middle">01</text></g>
-            <g class="donor-pip donor-right" aria-hidden="true"><circle cx="543" cy="319" r="10" /><text x="543" y="323" text-anchor="middle">05</text></g>
+
+
           </svg></div>
           <div id="project-inspector" class="project-inspector" aria-live="polite"></div>
           <div class="funding-strip" id="funding-strip" aria-live="polite">
