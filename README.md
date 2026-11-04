@@ -4,6 +4,12 @@
 
 This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
 
+## Try the one-minute funding witness
+
+The console's primary task is to answer **what makes the four-project coalition fundable**. Start with 12 NEAR committed versus 13 NEAR required. The dependency graph shows candidate/available capital, not onchain activation. A simulated 1 NEAR additional commitment unlocks a locally checked, one-use allocation certificate visible alongside the graph. Every route in the witness is produced from the exact reference solver, not hardcoded presentation data.
+
+Use `/console` after `npm run preview`, then follow [the precise judge walkthrough](docs/JUDGE_WITNESS.md). Reproduce its state with `npm run test:counterfactual` and `node scripts/certificate.js --topup`. The local sandbox evidence is a separate verified artifact, and the simulated commitment is **never** a signed transaction.
+
 ## Experiment
 
 Can independently funded, mutually dependent projects activate together, without using a contributor's money twice, and can all unmatched/expired contributions be recovered?
