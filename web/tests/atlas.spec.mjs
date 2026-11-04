@@ -28,7 +28,7 @@ test.describe("Coalition Atlas product", () => {
     const styles=await page.evaluate(()=>{
       const hero=document.querySelector("#hero-title");
       const stage=document.querySelector(".evidence-section");
-      const graph=document.querySelector(".map-node-a .node-core");
+      const graph=document.querySelector(".map-node-b .node-core");
       const css=v=>getComputedStyle(v);
       return {headlineFont:css(hero).fontFamily,headlineWeight:css(hero).fontWeight,
         accent:css(document.querySelector(".title-period")).color,
