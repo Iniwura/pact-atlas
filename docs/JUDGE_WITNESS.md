@@ -28,7 +28,7 @@ npm run test:benchmark
 npm run test:browser
 ```
 
-The two certificate commands produce offline examples in `docs/certificate-before-topup.json` and `docs/certificate-with-topup.json`. The screenshot and rendered witness are derived from `web/engine.mjs` via `web/funding-view.mjs`, **not** from embedded screenshots or hardcoded claimed outcomes. The regression suite deliberately tampers with certificates to show rejection of duplicate or ineligible allocations.
+The same fixture's preserved offline example certificates are in `docs/certificate-before-topup.json` and `docs/certificate-with-topup.json`. The screenshot and rendered witness are derived from `web/engine.mjs` via `web/funding-view.mjs`, **not** from embedded screenshots or hardcoded claimed outcomes. The regression suite deliberately tampers with certificates to show rejection of duplicate or ineligible allocations.
 
 The broader six-scenario comparison, its defined baselines, and its limits are documented in `docs/COMPETITIVE_ADVANTAGE.md`. Do not compare its nominal activation counts without its constraints: independent evaluation can double-count flexible commitments, and plain threshold pooling does not establish eligibility or dependency closure.
 
