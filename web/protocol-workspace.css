@@ -272,7 +272,7 @@ background-image:linear-gradient(rgba(255,255,255,.11) 1px,transparent 1px),line
 .receipt-title {font-size:clamp(22px,2.7vw,37px);font-weight:760;letter-spacing:-.06em;line-height:1.16;margin:34px 0 19px}
 .receipt-list {min-width:0}
 .receipt-item {display:grid;grid-template-columns:115px minmax(0,1fr);gap:15px;padding:13px 0;border-bottom:1px solid #c9c5b8}
-.receipt-item span {color:#646a5e;font-size:11px}
+.receipt-item span {color:#51584d;font-size:11px}
 .receipt-item code {display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#313d32;font:600 10px var(--mono)}
 .receipt-card .text-link {display:inline-block;margin-top:23px;padding-bottom:6px;border-bottom:1px solid #b47d61;color:#8b3e24;font-size:11px;font-weight:760}
 .receipt-card .text-link:hover {color:#5a2515}
