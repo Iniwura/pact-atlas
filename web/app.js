@@ -18,7 +18,7 @@ function renderEngine() {
 
   const changed = topUp || condition !== "none";
   const action = $("#solve-gap");
-  action.innerHTML = changed ? 'Remove change <span aria-hidden="true">↺</span>' : 'Add 1 NEAR <span aria-hidden="true">↗</span>';
+  action.innerHTML = changed ? 'Reset simulation <span aria-hidden="true">↺</span>' : 'Simulate +1 NEAR <span aria-hidden="true">↗</span>';
   action.setAttribute("aria-pressed", String(changed));
 
   $("#committed-value").textContent = `${view.committed} NEAR`;
