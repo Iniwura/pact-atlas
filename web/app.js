@@ -34,8 +34,10 @@ function renderEngine() {
     ? (feasible ? "All four projects can activate" : "1 NEAR is missing")
     : (feasible ? `${result.targetLabel} can activate` : `${result.targetLabel} cannot activate`);
   const explanation = feasible
-    ? "Every allocation meets the project's amount, permissions and dependencies."
-    : (result.reasons[0] || "No valid allocation satisfies these conditions.");
+    ? "Every allocation meets the amount, permissions and dependencies."
+    : (targetKey === "abcd" && result.minimum === 1n
+        ? "Project D needs one more NEAR."
+        : (result.reasons[0] || "No valid allocation satisfies these conditions."));
 
   const allocations = plan?.allocations.filter(Boolean).map(({pledge, project}) => {
     const contribution = result.pledges.find((item) => item.id === pledge);
@@ -51,7 +53,7 @@ function renderEngine() {
            <ol>${allocations}</ol>
            <p>Exact model certificate. No transaction submitted.</p>
          </details>`
-      : `<p class="result-reason">Needed: ${near(result.minimum || 0n)} additional funding for the full coalition.</p>`
+      : ""
     }
   `;
 }
