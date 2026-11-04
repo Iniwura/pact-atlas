@@ -60,7 +60,7 @@ test.describe("PACT Atlas — one-task funding console", () => {
     await page.selectOption("#condition-select","donor5");
     await expect(page.locator("#graph-state")).toHaveText("Fundable");
     await expect(page.locator("#topup-toggle")).not.toBeChecked();
-    await page.locator("#show-gap").click();
+    await page.locator("#solve-gap").click();
     await expect(page.locator("#graph-state")).toHaveText("Blocked");
     await expect(page.locator("#condition-select")).toHaveValue("none");
   });
