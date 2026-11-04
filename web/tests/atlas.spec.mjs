@@ -17,7 +17,7 @@ test.describe("PACT Atlas — one-task funding console", () => {
     await expect(page.locator("#coalition-select")).toHaveValue("abcd");
     await expect(page.locator("#graph-state")).toHaveText("Blocked");
     await expect(page.locator("#engine-result")).toContainText("1 NEAR is missing");
-    await expect(page.getByRole("button",{name:/Add 1 NEAR/i})).toBeVisible();
+    await expect(page.getByRole("button",{name:/Simulate \+1 NEAR/i})).toBeVisible();
     const layout = await page.evaluate(() => ({
       map:document.querySelector(".map-panel").getBoundingClientRect().toJSON(),
       decision:document.querySelector(".decision-panel").getBoundingClientRect().toJSON(),
