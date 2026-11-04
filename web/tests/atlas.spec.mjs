@@ -49,6 +49,7 @@ test.describe("PACT Atlas — one-task funding console", () => {
     await expect(page.locator(".map-node-d .node-caption")).toHaveText("EVENTS · 3/3N");
     await expect(page.locator("#committed-value")).toHaveText("13 NEAR");
     await expect(page.locator("#gap-value")).toHaveText("0 NEAR");
+    await page.screenshot({path:path.join(screenshots,"pact-console-allocated-desktop.png"),fullPage:true});
     await page.locator("#solve-gap").click();
     await expect(page.locator("#graph-state")).toHaveText("Blocked");
     await expect(page.locator("#allocation-proof")).toHaveCount(0);
