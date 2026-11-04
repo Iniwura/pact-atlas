@@ -7,7 +7,7 @@
   "scripts": {
     "test": "node --test tests/*.test.js",
     "test:sandbox": "node scripts/sandbox-verification.js",
-    "test:counterfactual": "node web/tests/counterfactual.test.mjs",
+    "test:counterfactual": "node --test web/tests/counterfactual.test.mjs web/tests/funding-view.test.mjs",
     "test:benchmark": "node --test tests/competitive-benchmark.test.js",
     "benchmark": "node scripts/competitive-benchmark.js --write evidence/competitive-benchmark.json",
     "test:workflow": "node --test web/tests/near-workflow.test.mjs",
