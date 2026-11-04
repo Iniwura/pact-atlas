@@ -64,24 +64,28 @@
             </g>
             <g class="map-node map-node-a" data-project="a" tabindex="0" role="button" aria-label="Project A, training, requires 4 NEAR">
               <circle class="node-halo" cx="320" cy="83" r="34" />
+              <circle class="node-progress" cx="320" cy="83" r="37" transform="rotate(-90 320 83)" aria-hidden="true" />
               <circle class="node-core" cx="320" cy="83" r="24" />
               <text x="320" y="88" text-anchor="middle">A</text>
               <text class="node-caption" x="320" y="47" text-anchor="middle">TRAINING · 4N</text>
             </g>
             <g class="map-node map-node-b" data-project="b" tabindex="0" role="button" aria-label="Project B, internet, requires 3 NEAR">
               <circle class="node-halo" cx="205" cy="236" r="31" />
+              <circle class="node-progress" cx="205" cy="236" r="34" transform="rotate(-90 205 236)" aria-hidden="true" />
               <circle class="node-core" cx="205" cy="236" r="22" />
               <text x="205" y="241" text-anchor="middle">B</text>
               <text class="node-caption" x="205" y="277" text-anchor="middle">INTERNET · 3N</text>
             </g>
             <g class="map-node map-node-c" data-project="c" tabindex="0" role="button" aria-label="Project C, equipment, requires 3 NEAR">
               <circle class="node-halo" cx="435" cy="236" r="31" />
+              <circle class="node-progress" cx="435" cy="236" r="34" transform="rotate(-90 435 236)" aria-hidden="true" />
               <circle class="node-core" cx="435" cy="236" r="22" />
               <text x="435" y="241" text-anchor="middle">C</text>
               <text class="node-caption" x="435" y="277" text-anchor="middle">EQUIPMENT · 3N</text>
             </g>
             <g class="map-node map-node-d" data-project="d" tabindex="0" role="button" aria-label="Project D, events, requires 3 NEAR">
               <circle class="node-halo" cx="320" cy="384" r="31" />
+              <circle class="node-progress" cx="320" cy="384" r="34" transform="rotate(-90 320 384)" aria-hidden="true" />
               <circle class="node-core" cx="320" cy="384" r="22" />
               <text x="320" y="389" text-anchor="middle">D</text>
               <text class="node-caption" x="320" y="430" text-anchor="middle">EVENTS · 3N</text>
@@ -90,11 +94,16 @@
             <g class="donor-pip donor-right" aria-hidden="true"><circle cx="543" cy="319" r="10" /><text x="543" y="323" text-anchor="middle">05</text></g>
           </svg></div>
           <div id="project-inspector" class="project-inspector" aria-live="polite"></div>
+          <div class="funding-strip" id="funding-strip" aria-live="polite">
+            <div><span>Committed</span><strong id="committed-value">12 NEAR</strong></div>
+            <div><span>Required</span><strong id="required-value">13 NEAR</strong></div>
+            <div><span>Missing</span><strong id="gap-value">1 NEAR</strong></div>
+          </div>
         </div>
 
         <aside class="decision-panel" id="counterfactual" aria-label="Funding decision">
           <div class="decision-controls">
-            <div class="decision-title"><h2>One change</h2></div>
+            <div class="decision-title"><h2>Funding decision</h2></div>
             <button id="solve-gap" type="button" class="primary-action" aria-pressed="false">Add 1 NEAR <span aria-hidden="true">↗</span></button>
             <details class="advanced-controls">
               <summary>Other scenarios</summary>
