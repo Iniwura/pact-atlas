@@ -6,13 +6,13 @@
 
 1. Open `/console`. All four projects are selected, but the exact solver says **Blocked**. The graph shows a candidate allocation of **4/4 NEAR Training**, **3/3 Internet**, **3/3 Equipment**, and **2/3 Events**. The first three projects are *candidates*, not activated onchain. Total commitments are 12 NEAR; the four projects require 13 NEAR.
 2. Expand **Why not count all eligible funding?** Eligibility looks like 15 NEAR only because commitment 01 (3 NEAR) can go to Training **or** Events. It must not be counted twice. The actual committed capital is still 12 NEAR.
-3. Click **Add 1 NEAR**. This adds a model-only sixth commitment restricted to Events. The exact solver finds a valid four-project allocation:
+3. Click **Simulate +1 NEAR**. This adds a model-only sixth commitment restricted to Events. The exact solver finds a valid four-project allocation:
    - Training: Donor 01 (3 NEAR) + Donor 02 (1 NEAR) = 4 NEAR
    - Internet: Donor 03 (3 NEAR) = 3 NEAR
    - Equipment: Donor 04 (3 NEAR) = 3 NEAR
    - Events: Donor 05 (2 NEAR) + new commitment (1 NEAR) = 3 NEAR
 4. Read **Inspect exact allocation** next to the network. It shows the four destination totals, six distinct commitments, and local validation of one-use allocation, eligible destinations, pledge conditions, dependency closure, exact project amounts, and capital conservation. These are **reference-model checks**, not claims of external review.
-5. Click **Remove change**. The full coalition becomes blocked again. The starting commitments are not modified.
+5. Click **Reset simulation**. The full coalition becomes blocked again. The starting commitments are not modified.
 6. Select **Other scenarios → A+B+C**. The core coalition has a valid 10 NEAR allocation with 2 NEAR unused/refundable. Choose **D only** to see the contract's mandatory A+B+C activation rule block that isolated coalition.
 
 ## Independent reproduction
