@@ -122,6 +122,11 @@ test.describe("PACT Atlas — one-task funding console", () => {
     expect(await page.evaluate(()=>Boolean(window.__lastRequest))).toBeFalsy();
     await page.locator("#workflow > summary").click();
     await page.locator("[data-action='activate']").click();
+    await expect(page.locator("#workflow-result")).toContainText("No exact allocation certificate");
+    expect(await page.evaluate(()=>Boolean(window.__lastRequest))).toBeFalsy();
+    await page.locator(".advanced-controls summary").click();
+    await page.selectOption("#coalition-select","abc");
+    await page.locator("[data-action='activate']").click();
     await expect(page.locator("#workflow-result")).toContainText("sandbox-ui-stub-receipt");
     expect(await page.evaluate(()=>window.__lastRequest.methodName)).toBe("activate");
     expect(await page.evaluate(()=>window.__lastRequest.args.allocations.length)).toBeGreaterThan(0);
