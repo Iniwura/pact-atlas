@@ -6,69 +6,103 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const near = (value) => `${value.toString()}N`;
 
 function renderEngine() {
+  // Every visual state comes from the existing exact funding model.
   const targetKey = $("#coalition-select").value;
   const topUp = $("#topup-toggle").checked;
   const condition = $("#condition-select").value;
   const result = evaluate(targetKey, topUp, condition);
-  const feasible = result.plans.length > 0;
-  document.body.dataset.coalitionState = feasible ? "viable" : "blocked";
-  // Presentation-only feedback. The solver result and wallet boundary are unchanged.
-  const graphState = document.getElementById("graph-state");
-  if (graphState) {
-    graphState.dataset.state = feasible ? "viable" : "blocked";
-    graphState.textContent = feasible ? "Certificate found" : "No exact certificate";
-  }
-  const indicator = document.getElementById("result-indicator");
-  if (indicator) {
-    indicator.dataset.state = feasible ? "viable" : "blocked";
-    indicator.textContent = feasible ? "VIABLE" : "BLOCKED";
-  }
-  $$(".map-node").forEach(node => {
-    node.dataset.inCoalition = String(targetKey.includes(node.dataset.project));
-    node.dataset.simulated = node.dataset.project === "d" && targetKey.includes("d") && topUp ? "added" : "baseline";
-  });
   const plan = result.plans[0];
-  const allocationText = plan ? plan.allocations.filter(Boolean).map((item) => `${item.pledge}→${item.project.toUpperCase()}`).join(" · ") : "No exact certificate";
-  const headline = feasible ? `${result.targetLabel} becomes <em>viable.</em>` : `${result.targetLabel} is still <em>blocked.</em>`;
-  const copy = feasible ? `The bounded search found ${result.plans.length} exact allocation certificate${result.plans.length === 1 ? "" : "s"}. Every used pledge lands on one allowed project, and every dependency closes.` : "This is not a vague shortage. The engine can point to the exact permission, amount or dependency that prevents activation.";
-  $("#engine-result").innerHTML = `<div class="result-main">
-    <p class="result-kicker">${feasible ? "exact / certificate found" : "exact search / no certificate"}</p>
-    <h3 class="result-title">${headline}</h3>
-    <p class="result-copy">${copy}</p>
-    <div class="result-badges"><span class="result-badge ${feasible ? "" : "warn"}">${feasible ? "exact result" : "blocked state"}</span><span class="result-badge">${result.plans.length ? `${result.plans.length} allocation${result.plans.length === 1 ? "" : "s"}` : "heuristic next move"}</span><span class="result-badge">${condition === "none" ? "approved conditions unchanged" : "model-only change"}</span></div>
-    ${plan ? `<div class="result-certificate"><span>allocation certificate</span><strong>${allocationText}</strong></div>` : ""}
-  </div><div class="result-side">
-    <p class="result-side-label">minimum additional funding</p>
-    <p class="result-number">${near(result.minimum)}<small>${result.minimum === 0n ? "already reachable" : "to unblock"}</small></p>
-    <ul class="reason-list">${(feasible ? [`${result.targetLabel} satisfies the mandatory coalition rule.`, "Liability conservation is exact.", "This is a model result; it does not submit or alter a DAO proposal."] : result.reasons).map((reason) => `<li>${reason}</li>`).join("")}</ul>
-  </div>`;
+  const feasible = Boolean(plan);
+  const status = feasible ? "viable" : "blocked";
+  document.body.dataset.coalitionState = status;
+  $(".map-panel").dataset.state = status;
+  $("#graph-state").textContent = feasible ? "Fundable" : "Blocked";
+
+  const changed = topUp || condition !== "none";
+  const action = $("#solve-gap");
+  action.innerHTML = changed ? 'Remove change <span aria-hidden="true">↺</span>' : 'Add 1 NEAR <span aria-hidden="true">↗</span>';
+  action.setAttribute("aria-pressed", String(changed));
+
+  $$(".map-node").forEach((node) => {
+    node.dataset.inCoalition = String(targetKey.includes(node.dataset.project));
+    node.dataset.simulated = node.dataset.project === "d" && targetKey.includes("d") && feasible && changed ? "added" : "baseline";
+  });
+
+  const label = targetKey === "abcd"
+    ? (feasible ? "All four projects can activate" : "1 NEAR is missing")
+    : (feasible ? `${result.targetLabel} can activate` : `${result.targetLabel} cannot activate`);
+  const explanation = feasible
+    ? "Every allocation meets the amount, permissions and dependencies."
+    : (targetKey === "abcd" && result.minimum === 1n
+        ? "Project D needs one more NEAR."
+        : (result.reasons[0] || "No valid allocation satisfies these conditions."));
+
+  const allocations = plan?.allocations.filter(Boolean).map(({pledge, project}) => {
+    const contribution = result.pledges.find((item) => item.id === pledge);
+    return `<li><span>${pledge} · ${near(contribution.amount)}</span><strong>${MODEL.projects[project].label}</strong></li>`;
+  }).join("") || "";
+
+  $("#engine-result").innerHTML = `
+    <h3 class="result-title">${label}</h3>
+    <p class="result-copy">${explanation}</p>
+    ${plan
+      ? `<details class="allocation-proof" id="allocation-proof">
+           <summary>Inspect allocation <span aria-hidden="true">↗</span></summary>
+           <ol>${allocations}</ol>
+           <p>Exact model certificate. No transaction submitted.</p>
+         </details>`
+      : ""
+    }
+  `;
 }
 
 function renderCommitments() {
-  $("#commitment-list").innerHTML = MODEL.pledges.map((pledge, index) => `<article class="commitment-row" data-pledge="${pledge.id}" tabindex="0" role="button" aria-label="Inspect ${pledge.owner} commitment">
-    <span class="pledge-index">${pledge.id}</span><span class="pledge-name"><strong>${pledge.owner}</strong><span>${pledge.note}</span></span><strong class="pledge-amount">${near(pledge.amount)}</strong><span class="pledge-targets">${pledge.allowed.map((id) => `<i class="target-pill ${pledge.requires.length ? "conditioned" : ""}">${id.toUpperCase()}</i>`).join("")}</span>
+  $("#commitment-list").innerHTML = MODEL.pledges.map((pledge) => `<article class="commitment-row" data-pledge="${pledge.id}" tabindex="0" role="button" aria-label="Inspect ${pledge.owner} commitment">
+    <span class="pledge-index">${pledge.id}</span>
+    <span class="pledge-name"><strong>${pledge.owner}</strong></span>
+    <strong class="pledge-amount">${near(pledge.amount)}</strong>
+    <span class="pledge-targets">${pledge.allowed.map(id => `<i class="target-pill">${id.toUpperCase()}</i>`).join("")}</span>
   </article>`).join("");
-  $$(".commitment-row").forEach((row) => {
-    const select = () => { $$(".commitment-row").forEach((item) => item.classList.remove("selected")); row.classList.add("selected"); renderPledgeInspector(row.dataset.pledge); };
-    row.addEventListener("click", select); row.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(); } });
+  $$(".commitment-row").forEach(row => {
+    const select = () => {
+      $$(".commitment-row").forEach(item => item.classList.remove("selected"));
+      row.classList.add("selected");
+      renderPledgeInspector(row.dataset.pledge);
+    };
+    row.addEventListener("click", select);
+    row.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault(); select();
+      }
+    });
   });
 }
 
 function renderPledgeInspector(pledgeId) {
-  const pledge = MODEL.pledges.find((item) => item.id === pledgeId);
+  const pledge = MODEL.pledges.find(item => item.id === pledgeId);
   if (!pledge) return;
-  $$(".map-node").forEach(node => { node.classList.remove("selected"); node.setAttribute("aria-pressed","false"); });
-  const detail = document.getElementById("commitment-detail");
-  if (detail) detail.innerHTML = `<p class="inspector-kicker">COMMITMENT ${pledge.id}</p><h3>${pledge.owner}</h3><p>${near(pledge.amount)} permitted toward ${pledge.allowed.map(id=>MODEL.projects[id].label).join(" or ")}. ${pledge.requires.length?`Usable only if ${pledge.requires.map(id=>MODEL.projects[id].short).join(" + ")} are funded.`:"No additional dependency condition."}</p><div class="inspector-stat"><span>Amount</span><strong>${near(pledge.amount)}</strong></div><div class="inspector-stat"><span>Eligible routes</span><strong>${pledge.allowed.map(id=>id.toUpperCase()).join(" / ")}</strong></div>`;
-  $("#project-inspector").innerHTML = `<p class="inspector-kicker">Commitment ${pledge.id} / ${pledge.note}</p><div class="inspector-symbol">${pledge.id}</div><h3>${pledge.owner}</h3><p>${near(pledge.amount)} permitted toward ${pledge.allowed.map((id) => MODEL.projects[id].label).join(" or ")}. ${pledge.requires.length ? `It becomes usable only when ${pledge.requires.map((id) => MODEL.projects[id].short).join(" + ")} are funded.` : "It has no additional dependency condition."}</p><div class="inspector-stat"><span>Amount</span><strong>${near(pledge.amount)}</strong></div><div class="inspector-stat"><span>Allowed routes</span><strong>${pledge.allowed.map((id) => id.toUpperCase()).join(" / ")}</strong></div><div class="inspector-stat"><span>Requires</span><strong>${pledge.requires.length ? pledge.requires.map((id) => id.toUpperCase()).join(" + ") : "None"}</strong></div>`;
+  const destinations = pledge.allowed.map(id => MODEL.projects[id].label).join(" or ");
+  const condition = pledge.requires.length
+    ? `Requires ${pledge.requires.map(id => MODEL.projects[id].label).join(" and ")} to be funded.`
+    : "";
+  $("#commitment-detail").innerHTML = `<h3>${pledge.owner}</h3>
+    <p>${near(pledge.amount)} toward ${destinations}.</p>
+    ${condition ? `<p>${condition}</p>` : ""}
+  `;
 }
 
 function renderProjectInspector(projectId) {
-  $$(".commitment-row").forEach(item => item.classList.remove("selected"));
   const project = MODEL.projects[projectId];
   if (!project) return;
-  $("#project-inspector").innerHTML = `<p class="inspector-kicker">Project node / ${project.short}</p><div class="inspector-symbol">${project.short}</div><h3>${project.label}</h3><p>${project.copy}</p><div class="inspector-stat"><span>Required</span><strong>${near(project.required)}</strong></div><div class="inspector-stat"><span>Dependencies</span><strong>${project.dependencies.length ? project.dependencies.map((id) => id.toUpperCase()).join(" + ") : "None"}</strong></div><div class="inspector-stat"><span>Current coverage</span><strong>${near(MODEL.pledges.filter((pledge) => pledge.allowed.includes(projectId)).reduce((sum, pledge) => sum + pledge.amount, 0n))}</strong></div>`;
-  $$(".map-node").forEach((node) => {
+  const dependencies = project.dependencies.map(id => MODEL.projects[id].label);
+  $("#project-inspector").innerHTML = `
+    <div class="inspector-symbol">${project.short}</div>
+    <div class="inspector-body">
+      <strong>${project.label}</strong>
+      <span>${near(project.required)} required</span>
+      ${dependencies.length ? `<small>Needs ${dependencies.join(" + ")}</small>` : ""}
+    </div>`;
+  $$(".map-node").forEach(node => {
     const selected = node.dataset.project === projectId;
     node.classList.toggle("selected", selected);
     node.setAttribute("aria-pressed", String(selected));
@@ -168,7 +202,7 @@ async function workflowAction(action) {
 }
 
 function init() {
-  renderEngine(); renderCommitments(); renderProjectInspector("a");
+  renderCommitments(); renderProjectInspector("d"); renderEngine();
   $("#coalition-select").addEventListener("change", renderEngine); $("#topup-toggle").addEventListener("change", renderEngine); $("#condition-select").addEventListener("change", renderEngine);
   const setScenario = (targetKey,topUp=false,condition="none") => {
     $("#coalition-select").value=targetKey;
@@ -176,9 +210,10 @@ function init() {
     $("#condition-select").value=condition;
     renderEngine();
   };
-  $("#show-gap")?.addEventListener("click",()=>setScenario("abcd",false));
-  $("#solve-gap")?.addEventListener("click",()=>setScenario("abcd",true));
-  $("#reset-scenario")?.addEventListener("click",()=>setScenario("abc"));
+  $("#solve-gap").addEventListener("click", () => {
+    const changed = $("#topup-toggle").checked || $("#condition-select").value !== "none";
+    setScenario("abcd", !changed);
+  });
   $("#connect-wallet").addEventListener("click", connectWallet); $$(".step-action").forEach((button) => button.addEventListener("click", () => workflowAction(button.dataset.action)));
   $$(".map-node").forEach((node) => { const select = () => renderProjectInspector(node.dataset.project); node.addEventListener("click", select); node.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(); } }); });
   fetch("./data/evidence.json").then((response) => response.ok ? response.json() : null).then(renderEvidence).catch(() => { $("#evidence-date").textContent = "evidence unavailable"; });
