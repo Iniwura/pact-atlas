@@ -6,7 +6,7 @@ This is a serious technical checkpoint, not an externally audited or production-
 
 ## Judge-first demo — 60 seconds
 
-Open `/console` and follow [the allocation witness](docs/JUDGE_WITNESS.md). The default full coalition is blocked: **12 NEAR is pledged, 13 NEAR is required**. Eligibility totals *appear* to be 15 NEAR because Donor 01's flexible commitment can count for either A or D; PACT cannot spend it twice. Click **Add 1 NEAR** to run a model-only counterfactual, then inspect the exact one-use allocation for all four projects and reproduce it with `node scripts/certificate.js --topup`.
+Open `/console` and follow [the allocation witness](docs/JUDGE_WITNESS.md). The default full coalition is blocked: **12 NEAR is pledged, 13 NEAR is required**. Eligibility totals *appear* to be 15 NEAR because Donor 01's flexible commitment can count for either A or D; PACT cannot spend it twice. Click **Simulate +1 NEAR** to run a model-only counterfactual, then inspect the exact one-use allocation for all four projects and reproduce it with `node scripts/certificate.js --topup`.
 
 This is a bounded, local reference-model demo accompanied by **separately obtained local NEAR sandbox evidence**. It is not a real wallet transfer, a public testnet deployment, or an independent audit. The approved cinematic homepage remains separate from the functional console.
 
