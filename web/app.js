@@ -3,7 +3,10 @@ import { fundingView } from "./funding-view.mjs";
 import { buildWorkflowRequest, certificateFor, reconciliationViews } from "./near-workflow.mjs";
 
 const $ = (selector, root = document) => root.querySelector(selector);
-const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];function renderEngine() {
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+const near = (value) => `${value.toString()}N`;
+
+function renderEngine() {
   const targetKey = $("#coalition-select").value;
   const topUp = $("#topup-toggle").checked;
   const condition = $("#condition-select").value;
@@ -88,13 +91,6 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];f
   const selected = $(".map-node.selected")?.dataset.project || "d";
   renderProjectInspector(selected, view);
 }
-</p>
-         </details>`
-      : ""
-    }
-  `;
-}
-
 function renderCommitments() {
   $("#commitment-list").innerHTML = MODEL.pledges.map((pledge) => `<article class="commitment-row" data-pledge="${pledge.id}" tabindex="0" role="button" aria-label="Inspect ${pledge.owner} commitment">
     <span class="pledge-index">${pledge.id}</span>
