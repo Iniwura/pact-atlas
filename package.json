@@ -7,14 +7,15 @@
   "scripts": {
     "test": "node --test tests/*.test.js",
     "test:sandbox": "node scripts/sandbox-verification.js",
-    "test:counterfactual": "node --test web/tests/counterfactual.test.mjs web/tests/funding-view.test.mjs",
+    "test:counterfactual": "node --test web/tests/counterfactual.test.mjs web/tests/funding-view.test.mjs web/tests/campaign-solver.test.mjs",
     "test:benchmark": "node --test tests/competitive-benchmark.test.js",
     "benchmark": "node scripts/competitive-benchmark.js --write evidence/competitive-benchmark.json",
     "test:workflow": "node --test web/tests/near-workflow.test.mjs",
     "test:wallet-adapter": "node --test web/tests/near-adapter.test.mjs",
     "test:browser": "playwright test -c web/playwright.config.mjs",
     "preview": "node web/server.mjs",
-    "verify": "bash scripts/verify-rust.sh"
+    "verify": "bash scripts/verify-rust.sh",
+    "verify:campaign": "node scripts/verify-campaign.js"
   },
   "engines": {
     "node": ">=22.22.2"
