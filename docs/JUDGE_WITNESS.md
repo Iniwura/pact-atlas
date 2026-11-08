@@ -1,21 +1,28 @@
-# PACT Atlas — 60-second allocation witness
+# PACT Atlas — judge walkthrough
 
-**Status:** local reference model and verified local NEAR sandbox evidence. This walkthrough does not prove public testnet activity, move funds, or replace an independent security audit.
+**Start:** Open `/console`. This is an interactive example, not a real payment or a deployed campaign.
 
-## Do this, observe this
+## 60-second walkthrough
 
-1. Open `/console`. All four projects are selected, but the exact solver says **Blocked**. The graph shows a candidate allocation of **4/4 NEAR Training**, **3/3 Internet**, **3/3 Equipment**, and **2/3 Events**. The first three projects are *candidates*, not activated onchain. Total commitments are 12 NEAR; the four projects require 13 NEAR.
-2. Expand **Why not count all eligible funding?** Eligibility looks like 15 NEAR only because commitment 01 (3 NEAR) can go to Training **or** Events. It must not be counted twice. The actual committed capital is still 12 NEAR.
-3. Click **Simulate +1 NEAR**. This adds a model-only sixth commitment restricted to Events. The exact solver finds a valid four-project allocation:
-   - Training: Donor 01 (3 NEAR) + Donor 02 (1 NEAR) = 4 NEAR
-   - Internet: Donor 03 (3 NEAR) = 3 NEAR
-   - Equipment: Donor 04 (3 NEAR) = 3 NEAR
-   - Events: Donor 05 (2 NEAR) + new commitment (1 NEAR) = 3 NEAR
-4. Read **Inspect exact allocation** next to the network. It shows the four destination totals, six distinct commitments, and local validation of one-use allocation, eligible destinations, pledge conditions, dependency closure, exact project amounts, and capital conservation. These are **reference-model checks**, not claims of external review.
-5. Click **Reset simulation**. The full coalition becomes blocked again. The starting commitments are not modified.
-6. Select **Other scenarios → A+B+C**. The core coalition has a valid 10 NEAR allocation with 2 NEAR unused/refundable. Choose **D only** to see the contract's mandatory A+B+C activation rule block that isolated coalition.
+1. **Read the question:** “Can we fund all four?” Five supporters have committed **12 NEAR**. Four community projects require **13 NEAR**.
+2. **Look at the cards:** Training needs 4 NEAR, Internet 3, Equipment 3, and Events 3. A valid potential allocation covers the first three projects, but Events has only **2/3 NEAR**. The cards show possible coverage, not onchain payments.
+3. **Click “Why can't we use the existing money?”** Supporter 01's 3 NEAR is permitted for either Training or Events. It cannot fund both. Independent eligibility sums can double-count flexible commitments; an exact allocation cannot.
+4. **Click “Simulate +1 NEAR.”** This introduces a sixth *hypothetical* contribution allowed for Events only. The existing exact reference solver now finds a plan covering all four.
+5. **Read “Where the money goes.”** The interface automatically exposes the real model allocation, without requiring a second page or a hidden developer inspector.
+6. **Click “Reset example.”** The hypothetical contribution disappears. Nothing is signed or moved.
 
-## Independent reproduction
+## Model-generated allocation for the successful example
+
+| Project | Requirement | Allocation |
+| --- | ---: | --- |
+| Training | 4 NEAR | Supporter 01 (3) + Supporter 02 (1) |
+| Internet | 3 NEAR | Supporter 03 (3) |
+| Equipment | 3 NEAR | Supporter 04 (3) |
+| Events | 3 NEAR | Supporter 05 (2) + simulated contribution (1) |
+
+All 13 NEAR are allocated exactly once. The local witness validates destination permissions, pledge conditions, project dependencies, exact requirements, and conserved capital. It is a bounded, model-level certificate, not a completed blockchain settlement.
+
+## Reproduce independently
 
 From repository root:
 
@@ -28,18 +35,16 @@ npm run test:benchmark
 npm run test:browser
 ```
 
-The same fixture's preserved offline example certificates are in `docs/certificate-before-topup.json` and `docs/certificate-with-topup.json`. The screenshot and rendered witness are derived from `web/engine.mjs` via `web/funding-view.mjs`, **not** from embedded screenshots or hardcoded claimed outcomes. The regression suite deliberately tampers with certificates to show rejection of duplicate or ineligible allocations.
+To verify the NEAR contract and local sandbox separately, install the pinned toolchain and run `RUSTUP_TOOLCHAIN=1.93.0 bash scripts/verify-rust.sh` as documented in the README.
 
-The broader six-scenario comparison, its defined baselines, and its limits are documented in `docs/COMPETITIVE_ADVANTAGE.md`. Do not compare its nominal activation counts without its constraints: independent evaluation can double-count flexible commitments, and plain threshold pooling does not establish eligibility or dependency closure.
+## Evidence and limits
 
-## Verification boundaries
+- The interactive project cards and allocation breakdown come from `web/funding-view.mjs` and the existing bounded solver in `web/engine.mjs`.
+- The local NEAR sandbox receipts are available in the console's **Local sandbox evidence** section and `web/data/evidence.json`. They come from independent local test runs, not the hypothetical browser action.
+- The extra 1 NEAR is never deposited, signed, or sent from the browser example.
+- This release does **not** claim public testnet execution, an independent qualified security audit, production readiness, guaranteed delivery, or universal mathematical optimality.
+- Withdrawal callback non-execution remains a real protocol limitation. No blind retry or unsafe unlock is used. See `docs/WITHDRAWAL_REVIEW.md` and `docs/SECURITY_REVIEW.md`.
 
-- `web/funding-view.mjs` is a UI-oriented, fail-closed witness check layered on the bounded exact reference solver. It is not a replacement for the Rust contract's authoritative validation.
-- `/data/evidence.json` contains preserved local NEAR sandbox receipts; it is **not** a receipt from the current browser simulation.
-- The mainnet/testnet wallet flow has not been independently established. A simulated sixth commitment cannot be signed automatically as if it were already deposited.
-- The Rust contract still has documented withdrawal callback non-execution, transfer-failure injection, unbounded storage sizing, and external-audit limitations. See `docs/SECURITY_REVIEW.md` and `docs/TESTNET_CHECKLIST.md`.
-- The benchmark solver is bounded and exponential; PACT does not claim novel mathematics or a universally optimal allocation.
+## The actual differentiator
 
-## What matters
-
-PACT's claim is a **constraint-valid, inspectable allocation certificate**, not the highest raw activation count, the fastest solver, an actual 1 NEAR payment, or production readiness.
+PACT Atlas finds and shows a **constraint-valid, inspectable one-use funding allocation** across projects that depend on one another. It does not claim higher raw activation counts than all competing approaches. See `docs/COMPETITIVE_ADVANTAGE.md` for benchmark semantics, prior art, and honest limits.
