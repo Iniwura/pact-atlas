@@ -21,7 +21,7 @@ export function validateCampaign(c){
   if(!Array.isArray(projects)||!Array.isArray(supporters))return errors;
   const projectIds=projects.map(p=>p?.id);
   if(!unique(projectIds)||projectIds.some(id=>typeof id!=="string"||!/^[a-z][a-z0-9]{0,11}$/.test(id)))errors.push("Project IDs must be unique and valid.");
-  const active=new Set(projects.filter(p=>p?.included!==false).map(p=>p.id));
+  const active=new Set(projects.filter(p=>p && p.included!==false).map(p=>p.id));
   if(!active.size)errors.push("Include at least one project.");
   for(const p of projects){
     if(!p||!nameOK(p.name)){errors.push("Each project needs a name of 1–50 characters.");continue;}
