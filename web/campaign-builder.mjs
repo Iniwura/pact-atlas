@@ -24,7 +24,9 @@ const blank=()=>({
 });
 const restore=()=>{try{const raw=localStorage.getItem(store);if(!raw)return starting();const obj=JSON.parse(raw);
   if(!obj||typeof obj!=="object"||!Array.isArray(obj.projects)||!Array.isArray(obj.supporters)||
-    obj.projects.length>CAMPAIGN_LIMITS.maxProjects||obj.supporters.length>CAMPAIGN_LIMITS.maxSupporters)
+    obj.projects.length>CAMPAIGN_LIMITS.maxProjects||obj.supporters.length>CAMPAIGN_LIMITS.maxSupporters||
+    obj.projects.some(p=>!p||typeof p.id!=="string"||!Array.isArray(p.dependencies))||
+    obj.supporters.some(s=>!s||typeof s.id!=="string"||!Array.isArray(s.allowed)||!Array.isArray(s.requires)))
     return starting();
   return obj;
 }catch{return starting();}};
