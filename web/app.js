@@ -251,7 +251,7 @@ function init() {
     setScenario("abcd", !changed);
   });
   $("#connect-wallet").addEventListener("click", connectWallet); $$(".step-action").forEach((button) => button.addEventListener("click", () => workflowAction(button.dataset.action)));
-  $(".project-card").forEach(card => card.addEventListener("click", () => renderProjectInspector(card.dataset.project)));
+  Array.from(document.querySelectorAll(".project-card")).forEach(card => card.addEventListener("click", () => renderProjectInspector(card.dataset.project)));
   fetch("./data/evidence.json").then((response) => response.ok ? response.json() : null).then(renderEvidence).catch(() => { $("#evidence-date").textContent = "evidence unavailable"; });
 }
 
