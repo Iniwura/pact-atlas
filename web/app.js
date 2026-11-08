@@ -239,6 +239,11 @@ async function workflowAction(action) {
 
 function init() {
   renderCommitments(); renderEngine();
+  const firstPledge = $(".commitment-row");
+  if (firstPledge) {
+    firstPledge.classList.add("selected");
+    renderPledgeInspector(firstPledge.dataset.pledge);
+  }
   $("#coalition-select").addEventListener("change", renderEngine); $("#topup-toggle").addEventListener("change", renderEngine); $("#condition-select").addEventListener("change", renderEngine);
   const setScenario = (targetKey,topUp=false,condition="none") => {
     $("#coalition-select").value=targetKey;
