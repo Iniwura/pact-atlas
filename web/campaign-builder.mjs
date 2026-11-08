@@ -135,7 +135,7 @@ function renderForm(){
     campaign.supporters.forEach((s,i)=>pane.append(supporterRow(s,i)));
     const add=actionButton("+ Add supporter",()=>{
       if(campaign.supporters.length>=CAMPAIGN_LIMITS.maxSupporters)return;
-      campaign.supporters.push({id:nextId("s",campaign.supporters),name:"",amount:1,
+      campaign.supporters.push({id:nextId("s",campaign.supporters),name:"Supporter "+(campaign.supporters.length+1),amount:1,
         allowed:campaign.projects[0]?[campaign.projects[0].id]:[],requires:[]});
       touch();renderForm();
     },"add-button");
