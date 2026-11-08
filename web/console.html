@@ -2,140 +2,133 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b0c0b">
-  <meta name="description" content="Explore constraint-valid funding with PACT Atlas. Change one commitment, see the exact result.">
-  <title>Atlas — PACT</title>
+  <meta name="description" content="See how PACT Atlas makes shared funding possible, without counting a contribution twice.">
+  <title>Explore funding — PACT Atlas</title>
   <link rel="stylesheet" href="./protocol-workspace.css">
 </head>
 <body class="protocol-app">
-  <a class="skip-link" href="#workbench">Skip to Atlas</a>
-  <header class="app-header">
-    <a href="/" class="wordmark" aria-label="PACT Atlas homepage">
-      <span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b></span>
-      PACT<em>/ATLAS</em>
-    </a>
-    <nav class="main-nav" aria-label="Main navigation">
-      <a href="#workbench" aria-current="page">Atlas</a>
-      <a href="#commitments">Commitments</a>
-      <a href="#evidence">Proof</a>
-    </nav>
-    <button id="connect-wallet" class="connect-button" type="button">Connect wallet</button>
-  </header>
-
-  <main class="app-main">
-    <section class="atlas-section" id="workbench" aria-labelledby="hero-title">
-      <div class="workspace-heading">
-        <h1 id="hero-title">Make the coalition fundable<span class="title-period">.</span></h1>
-        <span id="network-label" class="network-chip">Sandbox model</span>
+<a class="skip-link" href="#workbench">Skip to the funding example</a>
+<header class="app-header">
+  <a href="/" class="wordmark" aria-label="PACT Atlas homepage">
+    <span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b></span>
+    <span>PACT<span class="brand-slash">/</span>ATLAS</span>
+  </a>
+  <nav class="main-nav" aria-label="Main navigation">
+    <a href="#workbench" aria-current="page">Explore</a>
+    <a href="#commitments">Supporters</a>
+    <a href="#evidence">Evidence</a>
+  </nav>
+  <span id="network-label" class="mode-pill"><span class="mode-dot"></span> INTERACTIVE EXAMPLE</span>
+</header>
+<main class="app-main">
+  <section class="atlas-section" id="workbench" aria-labelledby="hero-title">
+    <div class="heading-row">
+      <div>
+        <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true">✳</span> COMMUNITY FUNDING / EXAMPLE 01</p>
+        <h1 id="hero-title">Can we fund <em>all four?</em></h1>
+        <p class="hero-description">Five supporters have pledged 12 NEAR. These four projects need 13 NEAR together.</p>
       </div>
+      <span class="demo-tag">NO REAL FUNDS</span>
+    </div>
 
-      <div class="workbench">
-        <div class="map-panel">
-          <div class="map-top">
-            <h2>Projects</h2>
-            <span id="graph-state" class="graph-live" role="status" aria-live="polite">Blocked</span>
-          </div>
-          <div class="map-canvas"><svg id="network-map" viewBox="0 0 640 470" role="group" aria-labelledby="map-title map-desc">
-            <title id="map-title">PACT Atlas funding network</title>
-            <desc id="map-desc">Funding network with dependency arcs between projects A, B and C. Project D has no dependency; its funding gap is shown by its circular progress indicator.</desc>
-            <defs>
-              <filter id="soft-glow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="5" result="blur" />
-                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-              </filter>
-              <linearGradient id="edge-gradient" x1="0" x2="1">
-                <stop offset="0" stop-color="#a5ed65" stop-opacity=".2" />
-                <stop offset="1" stop-color="#f3b867" stop-opacity=".85" />
-              </linearGradient>
-            </defs>
-            <g class="map-orbit" aria-hidden="true">
-              <circle cx="320" cy="235" r="174" />
-              <circle cx="320" cy="235" r="112" />
-            </g>
-            <g class="map-edges" aria-hidden="true">
-              <path class="edge edge-a-b" d="M322 102 C247 111 208 165 210 220" />
-              <path class="edge edge-a-c" d="M322 102 C402 112 444 164 430 220" />
-              <path class="edge edge-b-a" d="M220 226 C236 156 274 119 315 109" />
-              <path class="edge edge-c-a" d="M420 226 C407 156 367 119 325 109" />
-
-
-
-            </g>
-            <g class="map-node map-node-a" data-project="a" tabindex="0" role="button" aria-label="Project A, training, requires 4 NEAR">
-              <circle class="node-halo" cx="320" cy="83" r="34" />
-              <circle class="node-progress" cx="320" cy="83" r="37" transform="rotate(-90 320 83)" aria-hidden="true" />
-              <circle class="node-core" cx="320" cy="83" r="24" />
-              <text x="320" y="88" text-anchor="middle">A</text>
-              <text class="node-caption" x="320" y="47" text-anchor="middle">TRAINING · 4N</text>
-            </g>
-            <g class="map-node map-node-b" data-project="b" tabindex="0" role="button" aria-label="Project B, internet, requires 3 NEAR">
-              <circle class="node-halo" cx="205" cy="236" r="31" />
-              <circle class="node-progress" cx="205" cy="236" r="34" transform="rotate(-90 205 236)" aria-hidden="true" />
-              <circle class="node-core" cx="205" cy="236" r="22" />
-              <text x="205" y="241" text-anchor="middle">B</text>
-              <text class="node-caption" x="205" y="277" text-anchor="middle">INTERNET · 3N</text>
-            </g>
-            <g class="map-node map-node-c" data-project="c" tabindex="0" role="button" aria-label="Project C, equipment, requires 3 NEAR">
-              <circle class="node-halo" cx="435" cy="236" r="31" />
-              <circle class="node-progress" cx="435" cy="236" r="34" transform="rotate(-90 435 236)" aria-hidden="true" />
-              <circle class="node-core" cx="435" cy="236" r="22" />
-              <text x="435" y="241" text-anchor="middle">C</text>
-              <text class="node-caption" x="435" y="277" text-anchor="middle">EQUIPMENT · 3N</text>
-            </g>
-            <g class="map-node map-node-d" data-project="d" tabindex="0" role="button" aria-label="Project D, events, requires 3 NEAR">
-              <circle class="node-halo" cx="320" cy="384" r="31" />
-              <circle class="node-progress" cx="320" cy="384" r="34" transform="rotate(-90 320 384)" aria-hidden="true" />
-              <circle class="node-core" cx="320" cy="384" r="22" />
-              <text x="320" y="389" text-anchor="middle">D</text>
-              <text class="node-caption" x="320" y="430" text-anchor="middle">EVENTS · 3N</text>
-            </g>
-
-
-          </svg></div>
-          <div id="project-inspector" class="project-inspector" aria-live="polite"></div>
-          <div class="funding-strip" id="funding-strip" aria-live="polite">
-            <div><span>Committed</span><strong id="committed-value">12 NEAR</strong></div>
-            <div><span>Required</span><strong id="required-value">13 NEAR</strong></div>
-            <div><span>Missing</span><strong id="gap-value">1 NEAR</strong></div>
+    <div class="workbench">
+      <section class="map-panel" aria-label="Four projects and their funding">
+        <div class="map-top">
+          <div><p class="pane-kicker">01 / THE PROJECTS</p><h2>What needs funding</h2></div>
+          <span id="graph-state" class="graph-live" role="status" aria-live="polite">One project short</span>
+        </div>
+        <div class="network-stage">
+          <div class="orbital-backdrop" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="project-grid" id="network-map" role="group" aria-label="Select a project to see its funding and conditions">
+            <button type="button" class="project-card map-node" data-project="a" aria-pressed="false" aria-label="Training, needs 4 NEAR">
+              <span class="card-top"><span class="project-index">01</span><span class="project-icon" aria-hidden="true">↗</span></span>
+              <span class="project-name">Training</span>
+              <span class="project-purpose">Needs Internet and Equipment</span>
+              <span class="project-funds"><strong class="project-current">4</strong><span>/ <span class="project-required">4</span> NEAR</span></span>
+              <span class="project-track" aria-hidden="true"><i></i></span>
+              <span class="project-foot"><span class="project-state">Possible</span><span aria-hidden="true">↗</span></span>
+            </button>
+            <button type="button" class="project-card map-node" data-project="b" aria-pressed="false" aria-label="Internet, needs 3 NEAR">
+              <span class="card-top"><span class="project-index">02</span><span class="project-icon" aria-hidden="true">⌁</span></span>
+              <span class="project-name">Internet</span>
+              <span class="project-purpose">Needs Training</span>
+              <span class="project-funds"><strong class="project-current">3</strong><span>/ <span class="project-required">3</span> NEAR</span></span>
+              <span class="project-track" aria-hidden="true"><i></i></span>
+              <span class="project-foot"><span class="project-state">Possible</span><span aria-hidden="true">↗</span></span>
+            </button>
+            <button type="button" class="project-card map-node" data-project="c" aria-pressed="false" aria-label="Equipment, needs 3 NEAR">
+              <span class="card-top"><span class="project-index">03</span><span class="project-icon" aria-hidden="true">✳</span></span>
+              <span class="project-name">Equipment</span>
+              <span class="project-purpose">Needs Training</span>
+              <span class="project-funds"><strong class="project-current">3</strong><span>/ <span class="project-required">3</span> NEAR</span></span>
+              <span class="project-track" aria-hidden="true"><i></i></span>
+              <span class="project-foot"><span class="project-state">Possible</span><span aria-hidden="true">↗</span></span>
+            </button>
+            <button type="button" class="project-card map-node" data-project="d" aria-pressed="true" aria-label="Events, needs 3 NEAR">
+              <span class="card-top"><span class="project-index">04</span><span class="project-icon" aria-hidden="true">◈</span></span>
+              <span class="project-name">Events</span>
+              <span class="project-purpose">Independent project</span>
+              <span class="project-funds"><strong class="project-current">2</strong><span>/ <span class="project-required">3</span> NEAR</span></span>
+              <span class="project-track" aria-hidden="true"><i></i></span>
+              <span class="project-foot"><span class="project-state">Needs 1 NEAR</span><span aria-hidden="true">↗</span></span>
+            </button>
           </div>
         </div>
+        <div id="project-inspector" class="project-inspector" aria-live="polite"></div>
+        <div class="network-footline"><span class="tiny-mark" aria-hidden="true">✳</span><span id="coverage-caption">Amounts show a possible funding plan, not payments made.</span></div>
+      </section>
 
-        <aside class="decision-panel" id="counterfactual" aria-label="Funding decision">
-          <div class="decision-controls">
-            <div class="decision-title"><h2>Funding decision</h2></div>
-            <button id="solve-gap" type="button" class="primary-action" aria-pressed="false">Simulate +1 NEAR <span aria-hidden="true">↗</span></button>
-            <details class="advanced-controls">
-              <summary>Other scenarios</summary>
-              <div class="advanced-fields">
-                <label for="coalition-select">Projects</label>
-                <select id="coalition-select">
-                  <option value="abcd" selected>All four</option>
-                  <option value="abc">A + B + C</option>
-                  <option value="d">D only</option>
-                </select>
-                <label class="toggle-label">
-                  <input type="checkbox" id="topup-toggle">
-                  <span class="toggle-track" aria-hidden="true"><i></i></span>
-                  <span>Additional 1 NEAR</span>
-                </label>
-                <label for="condition-select">Commitment</label>
-                <select id="condition-select">
-                  <option value="none">Unchanged</option>
-                  <option value="topup">New 1 NEAR for D</option>
-                  <option value="donor5">Donor 05 adds 1 NEAR</option>
-                </select>
-              </div>
-            </details>
+      <aside class="decision-panel" aria-labelledby="decision-heading">
+        <div class="panel-topline"><span>02 / WHAT CHANGES</span><span class="round-stamp" aria-hidden="true">PACT / 01</span></div>
+        <div class="decision-main">
+          <div class="decision-heading">
+            <span id="decision-status" class="decision-status"><span aria-hidden="true">●</span> NEEDS FUNDING</span>
+            <h2 id="decision-heading">Just <span class="accent-text">1 NEAR</span> short.</h2>
           </div>
-          <div id="engine-result" class="engine-result" aria-live="polite"></div>
-          <p class="model-disclosure">Simulation only. No money moves.</p>
-        </aside>
-      </div>
-    </section>
-
+          <div class="money-scale">
+            <div class="money-numbers"><strong id="committed-value">12</strong><span>/ <span id="required-value">13</span> NEAR</span></div>
+            <div class="money-track" role="progressbar" aria-label="Committed funding toward the full group" aria-valuemin="0" aria-valuemax="13" aria-valuenow="12"><span id="money-fill"></span></div>
+            <div class="money-caption"><span>COMMITTED</span><strong id="gap-value">1 NEAR still needed</strong></div>
+          </div>
+          <div id="engine-result" class="engine-result" aria-live="polite">
+            <p>Events still needs 1 NEAR. A single contribution cannot fund two projects.</p>
+          </div>
+          <button id="solve-gap" type="button" class="primary-action" aria-pressed="false">
+            <span>Simulate +1 NEAR</span><span class="action-arrow" aria-hidden="true">↗</span>
+          </button>
+          <p class="model-disclosure">Try it safely. This changes a simulation, not a wallet.</p>
+        </div>
+        <div class="decision-bottom">
+          <details class="advanced-controls" id="advanced">
+            <summary>Try another funding scenario <span aria-hidden="true">+</span></summary>
+            <div class="advanced-fields">
+              <label for="coalition-select">Projects to fund</label>
+              <select id="coalition-select">
+                <option value="abcd" selected>All four projects</option>
+                <option value="abc">Training + Internet + Equipment</option>
+                <option value="d">Events alone</option>
+              </select>
+              <label class="toggle-label" for="topup-toggle"><input type="checkbox" id="topup-toggle"><span>Include a simulated 1 NEAR commitment</span></label>
+              <label for="condition-select">Supporter condition</label>
+              <select id="condition-select">
+                <option value="none">No changes</option>
+                <option value="topup">One new 1 NEAR supporter</option>
+                <option value="donor5">Supporter 05 increases their commitment</option>
+              </select>
+            </div>
+          </details>
+        </div>
+      </aside>
+    </div>
+    <div class="confidence-strip">
+      <div><span class="confidence-asterisk" aria-hidden="true">✳</span><strong>A contribution is never used twice.</strong></div>
+      <a href="#evidence">See the verification evidence <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
     <section class="details-section commitments-section" id="commitments" aria-labelledby="commitments-title">
-      <div class="section-head"><h2 id="commitments-title">Commitments</h2></div>
+      <div class="section-head"><h2 id="commitments-title">Supporters</h2></div>
       <div class="commitments-layout">
         <div id="commitment-list" class="commitment-list"></div>
         <aside class="pledge-detail">
@@ -146,7 +139,7 @@
 
     <section class="details-section evidence-section" id="evidence" aria-labelledby="evidence-title">
       <div class="section-head">
-        <h2 id="evidence-title">Proof</h2>
+        <h2 id="evidence-title">Local sandbox evidence</h2>
         <span class="proof-source">Local NEAR sandbox</span>
       </div>
       <div class="evidence-grid">
@@ -165,11 +158,11 @@
             <a class="text-link" href="./data/evidence.json" target="_blank" rel="noreferrer">Open raw evidence JSON <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-      <p class="evidence-footnote">Sandbox records, not live transactions or an external audit.</p>
+      <p class="evidence-footnote">These receipts come from NEAR sandbox tests, not your simulation or public testnet.</p>
     </section>
 
     <details class="execution-section" id="workflow">
-      <summary>Execution <span>Requires wallet approval</span></summary>
+      <summary>Developer tools <span>Wallet actions require authorization</span></summary>
       <div class="workflow-rail" aria-label="PACT workflow">
           <article class="workflow-step active"><div class="step-index">01</div><div class="step-icon">◌</div><h3>Commit</h3><p>Choose an allowed project and attach native NEAR.</p><button class="step-action" data-action="commit" type="button">Create commitment <span>↗</span></button></article>
           <div class="step-connector" aria-hidden="true"></div>
@@ -181,17 +174,16 @@
           <div class="step-connector" aria-hidden="true"></div>
           <article class="workflow-step"><div class="step-index">05</div><div class="step-icon">◇</div><h3>Settle</h3><p>Claim an earned allocation or a verified expiry refund.</p><button class="step-action" data-action="withdraw" type="button">Claim funds <span>↗</span></button></article>
         </div>
+      <div class="wallet-control"><button id="connect-wallet" class="connect-button" type="button">Connect wallet</button></div>
       <div class="wallet-bar">
         <div class="wallet-status" id="wallet-status" role="status"><i class="status-dot"></i><strong>Read-only evidence mode</strong><span>No wallet adapter connected.</span></div>
         <div id="workflow-result" class="workflow-result" role="status" aria-live="polite">No transaction submitted.</div>
       </div>
     </details>
-  </main>
-  <footer class="site-footer">
-    <span>PACT/ATLAS</span>
-    <a href="/">Home</a>
-  </footer>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="./app.js"></script>
+
+</main>
+<footer class="site-footer"><span>PACT/ATLAS</span><span>Built for NEAR HACKATHON 2026</span><a href="/">Back to homepage ↗</a></footer>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script type="module" src="./app.js"></script>
 </body>
 </html>
