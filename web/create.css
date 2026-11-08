@@ -23,7 +23,7 @@
 .title-field input:focus,.field input:focus{outline:2px solid #d45d2f;outline-offset:1px}
 .creator-steps{display:flex;align-items:stretch;gap:8px;border-bottom:1px solid #c8c4b8;margin:28px 0 25px;overflow-x:auto}
 .step-chip{white-space:nowrap;flex:1;min-width:100px;display:flex;gap:9px;align-items:center;justify-content:center;border:0;border-bottom:2px solid transparent;background:none;padding:13px 6px 14px;color:#5d6659;font-size:12px;font-weight:690}
-.step-chip span{font:650 10px var(--mono);color:#856b5a}
+.step-chip span{font:650 10px var(--mono);color:#685044}
 .step-chip:hover{color:#a44c29}
 .step-chip[aria-current=step]{color:#211f1a;border-bottom-color:#e6743e}
 .step-chip[aria-current=step] span{color:#a54524}
