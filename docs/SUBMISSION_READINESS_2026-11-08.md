@@ -10,6 +10,14 @@
 - [ ] **Submission form:** Provide project name, 20–2,000 character description, team lead, email, team size, preferred track(s), NEAR prize-payout account address, public repository URL and public X demo URL.
 - [ ] **Submission itself:** Check every field and link once more before submitting. Follow any confirmation and keep a screenshot of the final acknowledgment.
 
+## New self-service capability
+
+- [x] A separate /create.html page now allows users to create a campaign with 1–5 projects and up to 8 supporters, edit goals/dependencies/destination permissions, and obtain an exact bounded offline allocation.
+- [x] Invalid and unsatisfiable scenarios fail closed; the output explicitly says it is **not an onchain transaction**.
+- [x] Browser-local autosave and exportable JSON with a standalone reproducibility check (scripts/verify-campaign.js).
+- [ ] Verify the final first-time-user Chromium run, mobile screenshots and accessibility at the exact release head.
+- [ ] Verify /create.html and its assets from an unauthenticated public browser following release.
+- [ ] Test a newcomer’s complete journey without explanations from the author.
 ## Product quality gate
 
 - [x] An unfamiliar user can see the purpose within one screen: four projects, 12 committed NEAR, 13 required.
