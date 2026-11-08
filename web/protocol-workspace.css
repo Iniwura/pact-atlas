@@ -80,7 +80,7 @@ h1,h2,h3,p{margin:0}
 .tiny-mark{color:var(--orange);font-size:15px}
 .decision-panel{background:var(--paper);color:var(--ink);min-width:0;display:flex;flex-direction:column;border-left:1px solid #ded6c9}
 .panel-topline{height:70px;padding:0 32px;display:flex;justify-content:space-between;gap:15px;align-items:center;border-bottom:1px solid #d4cfc5;color:#6d594b;font:700 10px var(--mono);letter-spacing:.035em}
-.round-stamp{font-size:10px;color:#c27b51;border:1px solid #cdb6a4;border-radius:100%;height:36px;width:36px;display:grid;place-items:center;letter-spacing:-.06em;transform:rotate(-10deg)}
+.round-stamp{font-size:10px;color:#804226;border:1px solid #aa806c;border-radius:100%;height:36px;width:36px;display:grid;place-items:center;letter-spacing:-.06em;transform:rotate(-10deg)}
 .decision-main{padding:36px 34px 28px;flex:1;display:flex;flex-direction:column}
 .decision-status{display:inline-flex;gap:8px;align-items:center;color:#a7532c;font:700 10px var(--mono);letter-spacing:.025em}
 .decision-status span{font-size:10px}
