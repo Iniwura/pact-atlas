@@ -54,7 +54,7 @@ test("enough total capital is not evidence of an exact permitted allocation",()=
     {id:"s2",name:"Bela",amount:1,allowed:["p1","p2"],requires:[]}];
   const blocked=solveCampaign(c);
   assert.equal(blocked.status,"blocked");assert.equal(blocked.shortfall,0);
-  assert.match(blocked.reason,/no exact assignment/i);
+  assert.match(blocked.reason,/cannot be split or reused/i);
 });
 test("permission restrictions block plans even when total commitments cover the goals",()=>{
   const c=two();c.supporters[0].allowed=["p2"];
