@@ -122,7 +122,7 @@ export function solveCampaign(c){
   if(overBudget)return {status:"undetermined",...context,states,certificate:null,
     reason:"The example exceeds the interactive calculation limit. Simplify it or verify it offline."};
   if(!solution)return {status:"blocked",...context,states,certificate:null,
-    reason:"There is enough money overall, but no exact assignment satisfies every supporter rule and whole contribution."};
+    reason:"Supporters can fund only their permitted projects. Their whole contributions cannot be split or reused, so no arrangement covers every goal exactly."};
   const audit=verifyCampaignAllocation(c,solution);
   if(!audit.valid)return {status:"invalid",...context,errors:audit.errors,certificate:null};
   const projectMap=new Map(selected.map(p=>[p.id,p]));
