@@ -178,7 +178,7 @@ test.describe("PACT Atlas / first-time funding experience", () => {
         project:document.querySelector(".map-panel").getBoundingClientRect().toJSON()
       }));
       expect(dimensions.page,JSON.stringify(dimensions)).toBeLessThanOrEqual(width+1);
-      if (width<=820) expect(dimensions.project.top).toBeLessThan(dimensions.panel.top);
+      if (width<=820) expect(dimensions.panel.top).toBeLessThan(dimensions.project.top);
       await page.locator("#solve-gap").click();
       await expect(page.locator("#committed-value")).toHaveText("13");
       if(width===390) {
