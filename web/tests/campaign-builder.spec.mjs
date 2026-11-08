@@ -93,7 +93,7 @@ test.describe("Self-service campaign lab",()=>{
     await page.locator("#next-step").click();
     await expect(page.locator("#preview-committed")).toHaveText("13");
     await expect(page.locator("#preview-status")).toHaveText("BLOCKED");
-    await expect(page.locator("#preview-result")).toContainText("Events needs 3 NEAR");
+    await expect(page.locator("#preview-result")).toContainText("whole contributions cannot be split or reused");
     await expect(page.locator("#preview-result")).not.toContainText("Where the money goes");
   });
 
