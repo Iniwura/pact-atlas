@@ -6,25 +6,25 @@ This is a serious technical checkpoint, not an externally audited or production-
 
 ## Judge-first demo — 60 seconds
 
-Open `/console` and follow [the allocation witness](docs/JUDGE_WITNESS.md). The default full coalition is blocked: **12 NEAR is pledged, 13 NEAR is required**. Eligibility totals *appear* to be 15 NEAR because Donor 01's flexible commitment can count for either A or D; PACT cannot spend it twice. Click **Simulate +1 NEAR** to run a model-only counterfactual, then inspect the exact one-use allocation for all four projects and reproduce it with `node scripts/certificate.js --topup`.
+Open `/console`. It begins with one question: **Can we fund all four?** The four named project cards show possible funding coverage, not payments or activations. Five supporters offered 12 NEAR, but the total requirement is 13 NEAR. Events has 2/3 NEAR available.
 
-This is a bounded, local reference-model demo accompanied by **separately obtained local NEAR sandbox evidence**. It is not a real wallet transfer, a public testnet deployment, or an independent audit. The approved cinematic homepage remains separate from the functional console.
+Click **Simulate +1 NEAR**. The existing bounded exact solver finds a one-use allocation for all four projects and displays the precise supporter-to-project assignments immediately beside the result. Click **Reset example** to return to the blocked case. No wallet is needed and no money moves.
 
-## Coalition Atlas product
+The detailed [judge walkthrough](docs/JUDGE_WITNESS.md) explains the flexible supporter restriction, demonstrates what the model checks, and gives exact reproduction commands. The **Supporters** section explains individual restrictions in plain English. The **Local sandbox evidence** section separately shows preserved NEAR sandbox receipts. The collapsed **Developer tools** section contains optional authorization-gated wallet workflows, not pre-authorized funding.
 
-The `web/` application is the judge-facing product surface. Its first viewport explains the cooperation thesis in seconds, the constraint graph makes dependencies inspectable, and the counterfactual engine lets a judge switch between the feasible A+B+C core, the blocked full A+B+C+D coalition, and a model-only additional commitment. The commitment inspector, workflow rail and evidence ledger keep model state, contract state and future wallet state visually distinct. The frontend design rationale and measured local redesign report are in `docs/DESIGN_DIRECTION.md` and `docs/FRONTEND_REDESIGN_REPORT.md`; final desktop/mobile captures are in `docs/design-evidence/`.
+This is a sandbox-backed hackathon prototype, **not** audited production software, a real testnet transaction, or a guarantee of project delivery. The cinematic homepage at `/` is preserved; the functional demonstration lives at `/console`.
 
-Run `npm run preview` from the repository root to open it locally. The genuine sandbox evidence is loaded from `web/data/evidence.json`; the UI does not present simulated testnet activity. The browser campaign saves fresh local captures under `test-results/screenshots/`; the preserved RC1 captures are in `evidence/screenshots/`.
+## What the first-time user can do
 
-The exact solver is shared by `web/engine.mjs` and `web/tests/counterfactual.test.mjs`. Exhaustive results are labelled exact; a suggested condition change is labelled model-only and is never applied to a DAO.
+1. See project amounts and real dependency requirements without interpreting anonymous network nodes.
+2. See why the current commitments cannot fund the full group, including a plain-English explanation of why one pledge cannot pay twice.
+3. Preview the extra 1 NEAR safely, watch the funding totals change, and inspect the exact proposed allocation.
+4. Select any project or supporter to view its conditions and intended funding choices.
+5. Review reproducible model checks and separately recorded local NEAR sandbox receipts.
 
-### Design iterations
+Run `npm run preview` from the repository root and visit `/console`. The browser checks capture desktop/mobile before-and-after screenshots under `test-results/screenshots/`. The evidence viewer loads `web/data/evidence.json` without pretending those receipts came from the browser simulation.
 
-1. The first pass established the dark ink / lime / coral editorial system, the orbital dependency map and the five-step action rail.
-2. Browser review tightened muted-label contrast, removed an inaccessible SVG image-role nesting, and kept the same visual language while making keyboard and automated accessibility checks pass.
-3. The premium redesign introduced the signal/proof system: electric-blue dependency routes, staged product narrative, graph-to-inspector interaction, evidence phase/liability rows and a tighter responsive proof ledger. It remains frontend-only and sandbox-backed.
-
-The result is deliberately a sandbox-backed Vercel product preview around verified evidence, not a claim that a wallet-connected public testnet workflow has already run. The verified preview URL and deployment record are in `docs/VERCEL_PREVIEW.md`.
+The exact model in `web/engine.mjs` remains unchanged. `web/funding-view.mjs` derives the displayed amounts and checks a candidate allocation. Neither component replaces the contract's authoritative onchain validation. The UI and financial engineering have deliberately separate trust boundaries.
 
 ## Do X, see Y
 
@@ -73,7 +73,7 @@ The default is all scenarios: `cycle,all-four,expiry,concurrent,sputnik`.
 ## Verified behaviors
 
 - 14 Rust unit tests and 26 independent reference-model tests pass; the separate competitive benchmark has 9 passing tests and checks five bounded scenarios against an independent exhaustive oracle.
-- The current frontend regression is 12/12 browser checks passing, including two redesign journeys; the local performance measurement is recorded in `docs/FRONTEND_REDESIGN_REPORT.md` and is not a Lighthouse claim.
+- On the November 8 first-time-user redesign, 31/31 Chromium checks passed at the UI verification commit, covering blocked/viable states, real allocation disclosures, mobile widths, keyboard accessibility and signed-request boundaries. Source artifacts remain pinned; this is not a Lighthouse or production-traffic claim.
 - The explicit request builder passes 5 tests, and the optional HOT Connect / Wallet Selector-compatible bridge passes 4 deterministic tests; no wallet package, key or signature is bundled in the preview.
 - The final Wasm and ABI are rebuilt from the current source state.
 - Invalid allocation certificates preserve phase, liabilities and storage stake.

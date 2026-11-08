@@ -101,9 +101,9 @@ test.describe("Art-directed Atlas homepage", () => {
     await expect(page.locator("#scenario-count")).toHaveText("5");
     await expect(page.locator("#wallet-status")).toContainText("Read-only");
     await expect(page.locator("#coalition-select")).toHaveValue("abcd");
-    await expect(page.locator("#engine-result")).toContainText("1 NEAR is missing");
+    await expect(page.locator("#decision-heading")).toContainText("1 NEAR short");
     await page.locator("#solve-gap").click();
-    await expect(page.locator("#engine-result")).toContainText("All four projects can activate");
+    await expect(page.locator("#decision-heading")).toContainText("All four are possible");
   });
 
   test("has no browser errors on homepage", async ({ page }) => {
