@@ -4,6 +4,15 @@
 
 This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
 
+## Make your own campaign (offline prototype)
+
+From the interactive example at /console, select **Build your own funding plan** or open /create.html directly. Set 1–5 projects, their funding requirements and dependencies, then enter 1–8 supporters with permitted destinations and optional conditions. Select **Check funding** to see a valid whole-contribution allocation or an explained blocked result.
+
+The scenario is stored only in your browser. Select **Download scenario and verification JSON**, then independently check it with:
+
+    npm run verify:campaign -- /path/to/pact-campaign-proof.json
+
+This is a generic **model-only planning experience**, not a way to deploy a custom Rust contract or transfer NEAR. The original local NEAR sandbox receipts and authorization-gated workflow are separate. See [the Campaign Lab judge guide](docs/CAMPAIGN_LAB.md).
 ## Try the app in one minute
 
 Open `/console` after `npm run preview`. The app begins with a simple question: **Can we fund all four community projects?** Four project cards show required amounts and dependency conditions. The right-hand panel shows **12 of 13 NEAR committed**, with Events missing 1 NEAR.
