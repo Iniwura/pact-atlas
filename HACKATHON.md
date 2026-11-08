@@ -4,6 +4,11 @@ PACT Atlas is a constrained, native-NEAR proof of coalition funding. It verifies
 
 This is a serious technical checkpoint, not an externally audited or production-ready financial protocol.
 
+## Self-service experiment for independent judges
+
+Open /create.html from the **Build your own funding plan** link in /console. A judge can start blank or edit the prepared Community Hub scenario. They can set their own project goals, dependencies, contributor constraints and amounts, then inspect or export an exact allocation result. There is no wallet interaction. The exported JSON is reproducible using the CLI command in [docs/CAMPAIGN_LAB.md](docs/CAMPAIGN_LAB.md).
+
+This custom planner is intentionally separate from the fixed onchain contract's activation rules. It does not prove the custom scenario was deployed or financially settled. The local sandbox evidence in /console remains independently recorded.
 ## Judge-first demo — 60 seconds
 
 Open `/console`. It begins with one question: **Can we fund all four?** The four named project cards show possible funding coverage, not payments or activations. Five supporters offered 12 NEAR, but the total requirement is 13 NEAR. Events has 2/3 NEAR available.
