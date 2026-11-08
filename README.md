@@ -1,14 +1,16 @@
 # PACT Atlas — executable technical checkpoint
 
-**Status (2026-11-02): RC1 verification green; frontend redesign complete locally.** The Rust contract compiles with the pinned SDK, 14/14 Rust unit tests pass, clippy is clean with warnings denied, the nearcore-compatible Wasm and ABI builds pass, 5 fresh baseline real-NEAR sandbox campaigns pass plus a separate maximum-capacity RC1 campaign, 6 exact counterfactual tests pass, 9 competitive benchmark tests pass with independent bounded-oracle checks, 5 request-builder tests and 4 wallet-adapter tests pass, and 12 Chromium product checks pass. A static Vercel preview is live and route-verified; it is sandbox-backed only. Testnet is not verified.
+**Status (2026-11-08):** The first-time-user console has 31 passing Chromium checks and passed Node model/request-safety checks at its verified UI commit. Existing preserved evidence includes 14 Rust unit tests, optimized Wasm/ABI reproduction, five fresh local NEAR sandbox campaigns plus a maximum-capacity campaign, exact bounded reference/benchmark tests and wallet-adapter tests. These historical results are not public testnet evidence. The release is still experimental and the latest Rust CI must be checked independently before any final release claim.
 
 This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
 
-## Try the one-minute funding witness
+## Try the app in one minute
 
-The console's primary task is to answer **what makes the four-project coalition fundable**. Start with 12 NEAR committed versus 13 NEAR required. The dependency graph shows candidate/available capital, not onchain activation. A simulated 1 NEAR additional commitment unlocks a locally checked, one-use allocation certificate visible alongside the graph. Every route in the witness is produced from the exact reference solver, not hardcoded presentation data.
+Open `/console` after `npm run preview`. The app begins with a simple question: **Can we fund all four community projects?** Four project cards show required amounts and dependency conditions. The right-hand panel shows **12 of 13 NEAR committed**, with Events missing 1 NEAR.
 
-Use `/console` after `npm run preview`, then follow [the precise judge walkthrough](docs/JUDGE_WITNESS.md). Reproduce its state with `npm run test:counterfactual` and `node scripts/certificate.js --topup`. The local sandbox evidence is a separate verified artifact, and the simulated commitment is **never** a signed transaction.
+Click **Simulate +1 NEAR**. The cards update and **Where the money goes** immediately shows an exact allocation across the four projects. All funds in this action are hypothetical. You can click **Reset example** to undo it, choose a project card to see its conditions, or inspect the supporter restrictions and separately verified local NEAR sandbox receipts below.
+
+For a reproducible, 60-second reviewer path, use [the judge walkthrough](docs/JUDGE_WITNESS.md). The actual calculation is derived from `web/engine.mjs` through `web/funding-view.mjs`; it is not hardcoded visual data or a signed onchain transaction.
 
 ## Experiment
 
