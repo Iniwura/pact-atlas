@@ -11,108 +11,111 @@ function renderEngine() {
   const topUp = $("#topup-toggle").checked;
   const condition = $("#condition-select").value;
   const view = fundingView(targetKey, topUp, condition);
-  const feasible = view.status === "viable";
+  const viable = view.status === "viable";
+  const isFull = targetKey === "abcd";
+  const changed = topUp || condition !== "none";
   document.body.dataset.coalitionState = view.status;
   $(".map-panel").dataset.state = view.status;
-  $("#graph-state").textContent = feasible ? "Fundable" : "Blocked";
+  $(".decision-panel").dataset.state = view.status;
 
-  const changed = topUp || condition !== "none";
-  const action = $("#solve-gap");
-  action.innerHTML = changed ? 'Reset simulation <span aria-hidden="true">↺</span>' : 'Simulate +1 NEAR <span aria-hidden="true">↗</span>';
-  action.setAttribute("aria-pressed", String(changed));
+  $("#graph-state").textContent = viable
+    ? (isFull ? "All four possible" : "Valid funding plan")
+    : (isFull && view.missing === 1n ? "One project short" : "Cannot activate");
+  $("#decision-status").innerHTML = viable
+    ? '<span aria-hidden="true">●</span> PLAN FOUND'
+    : '<span aria-hidden="true">●</span> NEEDS FUNDING';
+  $("#decision-heading").innerHTML = isFull
+    ? (viable ? 'All four <span class="accent-text">are possible.</span>' : 'Just <span class="accent-text">1 NEAR</span> short.')
+    : (viable ? 'This group <span class="accent-text">can work.</span>' : 'This group <span class="accent-text">cannot activate.</span>');
+  $("#committed-value").textContent = view.committed.toString();
+  $("#required-value").textContent = view.required.toString();
+  $("#gap-value").textContent = viable
+    ? (view.unassigned ? `${view.unassigned} NEAR unassigned` : "No funding gap")
+    : (view.missing ? `${view.missing} NEAR still needed` : "Funding rules not met");
+  const progress = $(".money-track");
+  progress.setAttribute("aria-valuemax", view.required.toString());
+  progress.setAttribute("aria-valuenow", (view.committed < view.required ? view.committed : view.required).toString());
+  $("#money-fill").style.width = `${view.required === 0n ? 0 : Math.min(100, Number(view.committed * 100n / view.required))}%`;
 
-  $("#committed-value").textContent = `${view.committed} NEAR`;
-  $("#required-value").textContent = `${view.required} NEAR`;
-  const gap = $("#gap-value");
-  const gapLabel = gap.previousElementSibling;
-  if (view.missing > 0n) {
-    gapLabel.textContent = "Missing";
-    gap.textContent = `${view.missing} NEAR`;
-  } else if (feasible) {
-    gapLabel.textContent = "Unassigned";
-    gap.textContent = `${view.unassigned} NEAR`;
-  } else {
-    gapLabel.textContent = "Constraint";
-    gap.textContent = "No valid plan";
-  }
-
+  const statusText = (project) => {
+    if (!project.selected) return "Not in this plan";
+    if (viable) return "Can be funded";
+    if (project.visible < project.required) return `Needs ${project.required - project.visible} NEAR`;
+    return "Covered in a possible plan";
+  };
   for (const project of view.projects) {
-    const node = $(`.map-node[data-project="${project.id}"]`);
-    const shown = project.visible;
-    const proportion = project.selected ? Number(shown) / Number(project.required) : 0;
-    const ring = $(".node-progress", node);
-    const circumference = 2 * Math.PI * Number(ring.getAttribute("r"));
-    ring.setAttribute("stroke-dasharray", `${(Math.max(0,Math.min(1,proportion)) * circumference).toFixed(2)} ${circumference.toFixed(2)}`);
-    node.dataset.inCoalition = String(project.selected);
-    node.dataset.simulated = project.id === "d" && feasible && changed ? "added" : "baseline";
-    node.dataset.coverage = `${shown}/${project.required}`;
-    node.dataset.state = project.selected && shown === project.required ? "covered" : "gap";
-    const caption = $(".node-caption", node);
-    caption.textContent = `${project.label.toUpperCase()} · ${shown}/${project.required}N`;
-    node.setAttribute("aria-label", `${project.label}: ${shown} of ${project.required} NEAR ${project.source}; ${feasible ? "fundable" : "not activated"}`);
+    const card = $(`.project-card[data-project="${project.id}"]`);
+    if (!card) continue;
+    const covered = project.visible === project.required && project.selected;
+    card.dataset.inCoalition = String(project.selected);
+    card.dataset.state = covered ? "covered" : "gap";
+    card.dataset.coverage = `${project.visible}/${project.required}`;
+    $(".project-current", card).textContent = project.visible.toString();
+    $(".project-required", card).textContent = project.required.toString();
+    $(".project-track i", card).style.width = `${project.selected ? Math.round(Number(project.visible * 100n / project.required)) : 0}%`;
+    $(".project-state", card).textContent = statusText(project);
+    card.setAttribute("aria-label", `${project.label}: ${project.visible} of ${project.required} NEAR; ${statusText(project)}. Select to inspect.`);
   }
-  $("#map-desc").textContent = `${view.targetLabel} dependency network. ${view.committed} NEAR committed, ${view.required} NEAR required. Local model: ${view.status}.`;
+  $("#coverage-caption").textContent = viable
+    ? "Exact funding plan from the local model. No funds have moved."
+    : "Possible coverage, not payments made or projects activated.";
 
-  const title = targetKey === "abcd"
-    ? (feasible ? "All four projects can activate" : "1 NEAR is missing")
-    : (feasible ? `${view.targetLabel} can activate` : `${view.targetLabel} cannot activate`);
-
-  let detail = "";
-  if (feasible) {
-    const groups = view.projects.filter(project => project.selected).map(project => {
-      const entries = view.rows.filter(row => row.project === project.id);
-      return `<div class="proof-project"><div class="proof-project-head"><strong>${project.label}</strong><span>${project.required} NEAR</span></div>
-        <p>${entries.map(row => `${row.donor} ${row.amount}N`).join(" + ")}</p></div>`;
+  let explanation = "";
+  if (viable) {
+    const allocationCards = view.projects.filter(project => project.selected).map(project => {
+      const rows = view.rows.filter(row => row.project === project.id);
+      return `<div class="proof-project">
+        <div class="proof-project-head"><strong>${project.label}</strong><span>${project.required} NEAR</span></div>
+        <p>${rows.map(row => `${row.donor.replace(/^Donor /, "Supporter ")} · ${row.amount} NEAR`).join(" + ")}</p>
+      </div>`;
     }).join("");
-    const reproducible = topUp && condition === "none"
-      ? '<p class="proof-repro">Reproduce locally: <code>node scripts/certificate.js --topup</code></p>'
-      : '<p class="proof-repro">Reproduce locally: <code>npm run test:counterfactual</code></p>';
-    detail = `<div class="allocation-overview"><strong>${view.validation.assigned} NEAR assigned</strong><span>${view.rows.length} unique commitments · ${view.targetIds.length} projects</span></div>
-      <details class="allocation-proof" id="allocation-proof" open>
-        <summary>Inspect exact allocation <span aria-hidden="true">↗</span></summary>
-        <div class="proof-groups">${groups}</div>
-        <div class="proof-checks" aria-label="Local reference-model checks"><span>One use</span><span>Permitted destinations</span><span>Conditions</span><span>Exact amounts</span><span>Conserved capital</span></div>
-        ${reproducible}
-        <p class="proof-limit">Local reference-model certificate. Not a signed or audited transaction.</p>
-      </details>`;
+    explanation = `<div class="allocation-overview">
+        <strong>Where the money goes</strong><span>${view.rows.length} contributions · ${view.targetIds.length} projects</span>
+      </div>
+      <div id="allocation-proof" class="allocation-proof">
+        <div class="proof-groups">${allocationCards}</div>
+        <div class="proof-checks" aria-label="What the local model checks">
+          <span>Each pledge used once</span><span>Supporter rules met</span><span>Dependencies met</span>
+        </div>
+        <p class="proof-limit">Checked against the local model, not an onchain transaction.</p>
+      </div>`;
   } else if (view.baseline) {
-    detail = `<div class="blocker-detail">
-      <p>Training, Internet and Equipment have a valid 10 NEAR candidate. Events has 2 of 3 NEAR available.</p>
-      <details class="eligibility-explanation">
-        <summary>Why not count all eligible funding?</summary>
-        <p>Project-level eligibility sums to ${view.committed + view.eligibilityOvercount} NEAR, but only ${view.committed} NEAR exists. Donor 01 can fund Training <em>or</em> Events, not both. The allocation must use each commitment once.</p>
-      </details>
-    </div>`;
+    explanation = `<p class="result-brief"><strong>Events needs 1 more NEAR.</strong> The other three projects can be covered together, but they can't activate the full group yet.</p>
+      <details class="why-disclosure">
+        <summary>Why can't we use the existing money?</summary>
+        <p>Supporter 01 offered 3 NEAR for either Training or Events. It cannot pay for both. PACT finds a plan that respects that choice.</p>
+      </details>`;
   } else {
-    detail = `<p class="result-copy">${view.reasons[0] || "No exact allocation exists for these conditions."}</p>`;
+    explanation = `<p class="result-brief">${view.reasons[0] || "These commitments cannot fund this combination of projects."}</p>`;
   }
-
-  $("#engine-result").innerHTML = `<h3 class="result-title">${title}</h3>${detail}`;
-  const selected = $(".map-node.selected")?.dataset.project || "d";
+  $("#engine-result").innerHTML = explanation;
+  const button = $("#solve-gap");
+  button.innerHTML = changed
+    ? '<span>Reset example</span><span class="action-arrow" aria-hidden="true">↺</span>'
+    : '<span>Simulate +1 NEAR</span><span class="action-arrow" aria-hidden="true">↗</span>';
+  button.setAttribute("aria-pressed", String(changed));
+  const selected = $(".project-card[aria-pressed=true]")?.dataset.project || "d";
   renderProjectInspector(selected, view);
 }
 function renderCommitments() {
-  $("#commitment-list").innerHTML = MODEL.pledges.map((pledge) => `<article class="commitment-row" data-pledge="${pledge.id}" tabindex="0" role="button" aria-label="Inspect ${pledge.owner} commitment">
+  $("#commitment-list").innerHTML = MODEL.pledges.map(pledge => `<article class="commitment-row" data-pledge="${pledge.id}" role="button" tabindex="0" aria-label="Inspect supporter ${pledge.id}">
     <span class="pledge-index">${pledge.id}</span>
-    <span class="pledge-name"><strong>${pledge.owner}</strong></span>
-    <strong class="pledge-amount">${near(pledge.amount)}</strong>
-    <span class="pledge-targets">${pledge.allowed.map(id => `<i class="target-pill">${id.toUpperCase()}</i>`).join("")}</span>
+    <span class="pledge-name"><strong>${pledge.owner.replace(/^Donor /, "Supporter ")}</strong><span>${pledge.requires.length ? "Only if related projects are funded" : "Flexible commitment"}</span></span>
+    <strong class="pledge-amount">${pledge.amount} NEAR</strong>
+    <span class="pledge-targets">${pledge.allowed.map(id => `<i class="target-pill" title="${MODEL.projects[id].label}">${id.toUpperCase()}</i>`).join("")}</span>
   </article>`).join("");
   $$(".commitment-row").forEach(row => {
-    const select = () => {
+    const choose = () => {
       $$(".commitment-row").forEach(item => item.classList.remove("selected"));
       row.classList.add("selected");
       renderPledgeInspector(row.dataset.pledge);
     };
-    row.addEventListener("click", select);
+    row.addEventListener("click", choose);
     row.addEventListener("keydown", event => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault(); select();
-      }
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); choose(); }
     });
   });
 }
-
 function renderPledgeInspector(pledgeId) {
   const pledge = MODEL.pledges.find(item => item.id === pledgeId);
   if (!pledge) return;
@@ -120,31 +123,28 @@ function renderPledgeInspector(pledgeId) {
   const condition = pledge.requires.length
     ? `Requires ${pledge.requires.map(id => MODEL.projects[id].label).join(" and ")} to be funded.`
     : "";
-  $("#commitment-detail").innerHTML = `<h3>${pledge.owner}</h3>
-    <p>${near(pledge.amount)} toward ${destinations}.</p>
+  $("#commitment-detail").innerHTML = `<h3>${pledge.owner.replace(/^Donor /, "Supporter ")}</h3>
+    <p>${pledge.amount} NEAR can go to ${destinations}.</p>
     ${condition ? `<p>${condition}</p>` : ""}
   `;
 }
 
 function renderProjectInspector(projectId, view = fundingView($("#coalition-select").value, $("#topup-toggle").checked, $("#condition-select").value)) {
   const project = MODEL.projects[projectId];
-  if (!project) return;
-  const dependencies = project.dependencies.map(id => MODEL.projects[id].label);
   const funding = view.projects.find(item => item.id === projectId);
-  $("#project-inspector").innerHTML = `
-    <div class="inspector-symbol">${project.short}</div>
-    <div class="inspector-body">
-      <strong>${project.label}</strong>
-      <span>${near(project.required)} required · ${funding.visible}N ${view.status === "viable" ? "assigned" : "available in candidate"}</span>
-      ${dependencies.length ? `<small>Needs ${dependencies.join(" + ")}</small>` : ""}
-    </div>`;
-  $$(".map-node").forEach(node => {
-    const selected = node.dataset.project === projectId;
-    node.classList.toggle("selected", selected);
-    node.setAttribute("aria-pressed", String(selected));
+  if (!project || !funding) return;
+  const deps = project.dependencies.map(id => MODEL.projects[id].label);
+  const amount = `${funding.visible} of ${funding.required} NEAR`;
+  const relationship = deps.length ? `Needs ${deps.join(" and ")}` : "Can run independently";
+  $("#project-inspector").innerHTML = `<span class="inspector-symbol">${project.short}</span>
+    <span class="inspector-body"><strong>${project.label}</strong>
+      <span>${amount} ${view.status === "viable" ? "assigned in the plan" : "available in a possible plan"}</span>
+      <small>${relationship}</small></span>`;
+  $$(".project-card").forEach(card => {
+    const selected = card.dataset.project === projectId;
+    card.setAttribute("aria-pressed", String(selected));
   });
 }
-
 function renderEvidence(evidence) {
   if (!evidence) return;
   $("#scenario-count").textContent = evidence.scenarios.length;
@@ -238,7 +238,7 @@ async function workflowAction(action) {
 }
 
 function init() {
-  renderCommitments(); renderProjectInspector("d"); renderEngine();
+  renderCommitments(); renderEngine();
   $("#coalition-select").addEventListener("change", renderEngine); $("#topup-toggle").addEventListener("change", renderEngine); $("#condition-select").addEventListener("change", renderEngine);
   const setScenario = (targetKey,topUp=false,condition="none") => {
     $("#coalition-select").value=targetKey;
@@ -251,7 +251,7 @@ function init() {
     setScenario("abcd", !changed);
   });
   $("#connect-wallet").addEventListener("click", connectWallet); $$(".step-action").forEach((button) => button.addEventListener("click", () => workflowAction(button.dataset.action)));
-  $$(".map-node").forEach((node) => { const select = () => renderProjectInspector(node.dataset.project); node.addEventListener("click", select); node.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(); } }); });
+  $(".project-card").forEach(card => card.addEventListener("click", () => renderProjectInspector(card.dataset.project)));
   fetch("./data/evidence.json").then((response) => response.ok ? response.json() : null).then(renderEvidence).catch(() => { $("#evidence-date").textContent = "evidence unavailable"; });
 }
 
