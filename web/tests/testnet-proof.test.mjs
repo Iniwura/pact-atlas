@@ -22,6 +22,7 @@ const account = { code_hash: PACT_WASM_CODE_HASH };
 
 test("validates testnet-only contract identities, signer, transaction hash and method", () => {
   assert.equal(validateProofInput(input), null);
+  assert.equal(validateProofInput({ ...input, signerId: "a".repeat(64) }), null);
   for (const bad of [
     { contractId: "pact.near" },
     { signerId: "supporter.near" },
