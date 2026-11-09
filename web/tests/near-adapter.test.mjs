@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createNearWalletAdapter, transactionHashOf } from "../near-adapter.mjs";
+import { createNearWalletAdapter, transactionHashOf, finalityOf } from "../near-adapter.mjs";
 
 const request = {
   contractId: "pact-rc1.testnet",
@@ -22,6 +22,7 @@ test("adapts a HOT/legacy-compatible wallet and requires a receipt hash", async 
   assert.equal(await adapter.connect(), "operator.testnet");
   const result = await adapter.call(request);
   assert.equal(result.transactionHash, "hot-hash");
+  assert.equal(result.confirmed, false, "a returned hash is not proof of execution");
   assert.equal(calls[0].receiverId, request.contractId);
   assert.equal(calls[0].actions[0].type, "FunctionCall");
   assert.equal(calls[0].actions[0].params.methodName, "activate");
@@ -57,4 +58,28 @@ test("reconciles views through the configured provider", async () => {
   assert.deepEqual(value, { liabilities: "0" });
   assert.equal(query.request_type, "call_function");
   assert.equal(query.finality, "final");
+});
+
+test("requires fully finalized successful receipt outcomes before showing wallet confirmation", () => {
+  const good = {
+    final_execution_status: "FINAL",
+    status: { SuccessValue: "" },
+    transaction_outcome: { outcome: { status: { SuccessReceiptId: "receipt" } } },
+    receipts_outcome: [{ outcome: { status: { SuccessValue: "" } } }]
+  };
+  assert.equal(finalityOf(good), "confirmed");
+  assert.equal(finalityOf({ ...good, final_execution_status: "EXECUTED" }), "unknown");
+  assert.equal(finalityOf({ ...good, receipts_outcome: undefined }), "unknown");
+  assert.equal(finalityOf({ ...good, receipts_outcome: [{ outcome: { status: { Failure: {} } } }] }), "failed");
+});
+
+test("rejects a finalized failed transaction even when the wallet supplies a hash", async () => {
+  const adapter = createNearWalletAdapter({
+    wallet: { async signAndSendTransaction() { return {
+      transaction: { hash: "failed-hash" },
+      final_execution_status: "FINAL",
+      status: { Failure: { ActionError: {} } }
+    }; } }
+  });
+  await assert.rejects(() => adapter.call(request), /failed on-chain.*explorer/i);
 });
