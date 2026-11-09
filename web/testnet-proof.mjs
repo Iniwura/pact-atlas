@@ -7,6 +7,7 @@ export const RPC_URL = "https://rpc.testnet.fastnear.com";
 export const ALLOWED_METHODS = Object.freeze(["commit", "activate", "expire", "withdraw"]);
 const methodSet = new Set(ALLOWED_METHODS);
 const testnetAccount = /^(?:[a-z0-9_-]+\.)+testnet$/;
+const implicitAccount = /^[0-9a-f]{64}$/;
 const base58 = /^[1-9A-HJ-NP-Za-km-z]{42,50}$/;
 const has = (object, key) => object !== null && typeof object === "object" &&
   Object.prototype.hasOwnProperty.call(object, key);
