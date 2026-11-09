@@ -13,6 +13,12 @@ The scenario is stored only in your browser. Select **Download scenario and veri
     npm run verify:campaign -- /path/to/pact-campaign-proof.json
 
 This is a generic **model-only planning experience**, not a way to deploy a custom Rust contract or transfer NEAR. The original local NEAR sandbox receipts and authorization-gated workflow are separate. See [the Campaign Lab judge guide](docs/CAMPAIGN_LAB.md).
+## Verify public NEAR testnet evidence (read-only)
+
+The new `/verify.html` page checks a supplied NEAR testnet transaction against the chain's finalized method execution and the current code hash of the deployed contract. Only the pinned PACT Wasm code hash is accepted. No funds or wallets are used by verification.
+
+Reproduce independently with `npm run verify:testnet -- <contract.testnet> <signer.testnet> <hash> commit`. This verifies the named method execution, **not** an entire campaign lifecycle or secure delivery of payouts. No public testnet deployment/transaction evidence is asserted as completed. See [testnet proof and release gates](docs/TESTNET_PROOF.md).
+
 ## Try the app in one minute
 
 Open `/console` after `npm run preview`. The app begins with a simple question: **Can we fund all four community projects?** Four project cards show required amounts and dependency conditions. The right-hand panel shows **12 of 13 NEAR committed**, with Events missing 1 NEAR.
