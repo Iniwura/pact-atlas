@@ -39,8 +39,7 @@ export function inspectTestnetProof(input, transaction, account) {
   if (!Array.isArray(actions) || !actions.some(action => action?.FunctionCall?.method_name === input.method))
     return fail("The transaction does not call the selected PACT method.");
   if (!succeeded(transaction.status) ||
-      !succeeded(transaction.transaction_outcome?.outcome?.status) &&
-        has(transaction.transaction_outcome?.outcome?.status, "Failure"))
+      !succeeded(transaction.transaction_outcome?.outcome?.status))
     return fail("The chain reports a failed or unconfirmed transaction.");
   if (!Array.isArray(transaction.receipts_outcome))
     return fail("Receipt outcomes are missing; execution cannot be verified.");
