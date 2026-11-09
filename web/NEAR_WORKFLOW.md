@@ -28,8 +28,10 @@ The adapter must refuse to treat model-only conditions as approved DAO state. It
 
 `web/near-workflow.mjs` is the framework-neutral request layer used by the browser. It builds the exact native requests without owning keys or signing:
 
+**Safety gate:** Every transaction request now requires `network: "testnet"`, a dedicated PACT `*.testnet` account, and (for DAO proposals) a dedicated Sputnik `*.testnet` account. Missing network identity or mainnet addresses are rejected before any wallet adapter can sign. The local allocation certificate can still be generated without a network or wallet.
+
 - `commit` attaches 3 NEAR to `PACT.commit` with the displayed allowed route.
-- `approve` creates a Sputnik `add_proposal` request whose function call targets the configured PACT contract. Required council members must still approve and execute it through their own authorized wallet sessions; the UI never fabricates quorum.
+- `approve` creates a Sputnik `add_proposal` request with a 1 NEAR proposal deposit and a **separate 3 NEAR attached PACT `commit` action** inside the proposed function call, matching the described funding amount. The DAO must have its own sufficient funds before executing the proposal. Required council members must still approve and execute it through their own authorized wallet sessions; the UI never fabricates quorum.
 - `certify` runs the exact local solver and converts pledge labels to on-chain indices. It is not a transaction.
 - `activate` submits the certificate to the immutable activation authority.
 - `withdraw` submits the contract's pull-payment method. The UI never retries a missing or unknown receipt.
