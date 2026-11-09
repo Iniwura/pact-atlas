@@ -26,6 +26,7 @@
 #proof-details dt{color:#635a52}
 #proof-details dd{font-weight:750;margin:0;text-align:right}
 #proof-explorer{display:inline-flex;margin-top:26px;color:#9b4b2c;text-decoration:underline;font-weight:700;font-size:12px}
+#proof-explorer[hidden]{display:none}
 .proof-scope{margin-top:auto;padding-top:35px;font-size:11px;line-height:1.6;color:#73695e}
 .verify-local{font-size:12px;color:#c6b8aa;margin-top:28px}
 .verify-local a{color:#ffaf85;text-decoration:underline}
