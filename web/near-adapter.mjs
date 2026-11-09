@@ -20,6 +20,26 @@ function transactionHashOf(result) {
     ?? null;
 }
 
+const succeeded = status => !!status && typeof status === "object" &&
+  (Object.prototype.hasOwnProperty.call(status, "SuccessValue") ||
+   Object.prototype.hasOwnProperty.call(status, "SuccessReceiptId"));
+
+/**
+ * A returned hash proves submission at most. Only fully finalized successful
+ * action/receipt results may be presented as confirmed. Do not retry an
+ * unknown transaction: it might already have executed.
+ */
+export function finalityOf(result) {
+  if (result?.final_execution_status !== "FINAL") return "unknown";
+  if (result?.status && typeof result.status === "object" &&
+      Object.prototype.hasOwnProperty.call(result.status, "Failure")) return "failed";
+  if (!succeeded(result?.status) ||
+      !succeeded(result?.transaction_outcome?.outcome?.status) ||
+      !Array.isArray(result?.receipts_outcome)) return "unknown";
+  if (result.receipts_outcome.some(receipt => !succeeded(receipt?.outcome?.status))) return "failed";
+  return "confirmed";
+}
+
 function base64Json(value) {
   const bytes = new TextEncoder().encode(JSON.stringify(value));
   let binary = "";
@@ -100,7 +120,9 @@ export function createNearWalletAdapter({
     });
     const hash = transactionHashOf(result);
     if (!hash) throw new Error("Wallet returned no transaction hash; confirmation is unknown");
-    return { result, transactionHash: hash };
+    const finality = finalityOf(result);
+    if (finality === "failed") throw new Error("Transaction " + hash + " failed on-chain. Check the explorer before any retry.");
+    return { result, transactionHash: hash, confirmed: finality === "confirmed" };
   };
 
   const view = async ({ contractId, methodName, args = {} }) => {
