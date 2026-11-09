@@ -225,12 +225,16 @@ async function workflowAction(action) {
       workflowResult(`${title} returned without a transaction hash; nothing is marked confirmed.`, "error");
       return;
     }
-    let reconciliation = "receipt received";
+    if (result?.confirmed !== true) {
+      workflowResult(`${title} submitted with hash ${hash}, but final execution is not verified. Check this transaction on NEAR testnet; do not retry blindly.`, "warning");
+      return;
+    }
+    let reconciliation = "final receipt verified by the wallet";
     if (typeof adapter.view === "function") {
       const views = await Promise.all(reconciliationViews(window.PACT_NEAR_CONFIG).map((view) => adapter.view(view)));
-      reconciliation = `receipt received; status/accounting views refreshed (${views.length})`;
+      reconciliation = `final receipt verified; status/accounting views refreshed (${views.length})`;
     }
-    workflowResult(`${title} submitted: ${hash} · ${reconciliation}.`, "success");
+    workflowResult(`${title} confirmed on NEAR testnet: ${hash} · ${reconciliation}.`, "success");
   } catch (error) {
     workflowResult(`${title} was not confirmed: ${error.message || "wallet rejected or transaction failed"}`, "error");
     toast(`${title} was not confirmed.`);
