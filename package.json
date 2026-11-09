@@ -16,7 +16,8 @@
     "test:browser": "playwright test -c web/playwright.config.mjs",
     "preview": "node web/server.mjs",
     "verify": "bash scripts/verify-rust.sh",
-    "verify:campaign": "node scripts/verify-campaign.js"
+    "verify:campaign": "node scripts/verify-campaign.js",
+    "verify:testnet": "node scripts/verify-testnet.mjs"
   },
   "engines": {
     "node": ">=22.22.2"
