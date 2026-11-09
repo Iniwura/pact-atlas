@@ -19,7 +19,8 @@ export function validateProofInput(input) {
     return "Provide a testnet contract, signer, transaction hash and method.";
   if (typeof input.contractId !== "string" || input.contractId.length > 64 || !testnetAccount.test(input.contractId))
     return "Enter a valid NEAR testnet contract account ending in .testnet.";
-  if (typeof input.signerId !== "string" || input.signerId.length > 64 || !testnetAccount.test(input.signerId))
+  if (typeof input.signerId !== "string" || input.signerId.length > 64 ||
+      !(testnetAccount.test(input.signerId) || implicitAccount.test(input.signerId)))
     return "Enter the testnet account that actually signed the transaction.";
   if (typeof input.transactionHash !== "string" || !base58.test(input.transactionHash))
     return "Enter the full Base58 NEAR transaction hash.";
