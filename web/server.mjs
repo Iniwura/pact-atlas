@@ -3,6 +3,7 @@ import { stat } from "node:fs/promises";
 import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import verifyTestnet from "../api/verify-testnet.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)));
 const checkpointRoot = path.resolve(root, "..");
@@ -24,6 +25,10 @@ function safePath(urlPath) {
 }
 
 const server = http.createServer(async (request, response) => {
+  if (request.url?.split("?")[0] === "/api/verify-testnet") {
+    await verifyTestnet(request, response);
+    return;
+  }
   const filePath = safePath(request.url);
   if (!filePath) { response.writeHead(400); response.end("bad path"); return; }
   try {
