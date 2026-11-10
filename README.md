@@ -4,6 +4,22 @@
 
 This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
 
+## NEAR HACKATHON submission candidate
+
+Primary track: **Social Money**. PACT Atlas is a native-NEAR, testnet-only
+prototype for communities whose approved funding commitments become feasible
+only when project dependencies and contributor conditions are satisfied
+together. The contract verifies one-use pledge allocations and preserves an
+inspectable activation certificate; the browser explains the counterfactual
+before any wallet action. The public evidence is faucet-funded and bounded,
+not production financial security or an external audit.
+
+Judge the release with the [reproducible walkthrough](docs/JUDGE_WITNESS.md),
+[submission description](docs/SUBMISSION_DESCRIPTION.md), and
+[release checklist](docs/SUBMISSION_CHECKLIST_2026-11-10.md). The repository
+must be made public before submission; no access or submission action is
+performed by this checkout.
+
 ## Make your own campaign
 
 From the interactive example at /console, select **Build your own funding plan** or open /create.html directly. Set 1–5 projects, their funding requirements and dependencies, then enter 1–8 supporters with permitted destinations and optional conditions. Select **Check funding** to see a valid whole-contribution allocation or an explained blocked result.
@@ -93,7 +109,7 @@ Five contributors put in 12 NEAR total. A flexible donor can pledge 3 NEAR to ei
 - `FINAL_ENGINEERING_REVIEW.md`: frozen final evidence review and release recommendation.
 - `docs/VERIFICATION_2026-11-10.md`: latest isolated release-pass results, artifact hashes and CI limitation record.
 - `docs/DESIGN_DIRECTION.md` and `docs/FRONTEND_REDESIGN_REPORT.md`: frontend design rationale, screenshot evidence, measured local performance and remaining UX issues.
-- `docs/DEMO_STORYBOARD_2026-11-10.md`, `docs/SUBMISSION_CHECKLIST_2026-11-10.md` and `docs/X_DEMO_POST_DRAFT.md`: approval-required judge narrative and final release gates.
+- `docs/SUBMISSION_DESCRIPTION.md`, `docs/DEMO_STORYBOARD_2026-11-10.md`, `docs/SUBMISSION_CHECKLIST_2026-11-10.md` and `docs/X_DEMO_POST_DRAFT.md`: Social Money description, approval-required judge narrative and final release gates.
 
 ## Run immediately
 

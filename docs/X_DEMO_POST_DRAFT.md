@@ -17,4 +17,6 @@ This is faucet-funded NEAR testnet evidence, not production safety. Meteor
 browser signing, public Sputnik governance, callback recovery and independent
 audit remain clearly identified limitations.
 
-Suggested tags: `#NEAR #SocialMoney #Funding #DAOs`
+Required tags: `@NEARProtocol #NEARHackathon`
+
+Optional tags: `#SocialMoney #Funding #DAOs`
