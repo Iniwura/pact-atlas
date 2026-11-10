@@ -184,8 +184,11 @@ function renderCertificate() {
   holder.textContent = live.status?.phase === "EXPIRED" ? "This campaign expired. Contributors can claim their refunds after finalized expiry." : "Waiting for a complete, reconciled set of finalized onchain pledge records. Planned contribution templates are never treated as deposits.";
 }
 
-async function readView(view) { return adapter?.view ? adapter.view(view) : viewMethod(view); }
-async function readCodeHash() { return adapter?.codeHash ? adapter.codeHash(contractId) : viewCodeHash(contractId); }
+// Verification deliberately stays on the fixed read-only testnet RPC. A
+// wallet adapter is a signing boundary, not an authority for the state that
+// enables a transaction.
+async function readView(view) { return viewMethod(view); }
+async function readCodeHash() { return viewCodeHash(contractId); }
 
 async function refresh() {
   const sequence = ++refreshSequence;
