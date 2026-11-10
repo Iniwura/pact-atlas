@@ -4,9 +4,9 @@
 - [x] Install stable Rust >= near-sdk 5.29.1 MSRV (Rust 1.93.0 used).
 - [x] `cargo fmt --check`.
 - [x] Locked `cargo check --target wasm32-unknown-unknown`.
-- [x] Locked `cargo test` (14/14).
+- [x] Locked `cargo test` (15/15).
 - [x] Build actual WASM artifact via supported `cargo near build` workflow with `wasm-opt`.
-- [x] Generate ABI and confirm exact JSON argument names for `new`, `commit`, `activate`, `accounting`, views and callback.
+- [x] Generate ABI and confirm exact JSON argument names for `new`, `commit`, `activate`, `accounting`, `campaign_config`, `pledge_records`, other views and callback.
 
 ## Phase B — sandbox
 - [x] Deploy one immutable campaign contract funded with **developer-sponsored storage reserve**.
@@ -22,12 +22,14 @@
 - [x] Verify insolvency/storage reserve check and actual storage usage on NEAR VM; final sandbox reserves remained above the configured buffer.
 - [x] Test concurrent deposits, competing authorized activation requests, repeated withdrawals, unauthorized activation and private callback authorization.
 - [x] Test exact timestamp equality at `activate_after_ms` and `deadline_ms` in Rust VM tests; the sandbox runner separately crosses both boundaries because near-workspaces does not expose exact timestamp injection.
-- [x] Exercise maximum configured capacity in a genuine sandbox: 8 projects, 32 pledges, activation, measured storage reserve, 32 successful withdrawals and repeated withdrawal rejection. Evidence is in `outputs/pact-atlas-rc1-sandbox-evidence.json`.
+- [x] Exercise maximum configured capacity in a genuine sandbox: 8 projects, 32 pledges, activation, measured storage reserve, 32 successful withdrawals and repeated withdrawal rejection. Evidence is in `evidence/pact-atlas-rc1-sandbox-evidence.json`.
 
 ## Phase C — network
 - [x] Implement named testnet campaign validation, preserved-Wasm hash check, explicit multi-action deployment request and public share-link builder.
+- [x] Correct finalized transaction RPC transport, authenticate immutable campaign configuration and derive allocation candidates from canonical onchain pledge records.
 - [x] Implement finalized read-only campaign views, explicit whole-pledge commit/activation/expiry/withdrawal requests and no-retry unknown-outcome handling.
 - [x] Browser-test the public campaign route with mocked finalized RPC responses and malformed-link fail-closed behavior. This is not a real-chain result.
+- [x] Read-only testnet RPC probe returned `chain_id: testnet` (protocol 88); pinned Wallet Selector v10.1.4 module endpoints returned HTTP 200 without signing.
 - [ ] Create separate funded NEAR testnet identities. No authorized testnet credentials were present.
 - [ ] Deploy audited/compiled WASM to a dedicated testnet account, not mainnet. **BLOCKED: no credentials/approval.**
 - [ ] Reproduce a successful activation and expired-campaign full refund with real transaction hashes. **BLOCKED: no credentials/approval.**
@@ -52,8 +54,8 @@ The RC1 campaign is deliberately separate from the five-scenario baseline eviden
 
 ## Evidence map
 
-- `outputs/pact-atlas-sandbox-evidence.json`: final local receipt hashes, sandbox version, artifact hashes, state/accounting snapshots and balance reconciliation.
-- `outputs/pact-atlas-rc1-sandbox-evidence.json`: separate RC1 maximum-capacity sandbox evidence.
-- `outputs/pact_atlas_poc.wasm`: exact PACT Wasm used by the evidence.
-- `outputs/pact_atlas_poc_abi.json`: exact ABI generated from the same source state.
+- `evidence/pact-atlas-sandbox-evidence.json`: final local receipt hashes, sandbox version, artifact hashes, state/accounting snapshots and balance reconciliation.
+- `evidence/pact-atlas-rc1-sandbox-evidence.json`: separate RC1 maximum-capacity sandbox evidence.
+- `evidence/pact_atlas_poc.wasm`: exact PACT Wasm used by the evidence.
+- `evidence/pact_atlas_poc_abi.json`: exact ABI generated from the same source state.
 - `docs/SECURITY_REVIEW.md`: severity-ranked findings, mitigations, unresolved risks and assumptions.

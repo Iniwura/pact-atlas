@@ -34,6 +34,41 @@ pub struct Project {
     pub dependencies: Vec<String>,
 }
 
+/// Immutable project facts exposed for independent campaign-link verification.
+/// Project names intentionally remain off-chain presentation metadata; funding
+/// decisions are bound to these identifiers, beneficiaries, requirements and
+/// dependencies.
+#[near(serializers = [json])]
+#[derive(Clone)]
+pub struct ProjectView {
+    pub id: String,
+    pub beneficiary: AccountId,
+    pub required: U128,
+    pub dependencies: Vec<String>,
+}
+
+#[near(serializers = [json])]
+pub struct CampaignConfig {
+    pub projects: Vec<ProjectView>,
+    pub deadline_ms: u64,
+    pub activate_after_ms: u64,
+    pub min_funded_projects: u32,
+    pub required_for_activation: Vec<String>,
+    pub activation_authorities: Vec<AccountId>,
+}
+
+/// Canonical on-chain pledge records. The vector order is the contract's
+/// allocation index order and is part of the public certificate input.
+#[near(serializers = [json])]
+#[derive(Clone)]
+pub struct PledgeView {
+    pub index: u32,
+    pub owner: AccountId,
+    pub amount: U128,
+    pub allowed: Vec<String>,
+    pub requires: Vec<String>,
+}
+
 #[near(serializers = [borsh])]
 #[derive(Clone)]
 pub struct Pledge {
@@ -462,6 +497,45 @@ impl PactAtlas {
             .collect()
     }
 
+    /// Public immutable campaign facts used to authenticate share-link
+    /// configuration before any contribution or activation control is shown.
+    pub fn campaign_config(&self) -> CampaignConfig {
+        CampaignConfig {
+            projects: self
+                .projects
+                .iter()
+                .map(|project| ProjectView {
+                    id: project.id.clone(),
+                    beneficiary: project.beneficiary.clone(),
+                    required: U128(project.required),
+                    dependencies: project.dependencies.clone(),
+                })
+                .collect(),
+            deadline_ms: self.deadline_ms,
+            activate_after_ms: self.activate_after_ms,
+            min_funded_projects: self.min_funded_projects,
+            required_for_activation: self.required_for_activation.clone(),
+            activation_authorities: self.activation_authorities.clone(),
+        }
+    }
+
+    /// Public canonical pledge facts. No state is changed and no authorization
+    /// surface is added; the returned indexes are the exact values accepted by
+    /// `activate`.
+    pub fn pledge_records(&self) -> Vec<PledgeView> {
+        self.pledges
+            .iter()
+            .enumerate()
+            .map(|(index, pledge)| PledgeView {
+                index: index as u32,
+                owner: pledge.owner.clone(),
+                amount: U128(pledge.amount),
+                allowed: pledge.allowed.clone(),
+                requires: pledge.requires.clone(),
+            })
+            .collect()
+    }
+
     pub fn claimable(&self, #[serializer(json)] account_id: AccountId) -> U128 {
         U128(*self.credits.get(&account_id).unwrap_or(&0))
     }
@@ -734,6 +808,41 @@ mod tests {
         assert_eq!(accounting.locked_pledges.0, 0);
         assert_eq!(accounting.accounted.0, accounting.liabilities.0);
         assert!(accounting.solvent);
+    }
+
+    #[test]
+    fn public_config_and_pledges_are_canonical_read_only_facts() {
+        let c = funded_campaign();
+        let config = c.campaign_config();
+        assert_eq!(config.projects[0].id, "a");
+        assert_eq!(config.projects[0].beneficiary, account("a.testnet"));
+        assert_eq!(
+            config.projects[0].required.0,
+            4 * NearToken::from_near(1).as_yoctonear()
+        );
+        assert_eq!(config.deadline_ms, 4_000);
+        assert_eq!(config.activate_after_ms, 3_000);
+        assert_eq!(
+            config.activation_authorities,
+            vec![account("observer.testnet")]
+        );
+
+        let pledges = c.pledge_records();
+        assert_eq!(pledges.len(), 5);
+        assert_eq!(
+            pledges
+                .iter()
+                .map(|pledge| pledge.index)
+                .collect::<Vec<_>>(),
+            vec![0, 1, 2, 3, 4]
+        );
+        assert_eq!(pledges[0].owner, account("donor1.testnet"));
+        assert_eq!(
+            pledges[0].amount.0,
+            3 * NearToken::from_near(1).as_yoctonear()
+        );
+        assert_eq!(pledges[1].allowed, vec!["a"]);
+        assert_eq!(pledges[1].requires, vec!["b", "c"]);
     }
 
     #[test]

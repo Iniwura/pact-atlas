@@ -4,7 +4,8 @@ export const ONE_NEAR = 1_000_000_000_000_000_000_000_000n;
 export const TESTNET_GAS = "300000000000000";
 export const DEPLOYMENT_TRANSFER = 300_000_000_000_000_000_000_000n;
 export const STORAGE_SPONSOR = 300_000_000_000_000_000_000_000n;
-export const PACT_WASM_SHA256 = "7329d40af43d7e4d6cd3ff942cbe31ba9c54124e667a9af0233e63fa9020d103";
+export const PACT_WASM_SHA256 = "9ed866dd401b57f26a3aa35dbe722230a0d3893bb31ed0fbbb1e320db7dd2e6f";
+export const PACT_NEAR_CODE_HASH = "Bh4oaer6T9uUwbQBEfN1RFJ4S3jteMBnH6pWH7qC5nKx";
 
 const ACCOUNT = /^(?:(?:[a-z0-9_-]+\.)+testnet|[0-9a-f]{64})$/;
 const NAMED_ACCOUNT = /^(?:[a-z0-9_-]+\.)+testnet$/;
@@ -66,9 +67,31 @@ function publicProjects(campaign) {
   }));
 }
 
+function immutableCampaignConfig(campaign) {
+  const projects = publicProjects(campaign);
+  const timing = campaign.deployment?.timing;
+  return {
+    projects: projects.map(project => ({
+      id: project.id,
+      beneficiary: project.beneficiary,
+      required: yoctoFromNear(project.goal),
+      dependencies: [...project.dependencies],
+    })),
+    deadlineMs: Number.isSafeInteger(timing?.deadlineMs) ? timing.deadlineMs : null,
+    activateAfterMs: Number.isSafeInteger(timing?.activateAfterMs) ? timing.activateAfterMs : null,
+    minFundedProjects: Number.isSafeInteger(campaign.deployment?.minFundedProjects)
+      ? campaign.deployment.minFundedProjects
+      : projects.length,
+    requiredForActivation: Array.isArray(campaign.deployment?.requiredForActivation)
+      ? [...campaign.deployment.requiredForActivation]
+      : projects.map(project => project.id),
+    activationAuthorities: campaign.deployment?.authority ? [campaign.deployment.authority] : null,
+  };
+}
+
 export function publicCampaignConfig(campaign) {
   return {
-    schema: "pact-public-campaign-v1",
+    schema: "pact-public-campaign-v2",
     title: campaign.title,
     projects: publicProjects(campaign),
     supporters: campaign.supporters.map(supporter => ({
@@ -79,6 +102,7 @@ export function publicCampaignConfig(campaign) {
       requires: [...supporter.requires],
     })),
     activationAuthority: campaign.deployment?.authority || null,
+    immutable: immutableCampaignConfig(campaign),
   };
 }
 
@@ -104,7 +128,7 @@ export function campaignFromShareToken(token) {
   try { value = decodeBase64Url(token); } catch {
     throw new Error("This campaign link is incomplete or invalid.");
   }
-  if (value?.schema !== "pact-public-campaign-v1" || !Array.isArray(value.projects) || value.projects.length < 1 || value.projects.length > 5 || !Array.isArray(value.supporters) || value.supporters.length > 8) {
+  if (value?.schema !== "pact-public-campaign-v2" || !Array.isArray(value.projects) || value.projects.length < 1 || value.projects.length > 5 || !Array.isArray(value.supporters) || value.supporters.length > 8 || !value.immutable || !Array.isArray(value.immutable.projects) || !Array.isArray(value.immutable.requiredForActivation) || !Array.isArray(value.immutable.activationAuthorities) || !Number.isSafeInteger(value.immutable.deadlineMs) || !Number.isSafeInteger(value.immutable.activateAfterMs)) {
     throw new Error("This campaign link is incomplete or invalid.");
   }
   return value;
@@ -148,7 +172,16 @@ export function buildCampaignDeploymentRequest(campaign, { owner, authority = ow
       { type: "FunctionCall", methodName: "sponsor_storage", args: {}, gas: TESTNET_GAS, deposit: STORAGE_SPONSOR.toString() },
     ],
     campaignId,
-    publicConfig: publicCampaignConfig({ ...campaign, deployment: { ...campaign.deployment, authority } }),
+    publicConfig: publicCampaignConfig({
+      ...campaign,
+      deployment: {
+        ...campaign.deployment,
+        authority,
+        timing: { activateAfterMs, deadlineMs },
+        minFundedProjects: projects.length,
+        requiredForActivation: projects.map(project => project.id),
+      },
+    }),
     estimatedAttachedNear: Number(DEPLOYMENT_TRANSFER + STORAGE_SPONSOR) / Number(ONE_NEAR),
     timing: { activateAfterMs, deadlineMs },
   };
@@ -184,6 +217,8 @@ export function liveCampaignViews(contractId, accountId = null) {
     { contractId, methodName: "status", args: {} },
     { contractId, methodName: "accounting", args: {} },
     { contractId, methodName: "activation_certificate", args: {} },
+    { contractId, methodName: "campaign_config", args: {} },
+    { contractId, methodName: "pledge_records", args: {} },
   ];
   if (accountId && isTestnetAccount(accountId)) views.push(
     { contractId, methodName: "claimable", args: { account_id: accountId } },

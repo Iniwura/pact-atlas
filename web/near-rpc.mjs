@@ -9,10 +9,11 @@ function base64Json(value) {
 }
 
 export async function rpcQuery(request, { fetchImpl = fetch, rpcUrl = TESTNET_RPC_URL } = {}) {
+  const method = request?.request_type === "tx" ? "tx" : "query";
   const response = await fetchImpl(rpcUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: "pact-atlas", method: "query", params: request }),
+    body: JSON.stringify({ jsonrpc: "2.0", id: "pact-atlas", method, params: request }),
     signal: AbortSignal.timeout(9000),
   });
   if (!response.ok) throw new Error(`NEAR testnet RPC returned HTTP ${response.status}`);
@@ -32,6 +33,16 @@ export async function viewMethod({ contractId, methodName, args = {} }, options 
   return JSON.parse(new TextDecoder().decode(Uint8Array.from(result.result)));
 }
 
+export async function viewCodeHash(contractId, options = {}) {
+  const result = await rpcQuery({
+    request_type: "view_code",
+    account_id: contractId,
+    finality: "final",
+  }, options);
+  if (typeof result.hash !== "string" || !result.hash) throw new Error("NEAR testnet RPC returned no contract code hash");
+  return result.hash;
+}
+
 export function createTestnetProvider(options = {}) {
   return { query: async request => {
     if (request.request_type === "call_function") {
@@ -46,6 +57,7 @@ export function createTestnetProvider(options = {}) {
       const result = await rpcQuery({ request_type: "tx", tx_hash: request.tx_hash, sender_account_id: request.sender_account_id, wait_until: "FINAL" }, options);
       return result;
     }
+    if (request.request_type === "view_code") return viewCodeHash(request.account_id, options).then(hash => ({ hash }));
     return rpcQuery(request, options);
   } };
 }

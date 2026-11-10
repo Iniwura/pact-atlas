@@ -18,11 +18,18 @@ The intended contract calls are:
 | --- | --- | --- |
 | Create commitment | `PACT.commit(allowed, requires)` with attached native NEAR | receipt hash, pledge index, `accounting()` |
 | Approve funding | Sputnik DAO proposal creation, votes and execution | proposal ID, approval receipts, funding receipt |
-| Generate certificate | local `web/engine.mjs` solver | certificate allocations, exact/heuristic label, model inputs |
+| Generate certificate | local bounded exact solver using finalized `pledge_records()` | certificate allocations, exact/heuristic label, canonical pledge indexes and model inputs |
 | Activate | `PACT.activate(allocations)` from an immutable authority | activation receipt, `status()`, beneficiary credits |
 | Claim refund | `PACT.withdraw()` after `expire()` or unused allocation | transfer receipt, `claimable()`, `pending_withdrawal()` |
 
 The adapter must refuse to treat model-only conditions as approved DAO state. It must also expose the transaction result before the UI marks an action confirmed. A failed native transfer is not a permission to retry blindly: the contract's pending-withdrawal callback path remains fail-closed until a safe authenticated reconciliation design is proven.
+
+Before enabling live campaign controls, the public route reads finalized
+`view_code`, `campaign_config()` and `pledge_records()` state. It requires the
+deployed code hash and immutable project, timing, authority and requirement
+facts to match the share link. Pledge records are sorted by their canonical
+on-chain index; planned supporter labels are presentation-only and cannot
+create a deposit or allocation.
 
 ## RC1 request builder
 

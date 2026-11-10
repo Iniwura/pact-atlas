@@ -6,11 +6,11 @@
 
 - Source archive extracted and inspected.
 - Node.js reference-model suite: **26 tests pass**.
-- Rust contract: **14 unit tests pass**, locked Wasm check passes, and clippy passes with warnings denied.
+- Rust contract: **15 unit tests pass**, locked Wasm check passes, and clippy passes with warnings denied.
 - Optimized nearcore-compatible Wasm build passes; SHA-256 is recorded in the sandbox evidence.
 - Real NEAR sandbox: **5 baseline campaigns pass**, plus a fresh RC1 maximum-capacity campaign with all 8 projects, all 32 pledge slots, measured storage reserve, activation and 32 successful withdrawals.
 - Two reproducible offline certificates generated successfully.
-- The self-service campaign path now validates named testnet accounts, checks the preserved Wasm hash before deployment, constructs explicit multi-action deployment/initialization requests, creates public share configuration, and reads finalized campaign views without inventing chain state. The deployment and live-route tests use deterministic doubles; no testnet signature is claimed.
+- The self-service campaign path now validates named testnet accounts, checks the preserved Wasm hash before deployment, constructs explicit multi-action deployment/initialization requests, authenticates immutable `campaign_config()` and pinned code hash, derives candidates from canonical `pledge_records()`, and reads finalized campaign views without inventing chain state. The deployment and live-route tests use deterministic doubles; no testnet signature is claimed.
 - Storage reserve was measured in sandbox; final available reserves remained about 19.035 NEAR with storage stake about 1.962–1.963 NEAR.
 
 ## Unverified gates
@@ -33,7 +33,7 @@ The browser can prepare a genuine testnet request, but it does not have credenti
 6. `accounting()` exposes the conservation identity and reserve calculation. Solvency checks during normal state transitions verify both contract balance and liability conservation across locked pledges, credits and pending transfers.
 7. Callback gas budget is 40 TGas with explicit single-result checking. This is **not** a recovery mechanism for failed or missing callbacks.
 8. The callback validates the stored amount and promise-result count before removing the pending record. This is defense in depth; it does not solve a callback that never executes.
-9. Fourteen Rust unit tests cover JSON entrypoint decoding, initialization authorization, exact activation/deadline boundaries, maximum project/pledge capacity, accounting, callback success/failure, callback amount validation and duplicate callback behavior.
+9. Fifteen Rust unit tests cover JSON entrypoint decoding, initialization authorization, exact activation/deadline boundaries, maximum project/pledge capacity, accounting, callback success/failure, callback amount validation, duplicate callback behavior and canonical read-only campaign/pledge views.
 10. A real NEAR sandbox runner verifies five fresh baseline campaigns with actual attached deposits, invalid allocations, dependency rejection, top-up activation, expiry refunds, competing requests, activation authorization, withdrawals, liabilities, storage reserve balances and Sputnik DAO proposals. An isolated RC1 run additionally exercises all 8 project slots, all 32 pledge slots, storage growth, activation, settlement and repeated withdrawal rejection.
 11. The competitive benchmark compares explicit independent and aggregate-threshold baselines with the bounded exact reference solver and checks five small scenarios against a separate exhaustive oracle. It is model evidence, not chain evidence.
 

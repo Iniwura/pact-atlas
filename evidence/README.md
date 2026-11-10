@@ -11,6 +11,6 @@ This directory contains the preserved PACT Atlas RC1 release evidence copied fro
 - `screenshots/`: local Chromium desktop and mobile captures; these are UI evidence, not chain evidence.
 - `SHA256SUMS`: hashes for every preserved file in this bundle.
 
-The Wasm SHA-256 is `7329d40af43d7e4d6cd3ff942cbe31ba9c54124e667a9af0233e63fa9020d103`. The ABI SHA-256 is `4f9d6ea16bbc8986e304f5b894403501c262b409379efa3eef2f1dd248201075`.
+The current RC3 Wasm SHA-256 is `9ed866dd401b57f26a3aa35dbe722230a0d3893bb31ed0fbbb1e320db7dd2e6f`. The ABI SHA-256 is `8399a2cc59c37680ed2ae418f2f04cc8121dda2eca0f8777a9933d1de46e2f5b`. Its pinned NEAR code hash is `Bh4oaer6T9uUwbQBEfN1RFJ4S3jteMBnH6pWH7qC5nKx`.
 
 The evidence is local NEAR sandbox evidence only. It is not testnet or mainnet evidence, and it does not prove recovery when a native-transfer callback never executes. The corresponding sandbox-backed Vercel preview is recorded in `docs/VERCEL_PREVIEW.md`; hosted UI evidence must not be confused with chain evidence.

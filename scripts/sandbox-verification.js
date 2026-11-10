@@ -128,10 +128,21 @@ async function deployCampaign(worker, accounts, options = {}) {
     ),
     "sponsor_storage",
   );
+  const config = await contract.view("campaign_config", {});
+  assert.deepEqual(config.projects.map((project) => project.id), projects.map((project) => project.id));
+  assert.deepEqual(config.projects.map((project) => project.beneficiary), projects.map((project) => project.beneficiary));
+  assert.deepEqual(config.projects.map((project) => project.required), projects.map((project) => project.required));
+  assert.equal(config.deadline_ms, deadlineMs);
+  assert.equal(config.activate_after_ms, activateAfterMs);
+  assert.equal(config.min_funded_projects, minFundedProjects);
+  assert.deepEqual(config.required_for_activation, requiredForActivation);
+  assert.deepEqual(config.activation_authorities, activationAuthorities);
+  assert.deepEqual(await contract.view("pledge_records", {}), []);
   return {
     contract,
     activateAfterMs,
     deadlineMs,
+    config,
     receipts: {
       deploy: receiptHash(deployResult),
       initialize: receiptHash(initResult),
@@ -205,6 +216,10 @@ async function commitStandard(contract, accounts, includeTopup = false) {
     );
     receipts.push({ name, hash: receiptHash(result), amountNear: amount.toString() });
   }
+  const records = await contract.view("pledge_records", {});
+  assert.deepEqual(records.map((record) => record.index), pledges.map((_, index) => index));
+  assert.deepEqual(records.map((record) => record.owner), pledges.map(([name]) => accounts[name].accountId));
+  assert.deepEqual(records.map((record) => record.amount), pledges.map(([, amount]) => (amount * YOCTO_PER_NEAR).toString()));
   return receipts;
 }
 
@@ -549,10 +564,18 @@ async function deploySingleProjectCampaign(worker, beneficiary, options = {}) {
     ),
     "single-project sponsor_storage",
   );
+  const config = await contract.view("campaign_config", {});
+  assert.equal(config.projects[0].id, "commitment");
+  assert.equal(config.projects[0].beneficiary, beneficiary.accountId);
+  assert.equal(config.projects[0].required, (options.required ?? 3n * YOCTO_PER_NEAR).toString());
+  assert.equal(config.deadline_ms, deadlineMs);
+  assert.equal(config.activate_after_ms, activateAfterMs);
+  assert.deepEqual(await contract.view("pledge_records", {}), []);
   return {
     contract,
     activateAfterMs,
     deadlineMs,
+    config,
     receipts: {
       deploy: receiptHash(deployResult),
       initialize: receiptHash(initResult),
@@ -590,6 +613,10 @@ async function scenarioConcurrentActivationAndWithdrawals() {
       ),
     ]);
     deposits.forEach((result, index) => assertSucceeded(result, `concurrent deposit ${index}`));
+    const pledgeRecords = await campaign.contract.view("pledge_records", {});
+    assert.deepEqual(pledgeRecords.map((record) => record.index), [0, 1]);
+    assert.equal(new Set(pledgeRecords.map((record) => record.owner)).size, 2);
+    assert.deepEqual(pledgeRecords.map((record) => record.allowed), [["commitment"], ["commitment"]]);
     const openAccounting = await assertAccounting(campaign.contract, "concurrent deposits");
     assert.equal(openAccounting.locked_pledges, 3n * YOCTO_PER_NEAR);
 
@@ -726,6 +753,10 @@ async function scenarioMaximumCapacityAndStorage() {
       );
       commitReceipts.push(receiptHash(result));
     }
+    const pledgeRecords = await contract.view("pledge_records", {});
+    assert.equal(pledgeRecords.length, 32);
+    assert.deepEqual(pledgeRecords.map((record) => record.index), Array.from({ length: 32 }, (_, index) => index));
+    assert.equal(new Set(pledgeRecords.map((record) => record.owner)).size, 32);
     const open = await assertAccounting(contract, "maximum capacity open");
     assert.equal(open.locked_pledges, 32n * YOCTO_PER_NEAR);
     assert.equal(open.credits, 0n);

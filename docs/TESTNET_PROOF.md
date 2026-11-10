@@ -11,7 +11,7 @@ The separate `/verify.html` page and the `api/verify-testnet.mjs` endpoint verif
 1. Match the requested transaction hash, signer and destination contract account.
 2. Call the specifically named PACT method (`commit`, `activate`, `expire` or `withdraw`).
 3. Have `final_execution_status: FINAL` with successful transaction and receipt outcomes.
-4. Find a matching current code hash for the contract. The pinned hash is `8kYswvde6AC41E17ae1LtuepvC4FcTrEzRTSpr1TBgCS`, taken from the preserved PACT Wasm local sandbox evidence.
+4. Find a matching current code hash for the contract. The pinned RC3 hash is `Bh4oaer6T9uUwbQBEfN1RFJ4S3jteMBnH6pWH7qC5nKx`, taken from the regenerated PACT Wasm local sandbox evidence.
 5. Fail closed if the RPC, transaction, receipts, identity or code hash cannot be checked.
 
 Independent command-line reproduction (requires public RPC access):
@@ -23,7 +23,7 @@ npm run verify:testnet -- <pact-contract.testnet> <signer.testnet> <transaction-
 
 This does not prove every payout was received, prove DAO governance, prove the activation allocation was correct, or independently audit security. Code hash equality is checked against the **current finalized account state**, not the contract's historical code hash at the transaction block. If an account is upgraded later, historical executions may require a separate archival review. Only successful signed transactions may be submitted to this verifier. It will not transform a saved local sandbox receipt into public proof.
 
-The self-service path now prepares a real testnet campaign lifecycle: it validates named testnet owner/beneficiary/authority accounts, checks the preserved Wasm hash, constructs `CreateAccount → Transfer → DeployContract → new → sponsor_storage`, waits for wallet finality, and creates a public campaign link. The live page reads finalized `status()`, `accounting()` and `activation_certificate()` views, prepares whole-pledge commits, and keeps unknown outcomes pending without retrying. Wallet Selector modules are lazy-loaded only after an explicit action.
+The self-service path now prepares a real testnet campaign lifecycle: it validates named testnet owner/beneficiary/authority accounts, checks the preserved Wasm hash, constructs `CreateAccount → Transfer → DeployContract → new → sponsor_storage`, waits for wallet finality, and creates a public campaign link. The live page checks the pinned code hash, authenticates `campaign_config()`, derives whole-pledge candidates from canonical `pledge_records()` and reads finalized `status()`, `accounting()` and `activation_certificate()` views. Unknown outcomes remain pending without retrying. Wallet Selector modules are lazy-loaded only after an explicit action.
 
 These are implementation and deterministic browser-test results, not public-chain evidence. No authorized testnet wallet or signed campaign was available for this release.
 

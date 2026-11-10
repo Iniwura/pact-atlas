@@ -1,6 +1,6 @@
 # PACT Atlas — executable technical checkpoint
 
-**Status (2026-11-10):** The self-service console and public campaign route have 49 passing local Chromium checks, alongside 14 Rust unit tests, 35 core Node tests, exact bounded counterfactual/benchmark checks, wallet-adapter tests and genuine local NEAR sandbox campaigns. These results are not public testnet evidence. GitHub Actions remains blocked by the account billing/spending-limit gate; see the [dated verification record](docs/VERIFICATION_2026-11-10.md) before making a final release claim.
+**Status (2026-11-10):** The self-service console and public campaign route have 51 passing local Chromium checks, alongside 15 Rust unit tests, 35 core Node tests, chain/RPC/live-data regression tests, exact bounded counterfactual/benchmark checks, wallet-adapter tests and genuine local NEAR sandbox campaigns. These results are not public testnet evidence. GitHub Actions remains blocked by the account billing/spending-limit gate; see the [dated verification record](docs/VERIFICATION_2026-11-10.md) before making a final release claim.
 
 This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
 
@@ -64,7 +64,9 @@ Five contributors put in 12 NEAR total. A flexible donor can pledge 3 NEAR to ei
 - `docs/ARCHITECTURE.md`: data, contract, governance and evidence-boundary diagrams.
 - `web/NEAR_WORKFLOW.md`: the explicit wallet adapter contract and testnet evidence requirements.
 - `web/campaign-chain.mjs`: testnet-only campaign validation, multi-action deployment request, share token and contract call builders.
-- `web/campaign-live.mjs`: read-only finalized campaign state plus explicit commit, activation, expiry and withdrawal actions.
+- `web/campaign-live.mjs`: authenticated finalized campaign state plus explicit commit, activation, expiry and withdrawal actions.
+- `web/campaign-live-data.mjs`: immutable configuration authentication and chain-derived pledge certificate preparation.
+- `web/near-rpc.mjs`: read-only testnet RPC transport, including finalized transaction and code-hash requests.
 - `web/wallet-selector-host.mjs`: lazy Wallet Selector v10 testnet host integration; it never owns keys or retries unknown outcomes.
 - `web/near-workflow.mjs`: explicit commit, Sputnik proposal, certificate, activation and withdrawal request builder.
 - `web/near-adapter.mjs`: HOT Connect / Wallet Selector-compatible host bridge; it never owns keys or retries unknown outcomes.
@@ -104,11 +106,11 @@ npm ci
 RUSTUP_TOOLCHAIN=1.93.0 bash scripts/verify-rust.sh
 ```
 
-The script checks Rust formatting, the locked Wasm target, unit tests and clippy, builds optimized Wasm with `wasm-opt`, runs the 26-case reference suite and the 9-case competitive benchmark regression suite, and runs five real sandbox scenarios. The sandbox runner uses `near-sandbox` 2.13.4 through the pinned `near-sandbox-modern` alias because the older binary bundled by `near-workspaces` 5.0.0 cannot prepare this SDK's Wasm.
+The script checks Rust formatting, the locked Wasm target, 15 unit tests and clippy, rebuilds the optimized Wasm and ABI with `wasm-opt`, runs the 35 core Node tests, 9 benchmark tests, 23 counterfactual tests, 8 workflow tests, 7 proof tests, 8 wallet-adapter tests and 9 chain/RPC/live-data/ABI tests, and runs five real sandbox scenarios. The sandbox runner uses `near-sandbox` 2.13.4 through the pinned `near-sandbox-modern` alias because the older binary bundled by `near-workspaces` 5.0.0 cannot prepare this SDK's Wasm.
 
 The product checks are separate and reproducible with `npm run test:counterfactual` and `NPM_CONFIG_CACHE=/tmp/pact-npm-cache PLAYWRIGHT_BROWSERS_PATH=/tmp/pact-playwright-browsers npm run test:browser`. The browser campaign covers first-viewport comprehension, exact/blocked counterfactual states, evidence reconciliation, injected-adapter wallet safety, direct hosted routes, console/page errors, automated accessibility, graph keyboard interaction, evidence switching, narrow mobile layout and a local load-time budget. Fresh CI captures go to ignored `test-results/screenshots/`; the current redesign captures are in `docs/design-evidence/`.
 
-The wallet request layer is covered with `npm run test:workflow` (8 tests), the campaign deployment/share builder with `npm run test:chain` (4 tests), and the optional host bridge with `npm run test:wallet-adapter` (8 tests), without signing or submitting a transaction.
+The wallet request layer is covered with `npm run test:workflow` (8 tests), the campaign deployment/share/RPC/live-data/ABI boundary with `npm run test:chain` (9 tests), and the optional host bridge with `npm run test:wallet-adapter` (8 tests), without signing or submitting a transaction.
 
 The competitive benchmark is separate from the product and chain evidence. It compares explicit baseline semantics with the bounded exact reference solver, checks small cases against an independent exhaustive oracle, and labels aggregate/independent results as uncertified whenever they cannot prove PACT's one-use, condition and dependency rules. See `docs/COMPETITIVE_ADVANTAGE.md`.
 
@@ -132,6 +134,7 @@ SDK pinned to [`near-sdk = 5.29.1`](https://github.com/near/near-sdk-rs/releases
 - `sponsor_storage()` accepts a **non-refundable storage subsidy**; in this prototype the developer must provide this funding in addition to customer deposits. Do not use customer pledge funds to sponsor storage. Sponsorship is not an investor contribution.
 - `commit(allowed, requires)` is available **only before the funding cutoff**. It locks 100% of the attached native NEAR as the participant's refundable commitment. Allocation is all-or-nothing to one permitted project in this version. Each pledge receives an integer index.
 - `activate(allocations)` accepts an off-chain solver certificate **after fundraising has closed** from one of the immutable `activation_authorities`. It independently checks each pledge used at most once, funding totals exactly matching project requirements, all dependency rules, contributor conditions, mandatory project IDs, campaign minimum count, and activation timing. Its accepted plan is retained by `activation_certificate()` for review. It credits funded beneficiaries and refunds unused contributors using pull-based balances.
+- `campaign_config()` exposes immutable project and authority facts for share-link authentication; `pledge_records()` exposes canonical pledge indexes, owners, amounts, permissions and conditions for independent certificate construction. Both are read-only and do not weaken accounting or authorization.
 - `expire()` converts all locked contributions to refunds if the campaign was not activated before deadline.
 - `withdraw()` and its private callback distinguish successful transfers from failures; failures restore recoverable credit when the callback executes. **If the callback itself fails, recovery is not solved.** Use `claimable(account_id)`, `pending_withdrawal(account_id)`, `accounting()`, `status()`, and `activation_certificate()` to inspect positions. `accounting()` exposes the conservation identity and storage-reserve check for independent reconciliation.
 
@@ -144,7 +147,7 @@ Read `docs/SECURITY_REVIEW.md` for the risks and policy changes.
 ## Verified local criteria
 
 1. Pinned Rust/near-sdk compilation, locked Wasm check, clippy and optimized Wasm build pass.
-2. 14 Rust unit tests and 26 reference-model tests pass.
+2. 15 Rust unit tests and 26 reference-model tests pass.
 3. Real sandbox transactions use separate accounts and attached native NEAR.
 4. Invalid allocations revert without changing phase, liabilities or storage stake.
 5. A/B/C activation settles 4 + 3 + 3 NEAR and refunds the unused 2 NEAR pledge.

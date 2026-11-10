@@ -49,11 +49,14 @@ test("deployment request is an explicit multi-action testnet transaction", () =>
 });
 
 test("share links round-trip public campaign configuration without secrets", () => {
-  const decoded = campaignFromShareToken(campaignShareToken(campaign));
+  const deployed = { ...campaign, deployment: { authority: "authority.testnet", timing: { activateAfterMs: 61_000, deadlineMs: 3_601_000 } } };
+  const decoded = campaignFromShareToken(campaignShareToken(deployed));
   assert.equal(decoded.title, "Riverside Hub");
   assert.equal(decoded.projects[1].beneficiary, "shelves.testnet");
   assert.equal(decoded.supporters[0].allowed[0], "p1");
-  assert.match(campaignUrl("riverside-hub.alice.testnet", campaign, "https://preview.example/create.html"), /^https:\/\/preview\.example\/campaign\?/);
+  assert.equal(decoded.immutable.projects[0].required, "3000000000000000000000000");
+  assert.deepEqual(decoded.immutable.activationAuthorities, ["authority.testnet"]);
+  assert.match(campaignUrl("riverside-hub.alice.testnet", deployed, "https://preview.example/create.html"), /^https:\/\/preview\.example\/campaign\?/);
 });
 
 test("deployment and commit builders reject mainnet or malformed targets", () => {

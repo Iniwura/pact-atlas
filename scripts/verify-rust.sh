@@ -32,6 +32,14 @@ echo 'Running competitive benchmark regression tests...'
 npm run test:benchmark
 echo 'Running exact Coalition Atlas counterfactual tests...'
 npm run test:counterfactual
+echo 'Running workflow-builder tests...'
+npm run test:workflow
+echo 'Running testnet-proof validation tests...'
+npm run test:proof
+echo 'Running wallet-adapter safety tests...'
+npm run test:wallet-adapter
+echo 'Running live-chain transport and evidence tests...'
+npm run test:chain
 echo 'Running real NEAR sandbox accounting scenarios...'
 npm run test:sandbox
 echo 'All local Rust, Wasm, reference-model and NEAR sandbox checks passed. Testnet remains a separate authorized gate.'

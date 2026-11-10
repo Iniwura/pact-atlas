@@ -1,4 +1,3 @@
-import { solveCampaign } from "./campaign-solver.mjs";
 import {
   buildCampaignActivationRequest,
   buildCampaignCommitRequest,
@@ -8,8 +7,9 @@ import {
   isTestnetAccount,
   liveCampaignViews,
 } from "./campaign-chain.mjs";
+import { authenticateCampaignConfig, candidateFromOnchainPledges } from "./campaign-live-data.mjs";
 import { ensureWalletAdapter } from "./wallet-selector-host.mjs";
-import { explorerUrl, viewMethod } from "./near-rpc.mjs";
+import { explorerUrl, viewCodeHash, viewMethod } from "./near-rpc.mjs";
 
 const $ = selector => document.querySelector(selector);
 const yocto = value => BigInt(String(value ?? "0"));
@@ -24,7 +24,7 @@ const element = (tag, className = "", text = undefined) => { const node = docume
 const params = new URLSearchParams(location.search);
 const contractId = params.get("contract");
 let campaign;
-let live = { status: null, accounting: null, certificate: [] };
+let live = { status: null, accounting: null, certificate: [], config: null, pledges: [], codeHash: null, authenticated: false, configError: null, pledgeError: null };
 let adapter = null;
 let accountId = null;
 
@@ -99,15 +99,13 @@ function renderStatus() {
 }
 
 function candidateCertificate() {
-  if (!campaign.supporters?.length) return null;
-  const model = { title: campaign.title, projects: campaign.projects, supporters: campaign.supporters };
-  const result = solveCampaign(model);
-  if (result.status !== "fundable") return null;
-  const allocations = result.certificate.allocations.map(row => ({
-    pledge_index: campaign.supporters.findIndex(supporter => supporter.id === row.supporterId),
-    project_id: row.projectId,
-  }));
-  return { result, allocations };
+  if (!live.authenticated || !live.pledges?.length) return null;
+  try {
+    return candidateFromOnchainPledges(campaign, live.pledges);
+  } catch (error) {
+    live.pledgeError = error.message;
+    return null;
+  }
 }
 
 function renderCertificate() {
@@ -117,31 +115,45 @@ function renderCertificate() {
     holder.textContent = "The contract has accepted this allocation certificate. The JSON below is read directly from finalized state.";
     pre.textContent = JSON.stringify(live.certificate, null, 2); pre.hidden = false; return;
   }
+  if (!live.authenticated) {
+    holder.textContent = live.configError || "Waiting for immutable contract verification.";
+    return;
+  }
+  if (live.pledgeError) {
+    holder.textContent = `Cannot prepare an allocation from the finalized pledge records: ${live.pledgeError}`;
+    return;
+  }
   const candidate = candidateCertificate();
-  const expectedCount = campaign.supporters?.length || 0;
-  const expectedLocked = (campaign.supporters || []).reduce((sum, supporter) => sum + Number(supporter.amount || 0), 0);
-  const actualLocked = live.accounting ? Number(yocto(live.accounting.locked_pledges) / 1_000_000_000_000_000_000_000_000n) : -1;
-  if (candidate && live.status?.phase === "OPEN" && live.status.pledge_count === expectedCount && actualLocked === expectedLocked) {
-    holder.textContent = "Candidate certificate ready. It is derived from the public campaign plan and will still be revalidated by the contract during authority activation.";
+  const observedLocked = live.pledges.reduce((sum, pledge) => sum + yocto(pledge.amount), 0n);
+  const actualLocked = live.accounting ? yocto(live.accounting.locked_pledges) : -1n;
+  if (candidate?.allocations && live.status?.phase === "OPEN" && live.status.pledge_count === live.pledges.length && actualLocked === observedLocked) {
+    holder.textContent = "Candidate certificate ready. It is derived from finalized onchain pledge records in canonical index order and will still be revalidated by the contract during authority activation.";
     pre.textContent = JSON.stringify(candidate.allocations, null, 2); pre.hidden = false; activate.hidden = false; activate.dataset.allocations = JSON.stringify(candidate.allocations); return;
   }
-  holder.textContent = live.status?.phase === "EXPIRED" ? "This campaign expired. Contributors can claim their refunds after finalized expiry." : "Waiting for all planned commitments. The contract will reject any certificate that does not match real pledge rules.";
+  holder.textContent = live.status?.phase === "EXPIRED" ? "This campaign expired. Contributors can claim their refunds after finalized expiry." : "Waiting for a complete, reconciled set of finalized onchain pledge records. Planned contribution templates are never treated as deposits.";
 }
 
 async function readView(view) { return adapter?.view ? adapter.view(view) : viewMethod(view); }
+async function readCodeHash() { return adapter?.codeHash ? adapter.codeHash(contractId) : viewCodeHash(contractId); }
 
 async function refresh() {
   try {
     const views = liveCampaignViews(contractId, accountId);
-    const values = await Promise.all(views.slice(0, 3).map(readView));
-    [live.status, live.accounting, live.certificate] = values;
+    const values = await Promise.all(views.slice(0, 5).map(readView));
+    [live.status, live.accounting, live.certificate, live.config, live.pledges] = values;
+    live.codeHash = await readCodeHash();
+    const authentication = authenticateCampaignConfig(campaign, live.config, live.codeHash);
+    live.authenticated = authentication.valid;
+    live.configError = authentication.valid ? null : authentication.errors.join(" ");
+    live.pledgeError = null;
     renderStatus();
-    if (accountId && views.length > 3) {
-      const balances = await Promise.all(views.slice(3).map(readView));
+    if (accountId && views.length > 5) {
+      const balances = await Promise.all(views.slice(5).map(readView));
       $("#claimable-value").textContent = formatNear(balances[0]);
       $("#pending-value").textContent = formatNear(balances[1]);
     }
-    $("#campaign-error").hidden = true;
+    if (authentication.valid) $("#campaign-error").hidden = true;
+    else showMessage("#campaign-error", live.configError, "error");
   } catch (error) { showMessage("#campaign-error", `Live state could not be read: ${error.message}`, "error"); }
 }
 

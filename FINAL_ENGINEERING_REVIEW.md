@@ -1,6 +1,16 @@
 # PACT Atlas final engineering review
 
-Review basis: source baseline `cfa67ef` (`Add competitive benchmarks and callback hardening`), preserved benchmark/evidence files, current Rust and JavaScript source, and the final verification rerun on 2026-11-02.
+Review basis: audit baseline `457a92e` (PR #11's audited head), current Rust and JavaScript source, regenerated artifacts, preserved benchmark/evidence files, and the RC3 verification rerun on 2026-11-10.
+
+## RC3 live-chain hardening addendum
+
+PR #11's latest audit reproduced three release-blocking defects at commit
+`457a92e`: finality used JSON-RPC `query` instead of `tx`; live candidates
+trusted planned supporters; and share-link configuration was not bound to
+deployed immutable facts. All three now have regression tests and narrow fixes.
+The contract adds only read-only `campaign_config()` and `pledge_records()`
+views; accounting and authorization state transitions are unchanged. The
+current branch remains local/sandbox verified, not testnet-verified.
 
 ## Recommendation
 
@@ -67,18 +77,18 @@ Mitigated findings include initialization front-running, unauthorized activation
 
 The final rerun uses the pinned Rust/near-sdk/cargo-near versions and the current tracked artifacts:
 
-- 14 Rust tests; formatting, locked check, clippy with warnings denied, ABI generation and optimized Wasm build pass.
-- 26 reference tests plus 9 competitive benchmark tests pass.
-- 6 counterfactual, 5 workflow, 4 wallet-adapter and 10 Chromium/accessibility checks pass.
+- 15 Rust tests; formatting, locked check, clippy with warnings denied, ABI generation and optimized Wasm build pass.
+- 35 core Node tests plus 9 competitive benchmark tests pass.
+- 23 counterfactual, 8 workflow, 9 chain/RPC/live-data/ABI, 8 wallet-adapter and 51 Chromium/accessibility checks pass.
 - Five fresh NEAR sandbox campaigns and the separate 8-project/32-pledge capacity campaign pass.
 - `evidence/SHA256SUMS` verifies every preserved evidence file.
-- Wasm SHA-256: `7329d40af43d7e4d6cd3ff942cbe31ba9c54124e667a9af0233e63fa9020d103`.
-- ABI SHA-256: `4f9d6ea16bbc8986e304f5b894403501c262b409379efa3eef2f1dd248201075`.
+- Wasm SHA-256: `9ed866dd401b57f26a3aa35dbe722230a0d3893bb31ed0fbbb1e320db7dd2e6f`.
+- ABI SHA-256: `8399a2cc59c37680ed2ae418f2f04cc8121dda2eca0f8777a9933d1de46e2f5b`.
 - Competitive benchmark JSON SHA-256: `3c748d13ba919fd77a9a866db077f7e0e3ab460b50411de210ab372a30f46da8`.
-- Baseline sandbox evidence SHA-256: `397e7c207be03a16ed6e4fb94a1ec0e058ea0370333d48772b5f1044e1f5f88a`.
-- Maximum-capacity sandbox evidence SHA-256: `bfda2abe463850466d35e999eb04e7a1111de3999aab2b0b03278a7de81fd370`.
-- NEAR code hash: `8kYswvde6AC41E17ae1LtuepvC4FcTrEzRTSpr1TBgCS`.
-- Source baseline: `cfa67ef`; no remote, push, publication, redeploy, permission change, mainnet call or real-fund spend occurred.
+- Baseline sandbox evidence SHA-256: `e88b6ba2a2f88eb376c69a1a1dd7c46859207346f511b3d961011ea5d8d297a1`.
+- Maximum-capacity sandbox evidence SHA-256: `28f264e0123672e03d8046a27497d01c99f0f798f7cd8f962aeaede439366931`.
+- NEAR code hash: `Bh4oaer6T9uUwbQBEfN1RFJ4S3jteMBnH6pWH7qC5nKx`.
+- Audit baseline: `457a92e`; no merge, publication, permission change, production promotion, mainnet call or real-fund spend occurred. The current release commit is recorded in the Git history after this review.
 
 ## Evidence index
 

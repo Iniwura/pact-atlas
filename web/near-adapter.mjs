@@ -177,7 +177,14 @@ export function createNearWalletAdapter({
     return JSON.parse(new TextDecoder().decode(new Uint8Array(response.result)));
   };
 
-  return { connect, call, confirm, view };
+  const codeHash = async (contractId) => {
+    if (!provider || typeof provider.query !== "function") throw new Error("No NEAR provider is configured for code verification");
+    const response = await provider.query({ request_type: "view_code", account_id: contractId, finality: "final" });
+    if (typeof response?.hash !== "string" || !response.hash) throw new Error("NEAR provider returned no contract code hash");
+    return response.hash;
+  };
+
+  return { connect, call, confirm, view, codeHash };
 }
 
 export { accountIdOf, transactionHashOf };

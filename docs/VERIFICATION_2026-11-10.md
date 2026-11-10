@@ -1,11 +1,29 @@
 # PACT Atlas — verification update (2026-11-10)
 
+## RC3 live-chain hardening update
+
+Commit `457a92e` was audited before this update. The three release-blocking
+findings were reproduced with failing regression tests and fixed:
+
+- transaction finality now serializes JSON-RPC method `tx` with
+  `{tx_hash, sender_account_id, wait_until: "FINAL"}`;
+- `campaign_config()` and `pledge_records()` are read-only contract views;
+  candidate allocations use canonical finalized pledge indexes, owners,
+  amounts, permissions and conditions rather than planned supporters;
+- share links use schema `pact-public-campaign-v2`, pin the deployed code hash,
+  and fail closed unless immutable project, timing and authority facts match
+  finalized contract views.
+
+The Rust source change is read-only only: no accounting, authorization or
+withdrawal behavior was changed. The preserved artifacts were regenerated from
+the current source and the sandbox evidence was rerun with the new Wasm.
+
 This record covers the isolated self-service release pass descended from
-`b1ec4aa55f6f51c1d1ba2e327ac63eb8b8ed20c9`. The Rust contract and preserved
-Wasm/ABI are unchanged. The product now adds a testnet-only campaign request
-layer, a lazy Wallet Selector host, a public campaign route, finalized view
-reconciliation, and browser coverage for those boundaries. No wallet was
-connected and no public testnet transaction was signed.
+`b1ec4aa55f6f51c1d1ba2e327ac63eb8b8ed20c9`. It includes the RC3 read-only
+contract views, corrected finality transport, authenticated campaign links,
+testnet-only campaign request layer, lazy Wallet Selector host, public campaign
+route and finalized view reconciliation. No wallet was connected and no public
+testnet transaction was signed.
 
 ## GitHub CI diagnosis
 
@@ -34,16 +52,16 @@ The following gates were run in the isolated checkout:
 
 | Gate | Result | Evidence boundary |
 | --- | --- | --- |
-| Rust unit tests | 14/14 passed | Local Rust VM |
+| Rust unit tests | 15/15 passed | Local Rust VM |
 | Rust format, locked Wasm check, clippy | Passed | Local toolchain |
 | JavaScript reference suite | 35/35 passed | Local model/tests |
 | Competitive benchmark | 9/9 passed | Bounded reference benchmark |
 | Counterfactual engine | 23/23 passed | Browser-independent solver tests |
 | Wallet workflow | 8/8 passed | Request construction; no signing |
 | Wallet adapter | 8/8 passed | Injected adapter safety; no signing |
-| Campaign chain builders | 4/4 passed | Testnet-only deployment/share/call request construction |
+| Campaign chain, RPC, live-data and ABI interface tests | 9/9 passed | Testnet-only deployment/share/call request construction, JSON-RPC transport, chain-derived certificates and ABI surface |
 | Testnet proof verifier | 7/7 passed | Read-only verifier tests |
-| Playwright browser suite | 49/49 passed | Local Chromium at 320, 360, 390, 768, 1024 and 1440px; public campaign route included |
+| Playwright browser suite | 51/51 passed | Local Chromium at 320, 360, 390, 768, 1024 and 1440px; public campaign route and fail-closed chain-auth tests included |
 | NEAR sandbox: cycle/all-four/expiry/concurrent | Passed | Fresh local sandbox receipts and accounting snapshots |
 | NEAR sandbox: maximum capacity | Passed | 8 projects, 32 deposits, 32 credits, 32 withdrawals |
 | NEAR sandbox: Sputnik governance | Passed | Fresh DAO proposal, quorum, execution, funding and refund |
@@ -53,16 +71,25 @@ transfers. Every recorded accounting snapshot was solvent; the exercised
 campaigns ended with zero liabilities. These are local sandbox results, not
 public testnet evidence.
 
+## Read-only testnet protocol probe
+
+On 2026-11-10, a non-signing probe reached `https://rpc.testnet.fastnear.com`
+and returned `chain_id: testnet` with protocol version `88`. The three pinned
+Wallet Selector v10.1.4 ESM endpoints used by `web/wallet-selector-host.mjs`
+returned HTTP 200. This validates endpoint reachability and the configured
+testnet network, not wallet connection, signature approval or a campaign
+transaction. No account, key, faucet call or transaction was used.
+
 ## Artifact record
 
-The preserved release artifacts remain unchanged:
+The release artifacts were rebuilt from the current source and preserved:
 
 | Artifact | SHA-256 |
 | --- | --- |
-| `evidence/pact_atlas_poc.wasm` | `7329d40af43d7e4d6cd3ff942cbe31ba9c54124e667a9af0233e63fa9020d103` |
-| `evidence/pact_atlas_poc_abi.json` | `4f9d6ea16bbc8986e304f5b894403501c262b409379efa3eef2f1dd248201075` |
+| `evidence/pact_atlas_poc.wasm` | `9ed866dd401b57f26a3aa35dbe722230a0d3893bb31ed0fbbb1e320db7dd2e6f` |
+| `evidence/pact_atlas_poc_abi.json` | `8399a2cc59c37680ed2ae418f2f04cc8121dda2eca0f8777a9933d1de46e2f5b` |
 | Sputnik sandbox Wasm | `6e3f1814d40769d8f57b9a7af689d22aaab96d3232cec4d861311829c1d2318f` |
-| PACT sandbox Wasm code hash | `8kYswvde6AC41E17ae1LtuepvC4FcTrEzRTSpr1TBgCS` |
+| PACT sandbox Wasm code hash | `Bh4oaer6T9uUwbQBEfN1RFJ4S3jteMBnH6pWH7qC5nKx` |
 | Offline certificate sample | `7a7124674a7e57ee3772b99775206833c9673446395fa0d58e5c2449dcc6d6c9` |
 
 The final local `RUSTUP_TOOLCHAIN=1.93.0 bash scripts/verify-rust.sh` pass
