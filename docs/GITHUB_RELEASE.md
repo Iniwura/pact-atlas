@@ -1,6 +1,11 @@
 # GitHub release preparation
 
-The checkpoint is prepared for a repository owned by `Iniwura`, but no GitHub repository was created or modified in this task. The supplied ZIP did not contain its original `.git` directory; this workspace does preserve the local engineering checkpoint history through `ddd45fc`, but it has no configured remote. The local release candidate is therefore a history-preserving local branch with no upstream publication.
+The private repository `https://github.com/Iniwura/pact-atlas` exists and the
+history-preserving release branch `feat/self-serve-campaign-lab` was pushed
+without force. The current remote head is
+`8226894e4120ddd862fd6031f77f2ecca09c602b`. PR #11 remains draft. No
+visibility change, merge, production promotion, mainnet call or real-fund
+spend occurred.
 
 ## Included release surface
 
@@ -17,7 +22,12 @@ The Rust job uses Rust `1.93.0`, `cargo-near 0.22.0`, and the canonical `CARGO_H
 
 ## Local repository state
 
-The candidate has been prepared as a clean local Git repository with no remote configured. Do not add a remote, create a public repository, push, or submit the hackathon entry until separately authorized. When authorized, use the approved repository name under `Iniwura`, review the initial snapshot, and configure branch protection so the required Actions workflow passes before merge.
+The candidate is a clean local Git repository with an explicit `origin` remote
+for the private repository above. The local branch name is
+`codex/fix-sandbox-accounting` and it publishes to
+`origin/feat/self-serve-campaign-lab`; both resolve to the same SHA above. Do
+not make the repository public, merge PR #11, change branch permissions or
+submit the hackathon entry until separately authorized.
 
 ## Reproducibility gates
 
@@ -35,4 +45,7 @@ npm run test:browser
 RUSTUP_TOOLCHAIN=1.93.0 bash scripts/verify-rust.sh
 ```
 
-The local RC1 reports and exact artifact hashes are in `evidence/`. No command in this release preparation performs a testnet deployment or spends real funds.
+The local RC1 reports and exact artifact hashes are in `evidence/`. The public
+testnet manifests contain only faucet-funded disposable identities and
+finalized receipt hashes; no mainnet transaction or real-fund spend is part of
+this release preparation.

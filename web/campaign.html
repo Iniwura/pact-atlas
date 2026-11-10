@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0c0b">
+  <meta name="description" content="A public PACT Atlas funding campaign on NEAR testnet.">
+  <title>Live campaign — PACT Atlas</title>
+  <link rel="stylesheet" href="./protocol-workspace.css">
+  <link rel="stylesheet" href="./campaign.css">
+</head>
+<body class="protocol-app campaign-app">
+  <a class="skip-link" href="#campaign-main">Skip to campaign</a>
+  <header class="app-header">
+    <a href="/" class="wordmark" aria-label="PACT Atlas homepage">
+      <span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b></span>
+      <span>PACT<span class="brand-slash">/</span>ATLAS</span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="./console">Explore example</a>
+      <a href="./create.html">Create plan</a>
+      <a href="./verify.html">Verify</a>
+    </nav>
+    <span id="campaign-network" class="mode-pill"><span class="mode-dot"></span> NEAR TESTNET</span>
+  </header>
+  <main id="campaign-main" class="campaign-main">
+    <section class="campaign-hero" aria-labelledby="campaign-title">
+      <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true">✳</span> PUBLIC CAMPAIGN / PACT TESTNET</p>
+      <div class="campaign-hero-row">
+        <div>
+          <h1 id="campaign-title">Loading campaign…</h1>
+          <p id="campaign-subtitle">A shareable funding agreement with explicit conditions and independently checked settlement.</p>
+        </div>
+        <div class="campaign-account"><span>CAMPAIGN ACCOUNT</span><code id="campaign-id">—</code><a id="campaign-explorer" target="_blank" rel="noopener noreferrer">Open explorer ↗</a></div>
+      </div>
+    </section>
+
+    <section class="campaign-status-grid" aria-label="Live campaign status">
+      <article class="campaign-status-card"><span>PHASE</span><strong id="live-phase">Checking…</strong><small id="live-window">—</small></article>
+      <article class="campaign-status-card"><span>COMMITTED</span><strong id="live-committed">—</strong><small id="live-required">—</small></article>
+      <article class="campaign-status-card"><span>CONTRIBUTIONS</span><strong id="live-pledges">—</strong><small>finalized pledge records</small></article>
+      <article class="campaign-status-card"><span>LIABILITIES</span><strong id="live-liabilities">—</strong><small id="live-solvency">Reconciliation pending</small></article>
+    </section>
+
+    <div id="campaign-error" class="campaign-message" role="alert" hidden></div>
+
+    <section class="campaign-layout">
+      <div class="campaign-projects-panel">
+        <div class="panel-heading"><div><span class="pane-kicker">01 / THE AGREEMENT</span><h2>What this campaign funds</h2></div><button id="refresh-campaign" class="quiet-button" type="button">Refresh state ↻</button></div>
+        <div id="campaign-projects" class="campaign-projects"></div>
+        <div class="authority-note"><span class="authority-symbol" aria-hidden="true">✳</span><p><strong id="authority-label">Activation authority</strong><br>Only this configured account can submit the final allocation. The contract independently rejects duplicated pledges, wrong destinations, unmet conditions and premature activation.</p></div>
+      </div>
+
+      <aside class="campaign-action-panel" aria-labelledby="contribute-title">
+        <div class="panel-heading"><div><span class="pane-kicker">02 / PARTICIPATE</span><h2 id="contribute-title">Add a commitment</h2></div></div>
+        <p class="action-intro">Choose the projects your whole contribution may support. Your wallet will show the exact amount and contract method before anything is signed.</p>
+        <form id="commit-form" class="campaign-form">
+          <label for="supporter-plan">Planned contribution <select id="supporter-plan"></select></label>
+          <label for="commit-amount">Amount · whole NEAR<input id="commit-amount" type="number" min="1" max="100" step="1" inputmode="numeric" required></label>
+          <fieldset><legend>This contribution may fund</legend><div id="allowed-projects" class="check-grid"></div></fieldset>
+          <fieldset><legend>Only if these projects are funded</legend><div id="required-projects" class="check-grid"></div></fieldset>
+          <button id="commit-submit" class="primary-action" type="submit" disabled>Connect wallet and commit ↗</button>
+        </form>
+        <div id="wallet-state" class="wallet-state" role="status">Read-only until a testnet wallet is connected.</div>
+        <div id="commit-result" class="campaign-message" role="status" aria-live="polite">No commitment submitted.</div>
+      </aside>
+    </section>
+
+    <section class="campaign-settlement" aria-labelledby="settlement-title">
+      <div class="panel-heading"><div><span class="pane-kicker">03 / VERIFY AND SETTLE</span><h2 id="settlement-title">Exact allocation, finality and claims</h2></div></div>
+      <div class="settlement-grid">
+        <article class="settlement-card"><span class="card-label">ALLOCATION CERTIFICATE</span><div id="allocation-state" class="settlement-state">Waiting for the campaign to close or reach its funding threshold.</div><pre id="allocation-certificate" hidden></pre><button id="activate-submit" class="secondary-action" type="button" hidden>Submit authority activation ↗</button></article>
+        <article class="settlement-card"><span class="card-label">YOUR WALLET</span><div id="account-state" class="settlement-state">Connect to inspect claimable and pending balances.</div><div class="claim-numbers"><div><strong id="claimable-value">—</strong><span>claimable</span></div><div><strong id="pending-value">—</strong><span>pending</span></div></div><div class="settlement-actions"><button id="expire-submit" class="secondary-action" type="button" disabled>Expire after deadline ↗</button><button id="withdraw-submit" class="secondary-action" type="button" disabled>Claim funds ↗</button></div></article>
+      </div>
+      <p class="campaign-disclosure">Every live value above comes from finalized NEAR testnet views. A wallet hash alone is shown as submitted, never confirmed; a pending withdrawal is never retried automatically.</p>
+    </section>
+  </main>
+  <footer class="site-footer"><span>PACT/ATLAS</span><span>TESTNET ONLY / FAUCET FUNDS</span><a href="./console">Explore the example ↗</a></footer>
+  <script type="module" src="./campaign-live.mjs"></script>
+</body>
+</html>

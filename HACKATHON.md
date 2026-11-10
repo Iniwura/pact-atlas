@@ -4,6 +4,11 @@ PACT Atlas is a constrained, native-NEAR proof of coalition funding. It verifies
 
 This is a serious technical checkpoint, not an externally audited or production-ready financial protocol.
 
+## Self-service experiment for independent judges
+
+Open /create.html from the **Build your own funding plan** link in /console. A judge can start blank or edit the prepared Community Hub scenario. They can set their own project goals, dependencies, contributor constraints and amounts, then inspect or export an exact allocation result. A fundable plan also exposes a testnet-only deployment request requiring an explicit wallet approval; the exported JSON and local plan remain usable without a wallet. The full path is documented in [docs/CAMPAIGN_LAB.md](docs/CAMPAIGN_LAB.md).
+
+The custom planner and the deployed campaign share deterministic public inputs, but the contract remains authoritative for onchain activation. Three minimal campaigns have now been signed and settled on public NEAR testnet: an activated single-project campaign, an expired/refunded campaign, and a two-project dependency coalition with independent out-of-order contributions and an accepted activation certificate. The local sandbox evidence in /console remains independently recorded from the public receipts.
 ## Judge-first demo — 60 seconds
 
 Open `/console`. It begins with one question: **Can we fund all four?** The four named project cards show possible funding coverage, not payments or activations. Five supporters offered 12 NEAR, but the total requirement is 13 NEAR. Events has 2/3 NEAR available.
@@ -12,7 +17,7 @@ Click **Simulate +1 NEAR**. The existing bounded exact solver finds a one-use al
 
 The detailed [judge walkthrough](docs/JUDGE_WITNESS.md) explains the flexible supporter restriction, demonstrates what the model checks, and gives exact reproduction commands. The **Supporters** section explains individual restrictions in plain English. The **Local sandbox evidence** section separately shows preserved NEAR sandbox receipts. The collapsed **Developer tools** section contains optional authorization-gated wallet workflows, not pre-authorized funding.
 
-This is a sandbox-backed hackathon prototype, **not** audited production software, a real testnet transaction, or a guarantee of project delivery. The cinematic homepage at `/` is preserved; the functional demonstration lives at `/console`.
+This is an experimental hackathon prototype with a bounded faucet-funded testnet demonstration, **not** audited production software or a guarantee of project delivery. The cinematic homepage at `/` is preserved; the functional demonstration lives at `/console`.
 
 ## What the first-time user can do
 
@@ -21,6 +26,7 @@ This is a sandbox-backed hackathon prototype, **not** audited production softwar
 3. Preview the extra 1 NEAR safely, watch the funding totals change, and inspect the exact proposed allocation.
 4. Select any project or supporter to view its conditions and intended funding choices.
 5. Review reproducible model checks and separately recorded local NEAR sandbox receipts.
+6. If authorized testnet credentials are available, deploy a dedicated campaign account, share its public link, inspect finalized state and use the wallet-approved commit/activation/settlement actions.
 
 Run `npm run preview` from the repository root and visit `/console`. The browser checks capture desktop/mobile before-and-after screenshots under `test-results/screenshots/`. The evidence viewer loads `web/data/evidence.json` without pretending those receipts came from the browser simulation.
 
@@ -36,7 +42,7 @@ npm test
 RUSTUP_TOOLCHAIN=1.93.0 bash scripts/verify-rust.sh
 ```
 
-The last command compiles/tests the Rust contract, runs clippy with warnings denied, generates the ABI, builds optimized Wasm, runs the 26-case reference model and competitive benchmark suites, and launches five fresh NEAR sandbox campaigns. It writes reproducible evidence to `outputs/pact-atlas-sandbox-evidence.json`. The RC1 capacity campaign is separate:
+The last command compiles/tests the Rust contract, runs clippy with warnings denied, regenerates the ABI and optimized Wasm, runs the full local JavaScript matrix, launches five fresh NEAR sandbox campaigns, and runs the exact atomic self-service deployment lifecycle. It writes reproducible evidence to `outputs/pact-atlas-sandbox-evidence.json`; checked-in copies are retained under `evidence/`. The RC1 capacity campaign is separate:
 
 ```sh
 PACT_SCENARIOS=max-capacity PACT_EVIDENCE_PATH=outputs/pact-atlas-rc1-sandbox-evidence.json npm run test:sandbox
@@ -72,9 +78,9 @@ The default is all scenarios: `cycle,all-four,expiry,concurrent,sputnik`.
 
 ## Verified behaviors
 
-- 14 Rust unit tests and 26 independent reference-model tests pass; the separate competitive benchmark has 9 passing tests and checks five bounded scenarios against an independent exhaustive oracle.
-- On the November 8 first-time-user redesign, 31/31 Chromium checks passed at the UI verification commit, covering blocked/viable states, real allocation disclosures, mobile widths, keyboard accessibility and signed-request boundaries. Source artifacts remain pinned; this is not a Lighthouse or production-traffic claim.
-- The explicit request builder passes 5 tests, and the optional HOT Connect / Wallet Selector-compatible bridge passes 4 deterministic tests; no wallet package, key or signature is bundled in the preview.
+- 16 Rust unit tests and 35 core Node tests pass; the separate competitive benchmark has 9 passing tests and checks five bounded scenarios against an independent exhaustive oracle.
+- The latest local Chromium run has 54 passing tests, covering blocked/viable states, the preserved homepage, public campaign routing, finalized-view rendering with mocked RPC, immutable-config and chain-pledge fail-closed checks, forged-link/RPC-stale wallet blocking, malformed-link rejection, mobile widths, keyboard accessibility and wallet safety. Source artifacts remain pinned; this is not a Lighthouse or production-traffic claim.
+- The explicit request/workflow builders pass 8 workflow, 9 live-chain transport/evidence, 8 wallet-adapter and 3 Meteor/testnet-probe tests; no wallet key or signature is bundled in the preview. Wallet Selector modules are loaded only after an action is requested.
 - The final Wasm and ABI are rebuilt from the current source state.
 - Invalid allocation certificates preserve phase, liabilities and storage stake.
 - Concurrent deposits are conserved; competing authorized activations yield one winner; repeated withdrawals and unauthorized private callbacks are rejected.
@@ -84,8 +90,8 @@ The default is all scenarios: `cycle,all-four,expiry,concurrent,sputnik`.
 
 ## Remaining blockers
 
-- No testnet run: no safe testnet credentials or explicit deployment authorization were present. No mainnet calls, production keys or real funds were used.
-- The product now builds explicit wallet requests for commit, Sputnik proposal creation, local certificate generation, activation and settlement. The host bridge is verified with deterministic wallet doubles and requires a returned transaction hash; HOT Connect/Wallet Selector signing, multi-member Sputnik web-wallet approvals and public testnet settlement remain unverified until an authorized isolated testnet campaign is approved.
+- The bounded faucet-funded testnet run is complete for three campaigns: one activation/withdrawal, one expiry/refund, and one two-project dependency coalition with two beneficiary withdrawals. No mainnet calls, production keys or real funds were used.
+- The product now builds explicit wallet requests for campaign deployment, commit, Sputnik proposal creation, local certificate generation, activation and settlement. The host bridge is verified with deterministic wallet doubles and requires a returned transaction hash. The live route uses the corrected `tx` finality RPC, authenticates immutable contract configuration and derives certificates from `pledge_records()` rather than planned supporters. Meteor endpoint compatibility is verified read-only; real Meteor wallet signing and multi-member Sputnik web-wallet approvals remain unverified. The three public campaigns are independently recorded in `evidence/pact-atlas-testnet-evidence-2026-11-10.json` and `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`.
 - Missing callback execution is unresolved. A timeout retry or blind unlock is unsafe because the native transfer may already have succeeded. Pending withdrawals remain fail-closed until a proven authenticated reconciliation design exists.
 - Native transfer failure injection through a genuine sandbox predecessor was not reachable without losing the signer needed to initiate withdrawal; the callback `PromiseResult::Failed` branch is covered in Rust VM tests.
 - Exact timestamp equality is verified in Rust VM tests; near-workspaces crosses but does not set exact sandbox timestamps. The configured 8-project/32-pledge capacity is verified in `outputs/pact-atlas-rc1-sandbox-evidence.json`.

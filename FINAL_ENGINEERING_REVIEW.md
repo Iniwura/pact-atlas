@@ -1,10 +1,50 @@
 # PACT Atlas final engineering review
 
-Review basis: source baseline `cfa67ef` (`Add competitive benchmarks and callback hardening`), preserved benchmark/evidence files, current Rust and JavaScript source, and the final verification rerun on 2026-11-02.
+Review basis: audit baseline `457a92e` (PR #11's audited head), RC3 head `9069b32`, current Rust and JavaScript source, regenerated artifacts, preserved benchmark/evidence files, the RC3.1 verification rerun, and the 2026-11-10 public coalition lifecycle.
+
+## RC3.2 public coalition evidence addendum
+
+The release candidate now includes a third finalized faucet-funded testnet campaign at [`coalition-20261110.beneficiary-20261110.testnet`](https://testnet.nearblocks.io/address/coalition-20261110.beneficiary-20261110.testnet). It has two independent contributors and two projects: beta depends on alpha, the beta pledge was submitted first, alpha second, and the authority accepted the canonical certificate `[1 → alpha, 0 → beta]`. Both beneficiaries withdrew successfully. Eight contract lifecycle transactions were independently queried at `FINAL` on `https://rpc.testnet.near.org`; failed receipts were zero, the pinned code hash matched, and final `liabilities`, `credits`, `pending` and `accounted` were all zero with `solvent: true`. The full record is [`evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json).
+
+This strengthens the public demonstration from single-project settlement/refund to a dependency-aware coalition, but it remains CLI-signed evidence. It does not establish genuine Meteor browser signing, Sputnik public governance, callback liveness or production safety.
+
+## RC3 live-chain hardening addendum
+
+PR #11's latest audit reproduced three release-blocking defects at commit
+`457a92e`: finality used JSON-RPC `query` instead of `tx`; live candidates
+trusted planned supporters; and share-link configuration was not bound to
+deployed immutable facts. All three now have regression tests and narrow fixes.
+The contract adds only read-only `campaign_config()` and `pledge_records()`
+views; accounting and authorization state transitions are unchanged through
+RC3. The branch was subsequently exercised on NEAR testnet with disposable
+faucet-funded accounts; the public evidence is recorded separately below.
+
+## RC3.1 pre-signing safety and deployment follow-up
+
+The latest PR #11 pre-signing review was read before this pass. It identified
+wallet opening before finalized verification, stale authenticated state after
+RPC failure, the sunset MyNearWallet-only module, and an unverified deployment
+receipt. The route now invalidates verification at refresh start, reads all
+required finalized state plus the code hash before enabling controls, requires
+solvent accounting, and clears local adapter/account state on any mismatch or
+RPC error. Browser regressions prove forged valid-format links, failed RPC/code
+hash reads, and a later stale refresh never call `connect` or `call`.
+
+The deployment audit found two concrete protocol constraints. First, the
+207,284-byte Wasm has an estimated 2.07 NEAR code-storage cost, so the old
+0.3 + 0.3 NEAR estimate was structurally insufficient; the request now
+attaches 3 NEAR before deployment and 2 NEAR to `sponsor_storage`. Second, an
+atomic probe with the old contract failed at initialization because NEAR
+executes `new()` in the same receipt with the parent account as predecessor,
+not the created contract account. The contract now accepts only the contract
+account or its exact direct namespace parent for initialization, with Rust
+regression coverage for both the authorized parent and an unrelated attacker.
+The corrected five-action request and a complete commit/activation/withdrawal
+lifecycle pass in genuine sandbox state.
 
 ## Recommendation
 
-The engineering phase can close as a local, sandbox-backed hackathon release candidate. It must not be presented as production-ready, externally audited, testnet-verified, or safe for valuable funds. The remaining callback limitation is a production financial-safety blocker, not a reason to add an unsafe retry.
+The engineering phase can close as a bounded sandbox- and testnet-backed hackathon release candidate. It must not be presented as production-ready, externally audited, fully wallet-verified, or safe for valuable funds. The remaining callback limitation is a production financial-safety blocker, not a reason to add an unsafe retry.
 
 ## Benchmark comparison
 
@@ -59,7 +99,7 @@ The comparison remains capability-level prior-art analysis. The referenced syste
 | Exact timestamp boundaries | Verified locally, **evidence limitation for sandbox exactness** | Rust VM tests cover equality; near-workspaces crosses boundaries but does not set exact timestamps. |
 | Storage/max capacity | Sandbox-verified within configured limits; **production blocker for unbounded use** | 8 projects/32 pledges and storage reserve checks pass. Larger state growth and economic sizing remain unproven. |
 | Independent qualified audit | **Submission limitation, production blocker** | No external auditor has reviewed the contract. The review is adversarial engineering only. |
-| Testnet deployment and wallet signatures | **Submission/evidence blocker** | No authorized credentials or testnet deployment were available; no testnet evidence is claimed. |
+| Testnet deployment and wallet signatures | **Bounded evidence complete; broader evidence limitation** | Three disposable CLI-signed testnet campaigns are finalized and independently reconciled, including a two-project dependency coalition. Real Meteor wallet signing and Sputnik multi-member approval remain unverified. |
 
 Mitigated findings include initialization front-running, unauthorized activation, duplicate callback settlement, repeated withdrawals, allocation double-use, accounting conservation and storage-reserve checks within configured limits.
 
@@ -67,18 +107,22 @@ Mitigated findings include initialization front-running, unauthorized activation
 
 The final rerun uses the pinned Rust/near-sdk/cargo-near versions and the current tracked artifacts:
 
-- 14 Rust tests; formatting, locked check, clippy with warnings denied, ABI generation and optimized Wasm build pass.
-- 26 reference tests plus 9 competitive benchmark tests pass.
-- 6 counterfactual, 5 workflow, 4 wallet-adapter and 10 Chromium/accessibility checks pass.
+- 16 Rust tests; formatting, locked check, clippy with warnings denied, ABI generation and optimized Wasm build pass.
+- 35 core Node tests plus 9 competitive benchmark tests pass.
+- 23 counterfactual, 8 workflow, 9 chain/RPC/live-data/ABI, 8 wallet-adapter, 3 Meteor/testnet probe and 54 Chromium/accessibility checks pass.
 - Five fresh NEAR sandbox campaigns and the separate 8-project/32-pledge capacity campaign pass.
+- The exact atomic self-service deployment/lifecycle sandbox scenario passes with final zero liabilities; its evidence was emitted to `/tmp/pact-atlas-atomic-deployment-evidence.json` during this pass.
 - `evidence/SHA256SUMS` verifies every preserved evidence file.
-- Wasm SHA-256: `7329d40af43d7e4d6cd3ff942cbe31ba9c54124e667a9af0233e63fa9020d103`.
-- ABI SHA-256: `4f9d6ea16bbc8986e304f5b894403501c262b409379efa3eef2f1dd248201075`.
+- Wasm SHA-256: `5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15`.
+- ABI SHA-256: `8399a2cc59c37680ed2ae418f2f04cc8121dda2eca0f8777a9933d1de46e2f5b`.
 - Competitive benchmark JSON SHA-256: `3c748d13ba919fd77a9a866db077f7e0e3ab460b50411de210ab372a30f46da8`.
-- Baseline sandbox evidence SHA-256: `397e7c207be03a16ed6e4fb94a1ec0e058ea0370333d48772b5f1044e1f5f88a`.
-- Maximum-capacity sandbox evidence SHA-256: `bfda2abe463850466d35e999eb04e7a1111de3999aab2b0b03278a7de81fd370`.
-- NEAR code hash: `8kYswvde6AC41E17ae1LtuepvC4FcTrEzRTSpr1TBgCS`.
-- Source baseline: `cfa67ef`; no remote, push, publication, redeploy, permission change, mainnet call or real-fund spend occurred.
+- Baseline sandbox evidence SHA-256: `d918cfe9dc2f6f42b581e6127c1ca7f525a5bbcceb536c10547f8da6bac88315`.
+- Maximum-capacity sandbox evidence SHA-256: `8994a3558c6fda0eaf4d66c03c84278d863344cc394cd333dc735f652bf4daa4`.
+- Atomic deployment sandbox evidence SHA-256: `17c00bbffc378d8ce8168e2986ec3ed3156cfd9c30d86f860ee4396bfad78bb9`.
+- NEAR code hash: `7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp`.
+- Public testnet evidence: `evidence/pact-atlas-testnet-evidence-2026-11-10.json` plus `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`; three contracts, 20 contract lifecycle transactions, eleven public method proofs, final zero-liability accounting.
+- Coalition manifest SHA-256: `1a5e2f0f17badb1714c1820e8821389a50fb4efe7f85fc597278f0510f2e0c2a`.
+- Audit baseline: `457a92e`; no merge, publication, permission change, production promotion, mainnet call or real-fund spend occurred. The current release commit is recorded in the Git history after this review.
 
 ## Evidence index
 
@@ -90,7 +134,9 @@ The final rerun uses the pinned Rust/near-sdk/cargo-near versions and the curren
 - [RC1 sandbox report](evidence/pact-atlas-rc1-report.md)
 - [Baseline sandbox receipts](evidence/pact-atlas-sandbox-evidence.json)
 - [Maximum-capacity sandbox receipts](evidence/pact-atlas-rc1-sandbox-evidence.json)
+- [Atomic self-service deployment sandbox receipts](evidence/pact-atlas-atomic-deployment-evidence.json)
 - [Wasm](evidence/pact_atlas_poc.wasm) and [ABI](evidence/pact_atlas_poc_abi.json)
 - [Hash manifest](evidence/SHA256SUMS)
+- [Public coalition testnet evidence](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json)
 
-Engineering is frozen at this review boundary. The minimal next step, requiring separate authorization, is an isolated faucet-funded testnet campaign and qualified security review; neither is part of this release.
+Engineering can close at this release boundary as a judge-ready, bounded testnet candidate. The remaining steps require separate authorization or external actors: genuine Meteor browser signing, public Sputnik multi-member governance, an independent qualified audit, a safe callback-recovery design, and public repository/preview promotion. None is silently represented as complete here.

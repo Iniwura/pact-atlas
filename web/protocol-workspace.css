@@ -317,3 +317,12 @@ h1,h2,h3,p{margin:0}
 }
 @media(max-width:360px){.mode-pill{font-size:8px;padding:8px}.project-card{padding:12px 10px}.project-name{font-size:19px}.project-funds strong{font-size:28px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:0ms!important;animation-duration:0ms!important}}
+
+/* Clear transition from prepared sample into a genuine custom offline scenario. */
+.create-entry{display:inline-flex;align-items:center;justify-content:space-between;gap:19px;margin-top:22px;border:1px solid #cd8056;border-radius:4px;color:#f8c29f;padding:13px 18px;font-size:12px;font-weight:760;transition:background .2s,border-color .2s}
+.create-entry:hover{background:#593321;border-color:#ff9d6b;color:#fff2e8}
+.create-entry span{font-size:17px;line-height:1}
+@media(max-width:600px){
+  .heading-row{flex-direction:column;align-items:flex-start}
+  .create-entry{margin-top:17px}
+}
