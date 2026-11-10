@@ -42,9 +42,14 @@ To verify the NEAR contract and local sandbox separately, install the pinned too
 - The interactive project cards and allocation breakdown come from `web/funding-view.mjs` and the existing bounded solver in `web/engine.mjs`.
 - The local NEAR sandbox receipts are available in the console's **Local sandbox evidence** section and `web/data/evidence.json`. They come from independent local test runs, not the hypothetical browser action.
 - The extra 1 NEAR is never deposited, signed, or sent from the browser example.
-- This release does **not** claim public testnet execution, an independent qualified security audit, production readiness, guaranteed delivery, or universal mathematical optimality.
+- The bounded public testnet evidence is available in `evidence/pact-atlas-testnet-evidence-2026-11-10.json` and `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`. It demonstrates disposable CLI-signed campaigns only; it does **not** claim genuine Meteor browser signing, public Sputnik web-wallet governance, an independent qualified security audit, production readiness, guaranteed delivery, or universal mathematical optimality.
 - Withdrawal callback non-execution remains a real protocol limitation. No blind retry or unsafe unlock is used. See `docs/WITHDRAWAL_REVIEW.md` and `docs/SECURITY_REVIEW.md`.
 
 ## The actual differentiator
 
 PACT Atlas finds and shows a **constraint-valid, inspectable one-use funding allocation** across projects that depend on one another. It does not claim higher raw activation counts than all competing approaches. See `docs/COMPETITIVE_ADVANTAGE.md` for benchmark semantics, prior art, and honest limits.
+
+## Optional live witness
+
+Open the recorded coalition contract at
+[`coalition-20261110.beneficiary-20261110.testnet`](https://testnet.nearblocks.io/address/coalition-20261110.beneficiary-20261110.testnet), then inspect the manifest and run the read-only verifier command in `README.md`. The accepted certificate uses pledge index `1` for alpha and index `0` for beta, even though beta's contribution arrived first. The public route is read-only until a separately authorized, fully verified testnet wallet action is chosen.

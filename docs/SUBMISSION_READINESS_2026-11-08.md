@@ -1,11 +1,22 @@
 # PACT Atlas — NEAR HACKATHON submission gate
 
+## Current release addendum — 10 November 2026
+
+This dated checklist is retained as the 8 November planning checkpoint. Since
+then, the private repository branch has a stronger release candidate at
+`8226894e4120ddd862fd6031f77f2ecca09c602b`, with three finalized faucet-funded
+testnet campaigns, including the two-project dependency coalition recorded in
+`evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`. The public
+repository, unauthenticated hosted preview, genuine Meteor browser signing,
+public Sputnik governance and final submission are still approval-gated. See
+`docs/SUBMISSION_CHECKLIST_2026-11-10.md` for the current decision list.
+
 **Checkpoint:** 8 November 2026. **Deadline:** 14 November 2026, 23:59 UTC. **Primary fit:** Social Money (conditional community funding, Sputnik DAO governance), with Open Innovation only if submitted claims genuinely support it.
 
 ## Required to be eligible
 
 - [ ] **Public source repository:** `Iniwura/pact-atlas` is currently **private**. It must be public and readable by judges before the deadline. Audit the exact release branch and tracked files before changing visibility.
-- [ ] **Public running experience:** Release the approved cinematic homepage and reviewed funding console together. Verify unauthenticated desktop/mobile access to `/`, `/console`, and local evidence without Vercel SSO.
+- [ ] **Public running experience:** Release the approved cinematic homepage and reviewed funding console together. The current Vercel preview is SSO-protected; local desktop/mobile routes are verified, but unauthenticated hosted access remains approval-gated.
 - [ ] **Public demo on X:** Post a screenshot or video of the real working prototype. Say it was built for NEAR HACKATHON, tag `@NEARProtocol`, and include `#NEARHackathon`. Confirm that the link opens publicly.
 - [ ] **Submission form:** Provide project name, 20–2,000 character description, team lead, email, team size, preferred track(s), NEAR prize-payout account address, public repository URL and public X demo URL.
 - [ ] **Submission itself:** Check every field and link once more before submitting. Follow any confirmation and keep a screenshot of the final acknowledgment.
@@ -37,7 +48,7 @@
 - [x] Preserved 15-test Rust verification, Wasm/ABI reproduction, local NEAR sandbox evidence and Sputnik DAO governance campaign are documented in `FINAL_ENGINEERING_REVIEW.md`.
 - [x] Exact bounded allocation certificate and separate reference/witness checks preserve capital conservation and per-contributor permission constraints.
 - [ ] Latest source-tree CI run completes successfully after documentation changes.
-- [ ] Public testnet deployment with authorized faucet-funded identities and explorer receipts, **only if authorized and feasible**. This is a stronger optional demonstration, not a reason to misrepresent existing local sandbox receipts.
+- [x] Bounded public testnet deployment with authorized faucet-funded identities and explorer receipts is recorded in the two evidence manifests. Genuine Meteor browser signing and public Sputnik governance remain separate gates.
 - [ ] Independent qualified smart-contract audit. **Not completed**. Do not claim this is externally audited.
 - [ ] Safe recovery when native transfer succeeds but its callback never executes. **Unresolved production blocker**. No timeout retry, blind unlocking, or valuable fund use.
 - [ ] Native-transfer failure injection in actual sandbox predecessor path. VM failure callback tests exist, but the genuine failure campaign remains an evidence limitation.
@@ -47,7 +58,7 @@
 
 - PACT verifies a bounded, one-use pledge allocation respecting project requirements, destination permissions, conditional pledges and dependency closure.
 - A 12 NEAR baseline cannot fund all four 13 NEAR projects. A model-only additional 1 NEAR produces a proposed 13 NEAR allocation with six distinct contributions.
-- The prototype has preserved local NEAR sandbox and DAO-governance evidence, distinct from the browser counterfactual and any future public testnet execution.
+- The prototype has preserved local NEAR sandbox and DAO-governance evidence, distinct from the browser counterfactual and the bounded public CLI-signed testnet execution.
 - PACT does **not** claim novel mathematical optimization, higher valid activation counts in every benchmark, a public real-money deployment, finality for unknown callbacks, or production safety.
 
 ## Judge-first verification

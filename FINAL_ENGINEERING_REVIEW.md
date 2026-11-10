@@ -121,6 +121,7 @@ The final rerun uses the pinned Rust/near-sdk/cargo-near versions and the curren
 - Atomic deployment sandbox evidence SHA-256: `17c00bbffc378d8ce8168e2986ec3ed3156cfd9c30d86f860ee4396bfad78bb9`.
 - NEAR code hash: `7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp`.
 - Public testnet evidence: `evidence/pact-atlas-testnet-evidence-2026-11-10.json` plus `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`; three contracts, 20 contract lifecycle transactions, eleven public method proofs, final zero-liability accounting.
+- Coalition manifest SHA-256: `1a5e2f0f17badb1714c1820e8821389a50fb4efe7f85fc597278f0510f2e0c2a`.
 - Audit baseline: `457a92e`; no merge, publication, permission change, production promotion, mainnet call or real-fund spend occurred. The current release commit is recorded in the Git history after this review.
 
 ## Evidence index
@@ -136,5 +137,6 @@ The final rerun uses the pinned Rust/near-sdk/cargo-near versions and the curren
 - [Atomic self-service deployment sandbox receipts](evidence/pact-atlas-atomic-deployment-evidence.json)
 - [Wasm](evidence/pact_atlas_poc.wasm) and [ABI](evidence/pact_atlas_poc_abi.json)
 - [Hash manifest](evidence/SHA256SUMS)
+- [Public coalition testnet evidence](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json)
 
 Engineering can close at this release boundary as a judge-ready, bounded testnet candidate. The remaining steps require separate authorization or external actors: genuine Meteor browser signing, public Sputnik multi-member governance, an independent qualified audit, a safe callback-recovery design, and public repository/preview promotion. None is silently represented as complete here.
