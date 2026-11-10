@@ -1,4 +1,4 @@
-# NEAR sandbox and testnet gate (local sandbox complete; testnet intentionally blocked)
+# NEAR sandbox and testnet gate (local sandbox and bounded public testnet evidence complete)
 
 ## Phase A — compilation
 - [x] Install stable Rust >= near-sdk 5.29.1 MSRV (Rust 1.93.0 used).
@@ -31,10 +31,11 @@
 - [x] Implement finalized read-only campaign views, explicit whole-pledge commit/activation/expiry/withdrawal requests and no-retry unknown-outcome handling.
 - [x] Browser-test the public campaign route with mocked finalized RPC responses and malformed-link fail-closed behavior. This is not a real-chain result.
 - [x] Read-only testnet RPC probe returned `chain_id: testnet` (protocol 88); pinned Wallet Selector v10.1.4 core/modal/Meteor endpoints returned HTTP 200 without signing.
-- [ ] Create separate funded NEAR testnet identities. No authorized testnet credentials were present.
-- [ ] Deploy audited/compiled WASM to a dedicated testnet account, not mainnet. **BLOCKED: no credentials/approval.**
-- [ ] Reproduce a successful activation and expired-campaign full refund with real transaction hashes. **BLOCKED: no credentials/approval.**
-- [ ] Publish explorer evidence and update `README.md` with judge-facing 'do X, see Y' instructions. **BLOCKED: no testnet deployment.**
+- [x] Create separate faucet-funded NEAR testnet identities with credentials kept outside the repository.
+- [x] Deploy the pinned compiled WASM to dedicated testnet accounts, not mainnet; independently verify both code hashes.
+- [x] Reproduce a successful activation/beneficiary withdrawal and a separate expired-campaign full refund with finalized transaction hashes.
+- [x] Publish explorer evidence and update `README.md` with judge-facing 'do X, see Y' instructions. See `evidence/pact-atlas-testnet-evidence-2026-11-10.json`.
+- [ ] Verify real Meteor wallet signing and a multi-member Sputnik DAO approval flow on public testnet.
 - [ ] Only after testnet success, consider a production-ready contract audit and expansion.
 
 ## Hard stop criteria
@@ -44,7 +45,7 @@
 - [x] Anyone can trigger a valid but unauthorized coalition against campaign's configured activation authorities.
 - [ ] User deposits are implicitly consumed to pay for NEAR storage stake.
 
-The existing Node test suite is **not** evidence that near-sdk code compiles. The attached sandbox evidence is the local on-chain-style proof; it is not testnet or mainnet evidence.
+The existing Node test suite is **not** evidence that near-sdk code compiles. The attached sandbox evidence is separate from the public testnet manifest; neither is mainnet or production evidence.
 
 ## Additional unresolved callback risk
 A callback that itself runs out of gas or fails to execute may leave an in-flight withdrawal marked `pending`. It is not safe to blindly unlock it because the transfer might have succeeded. Before production, validate gas margins on the deployed VM and introduce a rigorously authenticated, idempotent reconciliation mechanism or another proven withdrawal architecture. Current PoC does **not** claim to solve this failure mode.

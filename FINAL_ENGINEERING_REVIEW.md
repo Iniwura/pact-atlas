@@ -10,8 +10,8 @@ trusted planned supporters; and share-link configuration was not bound to
 deployed immutable facts. All three now have regression tests and narrow fixes.
 The contract adds only read-only `campaign_config()` and `pledge_records()`
 views; accounting and authorization state transitions are unchanged through
-RC3. The current RC3.1 branch remains local/sandbox verified, not testnet-
-verified.
+RC3. The branch was subsequently exercised on NEAR testnet with disposable
+faucet-funded accounts; the public evidence is recorded separately below.
 
 ## RC3.1 pre-signing safety and deployment follow-up
 
@@ -93,7 +93,7 @@ The comparison remains capability-level prior-art analysis. The referenced syste
 | Exact timestamp boundaries | Verified locally, **evidence limitation for sandbox exactness** | Rust VM tests cover equality; near-workspaces crosses boundaries but does not set exact timestamps. |
 | Storage/max capacity | Sandbox-verified within configured limits; **production blocker for unbounded use** | 8 projects/32 pledges and storage reserve checks pass. Larger state growth and economic sizing remain unproven. |
 | Independent qualified audit | **Submission limitation, production blocker** | No external auditor has reviewed the contract. The review is adversarial engineering only. |
-| Testnet deployment and wallet signatures | **Submission/evidence blocker** | No authorized credentials or testnet deployment were available; no testnet evidence is claimed. Meteor endpoint reachability is verified, but signing is not. |
+| Testnet deployment and wallet signatures | **Bounded evidence complete; broader evidence limitation** | Two disposable CLI-signed testnet campaigns are finalized and independently reconciled. Real Meteor wallet signing and Sputnik multi-member approval remain unverified. |
 
 Mitigated findings include initialization front-running, unauthorized activation, duplicate callback settlement, repeated withdrawals, allocation double-use, accounting conservation and storage-reserve checks within configured limits.
 
@@ -114,6 +114,7 @@ The final rerun uses the pinned Rust/near-sdk/cargo-near versions and the curren
 - Maximum-capacity sandbox evidence SHA-256: `8994a3558c6fda0eaf4d66c03c84278d863344cc394cd333dc735f652bf4daa4`.
 - Atomic deployment sandbox evidence SHA-256: `17c00bbffc378d8ce8168e2986ec3ed3156cfd9c30d86f860ee4396bfad78bb9`.
 - NEAR code hash: `7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp`.
+- Public testnet evidence: `evidence/pact-atlas-testnet-evidence-2026-11-10.json`; two contracts, 12 contract lifecycle transactions, six public method proofs, final zero-liability accounting.
 - Audit baseline: `457a92e`; no merge, publication, permission change, production promotion, mainnet call or real-fund spend occurred. The current release commit is recorded in the Git history after this review.
 
 ## Evidence index

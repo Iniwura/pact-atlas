@@ -31,6 +31,17 @@ testnet-only campaign request layer, lazy Wallet Selector host, public campaign
 route and finalized view reconciliation. No wallet was connected and no public
 testnet transaction was signed.
 
+## Public testnet execution addendum
+
+After this local checkpoint, the authorized disposable-account run completed on
+NEAR testnet. The exact public contract IDs, finalized transaction hashes,
+immutable configurations, code hashes, allocation certificate, accounting
+snapshots and balances are recorded in
+`evidence/pact-atlas-testnet-evidence-2026-11-10.json`. This addendum supersedes
+the earlier “no authorized testnet credentials” statement for the bounded
+demonstration only; it does not remove the callback, native-transfer failure,
+Meteor signing, Sputnik governance or independent-audit limitations.
+
 ## GitHub CI diagnosis
 
 The latest pull-request run `42705729543` and push run `42705722733` reached

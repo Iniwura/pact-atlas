@@ -5,7 +5,7 @@ The Campaign Lab at `/create.html` has two explicit modes:
 - **Offline planning:** create arbitrary project and supporter constraints, run the bounded exact solver, and export a reproducible model-only certificate without a wallet or network call.
 - **Testnet campaign launch:** after a fundable plan is complete, connect an explicit named `*.testnet` wallet, fetch the preserved PACT Wasm, and prepare one atomic multi-action account deployment. The exact parent-owned namespace check permits the tested `CreateAccount → Transfer → DeployContract → new → sponsor_storage` receipt without opening initialization to unrelated accounts. Signing is always wallet-approved and is not available in read-only mode.
 
-No testnet deployment or signed transaction is claimed in this release because no authorized faucet-funded credentials were available. The launch path is implemented and unit/browser tested; it remains a testnet-readiness path until a real campaign is authorized and independently evidenced.
+The bounded public demonstration is now recorded in [`evidence/pact-atlas-testnet-evidence-2026-11-10.json`](../evidence/pact-atlas-testnet-evidence-2026-11-10.json): one activated campaign with a beneficiary withdrawal and one separately expired campaign with a contributor refund. It uses disposable faucet-funded accounts only. Sputnik web-wallet approvals, real Meteor signing and production use remain outside this evidence.
 
 ## Offline workflow
 

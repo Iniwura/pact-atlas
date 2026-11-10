@@ -1,6 +1,6 @@
 # PACT Atlas: security and readiness review (November 10, 2026)
 
-**Status: experimental only. Local Rust, Wasm, ABI and real NEAR sandbox verification passed; this document is an adversarial engineering review, not an independent qualified security audit, and the contract must not be used with real value.**
+**Status: experimental only. Local Rust, Wasm, ABI, real NEAR sandbox verification and a bounded faucet-funded NEAR testnet lifecycle passed; this document is an adversarial engineering review, not an independent qualified security audit, and the contract must not be used with real value.**
 
 ## Verified in this environment
 
@@ -10,18 +10,19 @@
 - Optimized nearcore-compatible Wasm build passes; SHA-256 is recorded in the sandbox evidence.
 - Real NEAR sandbox: **5 baseline campaigns pass**, plus a fresh RC1 maximum-capacity campaign with all 8 projects, all 32 pledge slots, and a separate exact atomic self-service deployment/lifecycle campaign. Each includes measured storage reserve and settlement checks.
 - Two reproducible offline certificates generated successfully.
-- The self-service campaign path now validates named testnet accounts, checks the preserved Wasm hash before deployment, constructs explicit multi-action deployment/initialization requests, authenticates immutable `campaign_config()` and pinned code hash, derives candidates from canonical `pledge_records()`, and reads finalized campaign views without inventing chain state. The deployment and live-route tests use deterministic doubles; no testnet signature is claimed.
+- The self-service campaign path now validates named testnet accounts, checks the preserved Wasm hash before deployment, constructs explicit multi-action deployment/initialization requests, authenticates immutable `campaign_config()` and pinned code hash, derives candidates from canonical `pledge_records()`, and reads finalized campaign views without inventing chain state. The browser route uses deterministic doubles for its safety tests; the separate public evidence manifest records the CLI-signed testnet lifecycle.
+- Public testnet evidence now covers two isolated contracts: one activated 1 NEAR campaign with a beneficiary withdrawal, and one expired 1 NEAR campaign with a contributor refund. Both match the pinned Wasm hash and finish with zero liabilities and `solvent: true`. The complete receipt/config/balance record is in `evidence/pact-atlas-testnet-evidence-2026-11-10.json`.
 - Storage reserve was measured in sandbox; final available reserves remained about 19.035 NEAR with storage stake about 1.962–1.963 NEAR.
 
 ## Unverified gates
 
-- Testnet deployment, signed calls and explorer receipts.
 - Native-transfer failure injection through a real predecessor account and callback non-execution recovery.
 - Independent qualified external audit.
+- Real Meteor wallet signing and multi-member Sputnik DAO approval on public testnet.
 
 ## Current product boundary
 
-The browser can prepare a genuine testnet request, but it does not have credentials and does not sign on behalf of a user. A public campaign page is read-only until a wallet action is explicitly chosen. Candidate allocations are labeled model-derived; only `activation_certificate()` from finalized contract state is described as accepted onchain. This prevents a polished preview from being mistaken for testnet settlement.
+The browser can prepare a genuine testnet request, but this evidence was executed with isolated local CLI signers rather than a browser wallet session. A public campaign page is read-only until a wallet action is explicitly chosen. Candidate allocations are labeled model-derived; only `activation_certificate()` from finalized contract state is described as accepted onchain. The public evidence does not establish callback liveness, DAO quorum or production safety.
 
 ## Changes since the original checkpoint
 

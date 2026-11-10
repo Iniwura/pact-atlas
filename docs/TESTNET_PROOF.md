@@ -25,24 +25,24 @@ This does not prove every payout was received, prove DAO governance, prove the a
 
 The self-service path now prepares a real testnet campaign lifecycle: it validates named testnet owner/beneficiary/authority accounts, checks the preserved Wasm hash, constructs and sandbox-verifies `CreateAccount → Transfer → DeployContract → new → sponsor_storage`, waits for wallet finality, and creates a public campaign link. The contract authorizes `new` only from itself or the exact direct namespace parent. The live page checks the pinned code hash, authenticates `campaign_config()`, derives whole-pledge candidates from canonical `pledge_records()` and reads finalized `status()`, `accounting()` and `activation_certificate()` views. Unknown outcomes remain pending without retrying. Meteor/Wallet Selector modules are lazy-loaded only after an explicit action.
 
-These are implementation and deterministic browser-test results, not public-chain evidence. No authorized testnet wallet or signed campaign was available for this release.
+The implementation and deterministic browser-test results are supplemented by a bounded public testnet demonstration recorded in [`evidence/pact-atlas-testnet-evidence-2026-11-10.json`](../evidence/pact-atlas-testnet-evidence-2026-11-10.json). The public evidence uses disposable faucet-funded accounts only; it does not establish production safety or replace an independent audit.
 
-## Real testnet lifecycle still needed
+## Completed public testnet lifecycle
 
-**No public PACT testnet deployment or funding transactions are claimed in this branch.** The following is the authorized testnet demonstration plan:
+The following two campaigns were independently queried at finalized state on `https://rpc.testnet.near.org`:
 
-1. Prepare distinct faucet-funded `*.testnet` accounts for the contract, storage sponsor, beneficiaries, supporters, and activation authority. Never commit keys.
-2. Deploy the exact pinned Wasm to a dedicated contract account. Initialize through the contract account or its exact namespace parent in the tested atomic sequence, with immutable beneficiary addresses, funding targets, a future funding cutoff and later activation deadline.
-3. Sponsor contract storage separately; user deposits must not pay the storage reserve.
-4. Have the actual signer accounts make `commit` calls with permitted project destinations and native NEAR. Collect their transaction hashes, pledge indices and contract `accounting()` state after finality.
-5. After the configured activation start and before the deadline, generate the fixed reference allocation and have an immutable authority submit `activate`. Record the final receipt, `activation_certificate()`, `status()` and `accounting()`.
-6. Withdraw eligible beneficiary credits and any unused contributor refunds using the original accounts. Capture receipts, `claimable()`, pending withdrawals and final accounted liabilities.
-7. In a **different freshly deployed campaign**, allow expiry, call `expire`, then withdraw all expired contributors' refunds. Do not conflate this with the activated campaign.
-8. If demonstrating Sputnik DAO funding, establish a separately funded DAO, a proposal with the proper full 3 NEAR PACT commitment, council approvals and the executed proposal receipt. Do not claim that a locally constructed proposal proves quorum or a successful transfer.
-9. Independently verify every public testnet PACT method receipt through `/verify.html` or the CLI. Publish the explorer URLs and final reconciliation snapshots. Verify funding, governance, withdrawal and finality evidence **separately**.
-10. Only after an unauthenticated walkthrough and safety review, promote the reviewed frontend. Preserve the existing cinematic homepage.
+1. `campaign-20261110.pact-atlas-20261110.testnet` deployed the pinned Wasm, initialized one immutable `alpha` project, accepted a 1 NEAR canonical pledge from `supporter-20261110.testnet`, activated with `{pledge_index: 0, project_id: "alpha"}`, and settled a 1 NEAR beneficiary withdrawal.
+2. `refund-20261110.supporter-20261110.testnet` deployed the same Wasm, accepted a 1 NEAR pledge from `refund-supporter-20261110.testnet`, expired after its deadline, and settled the full refund.
+3. All 12 deployment/lifecycle transactions were independently checked on the official RPC as `FINAL` with successful transaction and receipt outcomes. The six public PACT method calls also pass `npm run verify:testnet` and match the current code hash.
+4. Both final accounting snapshots report `liabilities: 0`, `credits: 0`, `pending: 0`, and `solvent: true`. Exact receipts, immutable configs, certificates and balances are in the evidence manifest.
 
-**Never sign with a production/mainnet wallet or publish private keys.** Never submit valuable funds: the callback non-execution and withdrawal recovery question remains a documented production blocker. Testnet execution must be explicitly authorized and can be skipped if no funded credentials are available; in that case, describe sandbox as sandbox.
+## Remaining public testnet work
+
+1. If demonstrating Sputnik DAO funding, establish a separately funded DAO, a proposal with the proper full 3 NEAR PACT commitment, council approvals and the executed proposal receipt. The minimal public campaign used its configured disposable activation authority, not Sputnik.
+2. Independently verify the evidence from a clean machine through `/verify.html` or the CLI. The verifier proves finalized method execution and current Wasm equality; it does not prove historical code immutability or a qualified security audit.
+3. Preserve the existing cinematic homepage and perform the final unauthenticated release review before any public promotion.
+
+**Never sign with a production/mainnet wallet or publish private keys.** Never submit valuable funds: the callback non-execution and withdrawal recovery question remains a documented production blocker. The recorded testnet run used only disposable faucet-funded accounts and must not be generalized to valuable funds.
 
 ## Judge path (offline plus testnet-ready flow)
 
@@ -50,7 +50,7 @@ These are implementation and deterministic browser-test results, not public-chai
 - `/console` — inspect the 12 vs. 13 NEAR case and simulate the missing 1 NEAR.
 - `/create.html` — make a custom campaign, configure projects and supporters, export the exact offline allocation, or prepare an explicitly wallet-approved testnet deployment when credentials are authorized.
 - `/campaign?contract=…&config=…` — inspect a deployed campaign's finalized testnet views, contribute, activate and settle through explicit wallet approval. The share configuration is public; it is not a fabricated live state.
-- `/verify.html` — independently inspect a real public PACT testnet transaction **only when one exists**.
+- `/verify.html` — independently inspect one of the recorded real public PACT testnet transactions.
 
 The custom planner's arbitrary campaigns are deployable only as a new immutable campaign account with explicit beneficiary and authority accounts. The deployment workflow is not proof that a campaign was signed or funded. The user-facing pages must continue to label local model results, candidate certificates and finalized onchain results differently.
 
@@ -62,4 +62,4 @@ The custom planner's arbitrary campaigns are deployable only as a new immutable 
 - Release routes are accessible without Vercel SSO or a private GitHub login.
 - Repository visibility, hackathon X demo, payout account and submitted project information have been deliberately reviewed before final promotion.
 
-If public testnet evidence remains unavailable, mark it **not completed**, and never stage, simulate or invent transaction hashes to satisfy this checklist.
+Public testnet evidence is now available for the bounded two-campaign demonstration. Do not extend that claim to Sputnik governance, native-transfer failure injection, callback liveness or production safety.

@@ -1,6 +1,6 @@
 # PACT Atlas — executable technical checkpoint
 
-**Status (2026-11-10):** The self-service console and public campaign route have a passing local Chromium suite, alongside 16 Rust unit tests, 35 core Node tests, chain/RPC/live-data regression tests, Meteor/NEAR testnet endpoint checks, exact bounded counterfactual/benchmark checks, wallet-adapter tests and genuine local NEAR sandbox campaigns. These results are not public testnet evidence. GitHub Actions remains blocked by the account billing/spending-limit gate; see the [dated verification record](docs/VERIFICATION_2026-11-10.md) before making a final release claim.
+**Status (2026-11-10):** The self-service console and public campaign route have a passing local Chromium suite, alongside 16 Rust unit tests, 35 core Node tests, chain/RPC/live-data regression tests, Meteor/NEAR testnet endpoint checks, exact bounded counterfactual/benchmark checks, wallet-adapter tests, genuine local NEAR sandbox campaigns, and a completed faucet-funded NEAR testnet lifecycle. GitHub Actions remains blocked by the account billing/spending-limit gate; see the [dated verification record](docs/VERIFICATION_2026-11-10.md) and the [public testnet evidence](evidence/pact-atlas-testnet-evidence-2026-11-10.json).
 
 This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
 
@@ -12,18 +12,18 @@ The draft is stored only in your browser. Select **Download scenario and verific
 
     npm run verify:campaign -- /path/to/pact-campaign-proof.json
 
-An exact plan can continue into an explicitly labeled **Deploy this campaign to NEAR testnet** flow. That flow builds a multi-action account deployment request and waits for wallet finality before creating a shareable campaign link. No credentials are bundled, and no testnet deployment is claimed in this release. The original local NEAR sandbox receipts and authorization-gated workflow remain separate. See [the Campaign Lab judge guide](docs/CAMPAIGN_LAB.md).
+An exact plan can continue into an explicitly labeled **Deploy this campaign to NEAR testnet** flow. That flow builds a multi-action account deployment request and waits for wallet finality before creating a shareable campaign link. No credentials are bundled. The original local NEAR sandbox receipts and the separately recorded public testnet lifecycle remain distinct. See [the Campaign Lab judge guide](docs/CAMPAIGN_LAB.md).
 
 ## Share a live campaign (testnet path)
 
 After an authorized wallet deploys a fundable campaign, open the generated `/campaign?contract=…&config=…` link. The page reads finalized `status()`, `accounting()` and certificate views from the free NEAR testnet RPC, shows project conditions, lets a contributor prepare a whole-pledge `commit`, and exposes activation, expiry and withdrawal actions only through explicit wallet approval. A candidate allocation is labeled model-derived until the contract accepts the authority activation; a wallet hash without finalized success is never presented as settled.
 
-This path is implemented and browser-tested with deterministic RPC/wallet doubles. It is not a substitute for a genuine signed testnet campaign. The current evidence has no authorized testnet account, contract ID or transaction hash, so judges must treat the hosted/local campaign route as **testnet-ready but not testnet-proven**.
+This path is implemented and browser-tested with deterministic RPC/wallet doubles, and it has now been exercised against two real faucet-funded testnet campaigns. The primary campaign activated one project from one canonical pledge and settled its beneficiary withdrawal; a separate campaign expired and settled a full refund. These receipts are evidence for the bounded demonstration only, not a production-safety claim.
 ## Verify public NEAR testnet evidence (read-only)
 
 The new `/verify.html` page checks a supplied NEAR testnet transaction against the chain's finalized method execution and the current code hash of the deployed contract. Only the pinned PACT Wasm code hash is accepted. No funds or wallets are used by verification.
 
-Reproduce independently with `npm run verify:testnet -- <contract.testnet> <signer.testnet> <hash> commit`. This verifies the named method execution, **not** an entire campaign lifecycle or secure delivery of payouts. No public testnet deployment/transaction evidence is asserted as completed. See [testnet proof and release gates](docs/TESTNET_PROOF.md).
+Reproduce independently with `npm run verify:testnet -- <contract.testnet> <signer.testnet> <hash> commit`. This verifies the named method execution, **not** an entire campaign lifecycle or secure delivery of payouts. The completed public campaign and refund evidence is recorded in [the testnet evidence manifest](evidence/pact-atlas-testnet-evidence-2026-11-10.json). See [testnet proof and release gates](docs/TESTNET_PROOF.md).
 
 ## Try the app in one minute
 
@@ -156,9 +156,9 @@ Read `docs/SECURITY_REVIEW.md` for the risks and policy changes.
 8. Two-council Sputnik DAO proposals are created, rejected when unauthorized/unapproved, approved, executed to fund PACT, and used to withdraw an expired DAO-owned refund in fresh sandbox state.
 9. `accounting()` proves `locked_pledges + credits + pending == liabilities` and checks the developer-sponsored storage reserve at each exercised state.
 10. The RC1 sandbox campaign exercises the configured 8-project/32-pledge capacity, exact boundary predicates in Rust VM tests, all settlement credits and repeated withdrawal rejection.
-11. Testnet deployment is **NOT VERIFIED** because no authorized credentials were present.
+11. A bounded faucet-funded testnet lifecycle is verified in `evidence/pact-atlas-testnet-evidence-2026-11-10.json`; Sputnik governance and real Meteor wallet signing remain separate gates.
 
-No testnet credentials, signing keys or NEAR transactions are included in this archive.
+No testnet credentials or signing keys are included in this archive. Public transaction hashes are included only in the reproducible evidence manifest.
 
 ### Known security/UX risks that still block shipping
 - A transfer callback that fails to execute (not just a transfer that returns `Failed`) could leave a `pending` withdrawal. No safely authenticated recovery path is implemented yet.

@@ -8,7 +8,7 @@ This is a serious technical checkpoint, not an externally audited or production-
 
 Open /create.html from the **Build your own funding plan** link in /console. A judge can start blank or edit the prepared Community Hub scenario. They can set their own project goals, dependencies, contributor constraints and amounts, then inspect or export an exact allocation result. A fundable plan also exposes a testnet-only deployment request requiring an explicit wallet approval; the exported JSON and local plan remain usable without a wallet. The full path is documented in [docs/CAMPAIGN_LAB.md](docs/CAMPAIGN_LAB.md).
 
-The custom planner and the deployed campaign share deterministic public inputs, but the contract remains authoritative for onchain activation. No custom campaign has been signed or settled on public testnet in this release. The local sandbox evidence in /console remains independently recorded.
+The custom planner and the deployed campaign share deterministic public inputs, but the contract remains authoritative for onchain activation. A minimal custom campaign has now been signed and settled on public NEAR testnet, with a separate expired campaign proving refund settlement. The local sandbox evidence in /console remains independently recorded from the public receipts.
 ## Judge-first demo — 60 seconds
 
 Open `/console`. It begins with one question: **Can we fund all four?** The four named project cards show possible funding coverage, not payments or activations. Five supporters offered 12 NEAR, but the total requirement is 13 NEAR. Events has 2/3 NEAR available.
@@ -17,7 +17,7 @@ Click **Simulate +1 NEAR**. The existing bounded exact solver finds a one-use al
 
 The detailed [judge walkthrough](docs/JUDGE_WITNESS.md) explains the flexible supporter restriction, demonstrates what the model checks, and gives exact reproduction commands. The **Supporters** section explains individual restrictions in plain English. The **Local sandbox evidence** section separately shows preserved NEAR sandbox receipts. The collapsed **Developer tools** section contains optional authorization-gated wallet workflows, not pre-authorized funding.
 
-This is a sandbox-backed hackathon prototype, **not** audited production software, a real testnet transaction, or a guarantee of project delivery. The cinematic homepage at `/` is preserved; the functional demonstration lives at `/console`.
+This is an experimental hackathon prototype with a bounded faucet-funded testnet demonstration, **not** audited production software or a guarantee of project delivery. The cinematic homepage at `/` is preserved; the functional demonstration lives at `/console`.
 
 ## What the first-time user can do
 
@@ -90,8 +90,8 @@ The default is all scenarios: `cycle,all-four,expiry,concurrent,sputnik`.
 
 ## Remaining blockers
 
-- No testnet run: no safe testnet credentials or explicit deployment authorization were present. No mainnet calls, production keys or real funds were used.
-- The product now builds explicit wallet requests for campaign deployment, commit, Sputnik proposal creation, local certificate generation, activation and settlement. The host bridge is verified with deterministic wallet doubles and requires a returned transaction hash. The live route uses the corrected `tx` finality RPC, authenticates immutable contract configuration and derives certificates from `pledge_records()` rather than planned supporters. Meteor endpoint compatibility is verified read-only; wallet signing, multi-member Sputnik web-wallet approvals and public testnet settlement remain unverified until an authorized isolated testnet campaign is approved.
+- The bounded faucet-funded testnet run is complete for one activated campaign and one expired/refunded campaign. No mainnet calls, production keys or real funds were used.
+- The product now builds explicit wallet requests for campaign deployment, commit, Sputnik proposal creation, local certificate generation, activation and settlement. The host bridge is verified with deterministic wallet doubles and requires a returned transaction hash. The live route uses the corrected `tx` finality RPC, authenticates immutable contract configuration and derives certificates from `pledge_records()` rather than planned supporters. Meteor endpoint compatibility is verified read-only; real Meteor wallet signing and multi-member Sputnik web-wallet approvals remain unverified. A faucet-funded public testnet campaign and a separate expiry/refund campaign are independently recorded in `evidence/pact-atlas-testnet-evidence-2026-11-10.json`.
 - Missing callback execution is unresolved. A timeout retry or blind unlock is unsafe because the native transfer may already have succeeded. Pending withdrawals remain fail-closed until a proven authenticated reconciliation design exists.
 - Native transfer failure injection through a genuine sandbox predecessor was not reachable without losing the signer needed to initiate withdrawal; the callback `PromiseResult::Failed` branch is covered in Rust VM tests.
 - Exact timestamp equality is verified in Rust VM tests; near-workspaces crosses but does not set exact sandbox timestamps. The configured 8-project/32-pledge capacity is verified in `outputs/pact-atlas-rc1-sandbox-evidence.json`.

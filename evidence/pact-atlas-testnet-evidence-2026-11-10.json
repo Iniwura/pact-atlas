@@ -1,0 +1,92 @@
+{
+  "schema": "pact-testnet-evidence-v1",
+  "captured_at": "2026-11-10T21:12:29.232Z",
+  "network": "testnet",
+  "rpc": "https://rpc.testnet.near.org",
+  "artifact": {
+    "wasm_sha256": "5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15",
+    "wasm_bytes": 207587,
+    "near_code_hash": "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp"
+  },
+  "account_creation_transactions": [
+    { "account_id": "pact-atlas-20261110.testnet", "transaction_hash": "Fh2PtncKukgUHnUayNAzSdNN46jf4ZT8tsTcJRUsr6Mg" },
+    { "account_id": "campaign-20261110.pact-atlas-20261110.testnet", "transaction_hash": "CRJqkmBspN5D7ppropX5U9kiXvGahVwUDecWh9YQuqqA" },
+    { "account_id": "supporter-20261110.testnet", "transaction_hash": "4N4XrDVNGKmaZ9pX64pHuC78EgvAZ3XqwHC5b9ogL2i5" },
+    { "account_id": "beneficiary-20261110.testnet", "transaction_hash": "Aihxkpz6SGFcjpXCowtnwXXLjJxZ7QsYt1mEynkEErvg" },
+    { "account_id": "refund-supporter-20261110.testnet", "transaction_hash": "HWCNPNzGtJbLvhXPkS47ycdLwGCn8NnUybTf8uFFLXkM" },
+    { "account_id": "refund-20261110.supporter-20261110.testnet", "transaction_hash": "6Xe7X1oiYdzJicvsPTbJ2PEtEJsydFUYjYwXC54UdE2T" }
+  ],
+  "campaigns": [
+    {
+      "contract_id": "campaign-20261110.pact-atlas-20261110.testnet",
+      "explorer_url": "https://testnet.nearblocks.io/address/campaign-20261110.pact-atlas-20261110.testnet",
+      "immutable_config": {
+        "projects": [{ "id": "alpha", "beneficiary": "beneficiary-20261110.testnet", "required": "1000000000000000000000000", "dependencies": [] }],
+        "min_funded_projects": 1,
+        "required_for_activation": ["alpha"],
+        "activation_authorities": ["pact-atlas-20261110.testnet"],
+        "activate_after_ms": 1794344345131,
+        "deadline_ms": 1794345965131
+      },
+      "transactions": [
+        { "label": "deploy", "hash": "8xvnb18XpcALwGgXsSaKqbVhRZhGTkBmgiXwrqawctHq", "explorer_url": "https://testnet.nearblocks.io/txns/8xvnb18XpcALwGgXsSaKqbVhRZhGTkBmgiXwrqawctHq" },
+        { "label": "initialize", "method": "new", "hash": "3uvhCp7Bh6mjqpSWr5MiKS8LkvkAE2p2M4y9Ksnr8DQ4", "explorer_url": "https://testnet.nearblocks.io/txns/3uvhCp7Bh6mjqpSWr5MiKS8LkvkAE2p2M4y9Ksnr8DQ4" },
+        { "label": "storage_sponsor", "method": "sponsor_storage", "hash": "EK7xrmwt68sbYH8mH18MpfCgKZ7fgR3MUwm3hujsE1yZ", "explorer_url": "https://testnet.nearblocks.io/txns/EK7xrmwt68sbYH8mH18MpfCgKZ7fgR3MUwm3hujsE1yZ" },
+        { "label": "contribution", "method": "commit", "signer": "supporter-20261110.testnet", "hash": "EbaYMGUVXhKz1hzY6BxXsEUwkvV3otZo1d4RBarUtjqf", "explorer_url": "https://testnet.nearblocks.io/txns/EbaYMGUVXhKz1hzY6BxXsEUwkvV3otZo1d4RBarUtjqf" },
+        { "label": "activation", "method": "activate", "signer": "pact-atlas-20261110.testnet", "hash": "4zUMeH2vWfXVaDHqR9Cih76r7mtKWTaftx3s6Qpp1qHS", "explorer_url": "https://testnet.nearblocks.io/txns/4zUMeH2vWfXVaDHqR9Cih76r7mtKWTaftx3s6Qpp1qHS" },
+        { "label": "beneficiary_withdrawal", "method": "withdraw", "signer": "beneficiary-20261110.testnet", "hash": "Csd1ERWsUkAgmDkjJKxiZxS79C8aHdLP6sC4J5xNaeRb", "explorer_url": "https://testnet.nearblocks.io/txns/Csd1ERWsUkAgmDkjJKxiZxS79C8aHdLP6sC4J5xNaeRb" }
+      ],
+      "allocation_certificate": [{ "pledge_index": 0, "project_id": "alpha" }],
+      "pledge_records": [{ "index": 0, "owner": "supporter-20261110.testnet", "amount": "1000000000000000000000000", "allowed": ["alpha"], "requires": [] }],
+      "final_status": { "phase": "ACTIVATED", "liabilities": "0", "funded_project_ids": ["alpha"] },
+      "final_accounting": { "locked_pledges": "0", "credits": "0", "pending": "0", "accounted": "0", "liabilities": "0", "contract_balance": "6998291745252797300000000", "storage_reserve": "2280690000000000000000000", "solvent": true }
+    },
+    {
+      "contract_id": "refund-20261110.supporter-20261110.testnet",
+      "explorer_url": "https://testnet.nearblocks.io/address/refund-20261110.supporter-20261110.testnet",
+      "immutable_config": {
+        "projects": [{ "id": "alpha", "beneficiary": "beneficiary-20261110.testnet", "required": "1000000000000000000000000", "dependencies": [] }],
+        "min_funded_projects": 1,
+        "required_for_activation": ["alpha"],
+        "activation_authorities": ["supporter-20261110.testnet"],
+        "activate_after_ms": 1794344517442,
+        "deadline_ms": 1794344637442
+      },
+      "transactions": [
+        { "label": "deploy", "hash": "4MJqVnjsCLJMz2aSEuw8JeTpor5nHrNczUCxRvoAtzXH", "explorer_url": "https://testnet.nearblocks.io/txns/4MJqVnjsCLJMz2aSEuw8JeTpor5nHrNczUCxRvoAtzXH" },
+        { "label": "initialize", "method": "new", "hash": "HDJ5xwQcapu5GxMQLJRAAcb6TjBJoHrrNaz7zGptwHzx", "explorer_url": "https://testnet.nearblocks.io/txns/HDJ5xwQcapu5GxMQLJRAAcb6TjBJoHrrNaz7zGptwHzx" },
+        { "label": "storage_sponsor", "method": "sponsor_storage", "hash": "HyHE2Acu1aGDBbMoLCVtnW5z2zUoDfgKutzRn6trGP8U", "explorer_url": "https://testnet.nearblocks.io/txns/HyHE2Acu1aGDBbMoLCVtnW5z2zUoDfgKutzRn6trGP8U" },
+        { "label": "contribution", "method": "commit", "signer": "refund-supporter-20261110.testnet", "hash": "Hsps9MNcY34pYJ2bUPsh6fmDvW6qa3Exr6d5HwncuwZR", "explorer_url": "https://testnet.nearblocks.io/txns/Hsps9MNcY34pYJ2bUPsh6fmDvW6qa3Exr6d5HwncuwZR" },
+        { "label": "expiry", "method": "expire", "signer": "supporter-20261110.testnet", "hash": "BsD14fSst4b6BSDqZ6v8WkZqHCQXKXupfPrwfNDtyGFK", "explorer_url": "https://testnet.nearblocks.io/txns/BsD14fSst4b6BSDqZ6v8WkZqHCQXKXupfPrwfNDtyGFK" },
+        { "label": "refund_withdrawal", "method": "withdraw", "signer": "refund-supporter-20261110.testnet", "hash": "C4yMtrjmWoBRmRutTWfdCLEeY3XDrct8ydCx2ZBtTzvT", "explorer_url": "https://testnet.nearblocks.io/txns/C4yMtrjmWoBRmRutTWfdCLEeY3XDrct8ydCx2ZBtTzvT" }
+      ],
+      "allocation_certificate": [],
+      "pledge_records": [{ "index": 0, "owner": "refund-supporter-20261110.testnet", "amount": "1000000000000000000000000", "allowed": ["alpha"], "requires": [] }],
+      "final_status": { "phase": "EXPIRED", "liabilities": "0", "funded_project_ids": [] },
+      "final_accounting": { "locked_pledges": "0", "credits": "0", "pending": "0", "accounted": "0", "liabilities": "0", "contract_balance": "6998292049974118300000000", "storage_reserve": "2280530000000000000000000", "solvent": true }
+    }
+  ],
+  "final_balances_near": {
+    "pact-atlas-20261110.testnet": 2.9925491391413077,
+    "campaign-20261110.pact-atlas-20261110.testnet": 6.998291745252798,
+    "supporter-20261110.testnet": 1.9923857285883104,
+    "beneficiary-20261110.testnet": 10.999598130212632,
+    "refund-supporter-20261110.testnet": 9.999431546051486,
+    "refund-20261110.supporter-20261110.testnet": 6.998292049974118
+  },
+  "receipt_verification": {
+    "official_rpc": "https://rpc.testnet.near.org",
+    "contract_lifecycle_transactions_checked": 12,
+    "all_final": true,
+    "all_transaction_and_receipt_outcomes_successful": true,
+    "failed_receipts": 0,
+    "repository_verify_testnet_methods_passed": ["commit", "activate", "withdraw", "commit", "expire", "withdraw"]
+  },
+  "limitations": [
+    "This is faucet-funded NEAR testnet evidence only, not mainnet or production evidence.",
+    "The unresolved callback non-execution recovery risk remains a production blocker; no timeout retry or blind unlock was used.",
+    "Native transfer failure injection through a real failing predecessor remains untested in sandbox and testnet.",
+    "Sputnik DAO governance was not used in this minimal public campaign; activation used the configured disposable authority account.",
+    "No independent qualified security audit has been performed."
+  ]
+}
