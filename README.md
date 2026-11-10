@@ -1,6 +1,6 @@
 # PACT Atlas — executable technical checkpoint
 
-**Status (2026-11-08):** The first-time-user console has 31 passing Chromium checks and passed Node model/request-safety checks at its verified UI commit. Existing preserved evidence includes 14 Rust unit tests, optimized Wasm/ABI reproduction, five fresh local NEAR sandbox campaigns plus a maximum-capacity campaign, exact bounded reference/benchmark tests and wallet-adapter tests. These historical results are not public testnet evidence. The release is still experimental and the latest Rust CI must be checked independently before any final release claim.
+**Status (2026-11-10):** The self-service console has 45 passing Chromium checks at the latest local release pass, alongside 14 Rust unit tests, optimized Wasm/ABI evidence, local NEAR sandbox campaigns, exact bounded reference/benchmark tests and wallet-adapter tests. These results are not public testnet evidence. The latest sandbox CI job was not started because of a GitHub Actions billing/spending-limit gate; see the [dated verification record](docs/VERIFICATION_2026-11-10.md) before making a final release claim.
 
 This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
 
@@ -68,6 +68,7 @@ Five contributors put in 12 NEAR total. A flexible donor can pledge 3 NEAR to ei
 - `docs/GITHUB_RELEASE.md` and `evidence/`: GitHub-ready CI/release instructions and preserved RC1 evidence/artifacts.
 - `docs/COMPETITIVE_ADVANTAGE.md` and `evidence/competitive-benchmark.json`: reproducible prior-art comparison and honest capability results.
 - `FINAL_ENGINEERING_REVIEW.md`: frozen final evidence review and release recommendation.
+- `docs/VERIFICATION_2026-11-10.md`: latest isolated release-pass results, artifact hashes and CI limitation record.
 - `docs/DESIGN_DIRECTION.md` and `docs/FRONTEND_REDESIGN_REPORT.md`: frontend design rationale, screenshot evidence, measured local performance and remaining UX issues.
 
 ## Run immediately
