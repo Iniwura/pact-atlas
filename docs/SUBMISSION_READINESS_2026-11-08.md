@@ -28,7 +28,7 @@ public Sputnik governance and final submission are still approval-gated. See
 - [x] Browser-local autosave and exportable JSON with a standalone reproducibility check (scripts/verify-campaign.js).
 - [x] Fundable plans prepare an explicit testnet account deployment, preserved-Wasm hash check and shareable public campaign link without accepting mainnet accounts.
 - [x] Public campaign route reads finalized views and labels candidate certificates separately from accepted onchain certificates.
-- [x] Verify the final first-time-user Chromium run, mobile screenshots and accessibility at the exact release head (51/51 local Chromium checks).
+- [x] Verify the final first-time-user Chromium run, mobile screenshots and accessibility at the current release head (54/54 local Chromium checks).
 - [ ] Verify /create.html and its assets from an unauthenticated public browser following release.
 - [ ] Test a newcomer’s complete journey without explanations from the author.
 ## Product quality gate
@@ -39,7 +39,7 @@ public Sputnik governance and final submission are still approval-gated. See
 - [x] Project and supporter conditions are directly inspectable without understanding a technical graph.
 - [x] Separate model claims from recorded local sandbox transactions.
 - [x] Node model and wallet request-safety checks passed on the UX branch.
-- [x] Chromium product tests passed 51/51 at the current isolated release head (including 320–1440px, accessibility, direct campaign routes, immutable config authentication, chain-derived pledge mismatch rejection, malformed-link rejection and failed-signing boundaries).
+- [x] Chromium product tests passed 54/54 at the current isolated release head (including 320–1440px, accessibility, direct campaign routes, immutable config authentication, chain-derived pledge mismatch rejection, malformed-link rejection and failed-signing boundaries).
 - [ ] Final production deployment, live unauthenticated routes, and post-release screenshot/performance review.
 - [ ] Visual sign-off on the new console; earlier versions were rejected, so do not silently promote a branch merely because tests passed.
 
