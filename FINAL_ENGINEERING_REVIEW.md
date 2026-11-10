@@ -2,6 +2,37 @@
 
 Review basis: audit baseline `457a92e` (PR #11's audited head), RC3 head `9069b32`, current Rust and JavaScript source, regenerated artifacts, preserved benchmark/evidence files, the RC3.1 verification rerun, and the 2026-11-10 public coalition lifecycle.
 
+## RC1 main-integration release gate — 10 November 2026
+
+This review also covers the unmerged `release/rc1-main-integration` candidate.
+It was created from `origin/main` (`bd43a7ef7a3fde38e4b5f357acf895663d9015ab`)
+and merged with the verified `feat/self-serve-campaign-lab` head
+(`120ee881f9bca885153753ec141c89bc01b2e343`) using a non-fast-forward,
+non-destructive merge. The eight stacked PR heads are ancestors of that
+verified release branch; no stacked PR was force-rebased, PR #11 remains draft,
+and `main` was not changed.
+
+The exact candidate was rerun after the release documentation was added:
+
+- 16 Rust tests, formatting, locked dependency check, clippy with warnings
+  denied, ABI generation and deterministic optimized Wasm reproduction passed.
+- 35 core Node tests, 9 benchmark tests, 23 counterfactual tests, 8 workflow
+  tests, 9 chain/RPC/ABI tests, 8 wallet-adapter tests and 3 Wallet
+  Selector/Meteor endpoint probes passed.
+- Five baseline NEAR sandbox campaigns and the atomic self-service lifecycle
+  passed; the separate maximum-capacity campaign passed with 8 projects, 32
+  pledges, 32 successful withdrawals, repeated-withdrawal rejection and zero
+  final liabilities.
+- 54/54 Chromium checks passed at 320, 360, 390, 768, 1024 and 1440 pixels,
+  including accessibility, direct routes, live-chain authentication, wallet
+  fail-closed boundaries and the unchanged cinematic homepage.
+- `evidence/SHA256SUMS` and the production dependency audit passed.
+
+The latest Vercel preview is build-ready but SSO-protected at
+[`pact-atlas-git-feat-self-serve-c-21ad88-iniwura-akurus-projects.vercel.app`](https://pact-atlas-git-feat-self-serve-c-21ad88-iniwura-akurus-projects.vercel.app),
+so it is not yet a public judge URL. No access policy, deployment promotion,
+repository visibility, PR state or submission state was changed in this pass.
+
 ## RC3.2 public coalition evidence addendum
 
 The release candidate now includes a third finalized faucet-funded testnet campaign at [`coalition-20261110.beneficiary-20261110.testnet`](https://testnet.nearblocks.io/address/coalition-20261110.beneficiary-20261110.testnet). It has two independent contributors and two projects: beta depends on alpha, the beta pledge was submitted first, alpha second, and the authority accepted the canonical certificate `[1 → alpha, 0 → beta]`. Both beneficiaries withdrew successfully. Eight contract lifecycle transactions were independently queried at `FINAL` on `https://rpc.testnet.near.org`; failed receipts were zero, the pinned code hash matched, and final `liabilities`, `credits`, `pending` and `accounted` were all zero with `solvent: true`. The full record is [`evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json).

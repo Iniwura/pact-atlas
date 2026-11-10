@@ -3,8 +3,8 @@
 ## Current release addendum — 10 November 2026
 
 This dated checklist is retained as the 8 November planning checkpoint. Since
-then, the private repository branch has a stronger release candidate at
-`8226894e4120ddd862fd6031f77f2ecca09c602b`, with three finalized faucet-funded
+then, the private repository has a stronger release candidate on the
+history-preserving `feat/self-serve-campaign-lab` branch, with three finalized faucet-funded
 testnet campaigns, including the two-project dependency coalition recorded in
 `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`. The public
 repository, unauthenticated hosted preview, genuine Meteor browser signing,
@@ -45,7 +45,7 @@ public Sputnik governance and final submission are still approval-gated. See
 
 ## Engineering gate
 
-- [x] Preserved 15-test Rust verification, Wasm/ABI reproduction, local NEAR sandbox evidence and Sputnik DAO governance campaign are documented in `FINAL_ENGINEERING_REVIEW.md`.
+- [x] Preserved 16-test Rust verification, Wasm/ABI reproduction, local NEAR sandbox evidence and Sputnik DAO governance campaign are documented in `FINAL_ENGINEERING_REVIEW.md`.
 - [x] Exact bounded allocation certificate and separate reference/witness checks preserve capital conservation and per-contributor permission constraints.
 - [ ] Latest source-tree CI run completes successfully after documentation changes.
 - [x] Bounded public testnet deployment with authorized faucet-funded identities and explorer receipts is recorded in the two evidence manifests. Genuine Meteor browser signing and public Sputnik governance remain separate gates.

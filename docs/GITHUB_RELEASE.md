@@ -2,8 +2,11 @@
 
 The private repository `https://github.com/Iniwura/pact-atlas` exists and the
 history-preserving release branch `feat/self-serve-campaign-lab` was pushed
-without force. The current remote head is
-`8226894e4120ddd862fd6031f77f2ecca09c602b`. PR #11 remains draft. No
+without force. Its current remote head is
+`120ee881f9bca885153753ec141c89bc01b2e343`. PR #11 remains draft. A separate
+`release/rc1-main-integration` branch is prepared from `origin/main` plus that
+verified release branch; it is reviewable but has not been merged into `main`.
+No
 visibility change, merge, production promotion, mainnet call or real-fund
 spend occurred.
 
@@ -23,11 +26,12 @@ The Rust job uses Rust `1.93.0`, `cargo-near 0.22.0`, and the canonical `CARGO_H
 ## Local repository state
 
 The candidate is a clean local Git repository with an explicit `origin` remote
-for the private repository above. The local branch name is
-`codex/fix-sandbox-accounting` and it publishes to
-`origin/feat/self-serve-campaign-lab`; both resolve to the same SHA above. Do
-not make the repository public, merge PR #11, change branch permissions or
-submit the hackathon entry until separately authorized.
+for the private repository above. The verified implementation remains on
+`origin/feat/self-serve-campaign-lab`; the release-integration candidate is
+`release/rc1-main-integration`, based on `origin/main` and merged without
+rewriting history. Neither `main` nor PR #11 has been merged. Do not make the
+repository public, change branch permissions or submit the hackathon entry
+until separately authorized.
 
 ## Reproducibility gates
 
