@@ -1,6 +1,6 @@
 # PACT Atlas — executable technical checkpoint
 
-**Status (2026-11-10):** The self-service console and public campaign route have a passing local Chromium suite, alongside 16 Rust unit tests, 35 core Node tests, chain/RPC/live-data regression tests, Meteor/NEAR testnet endpoint checks, exact bounded counterfactual/benchmark checks, wallet-adapter tests, genuine local NEAR sandbox campaigns, and a completed faucet-funded NEAR testnet lifecycle. GitHub Actions remains blocked by the account billing/spending-limit gate; see the [dated verification record](docs/VERIFICATION_2026-11-10.md) and the [public testnet evidence](evidence/pact-atlas-testnet-evidence-2026-11-10.json).
+**Status (2026-11-10):** The self-service console and public campaign route have a passing local Chromium suite, alongside 16 Rust unit tests, 35 core Node tests, chain/RPC/live-data regression tests, Meteor/NEAR testnet endpoint checks, exact bounded counterfactual/benchmark checks, wallet-adapter tests, genuine local NEAR sandbox campaigns, and three faucet-funded NEAR testnet campaigns: two single-project settlement/refund lifecycles plus a two-project dependency coalition. GitHub Actions remains blocked by the account billing/spending-limit gate; see the [dated verification record](docs/VERIFICATION_2026-11-10.md), the [baseline public evidence](evidence/pact-atlas-testnet-evidence-2026-11-10.json), and the [coalition evidence](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json).
 
 This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
 
@@ -18,12 +18,24 @@ An exact plan can continue into an explicitly labeled **Deploy this campaign to 
 
 After an authorized wallet deploys a fundable campaign, open the generated `/campaign?contract=…&config=…` link. The page reads finalized `status()`, `accounting()` and certificate views from the free NEAR testnet RPC, shows project conditions, lets a contributor prepare a whole-pledge `commit`, and exposes activation, expiry and withdrawal actions only through explicit wallet approval. A candidate allocation is labeled model-derived until the contract accepts the authority activation; a wallet hash without finalized success is never presented as settled.
 
-This path is implemented and browser-tested with deterministic RPC/wallet doubles, and it has now been exercised against two real faucet-funded testnet campaigns. The primary campaign activated one project from one canonical pledge and settled its beneficiary withdrawal; a separate campaign expired and settled a full refund. These receipts are evidence for the bounded demonstration only, not a production-safety claim.
+This path is implemented and browser-tested with deterministic RPC/wallet doubles, and it has now been exercised against three real faucet-funded testnet campaigns. The latest campaign accepted two independent pledges out of order, including a conditional beta pledge requiring alpha, activated both projects with the exact certificate retained by the contract, and settled both beneficiary withdrawals. These receipts are evidence for the bounded demonstration only, not a production-safety claim.
+
+## Public coalition evidence (testnet)
+
+The strongest public demonstration is [`coalition-20261110.beneficiary-20261110.testnet`](https://testnet.nearblocks.io/address/coalition-20261110.beneficiary-20261110.testnet). It contains two 1 NEAR projects: `beta` depends on `alpha`; the beta pledge was submitted first by `refund-supporter-20261110.testnet`, the alpha pledge second by `supporter-20261110.testnet`, and the configured authority later activated the accepted certificate `[1 → alpha, 0 → beta]`. Both beneficiaries withdrew, and the finalized contract accounting reconciled to zero liabilities.
+
+Use the [machine-readable coalition evidence](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json) and reproduce individual method proofs with:
+
+```sh
+npm run verify:testnet -- coalition-20261110.beneficiary-20261110.testnet refund-supporter-20261110.testnet 39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN commit
+npm run verify:testnet -- coalition-20261110.beneficiary-20261110.testnet supporter-20261110.testnet 8t22n71EQDb5WCswgLu7MUH3aVeyoFaCVdKgtQBUVje3 commit
+npm run verify:testnet -- coalition-20261110.beneficiary-20261110.testnet beneficiary-20261110.testnet 31FxH2YE9FEm7iq49AH6eXMvZYiFv7Y3jeqd8rThK96v activate
+```
 ## Verify public NEAR testnet evidence (read-only)
 
 The new `/verify.html` page checks a supplied NEAR testnet transaction against the chain's finalized method execution and the current code hash of the deployed contract. Only the pinned PACT Wasm code hash is accepted. No funds or wallets are used by verification.
 
-Reproduce independently with `npm run verify:testnet -- <contract.testnet> <signer.testnet> <hash> commit`. This verifies the named method execution, **not** an entire campaign lifecycle or secure delivery of payouts. The completed public campaign and refund evidence is recorded in [the testnet evidence manifest](evidence/pact-atlas-testnet-evidence-2026-11-10.json). See [testnet proof and release gates](docs/TESTNET_PROOF.md).
+Reproduce independently with `npm run verify:testnet -- <contract.testnet> <signer.testnet> <hash> commit`. This verifies the named method execution, **not** an entire campaign lifecycle or secure delivery of payouts. The completed public campaign/refund evidence is recorded in [the baseline testnet manifest](evidence/pact-atlas-testnet-evidence-2026-11-10.json), and the multi-project dependency campaign is recorded in [the coalition manifest](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json). See [testnet proof and release gates](docs/TESTNET_PROOF.md).
 
 ## Try the app in one minute
 
@@ -81,6 +93,7 @@ Five contributors put in 12 NEAR total. A flexible donor can pledge 3 NEAR to ei
 - `FINAL_ENGINEERING_REVIEW.md`: frozen final evidence review and release recommendation.
 - `docs/VERIFICATION_2026-11-10.md`: latest isolated release-pass results, artifact hashes and CI limitation record.
 - `docs/DESIGN_DIRECTION.md` and `docs/FRONTEND_REDESIGN_REPORT.md`: frontend design rationale, screenshot evidence, measured local performance and remaining UX issues.
+- `docs/DEMO_STORYBOARD_2026-11-10.md`, `docs/SUBMISSION_CHECKLIST_2026-11-10.md` and `docs/X_DEMO_POST_DRAFT.md`: approval-required judge narrative and final release gates.
 
 ## Run immediately
 
@@ -142,7 +155,7 @@ SDK pinned to [`near-sdk = 5.29.1`](https://github.com/near/near-sdk-rs/releases
 
 Read `docs/SECURITY_REVIEW.md` for the risks and policy changes.
 
-**Current security warning:** No mainnet usage, production funds, or user deposits. Testnet execution, an independent qualified audit, native-transfer failure injection, and missing-callback recovery remain open gates. Never add a timeout retry or blind unlock for a pending withdrawal.
+**Current security warning:** No mainnet usage, production funds, or user deposits. The bounded CLI-signed faucet-funded testnet campaigns are verified, but genuine Meteor browser signing, public Sputnik governance, native-transfer failure injection, missing-callback recovery, and an independent qualified audit remain open gates. Never add a timeout retry or blind unlock for a pending withdrawal.
 
 ## Verified local criteria
 
@@ -156,7 +169,7 @@ Read `docs/SECURITY_REVIEW.md` for the risks and policy changes.
 8. Two-council Sputnik DAO proposals are created, rejected when unauthorized/unapproved, approved, executed to fund PACT, and used to withdraw an expired DAO-owned refund in fresh sandbox state.
 9. `accounting()` proves `locked_pledges + credits + pending == liabilities` and checks the developer-sponsored storage reserve at each exercised state.
 10. The RC1 sandbox campaign exercises the configured 8-project/32-pledge capacity, exact boundary predicates in Rust VM tests, all settlement credits and repeated withdrawal rejection.
-11. A bounded faucet-funded testnet lifecycle is verified in `evidence/pact-atlas-testnet-evidence-2026-11-10.json`; Sputnik governance and real Meteor wallet signing remain separate gates.
+11. Three bounded faucet-funded testnet lifecycles are verified: two settlement/refund paths in `evidence/pact-atlas-testnet-evidence-2026-11-10.json` and one dependency-aware two-project coalition in `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`; Sputnik governance and real Meteor wallet signing remain separate gates.
 
 No testnet credentials or signing keys are included in this archive. Public transaction hashes are included only in the reproducible evidence manifest.
 

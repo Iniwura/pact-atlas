@@ -25,15 +25,16 @@ This does not prove every payout was received, prove DAO governance, prove the a
 
 The self-service path now prepares a real testnet campaign lifecycle: it validates named testnet owner/beneficiary/authority accounts, checks the preserved Wasm hash, constructs and sandbox-verifies `CreateAccount → Transfer → DeployContract → new → sponsor_storage`, waits for wallet finality, and creates a public campaign link. The contract authorizes `new` only from itself or the exact direct namespace parent. The live page checks the pinned code hash, authenticates `campaign_config()`, derives whole-pledge candidates from canonical `pledge_records()` and reads finalized `status()`, `accounting()` and `activation_certificate()` views. Unknown outcomes remain pending without retrying. Meteor/Wallet Selector modules are lazy-loaded only after an explicit action.
 
-The implementation and deterministic browser-test results are supplemented by a bounded public testnet demonstration recorded in [`evidence/pact-atlas-testnet-evidence-2026-11-10.json`](../evidence/pact-atlas-testnet-evidence-2026-11-10.json). The public evidence uses disposable faucet-funded accounts only; it does not establish production safety or replace an independent audit.
+The implementation and deterministic browser-test results are supplemented by bounded public testnet demonstrations recorded in [`evidence/pact-atlas-testnet-evidence-2026-11-10.json`](../evidence/pact-atlas-testnet-evidence-2026-11-10.json) and [`evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`](../evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json). The public evidence uses disposable faucet-funded accounts only; it does not establish production safety or replace an independent audit.
 
 ## Completed public testnet lifecycle
 
-The following two campaigns were independently queried at finalized state on `https://rpc.testnet.near.org`:
+The following three campaigns were independently queried at finalized state on `https://rpc.testnet.near.org`:
 
 1. `campaign-20261110.pact-atlas-20261110.testnet` deployed the pinned Wasm, initialized one immutable `alpha` project, accepted a 1 NEAR canonical pledge from `supporter-20261110.testnet`, activated with `{pledge_index: 0, project_id: "alpha"}`, and settled a 1 NEAR beneficiary withdrawal.
 2. `refund-20261110.supporter-20261110.testnet` deployed the same Wasm, accepted a 1 NEAR pledge from `refund-supporter-20261110.testnet`, expired after its deadline, and settled the full refund.
-3. All 12 deployment/lifecycle transactions were independently checked on the official RPC as `FINAL` with successful transaction and receipt outcomes. The six public PACT method calls also pass `npm run verify:testnet` and match the current code hash.
+3. `coalition-20261110.beneficiary-20261110.testnet` deployed the pinned Wasm, initialized `alpha` and `beta` where beta depends on alpha, accepted beta first and alpha second from separate contributors, activated with `{pledge_index: 1, project_id: "alpha"}` and `{pledge_index: 0, project_id: "beta"}`, and settled both beneficiary withdrawals.
+4. All 20 deployment/lifecycle transactions across the three campaigns were independently checked on the official RPC as `FINAL` with successful transaction and receipt outcomes. The eleven public PACT method calls recorded in the two manifests also pass `npm run verify:testnet` and match the current code hash. The latest coalition campaign has zero final liabilities and `solvent: true`.
 4. Both final accounting snapshots report `liabilities: 0`, `credits: 0`, `pending: 0`, and `solvent: true`. Exact receipts, immutable configs, certificates and balances are in the evidence manifest.
 
 ## Remaining public testnet work
@@ -62,4 +63,4 @@ The custom planner's arbitrary campaigns are deployable only as a new immutable 
 - Release routes are accessible without Vercel SSO or a private GitHub login.
 - Repository visibility, hackathon X demo, payout account and submitted project information have been deliberately reviewed before final promotion.
 
-Public testnet evidence is now available for the bounded two-campaign demonstration. Do not extend that claim to Sputnik governance, native-transfer failure injection, callback liveness or production safety.
+Public testnet evidence is now available for the bounded three-campaign demonstration, including one dependency-aware multi-project coalition. Do not extend that claim to Sputnik governance, genuine Meteor browser signing, native-transfer failure injection, callback liveness or production safety.

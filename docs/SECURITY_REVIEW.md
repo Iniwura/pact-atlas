@@ -11,7 +11,7 @@
 - Real NEAR sandbox: **5 baseline campaigns pass**, plus a fresh RC1 maximum-capacity campaign with all 8 projects, all 32 pledge slots, and a separate exact atomic self-service deployment/lifecycle campaign. Each includes measured storage reserve and settlement checks.
 - Two reproducible offline certificates generated successfully.
 - The self-service campaign path now validates named testnet accounts, checks the preserved Wasm hash before deployment, constructs explicit multi-action deployment/initialization requests, authenticates immutable `campaign_config()` and pinned code hash, derives candidates from canonical `pledge_records()`, and reads finalized campaign views without inventing chain state. The browser route uses deterministic doubles for its safety tests; the separate public evidence manifest records the CLI-signed testnet lifecycle.
-- Public testnet evidence now covers two isolated contracts: one activated 1 NEAR campaign with a beneficiary withdrawal, and one expired 1 NEAR campaign with a contributor refund. Both match the pinned Wasm hash and finish with zero liabilities and `solvent: true`. The complete receipt/config/balance record is in `evidence/pact-atlas-testnet-evidence-2026-11-10.json`.
+- Public testnet evidence now covers three isolated campaigns: one activated 1 NEAR campaign with a beneficiary withdrawal, one expired 1 NEAR campaign with a contributor refund, and one two-project dependency coalition with two independent out-of-order pledges, a conditional beta pledge, an accepted certificate and two beneficiary withdrawals. All match the pinned Wasm hash and finish with zero liabilities and `solvent: true`. The complete receipt/config/balance records are in `evidence/pact-atlas-testnet-evidence-2026-11-10.json` and `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`.
 - Storage reserve was measured in sandbox; final available reserves remained about 19.035 NEAR with storage stake about 1.962–1.963 NEAR.
 
 ## Unverified gates
@@ -22,7 +22,7 @@
 
 ## Current product boundary
 
-The browser can prepare a genuine testnet request, but this evidence was executed with isolated local CLI signers rather than a browser wallet session. A public campaign page is read-only until a wallet action is explicitly chosen. Candidate allocations are labeled model-derived; only `activation_certificate()` from finalized contract state is described as accepted onchain. The public evidence does not establish callback liveness, DAO quorum or production safety.
+The browser can prepare a genuine testnet request, but the public evidence was executed with isolated local CLI signers rather than a browser wallet session. A public campaign page is read-only until a wallet action is explicitly chosen. Candidate allocations are labeled model-derived; only `activation_certificate()` from finalized contract state is described as accepted onchain. The public evidence does not establish callback liveness, DAO quorum, genuine Meteor signing or production safety.
 
 ## Changes since the original checkpoint
 

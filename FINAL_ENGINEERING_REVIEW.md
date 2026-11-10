@@ -1,6 +1,12 @@
 # PACT Atlas final engineering review
 
-Review basis: audit baseline `457a92e` (PR #11's audited head), RC3 head `9069b32`, current Rust and JavaScript source, regenerated artifacts, preserved benchmark/evidence files, and the RC3.1 verification rerun on 2026-11-10.
+Review basis: audit baseline `457a92e` (PR #11's audited head), RC3 head `9069b32`, current Rust and JavaScript source, regenerated artifacts, preserved benchmark/evidence files, the RC3.1 verification rerun, and the 2026-11-10 public coalition lifecycle.
+
+## RC3.2 public coalition evidence addendum
+
+The release candidate now includes a third finalized faucet-funded testnet campaign at [`coalition-20261110.beneficiary-20261110.testnet`](https://testnet.nearblocks.io/address/coalition-20261110.beneficiary-20261110.testnet). It has two independent contributors and two projects: beta depends on alpha, the beta pledge was submitted first, alpha second, and the authority accepted the canonical certificate `[1 → alpha, 0 → beta]`. Both beneficiaries withdrew successfully. Eight contract lifecycle transactions were independently queried at `FINAL` on `https://rpc.testnet.near.org`; failed receipts were zero, the pinned code hash matched, and final `liabilities`, `credits`, `pending` and `accounted` were all zero with `solvent: true`. The full record is [`evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json).
+
+This strengthens the public demonstration from single-project settlement/refund to a dependency-aware coalition, but it remains CLI-signed evidence. It does not establish genuine Meteor browser signing, Sputnik public governance, callback liveness or production safety.
 
 ## RC3 live-chain hardening addendum
 
@@ -38,7 +44,7 @@ lifecycle pass in genuine sandbox state.
 
 ## Recommendation
 
-The engineering phase can close as a local, sandbox-backed hackathon release candidate. It must not be presented as production-ready, externally audited, testnet-verified, or safe for valuable funds. The remaining callback limitation is a production financial-safety blocker, not a reason to add an unsafe retry.
+The engineering phase can close as a bounded sandbox- and testnet-backed hackathon release candidate. It must not be presented as production-ready, externally audited, fully wallet-verified, or safe for valuable funds. The remaining callback limitation is a production financial-safety blocker, not a reason to add an unsafe retry.
 
 ## Benchmark comparison
 
@@ -93,7 +99,7 @@ The comparison remains capability-level prior-art analysis. The referenced syste
 | Exact timestamp boundaries | Verified locally, **evidence limitation for sandbox exactness** | Rust VM tests cover equality; near-workspaces crosses boundaries but does not set exact timestamps. |
 | Storage/max capacity | Sandbox-verified within configured limits; **production blocker for unbounded use** | 8 projects/32 pledges and storage reserve checks pass. Larger state growth and economic sizing remain unproven. |
 | Independent qualified audit | **Submission limitation, production blocker** | No external auditor has reviewed the contract. The review is adversarial engineering only. |
-| Testnet deployment and wallet signatures | **Bounded evidence complete; broader evidence limitation** | Two disposable CLI-signed testnet campaigns are finalized and independently reconciled. Real Meteor wallet signing and Sputnik multi-member approval remain unverified. |
+| Testnet deployment and wallet signatures | **Bounded evidence complete; broader evidence limitation** | Three disposable CLI-signed testnet campaigns are finalized and independently reconciled, including a two-project dependency coalition. Real Meteor wallet signing and Sputnik multi-member approval remain unverified. |
 
 Mitigated findings include initialization front-running, unauthorized activation, duplicate callback settlement, repeated withdrawals, allocation double-use, accounting conservation and storage-reserve checks within configured limits.
 
@@ -114,7 +120,7 @@ The final rerun uses the pinned Rust/near-sdk/cargo-near versions and the curren
 - Maximum-capacity sandbox evidence SHA-256: `8994a3558c6fda0eaf4d66c03c84278d863344cc394cd333dc735f652bf4daa4`.
 - Atomic deployment sandbox evidence SHA-256: `17c00bbffc378d8ce8168e2986ec3ed3156cfd9c30d86f860ee4396bfad78bb9`.
 - NEAR code hash: `7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp`.
-- Public testnet evidence: `evidence/pact-atlas-testnet-evidence-2026-11-10.json`; two contracts, 12 contract lifecycle transactions, six public method proofs, final zero-liability accounting.
+- Public testnet evidence: `evidence/pact-atlas-testnet-evidence-2026-11-10.json` plus `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`; three contracts, 20 contract lifecycle transactions, eleven public method proofs, final zero-liability accounting.
 - Audit baseline: `457a92e`; no merge, publication, permission change, production promotion, mainnet call or real-fund spend occurred. The current release commit is recorded in the Git history after this review.
 
 ## Evidence index
@@ -131,4 +137,4 @@ The final rerun uses the pinned Rust/near-sdk/cargo-near versions and the curren
 - [Wasm](evidence/pact_atlas_poc.wasm) and [ABI](evidence/pact_atlas_poc_abi.json)
 - [Hash manifest](evidence/SHA256SUMS)
 
-Engineering is frozen at this review boundary. The minimal next step, requiring separate authorization, is an isolated faucet-funded testnet campaign and qualified security review; neither is part of this release.
+Engineering can close at this release boundary as a judge-ready, bounded testnet candidate. The remaining steps require separate authorization or external actors: genuine Meteor browser signing, public Sputnik multi-member governance, an independent qualified audit, a safe callback-recovery design, and public repository/preview promotion. None is silently represented as complete here.

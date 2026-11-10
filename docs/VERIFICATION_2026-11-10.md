@@ -42,6 +42,20 @@ the earlier “no authorized testnet credentials” statement for the bounded
 demonstration only; it does not remove the callback, native-transfer failure,
 Meteor signing, Sputnik governance or independent-audit limitations.
 
+## Public coalition lifecycle addendum (2026-11-10)
+
+The stronger public demonstration is recorded separately in
+`evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json` so that the
+original two-campaign manifest remains an immutable historical record. The
+campaign `coalition-20261110.beneficiary-20261110.testnet` deployed the pinned
+207,587-byte Wasm, initialized `alpha` and dependency-bound `beta`, accepted
+beta's conditional pledge before alpha's independent pledge, and activated the
+canonical certificate `[1 → alpha, 0 → beta]`. Both beneficiaries withdrew.
+Eight lifecycle transactions were independently checked against the official
+RPC at `FINAL`; all transaction and receipt outcomes succeeded, the code hash
+was `7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp`, and final liabilities,
+credits, pending and accounted were all zero with `solvent: true`.
+
 ## GitHub CI diagnosis
 
 The latest pull-request run `42705729543` and push run `42705722733` reached
@@ -139,8 +153,10 @@ of this release evidence.
   guard before that funding check; the corrected parent authorization and 3 + 2
   NEAR request passed. This is why deployment funding is now explicit in the
   request and documentation.
-- No authorized testnet signing credentials were available. There is no testnet
-  deployment, transaction hash, or public-chain lifecycle evidence to report.
+- The public testnet evidence was CLI-signed with isolated faucet-funded
+  identities. Genuine Meteor browser extension signing and multi-member
+  Sputnik web-wallet approval remain unverified; no browser key or credential
+  is stored in the repository.
 - The repository is not externally audited. Development-tool dependency audit
   findings remain separate from runtime production dependencies; no runtime
   dependencies are declared.
@@ -148,8 +164,7 @@ of this release evidence.
 ## Recommendation
 
 The product workflow is a credible judge demonstration with reproducible
-offline, local-VM, sandbox, artifact, and deterministic wallet-boundary
-evidence. Keep PR #11 draft and do not describe the release as production-safe
-or testnet-verified. Before public submission, clear the GitHub Actions billing
-gate and, if authorized, run the isolated testnet campaign. Callback
+offline, local-VM, sandbox, artifact, deterministic wallet-boundary and bounded
+public-testnet evidence. Keep PR #11 draft and do not describe the release as
+production-safe, externally audited or fully wallet-verified. Callback
 non-execution remains a production blocker; no unsafe fix was attempted.

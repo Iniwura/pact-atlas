@@ -34,7 +34,8 @@
 - [x] Create separate faucet-funded NEAR testnet identities with credentials kept outside the repository.
 - [x] Deploy the pinned compiled WASM to dedicated testnet accounts, not mainnet; independently verify both code hashes.
 - [x] Reproduce a successful activation/beneficiary withdrawal and a separate expired-campaign full refund with finalized transaction hashes.
-- [x] Publish explorer evidence and update `README.md` with judge-facing 'do X, see Y' instructions. See `evidence/pact-atlas-testnet-evidence-2026-11-10.json`.
+- [x] Publish explorer evidence and update `README.md` with judge-facing 'do X, see Y' instructions. See `evidence/pact-atlas-testnet-evidence-2026-11-10.json` and `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`.
+- [x] Complete a public two-project coalition campaign: independent contributors pledged out of order, a conditional pledge required a dependency, the authority accepted the canonical allocation certificate, both beneficiaries withdrew, and finalized accounting reconciled to zero liabilities.
 - [ ] Verify real Meteor wallet signing and a multi-member Sputnik DAO approval flow on public testnet.
 - [ ] Only after testnet success, consider a production-ready contract audit and expansion.
 
