@@ -15,7 +15,9 @@
 - [x] A separate /create.html page now allows users to create a campaign with 1–5 projects and up to 8 supporters, edit goals/dependencies/destination permissions, and obtain an exact bounded offline allocation.
 - [x] Invalid and unsatisfiable scenarios fail closed; the output explicitly says it is **not an onchain transaction**.
 - [x] Browser-local autosave and exportable JSON with a standalone reproducibility check (scripts/verify-campaign.js).
-- [ ] Verify the final first-time-user Chromium run, mobile screenshots and accessibility at the exact release head.
+- [x] Fundable plans prepare an explicit testnet account deployment, preserved-Wasm hash check and shareable public campaign link without accepting mainnet accounts.
+- [x] Public campaign route reads finalized views and labels candidate certificates separately from accepted onchain certificates.
+- [x] Verify the final first-time-user Chromium run, mobile screenshots and accessibility at the exact release head (49/49 local Chromium checks).
 - [ ] Verify /create.html and its assets from an unauthenticated public browser following release.
 - [ ] Test a newcomer’s complete journey without explanations from the author.
 ## Product quality gate
@@ -26,7 +28,7 @@
 - [x] Project and supporter conditions are directly inspectable without understanding a technical graph.
 - [x] Separate model claims from recorded local sandbox transactions.
 - [x] Node model and wallet request-safety checks passed on the UX branch.
-- [x] Chromium first-time-user tests passed 31/31 at the verified UI commit (including 320–1440px, accessibility and failed-signing boundary).
+- [x] Chromium product tests passed 49/49 at the current isolated release head (including 320–1440px, accessibility, direct campaign routes, malformed-link rejection and failed-signing boundaries).
 - [ ] Final production deployment, live unauthenticated routes, and post-release screenshot/performance review.
 - [ ] Visual sign-off on the new console; earlier versions were rejected, so do not silently promote a branch merely because tests passed.
 

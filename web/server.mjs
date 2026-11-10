@@ -8,6 +8,7 @@ import verifyTestnet from "../api/verify-testnet.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)));
 const checkpointRoot = path.resolve(root, "..");
 const outputsRoot = path.resolve(root, "..", "..", "..", "outputs");
+const wasmPath = path.resolve(checkpointRoot, "evidence", "pact_atlas_poc.wasm");
 const port = Number(process.env.PORT ?? 4173);
 const types = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".mjs": "text/javascript; charset=utf-8", ".json": "application/json; charset=utf-8", ".md": "text/plain; charset=utf-8", ".svg": "image/svg+xml" };
 
@@ -15,6 +16,7 @@ function safePath(urlPath) {
   const decoded = decodeURIComponent((urlPath || "/").split("?")[0]);
   const relative = decoded === "/" ? "index.html" : decoded.replace(/^\/+/, "");
   if (relative === "console") return path.join(root, "console.html");
+  if (relative === "campaign") return path.join(root, "campaign.html");
   if (relative === "HACKATHON.md") return path.join(checkpointRoot, relative);
   if (relative.startsWith("outputs/")) {
     const candidate = path.resolve(outputsRoot, relative.slice("outputs/".length));
@@ -27,6 +29,14 @@ function safePath(urlPath) {
 const server = http.createServer(async (request, response) => {
   if (request.url?.split("?")[0] === "/api/verify-testnet") {
     await verifyTestnet(request, response);
+    return;
+  }
+  if (request.url?.split("?")[0] === "/api/pact-wasm") {
+    try {
+      const info = await stat(wasmPath);
+      response.writeHead(200, { "Content-Type": "application/wasm", "Content-Length": info.size, "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" });
+      createReadStream(wasmPath).pipe(response);
+    } catch { response.writeHead(404); response.end("Wasm artifact unavailable"); }
     return;
   }
   const filePath = safePath(request.url);

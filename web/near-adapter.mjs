@@ -64,6 +64,29 @@ function makeInternalFunctionCall(request) {
   };
 }
 
+function makeInternalAction(action) {
+  if (action.type === "FunctionCall") return makeInternalFunctionCall(action);
+  if (action.type === "CreateAccount") return { type: "CreateAccount" };
+  if (action.type === "Transfer") return { type: "Transfer", params: { deposit: action.deposit } };
+  if (action.type === "DeployContract") return { type: "DeployContract", params: { code: action.code } };
+  throw new Error(`Unsupported wallet action: ${action.type}`);
+}
+
+function makeAction(action, creators = {}, legacyFunctionCall) {
+  if (action.type === "FunctionCall") {
+    if (legacyFunctionCall) return legacyFunctionCall(action.methodName, action.args ?? {}, BigInt(action.gas), BigInt(action.deposit));
+    if (typeof creators.functionCall !== "function") return makeInternalAction(action);
+    return creators.functionCall(action.methodName, action.args ?? {}, BigInt(action.gas), BigInt(action.deposit));
+  }
+  const creator = creators[action.type[0].toLowerCase() + action.type.slice(1)];
+  if (typeof creator === "function") {
+    if (action.type === "Transfer") return creator(BigInt(action.deposit));
+    if (action.type === "DeployContract") return creator(action.code);
+    return creator();
+  }
+  return makeInternalAction(action);
+}
+
 /**
  * Create the narrow adapter consumed by web/app.js.
  *
@@ -81,6 +104,7 @@ export function createNearWalletAdapter({
   walletId,
   accountId,
   functionCall,
+  actionCreators = {},
   provider,
   viewMethod,
   signInOptions = {},
@@ -110,19 +134,34 @@ export function createNearWalletAdapter({
 
   const call = async (request) => {
     const resolved = await resolveWallet();
-    const action = functionCall
-      ? functionCall(request.methodName, request.args ?? {}, BigInt(request.gas), BigInt(request.deposit))
-      : makeInternalFunctionCall(request);
+    const actions = request.actions?.map(action => makeAction(action, actionCreators, functionCall))
+      ?? [makeAction({
+        type: "FunctionCall",
+        methodName: request.methodName,
+        args: request.args,
+        gas: request.gas,
+        deposit: request.deposit,
+      }, actionCreators, functionCall)];
     const result = await resolved.signAndSendTransaction({
-      signerId: activeAccountId ?? undefined,
+      signerId: request.signerId ?? activeAccountId ?? undefined,
       receiverId: request.contractId,
-      actions: [action],
+      actions,
     });
     const hash = transactionHashOf(result);
     if (!hash) throw new Error("Wallet returned no transaction hash; confirmation is unknown");
     const finality = finalityOf(result);
     if (finality === "failed") throw new Error("Transaction " + hash + " failed on-chain. Check the explorer before any retry.");
     return { result, transactionHash: hash, confirmed: finality === "confirmed" };
+  };
+
+  const confirm = async ({ transactionHash, senderId = activeAccountId } = {}) => {
+    if (!transactionHash) throw new Error("A transaction hash is required for finality checking");
+    if (!senderId) throw new Error("The connected signer is required for finality checking");
+    if (!provider || typeof provider.query !== "function") throw new Error("No NEAR provider is configured for finality checking");
+    const result = await provider.query({ request_type: "tx", tx_hash: transactionHash, sender_account_id: senderId, finality: "final" });
+    const finality = finalityOf(result);
+    if (finality === "failed") throw new Error(`Transaction ${transactionHash} failed on-chain. Check the explorer before any retry.`);
+    return { result, transactionHash, confirmed: finality === "confirmed" };
   };
 
   const view = async ({ contractId, methodName, args = {} }) => {
@@ -138,7 +177,7 @@ export function createNearWalletAdapter({
     return JSON.parse(new TextDecoder().decode(new Uint8Array(response.result)));
   };
 
-  return { connect, call, view };
+  return { connect, call, confirm, view };
 }
 
 export { accountIdOf, transactionHashOf };

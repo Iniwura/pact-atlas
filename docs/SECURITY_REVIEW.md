@@ -1,4 +1,4 @@
-# PACT Atlas: security and readiness review (November 2, 2026)
+# PACT Atlas: security and readiness review (November 10, 2026)
 
 **Status: experimental only. Local Rust, Wasm, ABI and real NEAR sandbox verification passed; this document is an adversarial engineering review, not an independent qualified security audit, and the contract must not be used with real value.**
 
@@ -10,6 +10,7 @@
 - Optimized nearcore-compatible Wasm build passes; SHA-256 is recorded in the sandbox evidence.
 - Real NEAR sandbox: **5 baseline campaigns pass**, plus a fresh RC1 maximum-capacity campaign with all 8 projects, all 32 pledge slots, measured storage reserve, activation and 32 successful withdrawals.
 - Two reproducible offline certificates generated successfully.
+- The self-service campaign path now validates named testnet accounts, checks the preserved Wasm hash before deployment, constructs explicit multi-action deployment/initialization requests, creates public share configuration, and reads finalized campaign views without inventing chain state. The deployment and live-route tests use deterministic doubles; no testnet signature is claimed.
 - Storage reserve was measured in sandbox; final available reserves remained about 19.035 NEAR with storage stake about 1.962–1.963 NEAR.
 
 ## Unverified gates
@@ -17,6 +18,10 @@
 - Testnet deployment, signed calls and explorer receipts.
 - Native-transfer failure injection through a real predecessor account and callback non-execution recovery.
 - Independent qualified external audit.
+
+## Current product boundary
+
+The browser can prepare a genuine testnet request, but it does not have credentials and does not sign on behalf of a user. A public campaign page is read-only until a wallet action is explicitly chosen. Candidate allocations are labeled model-derived; only `activation_certificate()` from finalized contract state is described as accepted onchain. This prevents a polished preview from being mistaken for testnet settlement.
 
 ## Changes since the original checkpoint
 

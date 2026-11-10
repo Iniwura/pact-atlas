@@ -4,6 +4,10 @@
     {
       "source": "/console",
       "destination": "/console.html"
+    },
+    {
+      "source": "/campaign",
+      "destination": "/campaign.html"
     }
   ],
   "headers": [

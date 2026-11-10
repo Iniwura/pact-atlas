@@ -1,18 +1,24 @@
 # PACT Atlas — executable technical checkpoint
 
-**Status (2026-11-10):** The self-service console has 45 passing Chromium checks at the latest local release pass, alongside 14 Rust unit tests, optimized Wasm/ABI evidence, local NEAR sandbox campaigns, exact bounded reference/benchmark tests and wallet-adapter tests. These results are not public testnet evidence. The latest sandbox CI job was not started because of a GitHub Actions billing/spending-limit gate; see the [dated verification record](docs/VERIFICATION_2026-11-10.md) before making a final release claim.
+**Status (2026-11-10):** The self-service console and public campaign route have 49 passing local Chromium checks, alongside 14 Rust unit tests, 35 core Node tests, exact bounded counterfactual/benchmark checks, wallet-adapter tests and genuine local NEAR sandbox campaigns. These results are not public testnet evidence. GitHub Actions remains blocked by the account billing/spending-limit gate; see the [dated verification record](docs/VERIFICATION_2026-11-10.md) before making a final release claim.
 
 This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
 
-## Make your own campaign (offline prototype)
+## Make your own campaign
 
 From the interactive example at /console, select **Build your own funding plan** or open /create.html directly. Set 1–5 projects, their funding requirements and dependencies, then enter 1–8 supporters with permitted destinations and optional conditions. Select **Check funding** to see a valid whole-contribution allocation or an explained blocked result.
 
-The scenario is stored only in your browser. Select **Download scenario and verification JSON**, then independently check it with:
+The draft is stored only in your browser. Select **Download scenario and verification JSON**, then independently check it with:
 
     npm run verify:campaign -- /path/to/pact-campaign-proof.json
 
-This is a generic **model-only planning experience**, not a way to deploy a custom Rust contract or transfer NEAR. The original local NEAR sandbox receipts and authorization-gated workflow are separate. See [the Campaign Lab judge guide](docs/CAMPAIGN_LAB.md).
+An exact plan can continue into an explicitly labeled **Deploy this campaign to NEAR testnet** flow. That flow builds a multi-action account deployment request and waits for wallet finality before creating a shareable campaign link. No credentials are bundled, and no testnet deployment is claimed in this release. The original local NEAR sandbox receipts and authorization-gated workflow remain separate. See [the Campaign Lab judge guide](docs/CAMPAIGN_LAB.md).
+
+## Share a live campaign (testnet path)
+
+After an authorized wallet deploys a fundable campaign, open the generated `/campaign?contract=…&config=…` link. The page reads finalized `status()`, `accounting()` and certificate views from the free NEAR testnet RPC, shows project conditions, lets a contributor prepare a whole-pledge `commit`, and exposes activation, expiry and withdrawal actions only through explicit wallet approval. A candidate allocation is labeled model-derived until the contract accepts the authority activation; a wallet hash without finalized success is never presented as settled.
+
+This path is implemented and browser-tested with deterministic RPC/wallet doubles. It is not a substitute for a genuine signed testnet campaign. The current evidence has no authorized testnet account, contract ID or transaction hash, so judges must treat the hosted/local campaign route as **testnet-ready but not testnet-proven**.
 ## Verify public NEAR testnet evidence (read-only)
 
 The new `/verify.html` page checks a supplied NEAR testnet transaction against the chain's finalized method execution and the current code hash of the deployed contract. Only the pinned PACT Wasm code hash is accepted. No funds or wallets are used by verification.
@@ -54,11 +60,14 @@ Five contributors put in 12 NEAR total. A flexible donor can pledge 3 NEAR to ei
 - `scripts/sandbox-verification.js`: launches a fresh NEAR sandbox per scenario, deploys the compiled Wasm, attaches real native NEAR deposits, and writes receipt/balance evidence.
 - `vendor/sputnik/sputnikdao2_original.wasm`: pinned official Sputnik v2 DAO Wasm used only by the local governance sandbox.
 - `HACKATHON.md`: judge-facing reproducibility, evidence map, blockers and next milestone.
-- `web/`: the Coalition Atlas product preview, exact counterfactual engine, evidence viewer and wallet-safe workflow boundary.
+- `web/`: the Coalition Atlas product preview, exact counterfactual engine, self-service campaign deployment path, public campaign page, evidence viewer and wallet-safe workflow boundary.
 - `docs/ARCHITECTURE.md`: data, contract, governance and evidence-boundary diagrams.
 - `web/NEAR_WORKFLOW.md`: the explicit wallet adapter contract and testnet evidence requirements.
+- `web/campaign-chain.mjs`: testnet-only campaign validation, multi-action deployment request, share token and contract call builders.
+- `web/campaign-live.mjs`: read-only finalized campaign state plus explicit commit, activation, expiry and withdrawal actions.
+- `web/wallet-selector-host.mjs`: lazy Wallet Selector v10 testnet host integration; it never owns keys or retries unknown outcomes.
 - `web/near-workflow.mjs`: explicit commit, Sputnik proposal, certificate, activation and withdrawal request builder.
-- `web/near-adapter.mjs`: optional HOT Connect / Wallet Selector-compatible host bridge; it never owns keys or retries unknown outcomes.
+- `web/near-adapter.mjs`: HOT Connect / Wallet Selector-compatible host bridge; it never owns keys or retries unknown outcomes.
 - `docs/VERCEL_PREVIEW.md` and `vercel.json`: reproducible preview package and the verified sandbox-backed Vercel preview record.
 - `docs/TESTNET_CHECKLIST.md`: exact remaining engineering gates.
 - `.github/workflows/checks.yml`: CI recipe for Rust compile/test and Node model tests.
@@ -99,7 +108,7 @@ The script checks Rust formatting, the locked Wasm target, unit tests and clippy
 
 The product checks are separate and reproducible with `npm run test:counterfactual` and `NPM_CONFIG_CACHE=/tmp/pact-npm-cache PLAYWRIGHT_BROWSERS_PATH=/tmp/pact-playwright-browsers npm run test:browser`. The browser campaign covers first-viewport comprehension, exact/blocked counterfactual states, evidence reconciliation, injected-adapter wallet safety, direct hosted routes, console/page errors, automated accessibility, graph keyboard interaction, evidence switching, narrow mobile layout and a local load-time budget. Fresh CI captures go to ignored `test-results/screenshots/`; the current redesign captures are in `docs/design-evidence/`.
 
-The wallet request layer is covered with `npm run test:workflow` (5 tests), and the optional host bridge with `npm run test:wallet-adapter` (4 tests), without signing or submitting a transaction.
+The wallet request layer is covered with `npm run test:workflow` (8 tests), the campaign deployment/share builder with `npm run test:chain` (4 tests), and the optional host bridge with `npm run test:wallet-adapter` (8 tests), without signing or submitting a transaction.
 
 The competitive benchmark is separate from the product and chain evidence. It compares explicit baseline semantics with the bounded exact reference solver, checks small cases against an independent exhaustive oracle, and labels aggregate/independent results as uncertified whenever they cannot prove PACT's one-use, condition and dependency rules. See `docs/COMPETITIVE_ADVANTAGE.md`.
 

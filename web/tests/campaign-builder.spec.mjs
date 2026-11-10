@@ -53,9 +53,9 @@ test.describe("Self-service campaign lab",()=>{
     await page.locator("#campaign-title").fill("Riverside Hub");
     const p1=page.locator('[data-project="p1"]');
     const p2=page.locator('[data-project="p2"]');
-    await p1.locator("input[type=text]").fill("Library");
+    await p1.getByPlaceholder("e.g. Community Wi-Fi").fill("Library");
     await p1.locator("input[type=number]").fill("3");
-    await p2.locator("input[type=text]").fill("Shelves");
+    await p2.getByPlaceholder("e.g. Community Wi-Fi").fill("Shelves");
     await p2.locator("input[type=number]").fill("2");
     await page.locator("#next-step").click();
     await expect(page.locator("#step-supporters")).toHaveAttribute("aria-current","step");
@@ -95,6 +95,23 @@ test.describe("Self-service campaign lab",()=>{
     await expect(page.locator("#preview-status")).toHaveText("BLOCKED");
     await expect(page.locator("#preview-result")).toContainText("whole contributions cannot be split or reused");
     await expect(page.locator("#preview-result")).not.toContainText("Where the money goes");
+  });
+
+  test("testnet launch stays read-only when no wallet is authorized",async({page})=>{
+    await page.locator("#next-step").click();
+    await page.getByRole("button",{name:"+ Add supporter"}).click();
+    const sixth=page.locator('[data-supporter="s6"]');
+    await sixth.locator("input[type=number]").fill("1");
+    await sixth.locator(".rules-field").first().getByText("Training").locator("..").locator("input").uncheck();
+    await sixth.locator(".rules-field").first().getByText("Events").locator("..").locator("input").check();
+    await page.locator("#next-step").click();
+    await expect(page.locator(".chain-launch")).toBeVisible();
+    let wasmRequests=0;
+    page.on("request",request=>{if(request.url().endsWith("/api/pact-wasm"))wasmRequests+=1;});
+    await page.evaluate(()=>{window.PACT_DISABLE_WALLET_SELECTOR=true;});
+    await page.locator("#deploy-campaign").click();
+    await expect(page.locator("#chain-result")).toContainText("Read-only mode is enabled");
+    expect(wasmRequests).toBe(0);
   });
 
   test("drafts persist locally without any blockchain account",async({page})=>{

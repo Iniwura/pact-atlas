@@ -11,6 +11,7 @@
     "test:benchmark": "node --test tests/competitive-benchmark.test.js",
     "benchmark": "node scripts/competitive-benchmark.js --write evidence/competitive-benchmark.json",
     "test:workflow": "node --test web/tests/near-workflow.test.mjs",
+    "test:chain": "node --test web/tests/campaign-chain.test.mjs",
     "test:proof": "node --test web/tests/testnet-proof.test.mjs",
     "test:wallet-adapter": "node --test web/tests/near-adapter.test.mjs",
     "test:browser": "playwright test -c web/playwright.config.mjs",

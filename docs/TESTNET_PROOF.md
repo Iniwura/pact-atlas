@@ -23,6 +23,10 @@ npm run verify:testnet -- <pact-contract.testnet> <signer.testnet> <transaction-
 
 This does not prove every payout was received, prove DAO governance, prove the activation allocation was correct, or independently audit security. Code hash equality is checked against the **current finalized account state**, not the contract's historical code hash at the transaction block. If an account is upgraded later, historical executions may require a separate archival review. Only successful signed transactions may be submitted to this verifier. It will not transform a saved local sandbox receipt into public proof.
 
+The self-service path now prepares a real testnet campaign lifecycle: it validates named testnet owner/beneficiary/authority accounts, checks the preserved Wasm hash, constructs `CreateAccount → Transfer → DeployContract → new → sponsor_storage`, waits for wallet finality, and creates a public campaign link. The live page reads finalized `status()`, `accounting()` and `activation_certificate()` views, prepares whole-pledge commits, and keeps unknown outcomes pending without retrying. Wallet Selector modules are lazy-loaded only after an explicit action.
+
+These are implementation and deterministic browser-test results, not public-chain evidence. No authorized testnet wallet or signed campaign was available for this release.
+
 ## Real testnet lifecycle still needed
 
 **No public PACT testnet deployment or funding transactions are claimed in this branch.** The following is the authorized testnet demonstration plan:
@@ -40,14 +44,15 @@ This does not prove every payout was received, prove DAO governance, prove the a
 
 **Never sign with a production/mainnet wallet or publish private keys.** Never submit valuable funds: the callback non-execution and withdrawal recovery question remains a documented production blocker. Testnet execution must be explicitly authorized and can be skipped if no funded credentials are available; in that case, describe sandbox as sandbox.
 
-## Judge path (not yet a real-money flow)
+## Judge path (offline plus testnet-ready flow)
 
 - `/` — approved cinematic homepage, unchanged.
 - `/console` — inspect the 12 vs. 13 NEAR case and simulate the missing 1 NEAR.
-- `/create.html` — make a custom offline campaign, configure projects and supporters, and export the exact allocation.
+- `/create.html` — make a custom campaign, configure projects and supporters, export the exact offline allocation, or prepare an explicitly wallet-approved testnet deployment when credentials are authorized.
+- `/campaign?contract=…&config=…` — inspect a deployed campaign's finalized testnet views, contribute, activate and settle through explicit wallet approval. The share configuration is public; it is not a fabricated live state.
 - `/verify.html` — independently inspect a real public PACT testnet transaction **only when one exists**.
 
-The custom planner's arbitrary campaigns are **not deployable into the current immutable, fixed-reference wallet workflow**. This is a deliberate boundary, not a hidden feature. The user-facing pages must continue to label local model results and public onchain results differently.
+The custom planner's arbitrary campaigns are deployable only as a new immutable campaign account with explicit beneficiary and authority accounts. The deployment workflow is not proof that a campaign was signed or funded. The user-facing pages must continue to label local model results, candidate certificates and finalized onchain results differently.
 
 ## Release acceptance
 

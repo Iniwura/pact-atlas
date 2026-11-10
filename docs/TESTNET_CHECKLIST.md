@@ -25,6 +25,9 @@
 - [x] Exercise maximum configured capacity in a genuine sandbox: 8 projects, 32 pledges, activation, measured storage reserve, 32 successful withdrawals and repeated withdrawal rejection. Evidence is in `outputs/pact-atlas-rc1-sandbox-evidence.json`.
 
 ## Phase C — network
+- [x] Implement named testnet campaign validation, preserved-Wasm hash check, explicit multi-action deployment request and public share-link builder.
+- [x] Implement finalized read-only campaign views, explicit whole-pledge commit/activation/expiry/withdrawal requests and no-retry unknown-outcome handling.
+- [x] Browser-test the public campaign route with mocked finalized RPC responses and malformed-link fail-closed behavior. This is not a real-chain result.
 - [ ] Create separate funded NEAR testnet identities. No authorized testnet credentials were present.
 - [ ] Deploy audited/compiled WASM to a dedicated testnet account, not mainnet. **BLOCKED: no credentials/approval.**
 - [ ] Reproduce a successful activation and expired-campaign full refund with real transaction hashes. **BLOCKED: no credentials/approval.**
@@ -34,7 +37,7 @@
 ## Hard stop criteria
 - [ ] Any solvency/accounting invariant fails.
 - [x] A `PromiseResult::Failed` callback restores withdrawal rights without changing liability (Rust VM and reference tests).
-- [ ] A callback that never executes still has no safe recovery path.
+- [ ] A callback that never executes still has no safe recovery path. **Production blocker; no timeout retry or blind unlock is acceptable.**
 - [x] Anyone can trigger a valid but unauthorized coalition against campaign's configured activation authorities.
 - [ ] User deposits are implicitly consumed to pay for NEAR storage stake.
 

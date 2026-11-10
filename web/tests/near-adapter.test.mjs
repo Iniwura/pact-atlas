@@ -83,3 +83,49 @@ test("rejects a finalized failed transaction even when the wallet supplies a has
   });
   await assert.rejects(() => adapter.call(request), /failed on-chain.*explorer/i);
 });
+
+test("converts deployment actions without silently dropping account creation or Wasm", async () => {
+  let sent;
+  const adapter = createNearWalletAdapter({
+    accountId: "alice.testnet",
+    actionCreators: {
+      createAccount: () => ({ type: "create" }),
+      transfer: value => ({ type: "transfer", value }),
+      deployContract: code => ({ type: "deploy", code }),
+      functionCall: (...values) => ({ type: "call", values }),
+    },
+    wallet: { async signAndSendTransaction(value) { sent = value; return { transactionHash: "deploy-hash" }; } },
+  });
+  await adapter.connect();
+  await adapter.call({
+    contractId: "riverside-hub.alice.testnet",
+    signerId: "alice.testnet",
+    actions: [
+      { type: "CreateAccount" },
+      { type: "Transfer", deposit: "7" },
+      { type: "DeployContract", code: new Uint8Array([1, 2, 3]) },
+      { type: "FunctionCall", methodName: "new", args: {}, gas: "300", deposit: "0" },
+    ],
+  });
+  assert.deepEqual(sent.actions.map(action => action.type), ["create", "transfer", "deploy", "call"]);
+  assert.equal(sent.actions[1].value, 7n);
+  assert.deepEqual([...sent.actions[2].code], [1, 2, 3]);
+});
+
+test("finality confirmation is read-only and never resubmits", async () => {
+  let sends = 0;
+  const adapter = createNearWalletAdapter({
+    accountId: "alice.testnet",
+    wallet: { async signAndSendTransaction() { sends += 1; return { transactionHash: "unknown-hash" }; } },
+    provider: { async query(request) {
+      assert.equal(request.request_type, "tx");
+      return { final_execution_status: "FINAL", status: { SuccessValue: "" }, transaction_outcome: { outcome: { status: { SuccessReceiptId: "receipt" } } }, receipts_outcome: [{ outcome: { status: { SuccessValue: "" } } }] };
+    } },
+  });
+  await adapter.connect();
+  const submitted = await adapter.call(request);
+  assert.equal(submitted.confirmed, false);
+  const confirmed = await adapter.confirm({ transactionHash: submitted.transactionHash });
+  assert.equal(confirmed.confirmed, true);
+  assert.equal(sends, 1);
+});

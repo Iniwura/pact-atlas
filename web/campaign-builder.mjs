@@ -1,5 +1,13 @@
 import { MODEL } from "./engine.mjs";
 import { CAMPAIGN_LIMITS, solveCampaign, validateCampaign } from "./campaign-solver.mjs";
+import {
+  PACT_WASM_SHA256,
+  buildCampaignDeploymentRequest,
+  campaignUrl,
+  slugFor,
+  validateDeployableCampaign,
+} from "./campaign-chain.mjs";
+import { ensureWalletAdapter } from "./wallet-selector-host.mjs";
 
 const $ = selector => document.querySelector(selector);
 const element=(tag,cls="",content)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(content!==undefined)node.textContent=String(content);return node;};
@@ -9,7 +17,7 @@ const store="pact-atlas-custom-campaign-v1";
 const starting=()=>({
   title:"Community Hub",
   projects:Object.entries(MODEL.projects).map(([id,p])=>({
-    id,name:p.label,goal:Number(p.required),dependencies:[...p.dependencies],included:true
+    id,name:p.label,goal:Number(p.required),dependencies:[...p.dependencies],beneficiary:"",included:true
   })),
   supporters:MODEL.pledges.map((s,i)=>({
     id:"s"+(i+1),name:"Supporter "+(i+1),amount:Number(s.amount),
@@ -18,8 +26,8 @@ const starting=()=>({
 });
 const blank=()=>({
   title:"",projects:[
-    {id:"p1",name:"",goal:1,dependencies:[],included:true},
-    {id:"p2",name:"",goal:1,dependencies:[],included:true}
+    {id:"p1",name:"",goal:1,dependencies:[],beneficiary:"",included:true},
+    {id:"p2",name:"",goal:1,dependencies:[],beneficiary:"",included:true}
   ],supporters:[]
 });
 const restore=()=>{try{const raw=localStorage.getItem(store);if(!raw)return starting();const obj=JSON.parse(raw);
@@ -95,7 +103,8 @@ function projectRow(p,index){
   head.append(name,remove);
   const fields=element("div","edit-fields");
   fields.append(textField("Project name",p.name,v=>p.name=v,"e.g. Community Wi-Fi"),
-    numberField("Goal · NEAR",p.goal,v=>p.goal=v));
+    numberField("Goal · NEAR",p.goal,v=>p.goal=v),
+    textField("Beneficiary · *.testnet",p.beneficiary,v=>p.beneficiary=v,"e.g. project.testnet",64));
   const included=element("label","include-toggle");
   const toggle=element("input");toggle.type="checkbox";toggle.checked=p.included!==false;
   toggle.addEventListener("change",()=>{p.included=toggle.checked;touch();renderForm();});
@@ -155,6 +164,7 @@ function renderForm(){
       pane.append(element("p","plan-detail","PACT either assigns an entire contribution to one allowed project or leaves it unassigned. No partial spending."));
       pane.append(actionButton("Download scenario and verification JSON ↗",download,"export-button"));
     }
+    if(result.status==="fundable") pane.append(renderChainLaunch());
     if(result.status!=="fundable")pane.append(actionButton("Edit supporters",()=>changeStep(2),"quiet-button"));
   }
   $(".creator-steps").querySelectorAll("button").forEach((button,i)=>{
@@ -164,6 +174,82 @@ function renderForm(){
   $("#next-step").hidden=step===3;
   $("#next-step").innerHTML=step===2?"Check funding <span aria-hidden='true'>↗</span>":"Continue <span aria-hidden='true'>↗</span>";
   renderPreview();
+}
+
+function chainParagraph(text){ return element("p","chain-copy",text); }
+
+function renderChainLaunch(){
+  const section=element("section","chain-launch");
+  section.setAttribute("aria-labelledby","chain-launch-title");
+  const title=element("h3","","Put this plan on NEAR testnet"); title.id="chain-launch-title";
+  section.append(element("span","chain-kicker","OPTIONAL / REAL TESTNET"),title,
+    chainParagraph("Deploying creates a new campaign account, installs the preserved PACT contract, and initializes these exact projects. Every step appears in one wallet approval. No mainnet accounts are accepted."));
+  const fields=element("div","chain-fields");
+  const slug=element("label","chain-field"); slug.append(element("span","","Campaign account slug"));
+  const slugInput=element("input"); slugInput.id="deployment-slug"; slugInput.value=campaign.deployment?.slug||slugFor(campaign.title); slugInput.maxLength=32; slugInput.pattern="[a-z][a-z0-9-]{1,31}"; slugInput.autocomplete="off"; slug.append(slugInput);
+  const authority=element("label","chain-field"); authority.append(element("span","","Activation authority · *.testnet"));
+  const authorityInput=element("input"); authorityInput.id="deployment-authority"; authorityInput.value=campaign.deployment?.authority||""; authorityInput.placeholder="Your account, or a DAO account"; authorityInput.maxLength=64; authorityInput.autocomplete="off"; authority.append(authorityInput);
+  const activation=element("label","chain-field"); activation.append(element("span","","Activation opens after"));
+  const activationInput=element("select"); activationInput.id="deployment-activation-delay";
+  [["60000","1 minute"],["300000","5 minutes"],["1800000","30 minutes"]].forEach(([value,label])=>{const option=element("option","",label);option.value=value;option.selected=String(campaign.deployment?.activateDelayMs||300000)===value;activationInput.append(option);}); activation.append(activationInput);
+  const expiry=element("label","chain-field"); expiry.append(element("span","","Campaign expires after"));
+  const expiryInput=element("select"); expiryInput.id="deployment-deadline-delay";
+  [["3600000","1 hour"],["86400000","24 hours"],["604800000","7 days"]].forEach(([value,label])=>{const option=element("option","",label);option.value=value;option.selected=String(campaign.deployment?.deadlineDelayMs||86400000)===value;expiryInput.append(option);}); expiry.append(expiryInput);
+  fields.append(slug,authority,activation,expiry); section.append(fields);
+  const button=actionButton("Connect wallet and deploy campaign ↗",()=>deployCampaign({slugInput,authorityInput,activationInput,expiryInput}),"chain-deploy-button"); button.id="deploy-campaign"; section.append(button);
+  const result=element("div","chain-result"); result.id="chain-result"; result.setAttribute("role","status"); result.setAttribute("aria-live","polite"); section.append(result);
+  if(campaign.deployment?.contractId){
+    result.dataset.tone="success";
+    result.append(element("strong","","LIVE TESTNET CAMPAIGN"),chainParagraph("This campaign has a public account. Share the link below; it contains no private keys."));
+    const link=campaignUrl(campaign.deployment.contractId,campaign,window.location.href);
+    const anchor=document.createElement("a"); anchor.href=link; anchor.target="_blank"; anchor.rel="noopener"; anchor.className="chain-share-link"; anchor.textContent=link;
+    result.append(anchor);
+    result.append(element("small","","Deployment transaction: "+campaign.deployment.transactionHash));
+  }
+  return section;
+}
+
+async function wasmBytes(){
+  const response=await fetch("/api/pact-wasm",{cache:"no-store"});
+  if(!response.ok)throw new Error("The preserved PACT Wasm artifact is unavailable.");
+  const bytes=new Uint8Array(await response.arrayBuffer());
+  const hash=Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",bytes)),value=>value.toString(16).padStart(2,"0")).join("");
+  if(hash!==PACT_WASM_SHA256)throw new Error("The downloaded Wasm does not match the preserved PACT build; deployment stopped.");
+  return bytes;
+}
+
+function chainState(message,tone="neutral"){
+  const result=$("#chain-result"); if(!result)return; result.dataset.tone=tone; result.textContent=message;
+}
+
+async function deployCampaign({slugInput,authorityInput,activationInput,expiryInput}){
+  const slug=slugInput.value.trim().toLowerCase();
+  const authority=authorityInput.value.trim().toLowerCase();
+  const timing={activateDelayMs:Number(activationInput.value),deadlineDelayMs:Number(expiryInput.value)};
+  const button=$("#deploy-campaign"); button.disabled=true;
+  try{
+    chainState("Connecting to a testnet wallet. The wallet must approve the deployment explicitly.","pending");
+    const adapter=await ensureWalletAdapter();
+    const owner=await adapter.connect();
+    const errors=validateDeployableCampaign(campaign,{owner,authority:authority||owner,slug,timing});
+    if(errors.length)throw new Error(errors[0]);
+    campaign.deployment={slug,authority:authority||owner,activateDelayMs:timing.activateDelayMs,deadlineDelayMs:timing.deadlineDelayMs,owner};
+    save();
+    chainState("Loading and checking the preserved PACT Wasm…","pending");
+    const request=buildCampaignDeploymentRequest(campaign,{owner,authority:authority||owner,slug,timing,wasm:await wasmBytes()});
+    chainState(`Review ${request.estimatedAttachedNear} NEAR plus gas in your wallet. Nothing has been signed yet.`,"pending");
+    const submitted=await adapter.call(request);
+    if(!submitted?.transactionHash)throw new Error("The wallet returned no deployment hash; outcome is unknown and no retry was made.");
+    let final=submitted;
+    if(!final.confirmed&&typeof adapter.confirm==="function"){
+      chainState(`Deployment submitted as ${submitted.transactionHash}. Checking finality without resubmitting…`,"pending");
+      try{final=await adapter.confirm({transactionHash:submitted.transactionHash});}catch(error){button.dataset.outcome="unknown";button.disabled=true;chainState(`Deployment submitted as ${submitted.transactionHash}, but finality is unknown. Do not retry blindly.`,"warning");return;}
+    }
+    if(!final.confirmed){button.dataset.outcome="unknown";button.disabled=true;chainState(`Deployment submitted as ${submitted.transactionHash}, but finality is not verified. Do not retry blindly.`,"warning");return;}
+    campaign.deployment={...campaign.deployment,contractId:request.campaignId,transactionHash:submitted.transactionHash,timing:request.timing};
+    save(); renderForm();
+  }catch(error){chainState(error.message||"Deployment was not confirmed.","error");}
+  finally{if(button.dataset.outcome!=="unknown")button.disabled=false;}
 }
 function plainPreview(){
   const selected=campaign.projects.filter(p=>p.included!==false);
