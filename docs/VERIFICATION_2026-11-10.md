@@ -122,9 +122,12 @@ of this release evidence.
   deterministic wallet/RPC doubles, and the exact action ordering is also
   executed in genuine local sandbox state. The sandbox is not testnet evidence:
   no public account, signature or explorer receipt is claimed.
-- A previous 0.3 + 0.3 NEAR atomic deployment probe failed at Wasm storage
-  funding; the corrected 3 + 2 NEAR request passed. This is why deployment
-  funding is now explicit in the request and documentation.
+- The former 0.3 + 0.3 NEAR estimate was structurally insufficient for the
+  207,284-byte Wasm's approximately 2.07 NEAR code-storage cost. The first
+  atomic probe with the old contract reached the initialization authorization
+  guard before that funding check; the corrected parent authorization and 3 + 2
+  NEAR request passed. This is why deployment funding is now explicit in the
+  request and documentation.
 - No authorized testnet signing credentials were available. There is no testnet
   deployment, transaction hash, or public-chain lifecycle evidence to report.
 - The repository is not externally audited. Development-tool dependency audit

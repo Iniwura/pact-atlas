@@ -24,15 +24,17 @@ solvent accounting, and clears local adapter/account state on any mismatch or
 RPC error. Browser regressions prove forged valid-format links, failed RPC/code
 hash reads, and a later stale refresh never call `connect` or `call`.
 
-The exact deployment probe found two concrete protocol constraints. First, the
-old 0.3 + 0.3 NEAR funding could not cover the 207,284-byte Wasm storage cost;
-the request now attaches 3 NEAR before deployment and 2 NEAR to
-`sponsor_storage`. Second, NEAR executes `new()` in the same receipt with the
-parent account as predecessor, not the created contract account. The contract
-now accepts only the contract account or its exact direct namespace parent for
-initialization, with Rust regression coverage for both the authorized parent
-and an unrelated attacker. The corrected five-action request and a complete
-commit/activation/withdrawal lifecycle pass in genuine sandbox state.
+The deployment audit found two concrete protocol constraints. First, the
+207,284-byte Wasm has an estimated 2.07 NEAR code-storage cost, so the old
+0.3 + 0.3 NEAR estimate was structurally insufficient; the request now
+attaches 3 NEAR before deployment and 2 NEAR to `sponsor_storage`. Second, an
+atomic probe with the old contract failed at initialization because NEAR
+executes `new()` in the same receipt with the parent account as predecessor,
+not the created contract account. The contract now accepts only the contract
+account or its exact direct namespace parent for initialization, with Rust
+regression coverage for both the authorized parent and an unrelated attacker.
+The corrected five-action request and a complete commit/activation/withdrawal
+lifecycle pass in genuine sandbox state.
 
 ## Recommendation
 
