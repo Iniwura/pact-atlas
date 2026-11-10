@@ -19,6 +19,13 @@ Actions billing/spending-limit blocker, not a failed accounting assertion. The
 sandbox job remains in the workflow so it cannot silently disappear from the
 release gate.
 
+After this release-pass commit was pushed, run `42725551849` (`#285`) also
+produced no executable job steps: Rust, Node and Chromium were marked failed,
+the sandbox was skipped, and GitHub exposed no job-log blobs. Together with the
+explicit billing annotation above, this is classified as a GitHub Actions
+account/infrastructure blocker and **not** as evidence that the code gates
+failed. The run is not counted as a passing CI result.
+
 ## Local verification
 
 The following gates were run in the isolated checkout:
