@@ -149,14 +149,16 @@ impl PactAtlas {
         #[serializer(json)] required_for_activation: Vec<String>,
         #[serializer(json)] activation_authorities: Vec<AccountId>,
     ) -> Self {
-        // Initialization must be signed by the account that owns this
-        // deployment. Without this binding, a separate deploy and init
-        // transaction can be front-run with attacker-selected beneficiaries
-        // and funding rules. Factories should initialize atomically or arrange
-        // for the contract account to sign this call.
+        // Initialization must be signed by the contract account itself or by
+        // the account that owns its direct subaccount. NEAR executes a
+        // CreateAccount + DeployContract + FunctionCall sequence with the
+        // parent as predecessor, so accepting only the contract account would
+        // make the safe self-service deployment request impossible. The
+        // direct-parent check remains bound to the namespace owner and cannot
+        // be satisfied by an unrelated front-runner.
         require!(
-            env::predecessor_account_id() == env::current_account_id(),
-            "initialization must be authorized by contract account"
+            initialization_is_authorized(),
+            "initialization must be authorized by contract account or its parent owner"
         );
         require!(
             !projects.is_empty() && projects.len() <= MAX_PROJECTS,
@@ -639,6 +641,19 @@ impl PactAtlas {
     }
 }
 
+fn initialization_is_authorized() -> bool {
+    let current = env::current_account_id();
+    let predecessor = env::predecessor_account_id();
+    if predecessor == current {
+        return true;
+    }
+    current
+        .as_str()
+        .split_once('.')
+        .map(|(_, parent)| parent == predecessor.as_str())
+        .unwrap_or(false)
+}
+
 // These tests are deliberately separate from the JavaScript model. They must
 // compile and run under a Rust-enabled host before any deployment is attempted.
 #[cfg(test)]
@@ -771,7 +786,9 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "initialization must be authorized by contract account")]
+    #[should_panic(
+        expected = "initialization must be authorized by contract account or its parent owner"
+    )]
     fn initialization_cannot_be_front_run() {
         context("attacker.testnet", 1_000, 0);
         PactAtlas::new(
@@ -782,6 +799,27 @@ mod tests {
             vec!["a".into()],
             vec![account("pact.testnet")],
         );
+    }
+
+    #[test]
+    fn direct_parent_can_initialize_a_new_campaign_account() {
+        let mut builder = VMContextBuilder::new();
+        builder
+            .current_account_id(account("campaign.pact.testnet"))
+            .predecessor_account_id(account("pact.testnet"))
+            .block_timestamp(1_000 * 1_000_000)
+            .account_balance(NearToken::from_near(100))
+            .attached_deposit(NearToken::from_yoctonear(0));
+        testing_env!(builder.build());
+        let campaign = PactAtlas::new(
+            vec![project("a", NearToken::from_near(1).as_yoctonear(), vec![])],
+            4_000,
+            3_000,
+            1,
+            vec!["a".into()],
+            vec![account("observer.testnet")],
+        );
+        assert_eq!(campaign.status().phase, "OPEN");
     }
 
     #[test]

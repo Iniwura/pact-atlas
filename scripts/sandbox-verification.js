@@ -272,6 +272,86 @@ async function withdrawAndMeasure(contract, account, amount, receipts) {
   });
 }
 
+/**
+ * Reproduce the exact multi-action request emitted by the self-service
+ * campaign builder. This is deliberately separate from the historical five
+ * campaign evidence so a failure cannot be hidden by the older deployment
+ * helper, which creates and funds accounts in separate transactions.
+ */
+async function scenarioAtomicCampaignDeployment() {
+  const worker = await Worker.init({ rm: true });
+  try {
+    const accounts = await createAccounts(worker, [
+      ["atomic-beneficiary", 3n * YOCTO_PER_NEAR],
+      ["atomic-authority", 3n * YOCTO_PER_NEAR],
+      ["atomic-donor", 3n * YOCTO_PER_NEAR],
+    ]);
+    const startedAt = await blockTimestampMs(worker);
+    const activateAfterMs = startedAt + 30_000;
+    const deadlineMs = startedAt + 180_000;
+    const campaign = worker.rootAccount.getSubAccount("atomic-campaign");
+    const deploymentTransaction = await worker.rootAccount
+      .batch(campaign)
+      .createAccount()
+      .transfer(3n * YOCTO_PER_NEAR)
+      .deployContractFile(WASM_PATH);
+    deploymentTransaction
+      .functionCall("new", {
+          projects: [{ id: "atomic", beneficiary: accounts["atomic-beneficiary"].accountId, required: YOCTO_PER_NEAR.toString(), dependencies: [] }],
+          deadline_ms: deadlineMs,
+          activate_after_ms: activateAfterMs,
+          min_funded_projects: 1,
+          required_for_activation: ["atomic"],
+          activation_authorities: [accounts["atomic-authority"].accountId],
+        }, { gas: GAS });
+    deploymentTransaction.functionCall("sponsor_storage", {}, { gas: GAS, attachedDeposit: 2n * YOCTO_PER_NEAR });
+    const deployment = assertSucceeded(
+      await deploymentTransaction.transact(),
+      "atomic campaign CreateAccount → Transfer → DeployContract → new → sponsor_storage",
+    );
+    const codeHash = hashContract(await campaign.viewCode());
+    const config = await campaign.view("campaign_config", {});
+    const initial = await status(campaign);
+    assert.equal(initial.phase, "OPEN");
+    assert.equal(initial.pledge_count, 0);
+    assert.equal(config.projects[0].beneficiary, accounts["atomic-beneficiary"].accountId);
+    const commit = assertSucceeded(
+      await accounts["atomic-donor"].callRaw(campaign, "commit", { allowed: ["atomic"], requires: [] }, { gas: GAS, attachedDeposit: YOCTO_PER_NEAR }),
+      "atomic campaign contribution",
+    );
+    await fastForwardUntil(worker, activateAfterMs + 1);
+    const activation = assertSucceeded(
+      await accounts["atomic-authority"].callRaw(campaign, "activate", { allocations: [{ pledge_index: 0, project_id: "atomic" }] }, { gas: GAS }),
+      "atomic campaign activation",
+    );
+    const beneficiaryCredit = await claimable(campaign, accounts["atomic-beneficiary"]);
+    assert.equal(beneficiaryCredit, YOCTO_PER_NEAR);
+    const withdrawal = assertSucceeded(
+      await accounts["atomic-beneficiary"].callRaw(campaign, "withdraw", {}, { gas: GAS }),
+      "atomic campaign beneficiary withdrawal",
+    );
+    const finalAccounting = await assertAccounting(campaign, "atomic campaign final reconciliation");
+    assert.equal(finalAccounting.liabilities, 0n);
+    return {
+      name: "atomic self-service deployment and lifecycle compatibility",
+      contract: campaign.accountId,
+      wasmCodeHash: codeHash,
+      deploymentFundingNear: { beforeDeploy: "3", storageSponsor: "2" },
+      receipts: {
+        deployment: receiptHash(deployment),
+        commit: receiptHash(commit),
+        activation: receiptHash(activation),
+        withdrawal: receiptHash(withdrawal),
+      },
+      initialStatus: initial,
+      finalStatus: await status(campaign),
+      finalAccounting,
+    };
+  } finally {
+    await worker.tearDown();
+  }
+}
+
 async function scenarioCycleAndInvalidPlans() {
   const worker = await Worker.init({ rm: true });
   try {
@@ -1114,6 +1194,7 @@ async function main() {
     ],
   };
   if (selectedScenarios.has("cycle")) evidence.scenarios.push(await scenarioCycleAndInvalidPlans());
+  if (selectedScenarios.has("deployment")) evidence.scenarios.push(await scenarioAtomicCampaignDeployment());
   if (selectedScenarios.has("all-four")) evidence.scenarios.push(await scenarioAllFourWithTopup());
   if (selectedScenarios.has("expiry")) evidence.scenarios.push(await scenarioExpiryRefunds());
   if (selectedScenarios.has("concurrent")) evidence.scenarios.push(await scenarioConcurrentActivationAndWithdrawals());

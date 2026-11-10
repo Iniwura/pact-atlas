@@ -22,6 +22,7 @@ RC1 is not a production financial release. The missing-withdrawal-callback recov
 | Browser checks | **51 passed** | Playwright Chromium, responsive layout, direct routes, console/page errors, wallet boundary, evidence reconciliation |
 | Wallet request-builder tests | **8 passed** | explicit commit, Sputnik proposal, certificate, activation, withdrawal and configuration guards |
 | Wallet adapter tests | **8 passed** | HOT/legacy action shape, Wallet Selector v10 action creator, missing hash fail-closed, JSON-RPC view reconciliation |
+| Meteor/testnet endpoint probe | **3 passed** | Meteor/core/modal HTTP 200 and live NEAR testnet status; no signing |
 | Chain/RPC/live-data/ABI interface tests | **9 passed** | corrected tx finality transport, immutable config, canonical pledge records and ABI surface |
 | Testnet-proof verifier tests | **7 passed** | finality, pinned code hash, failure and foreign-account rejection |
 | Accessibility | **passed** | no critical/serious axe violations |
@@ -38,7 +39,7 @@ and rejects transitions unless the account balance covers `liabilities + measure
 The RC1 sandbox campaign is genuine NEAR sandbox execution on version 2.13.4:
 
 - Contract: `dev-1337-48000.test.near`
-- Wasm code hash: `Bh4oaer6T9uUwbQBEfN1RFJ4S3jteMBnH6pWH7qC5nKx`
+- Wasm code hash: `7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp`
 - Deploy: `DkDZ9gCBHEoV1b8RMgTFh1dvGoCRhReMatymixLPU6br`
 - Initialize: `B75f9ykdBdiX1JeToSmf3bWfZisE63z5wQkASjfLKt3a`
 - Storage sponsorship: `9jrLAcAqmEoTnmEX2heDKSbgf2eoufn5rFPRL1VPuTA5`
@@ -77,7 +78,7 @@ Unresolved or outside the proof:
 
 The five baseline sandbox campaigns include the real Sputnik v2 Wasm: unauthorized voting is rejected, two council approvals are required, approved proposals execute PACT funding, an unapproved proposal remains inert, and a second approved proposal funds a refund withdrawal.
 
-The browser now exposes an explicit request layer in `web/near-workflow.mjs` for commit, Sputnik proposal creation, local exact certificate generation, activation and withdrawal. `web/near-adapter.mjs` provides the optional host bridge for a HOT Connect or Wallet Selector-compatible wallet and Wallet Selector v10 action creators. The UI never signs automatically, never treats a model-only condition as DAO-approved, and requires a returned transaction hash before showing an action as submitted. No live wallet signature was available in this environment.
+The browser now exposes an explicit request layer in `web/near-workflow.mjs` for commit, Sputnik proposal creation, local exact certificate generation, activation and withdrawal. `web/near-adapter.mjs` provides the optional host bridge for a HOT Connect or Wallet Selector-compatible wallet and Wallet Selector v10 action creators. The live campaign route fails closed until immutable state, code hash and solvent accounting are freshly verified, and clears stale local authorization after an error. The UI never signs automatically, never treats a model-only condition as DAO-approved, and requires a returned transaction hash before showing an action as submitted. No live wallet signature was available in this environment.
 
 Current upstream compatibility was reviewed: [HOT/NEAR Connect](https://github.com/azbang/near-connect) describes a secure isolated connector with Wallet Selector action compatibility, while [NEAR Wallet Selector](https://github.com/near/wallet-selector) remains supported during the transition and recommends exploring HOT Connect. Wallet Selector v10 requires the newer `@near-js` action format or `actionCreators`; the PACT host boundary deliberately avoids assuming either signing implementation.
 
@@ -104,7 +105,7 @@ PACT_SCENARIOS=max-capacity PACT_EVIDENCE_PATH=evidence/pact-atlas-rc1-sandbox-e
 NPM_CONFIG_CACHE=/tmp/pact-npm-cache PLAYWRIGHT_BROWSERS_PATH=/tmp/pact-playwright-browsers npm run test:browser
 ```
 
-The full verifier preserves the baseline five-campaign evidence. The current RC3 Wasm SHA-256 is `9ed866dd401b57f26a3aa35dbe722230a0d3893bb31ed0fbbb1e320db7dd2e6f`; ABI SHA-256 is `8399a2cc59c37680ed2ae418f2f04cc8121dda2eca0f8777a9933d1de46e2f5b`. The exact Wasm/ABI comparison was replayed under Rust 1.93.0 and cargo-near 0.22.0 using the canonical `CARGO_HOME=/tmp/pact-atlas-cargo-final` path; the canonical path is required because the optimized Wasm retains Cargo source paths. RC3 also verifies `campaign_config()` and `pledge_records()` through genuine local sandbox views.
+The full verifier preserves the baseline five-campaign evidence. The current RC3.1 Wasm SHA-256 is `5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15`; ABI SHA-256 is `8399a2cc59c37680ed2ae418f2f04cc8121dda2eca0f8777a9933d1de46e2f5b`. The exact Wasm/ABI comparison was replayed under Rust 1.93.0 and cargo-near 0.22.0 using the canonical `CARGO_HOME=/tmp/pact-atlas-cargo-final` path; the canonical path is required because the optimized Wasm retains Cargo source paths. RC3.1 also verifies `campaign_config()` and `pledge_records()` through genuine local sandbox views and executes the exact atomic self-service deployment request with 3 NEAR before deployment and 2 NEAR for storage sponsorship.
 
 ## Before hackathon submission
 

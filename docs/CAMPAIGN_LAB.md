@@ -3,7 +3,7 @@
 The Campaign Lab at `/create.html` has two explicit modes:
 
 - **Offline planning:** create arbitrary project and supporter constraints, run the bounded exact solver, and export a reproducible model-only certificate without a wallet or network call.
-- **Testnet campaign launch:** after a fundable plan is complete, connect an explicit named `*.testnet` wallet, fetch the preserved PACT Wasm, and prepare one atomic multi-action account deployment. Signing is always wallet-approved and is not available in read-only mode.
+- **Testnet campaign launch:** after a fundable plan is complete, connect an explicit named `*.testnet` wallet, fetch the preserved PACT Wasm, and prepare one atomic multi-action account deployment. The exact parent-owned namespace check permits the tested `CreateAccount → Transfer → DeployContract → new → sponsor_storage` receipt without opening initialization to unrelated accounts. Signing is always wallet-approved and is not available in read-only mode.
 
 No testnet deployment or signed transaction is claimed in this release because no authorized faucet-funded credentials were available. The launch path is implemented and unit/browser tested; it remains a testnet-readiness path until a real campaign is authorized and independently evidenced.
 
@@ -30,13 +30,13 @@ When an authorized named testnet wallet is connected on a fundable plan:
 
 1. Enter a lowercase campaign slug, activation authority and future activation/deadline windows.
 2. The browser downloads `/api/pact-wasm` and checks the SHA-256 against the preserved artifact before creating a wallet request.
-3. The request contains `CreateAccount`, `Transfer` for the separately funded deployment balance, `DeployContract`, contract `new`, and independently funded `sponsor_storage` actions. Pledge funds are never used as the storage reserve.
+3. The request contains `CreateAccount`, a separately funded 3 NEAR `Transfer` before `DeployContract`, contract `new`, and a separately funded 2 NEAR `sponsor_storage` action. The preserved 207 KiB Wasm cannot be covered by the earlier 0.3 NEAR estimate. Pledge funds are never used as the storage reserve.
 4. After wallet finality, the UI stores the dedicated campaign account and creates a public `/campaign?contract=…&config=…` link. The share token contains public campaign configuration only.
 5. The public page reads finalized `status()`, `accounting()` and `activation_certificate()` views from the free testnet RPC. A contributor chooses whole-project permissions and signs `commit` only after the wallet displays the exact request.
 6. A candidate certificate is visibly labeled as model-derived until the configured activation authority submits it. After activation, the page displays the certificate read from finalized contract state.
 7. Expiry, withdrawals and pending balances remain explicit. Missing or unknown finality never triggers an automatic retry.
 
-Use `web/campaign-chain.mjs` for deterministic request construction and `web/campaign-live.mjs` for the read/commit/activation/settlement boundary. `web/wallet-selector-host.mjs` loads pinned Wallet Selector v10 modules only after a user presses a wallet action; the default preview has no credentials.
+Use `web/campaign-chain.mjs` for deterministic request construction and `web/campaign-live.mjs` for the read/commit/activation/settlement boundary. `web/wallet-selector-host.mjs` loads pinned Wallet Selector v10 Meteor modules only after a user presses a wallet action; the default preview has no credentials. Read-only endpoint checks do not prove a real wallet signature.
 
 ## Demonstrate the difference
 

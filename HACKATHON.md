@@ -42,7 +42,7 @@ npm test
 RUSTUP_TOOLCHAIN=1.93.0 bash scripts/verify-rust.sh
 ```
 
-The last command compiles/tests the Rust contract, runs clippy with warnings denied, regenerates the ABI and optimized Wasm, runs the full local JavaScript matrix and launches five fresh NEAR sandbox campaigns. It writes reproducible evidence to `outputs/pact-atlas-sandbox-evidence.json`; checked-in copies are retained under `evidence/`. The RC1 capacity campaign is separate:
+The last command compiles/tests the Rust contract, runs clippy with warnings denied, regenerates the ABI and optimized Wasm, runs the full local JavaScript matrix, launches five fresh NEAR sandbox campaigns, and runs the exact atomic self-service deployment lifecycle. It writes reproducible evidence to `outputs/pact-atlas-sandbox-evidence.json`; checked-in copies are retained under `evidence/`. The RC1 capacity campaign is separate:
 
 ```sh
 PACT_SCENARIOS=max-capacity PACT_EVIDENCE_PATH=outputs/pact-atlas-rc1-sandbox-evidence.json npm run test:sandbox
@@ -78,9 +78,9 @@ The default is all scenarios: `cycle,all-four,expiry,concurrent,sputnik`.
 
 ## Verified behaviors
 
-- 15 Rust unit tests and 35 core Node tests pass; the separate competitive benchmark has 9 passing tests and checks five bounded scenarios against an independent exhaustive oracle.
-- The latest local Chromium run has 51 passing tests, covering blocked/viable states, the preserved homepage, public campaign routing, finalized-view rendering with mocked RPC, immutable-config and chain-pledge fail-closed checks, malformed-link rejection, mobile widths, keyboard accessibility and wallet safety. Source artifacts remain pinned; this is not a Lighthouse or production-traffic claim.
-- The explicit request/workflow builders pass 8 workflow, 9 live-chain transport/evidence, and 8 wallet-adapter tests; no wallet key or signature is bundled in the preview. Wallet Selector modules are loaded only after an action is requested.
+- 16 Rust unit tests and 35 core Node tests pass; the separate competitive benchmark has 9 passing tests and checks five bounded scenarios against an independent exhaustive oracle.
+- The latest local Chromium run has 54 passing tests, covering blocked/viable states, the preserved homepage, public campaign routing, finalized-view rendering with mocked RPC, immutable-config and chain-pledge fail-closed checks, forged-link/RPC-stale wallet blocking, malformed-link rejection, mobile widths, keyboard accessibility and wallet safety. Source artifacts remain pinned; this is not a Lighthouse or production-traffic claim.
+- The explicit request/workflow builders pass 8 workflow, 9 live-chain transport/evidence, 8 wallet-adapter and 3 Meteor/testnet-probe tests; no wallet key or signature is bundled in the preview. Wallet Selector modules are loaded only after an action is requested.
 - The final Wasm and ABI are rebuilt from the current source state.
 - Invalid allocation certificates preserve phase, liabilities and storage stake.
 - Concurrent deposits are conserved; competing authorized activations yield one winner; repeated withdrawals and unauthorized private callbacks are rejected.
@@ -91,7 +91,7 @@ The default is all scenarios: `cycle,all-four,expiry,concurrent,sputnik`.
 ## Remaining blockers
 
 - No testnet run: no safe testnet credentials or explicit deployment authorization were present. No mainnet calls, production keys or real funds were used.
-- The product now builds explicit wallet requests for campaign deployment, commit, Sputnik proposal creation, local certificate generation, activation and settlement. The host bridge is verified with deterministic wallet doubles and requires a returned transaction hash. The live route uses the corrected `tx` finality RPC, authenticates immutable contract configuration and derives certificates from `pledge_records()` rather than planned supporters. HOT Connect/Wallet Selector signing, multi-member Sputnik web-wallet approvals and public testnet settlement remain unverified until an authorized isolated testnet campaign is approved.
+- The product now builds explicit wallet requests for campaign deployment, commit, Sputnik proposal creation, local certificate generation, activation and settlement. The host bridge is verified with deterministic wallet doubles and requires a returned transaction hash. The live route uses the corrected `tx` finality RPC, authenticates immutable contract configuration and derives certificates from `pledge_records()` rather than planned supporters. Meteor endpoint compatibility is verified read-only; wallet signing, multi-member Sputnik web-wallet approvals and public testnet settlement remain unverified until an authorized isolated testnet campaign is approved.
 - Missing callback execution is unresolved. A timeout retry or blind unlock is unsafe because the native transfer may already have succeeded. Pending withdrawals remain fail-closed until a proven authenticated reconciliation design exists.
 - Native transfer failure injection through a genuine sandbox predecessor was not reachable without losing the signer needed to initiate withdrawal; the callback `PromiseResult::Failed` branch is covered in Rust VM tests.
 - Exact timestamp equality is verified in Rust VM tests; near-workspaces crosses but does not set exact sandbox timestamps. The configured 8-project/32-pledge capacity is verified in `outputs/pact-atlas-rc1-sandbox-evidence.json`.

@@ -6,9 +6,9 @@
 
 - Source archive extracted and inspected.
 - Node.js reference-model suite: **26 tests pass**.
-- Rust contract: **15 unit tests pass**, locked Wasm check passes, and clippy passes with warnings denied.
+- Rust contract: **16 unit tests pass**, locked Wasm check passes, and clippy passes with warnings denied.
 - Optimized nearcore-compatible Wasm build passes; SHA-256 is recorded in the sandbox evidence.
-- Real NEAR sandbox: **5 baseline campaigns pass**, plus a fresh RC1 maximum-capacity campaign with all 8 projects, all 32 pledge slots, measured storage reserve, activation and 32 successful withdrawals.
+- Real NEAR sandbox: **5 baseline campaigns pass**, plus a fresh RC1 maximum-capacity campaign with all 8 projects, all 32 pledge slots, and a separate exact atomic self-service deployment/lifecycle campaign. Each includes measured storage reserve and settlement checks.
 - Two reproducible offline certificates generated successfully.
 - The self-service campaign path now validates named testnet accounts, checks the preserved Wasm hash before deployment, constructs explicit multi-action deployment/initialization requests, authenticates immutable `campaign_config()` and pinned code hash, derives candidates from canonical `pledge_records()`, and reads finalized campaign views without inventing chain state. The deployment and live-route tests use deterministic doubles; no testnet signature is claimed.
 - Storage reserve was measured in sandbox; final available reserves remained about 19.035 NEAR with storage stake about 1.962–1.963 NEAR.
@@ -26,7 +26,7 @@ The browser can prepare a genuine testnet request, but it does not have credenti
 ## Changes since the original checkpoint
 
 1. Funding window closes **before** activation starts. This prevents a valid activation from cutting off an explicitly advertised deposit window early. `activate_after_ms` is both the funding cutoff and earliest activation time; it must be in the future at initialization and precede the campaign deadline.
-2. Initialization is bound to the contract account (`predecessor == current`), mitigating deploy/init front-running. Deployment should still use an atomic controlled workflow.
+2. Initialization is bound to the contract account or its exact direct namespace parent, mitigating deploy/init front-running while matching NEAR's same-receipt predecessor behavior. The atomic controlled workflow is sandbox-verified.
 3. Activation requires an immutable `activation_authorities` allowlist. A valid certificate from an unauthorized caller is rejected; competing authorized calls are serialized by NEAR and only the first can change phase.
 4. The immutable campaign can specify `required_for_activation` project IDs. The on-chain verifier rejects a proposal that omits any of those projects, even if it meets the numeric minimum.
 5. Every successful allocation is retained as an on-chain `activation_certificate`; `status()` exposes the final funded project IDs, mandatory set and activation authorities.
@@ -46,7 +46,7 @@ The browser can prepare a genuine testnet request, but it does not have credenti
 | Storage sponsorship | The account must maintain code/storage stake without spending contributors' refundable money. State growth can increase storage usage. | Baseline and RC1 sandbox runs measured a separately funded reserve through the configured 8-project/32-pledge maximum. Unbounded production growth and economic sizing remain open. |
 | Solver fairness / global optimality | A valid plan is not necessarily the highest-value or most inclusive plan. The verifier only proves eligibility and conservation. | State selection policy publicly; require coalition-specific campaign configuration, optional governance approval. Never market as universally optimal. |
 | Withdrawal denial from callback | A callback with too little gas may leave stuck pending balances. | VM gas measurement, failure scenarios, reconciliation before real funds. |
-| Front-running initialization | Uninitialized contracts can be initialized by unintended callers if deployment and initialization are separated. | **Mitigated in code:** `new` requires the contract account as predecessor, with a regression test. Deployment should still initialize atomically or with the contract account’s controlled key. |
+| Front-running initialization | Uninitialized contracts can be initialized by unintended callers if deployment and initialization are separated. | **Mitigated in code:** `new` accepts the contract account or its exact direct namespace parent, with Rust regression tests for both the allowed parent and unrelated attacker. The parent check is bound to the child account ID and supports the tested atomic deployment receipt. |
 | Unauthorized activation | A permissionless activation could select a valid but unapproved coalition. | **Mitigated for this build:** `activate` requires an immutable authority allowlist and sandbox evidence shows unauthorized rejection plus one winner among competing authorized requests. A future DAO should configure itself as an authority when DAO approval must control activation. |
 | Data visibility | Project choices, contributor wallets, amounts, conditions and certificates are public on NEAR. | Do not claim confidentiality or anonymous cooperation for this build. |
 | Beneficiary accountability | Beneficiaries can withdraw immediately after valid allocation, even if they later fail to deliver. | Explicitly limit promises to *funding feasibility*, not service delivery guarantees. |
@@ -76,7 +76,7 @@ A separate read-only adversarial review was performed against the current Rust s
 Disposition:
 
 - High, missing callback execution: unresolved. A transfer can succeed while the callback is never observed, leaving `pending` and a liability indefinitely. No timeout retry or blind unlock was added. This remains a hard blocker for valuable funds.
-- High, initialization front-running: mitigated by contract-account predecessor authorization and a Rust regression test; atomic deployment is still required operationally.
+- High, initialization front-running: mitigated by contract-account or exact direct-parent predecessor authorization and Rust regression tests; the atomic deployment sequence is sandbox-verified. A parent account remains the authority for its own subaccount namespace.
 - High, unauthorized activation: mitigated by immutable activation authorities and real sandbox rejection/competition tests. DAO-controlled activation is a future integration choice, not claimed here.
 - Medium, storage capacity: partially mitigated by live reserve checks, exact host boundary tests and the RC1 8-project/32-pledge sandbox campaign; larger or unbounded campaigns remain outside the configured limits.
 - Medium, native transfer failure injection: untested in genuine sandbox because the failing recipient cannot also remain the authenticated withdrawal predecessor in this harness. The callback failure branch is covered by VM unit tests.

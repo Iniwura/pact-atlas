@@ -45,6 +45,21 @@ async function mockFinalizedViews(page) {
   });
 }
 
+async function installWalletSpy(page) {
+  await page.addInitScript(() => {
+    window.__pactWalletCalls = { connect: 0, call: 0 };
+    window.PACT_NEAR_ADAPTER = {
+      async connect() { window.__pactWalletCalls.connect += 1; return "alice.testnet"; },
+      async call() { window.__pactWalletCalls.call += 1; return { transactionHash: "should-not-submit" }; },
+    };
+  });
+}
+
+async function submitCommitForm(page) {
+  await page.locator("#commit-form").evaluate(form => form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true })));
+  await page.waitForTimeout(50);
+}
+
 test.describe("Public testnet campaign", () => {
   test("renders finalized state, conditions and a clearly labeled candidate certificate", async ({ page }) => {
     await mockFinalizedViews(page);
@@ -61,6 +76,7 @@ test.describe("Public testnet campaign", () => {
     await expect(page.locator("#allocation-state")).toContainText("Candidate certificate ready");
     await expect(page.locator("#allocation-certificate")).toBeVisible();
     await expect(page.locator("#activate-submit")).toBeVisible();
+    await expect(page.locator("#commit-submit")).toBeEnabled();
     await expect(page.locator("#campaign-error")).toBeHidden();
   });
 
@@ -84,12 +100,16 @@ test.describe("Public testnet campaign", () => {
     await page.route(/rpc\.testnet\.fastnear\.com/, async route => {
       const request = route.request().postDataJSON();
       const method = request?.params?.method_name;
+      if (request?.params?.request_type === "view_code") {
+        await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ jsonrpc: "2.0", id: "pact-atlas", result: { hash: PACT_NEAR_CODE_HASH } }) });
+        return;
+      }
       const value = method === "status"
         ? { phase: "OPEN", activate_after_ms: Date.now() + 60_000, deadline_ms: Date.now() + 86_400_000, pledge_count: 2 }
         : method === "accounting"
           ? { locked_pledges: "2000000000000000000000000", liabilities: "2000000000000000000000000", solvent: true }
           : method === "campaign_config"
-            ? { projects: campaign.projects.map(project => ({ id: project.id, beneficiary: project.beneficiary, required: `${project.goal}000000000000000000000000`, dependencies: project.dependencies })), deadline_ms: Date.now() + 86_400_000, activate_after_ms: Date.now() + 60_000, min_funded_projects: 2, required_for_activation: ["alpha", "beta"], activation_authorities: ["authority.testnet"] }
+          ? { projects: campaign.projects.map(project => ({ id: project.id, beneficiary: project.beneficiary, required: `${project.goal}000000000000000000000000`, dependencies: project.dependencies })), deadline_ms: timing.deadlineMs, activate_after_ms: timing.activateAfterMs, min_funded_projects: 2, required_for_activation: ["alpha", "beta"], activation_authorities: ["authority.testnet"] }
             : method === "pledge_records"
               ? [{ index: 0, owner: "alice.testnet", amount: "2000000000000000000000000", allowed: ["alpha"], requires: [] }, { index: 1, owner: "bob.testnet", amount: "0", allowed: ["beta"], requires: [] }]
         : method === "activation_certificate" ? [] : { hash: PACT_NEAR_CODE_HASH };
@@ -122,5 +142,70 @@ test.describe("Public testnet campaign", () => {
     await page.goto(`/campaign?contract=river.testnet&config=${encodeURIComponent(campaignShareToken(campaign))}`);
     await expect(page.locator("#campaign-error")).toContainText(/immutable|configuration|does not match/i);
     expect(rpcCalls).toBeGreaterThan(0);
+  });
+
+  test("does not open a wallet for a forged but valid-format campaign link", async ({ page }) => {
+    await installWalletSpy(page);
+    await mockFinalizedViews(page);
+    const forged = {
+      ...campaign,
+      projects: campaign.projects.map(project => project.id === "alpha" ? { ...project, beneficiary: "attacker.testnet" } : project),
+    };
+    await page.goto(`/campaign?contract=river.testnet&config=${encodeURIComponent(campaignShareToken(forged))}`);
+    await expect(page.locator("#campaign-error")).toContainText(/does not match immutable/i);
+    await expect(page.locator("#commit-submit")).toBeDisabled();
+    await expect(page.locator("#expire-submit")).toBeDisabled();
+    await expect(page.locator("#withdraw-submit")).toBeDisabled();
+    await submitCommitForm(page);
+    expect(await page.evaluate(() => window.__pactWalletCalls)).toEqual({ connect: 0, call: 0 });
+  });
+
+  test("keeps every state-changing control closed when the finalized RPC fails", async ({ page }) => {
+    await installWalletSpy(page);
+    await page.route(/rpc\.testnet\.fastnear\.com/, async route => {
+      await route.fulfill({ status: 503, contentType: "application/json", body: JSON.stringify({ error: "unavailable" }) });
+    });
+    await page.goto(`/campaign?contract=river.testnet&config=${encodeURIComponent(campaignShareToken(campaign))}`);
+    await expect(page.locator("#campaign-error")).toContainText(/could not be verified|unavailable/i);
+    for (const selector of ["#commit-submit", "#activate-submit", "#expire-submit", "#withdraw-submit"]) await expect(page.locator(selector)).toBeDisabled();
+    await submitCommitForm(page);
+    expect(await page.evaluate(() => window.__pactWalletCalls)).toEqual({ connect: 0, call: 0 });
+  });
+
+  test("clears a previously verified state before a later RPC failure", async ({ page }) => {
+    await installWalletSpy(page);
+    let failed = false;
+    await page.route(/rpc\.testnet\.fastnear\.com/, async route => {
+      if (failed) {
+        await route.fulfill({ status: 500, contentType: "application/json", body: JSON.stringify({ error: "stale read" }) });
+        return;
+      }
+      const request = route.request().postDataJSON();
+      const method = request?.params?.method_name;
+      if (request?.params?.request_type === "view_code") {
+        await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ jsonrpc: "2.0", id: "pact-atlas", result: { hash: PACT_NEAR_CODE_HASH } }) });
+        return;
+      }
+      const value = method === "status"
+        ? { phase: "OPEN", activate_after_ms: timing.activateAfterMs, deadline_ms: timing.deadlineMs, pledge_count: 2 }
+        : method === "accounting"
+          ? { locked_pledges: "2000000000000000000000000", liabilities: "2000000000000000000000000", solvent: true }
+          : method === "campaign_config"
+            ? { projects: campaign.projects.map(project => ({ id: project.id, beneficiary: project.beneficiary, required: String(BigInt(project.goal) * ONE_NEAR), dependencies: project.dependencies })), deadline_ms: timing.deadlineMs, activate_after_ms: timing.activateAfterMs, min_funded_projects: 2, required_for_activation: ["alpha", "beta"], activation_authorities: ["authority.testnet"] }
+            : method === "pledge_records"
+              ? [{ index: 0, owner: "alice.testnet", amount: String(ONE_NEAR), allowed: ["alpha"], requires: [] }, { index: 1, owner: "bob.testnet", amount: String(ONE_NEAR), allowed: ["beta"], requires: [] }]
+              : [];
+      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ jsonrpc: "2.0", id: "pact-atlas", result: { result: encodedView(value) } }) });
+    });
+    await page.goto(`/campaign?contract=river.testnet&config=${encodeURIComponent(campaignShareToken(campaign))}`);
+    await expect(page.locator("#commit-submit")).toBeEnabled();
+    failed = true;
+    await page.locator("#refresh-campaign").click();
+    await expect(page.locator("#campaign-error")).toContainText(/could not be verified|stale read/i);
+    await expect(page.locator("#commit-submit")).toBeDisabled();
+    await expect(page.locator("#expire-submit")).toBeDisabled();
+    await expect(page.locator("#withdraw-submit")).toBeDisabled();
+    await submitCommitForm(page);
+    expect(await page.evaluate(() => window.__pactWalletCalls)).toEqual({ connect: 0, call: 0 });
   });
 });

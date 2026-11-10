@@ -38,8 +38,12 @@ echo 'Running testnet-proof validation tests...'
 npm run test:proof
 echo 'Running wallet-adapter safety tests...'
 npm run test:wallet-adapter
+echo 'Checking pinned Meteor Wallet and live NEAR testnet RPC compatibility...'
+npm run test:wallet-selector
 echo 'Running live-chain transport and evidence tests...'
 npm run test:chain
 echo 'Running real NEAR sandbox accounting scenarios...'
 npm run test:sandbox
+echo 'Running the exact atomic self-service deployment and lifecycle sandbox scenario...'
+PACT_SCENARIOS=deployment PACT_EVIDENCE_PATH=/tmp/pact-atlas-atomic-deployment-evidence.json npm run test:sandbox
 echo 'All local Rust, Wasm, reference-model and NEAR sandbox checks passed. Testnet remains a separate authorized gate.'

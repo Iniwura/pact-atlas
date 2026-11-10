@@ -1,6 +1,6 @@
 # PACT Atlas final engineering review
 
-Review basis: audit baseline `457a92e` (PR #11's audited head), current Rust and JavaScript source, regenerated artifacts, preserved benchmark/evidence files, and the RC3 verification rerun on 2026-11-10.
+Review basis: audit baseline `457a92e` (PR #11's audited head), RC3 head `9069b32`, current Rust and JavaScript source, regenerated artifacts, preserved benchmark/evidence files, and the RC3.1 verification rerun on 2026-11-10.
 
 ## RC3 live-chain hardening addendum
 
@@ -9,8 +9,30 @@ PR #11's latest audit reproduced three release-blocking defects at commit
 trusted planned supporters; and share-link configuration was not bound to
 deployed immutable facts. All three now have regression tests and narrow fixes.
 The contract adds only read-only `campaign_config()` and `pledge_records()`
-views; accounting and authorization state transitions are unchanged. The
-current branch remains local/sandbox verified, not testnet-verified.
+views; accounting and authorization state transitions are unchanged through
+RC3. The current RC3.1 branch remains local/sandbox verified, not testnet-
+verified.
+
+## RC3.1 pre-signing safety and deployment follow-up
+
+The latest PR #11 pre-signing review was read before this pass. It identified
+wallet opening before finalized verification, stale authenticated state after
+RPC failure, the sunset MyNearWallet-only module, and an unverified deployment
+receipt. The route now invalidates verification at refresh start, reads all
+required finalized state plus the code hash before enabling controls, requires
+solvent accounting, and clears local adapter/account state on any mismatch or
+RPC error. Browser regressions prove forged valid-format links, failed RPC/code
+hash reads, and a later stale refresh never call `connect` or `call`.
+
+The exact deployment probe found two concrete protocol constraints. First, the
+old 0.3 + 0.3 NEAR funding could not cover the 207,284-byte Wasm storage cost;
+the request now attaches 3 NEAR before deployment and 2 NEAR to
+`sponsor_storage`. Second, NEAR executes `new()` in the same receipt with the
+parent account as predecessor, not the created contract account. The contract
+now accepts only the contract account or its exact direct namespace parent for
+initialization, with Rust regression coverage for both the authorized parent
+and an unrelated attacker. The corrected five-action request and a complete
+commit/activation/withdrawal lifecycle pass in genuine sandbox state.
 
 ## Recommendation
 
@@ -69,7 +91,7 @@ The comparison remains capability-level prior-art analysis. The referenced syste
 | Exact timestamp boundaries | Verified locally, **evidence limitation for sandbox exactness** | Rust VM tests cover equality; near-workspaces crosses boundaries but does not set exact timestamps. |
 | Storage/max capacity | Sandbox-verified within configured limits; **production blocker for unbounded use** | 8 projects/32 pledges and storage reserve checks pass. Larger state growth and economic sizing remain unproven. |
 | Independent qualified audit | **Submission limitation, production blocker** | No external auditor has reviewed the contract. The review is adversarial engineering only. |
-| Testnet deployment and wallet signatures | **Submission/evidence blocker** | No authorized credentials or testnet deployment were available; no testnet evidence is claimed. |
+| Testnet deployment and wallet signatures | **Submission/evidence blocker** | No authorized credentials or testnet deployment were available; no testnet evidence is claimed. Meteor endpoint reachability is verified, but signing is not. |
 
 Mitigated findings include initialization front-running, unauthorized activation, duplicate callback settlement, repeated withdrawals, allocation double-use, accounting conservation and storage-reserve checks within configured limits.
 
@@ -77,17 +99,19 @@ Mitigated findings include initialization front-running, unauthorized activation
 
 The final rerun uses the pinned Rust/near-sdk/cargo-near versions and the current tracked artifacts:
 
-- 15 Rust tests; formatting, locked check, clippy with warnings denied, ABI generation and optimized Wasm build pass.
+- 16 Rust tests; formatting, locked check, clippy with warnings denied, ABI generation and optimized Wasm build pass.
 - 35 core Node tests plus 9 competitive benchmark tests pass.
-- 23 counterfactual, 8 workflow, 9 chain/RPC/live-data/ABI, 8 wallet-adapter and 51 Chromium/accessibility checks pass.
+- 23 counterfactual, 8 workflow, 9 chain/RPC/live-data/ABI, 8 wallet-adapter, 3 Meteor/testnet probe and 54 Chromium/accessibility checks pass.
 - Five fresh NEAR sandbox campaigns and the separate 8-project/32-pledge capacity campaign pass.
+- The exact atomic self-service deployment/lifecycle sandbox scenario passes with final zero liabilities; its evidence was emitted to `/tmp/pact-atlas-atomic-deployment-evidence.json` during this pass.
 - `evidence/SHA256SUMS` verifies every preserved evidence file.
-- Wasm SHA-256: `9ed866dd401b57f26a3aa35dbe722230a0d3893bb31ed0fbbb1e320db7dd2e6f`.
+- Wasm SHA-256: `5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15`.
 - ABI SHA-256: `8399a2cc59c37680ed2ae418f2f04cc8121dda2eca0f8777a9933d1de46e2f5b`.
 - Competitive benchmark JSON SHA-256: `3c748d13ba919fd77a9a866db077f7e0e3ab460b50411de210ab372a30f46da8`.
-- Baseline sandbox evidence SHA-256: `e88b6ba2a2f88eb376c69a1a1dd7c46859207346f511b3d961011ea5d8d297a1`.
-- Maximum-capacity sandbox evidence SHA-256: `28f264e0123672e03d8046a27497d01c99f0f798f7cd8f962aeaede439366931`.
-- NEAR code hash: `Bh4oaer6T9uUwbQBEfN1RFJ4S3jteMBnH6pWH7qC5nKx`.
+- Baseline sandbox evidence SHA-256: `d918cfe9dc2f6f42b581e6127c1ca7f525a5bbcceb536c10547f8da6bac88315`.
+- Maximum-capacity sandbox evidence SHA-256: `8994a3558c6fda0eaf4d66c03c84278d863344cc394cd333dc735f652bf4daa4`.
+- Atomic deployment sandbox evidence SHA-256: `17c00bbffc378d8ce8168e2986ec3ed3156cfd9c30d86f860ee4396bfad78bb9`.
+- NEAR code hash: `7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp`.
 - Audit baseline: `457a92e`; no merge, publication, permission change, production promotion, mainnet call or real-fund spend occurred. The current release commit is recorded in the Git history after this review.
 
 ## Evidence index
@@ -100,6 +124,7 @@ The final rerun uses the pinned Rust/near-sdk/cargo-near versions and the curren
 - [RC1 sandbox report](evidence/pact-atlas-rc1-report.md)
 - [Baseline sandbox receipts](evidence/pact-atlas-sandbox-evidence.json)
 - [Maximum-capacity sandbox receipts](evidence/pact-atlas-rc1-sandbox-evidence.json)
+- [Atomic self-service deployment sandbox receipts](evidence/pact-atlas-atomic-deployment-evidence.json)
 - [Wasm](evidence/pact_atlas_poc.wasm) and [ABI](evidence/pact_atlas_poc_abi.json)
 - [Hash manifest](evidence/SHA256SUMS)
 

@@ -2,7 +2,7 @@
  * Read-only, independently reproducible verification of a PACT testnet call.
  * Does not sign transactions, process payments, or claim production safety.
  */
-export const PACT_WASM_CODE_HASH = "Bh4oaer6T9uUwbQBEfN1RFJ4S3jteMBnH6pWH7qC5nKx";
+export const PACT_WASM_CODE_HASH = "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp";
 export const RPC_URL = "https://rpc.testnet.fastnear.com";
 export const ALLOWED_METHODS = Object.freeze(["commit", "activate", "expire", "withdraw"]);
 const methodSet = new Set(ALLOWED_METHODS);

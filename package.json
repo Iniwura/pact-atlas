@@ -14,6 +14,7 @@
     "test:chain": "node --test web/tests/campaign-chain.test.mjs web/tests/near-rpc.test.mjs web/tests/campaign-live-data.test.mjs web/tests/contract-interface.test.mjs",
     "test:proof": "node --test web/tests/testnet-proof.test.mjs",
     "test:wallet-adapter": "node --test web/tests/near-adapter.test.mjs",
+    "test:wallet-selector": "node --test web/tests/wallet-selector-host.test.mjs",
     "test:browser": "playwright test -c web/playwright.config.mjs",
     "preview": "node web/server.mjs",
     "verify": "bash scripts/verify-rust.sh",

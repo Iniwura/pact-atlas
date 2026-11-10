@@ -45,7 +45,7 @@ test("deployment request is an explicit multi-action testnet transaction", () =>
   assert.equal(request.actions[3].methodName, "new");
   assert.equal(request.actions[3].args.activation_authorities[0], "authority.testnet");
   assert.equal(request.actions[4].methodName, "sponsor_storage");
-  assert.equal(request.estimatedAttachedNear, 0.6);
+  assert.equal(request.estimatedAttachedNear, 5);
 });
 
 test("share links round-trip public campaign configuration without secrets", () => {

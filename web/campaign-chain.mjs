@@ -2,10 +2,14 @@ import { validateCampaign } from "./campaign-solver.mjs";
 
 export const ONE_NEAR = 1_000_000_000_000_000_000_000_000n;
 export const TESTNET_GAS = "300000000000000";
-export const DEPLOYMENT_TRANSFER = 300_000_000_000_000_000_000_000n;
-export const STORAGE_SPONSOR = 300_000_000_000_000_000_000_000n;
-export const PACT_WASM_SHA256 = "9ed866dd401b57f26a3aa35dbe722230a0d3893bb31ed0fbbb1e320db7dd2e6f";
-export const PACT_NEAR_CODE_HASH = "Bh4oaer6T9uUwbQBEfN1RFJ4S3jteMBnH6pWH7qC5nKx";
+// The preserved Wasm is about 207 KiB, so 0.3 NEAR cannot even cover its
+// protocol storage cost. Keep deployment funding explicit and separate from
+// contributor liabilities: 3 NEAR arrives before DeployContract and 2 NEAR
+// is attached to sponsor_storage after the code and campaign state exist.
+export const DEPLOYMENT_TRANSFER = 3n * ONE_NEAR;
+export const STORAGE_SPONSOR = 2n * ONE_NEAR;
+export const PACT_WASM_SHA256 = "5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15";
+export const PACT_NEAR_CODE_HASH = "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp";
 
 const ACCOUNT = /^(?:(?:[a-z0-9_-]+\.)+testnet|[0-9a-f]{64})$/;
 const NAMED_ACCOUNT = /^(?:[a-z0-9_-]+\.)+testnet$/;
@@ -182,7 +186,7 @@ export function buildCampaignDeploymentRequest(campaign, { owner, authority = ow
         requiredForActivation: projects.map(project => project.id),
       },
     }),
-    estimatedAttachedNear: Number(DEPLOYMENT_TRANSFER + STORAGE_SPONSOR) / Number(ONE_NEAR),
+    estimatedAttachedNear: Number(DEPLOYMENT_TRANSFER / ONE_NEAR + STORAGE_SPONSOR / ONE_NEAR),
     timing: { activateAfterMs, deadlineMs },
   };
 }

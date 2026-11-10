@@ -24,9 +24,11 @@ const element = (tag, className = "", text = undefined) => { const node = docume
 const params = new URLSearchParams(location.search);
 const contractId = params.get("contract");
 let campaign;
-let live = { status: null, accounting: null, certificate: [], config: null, pledges: [], codeHash: null, authenticated: false, configError: null, pledgeError: null };
+let live = { status: null, accounting: null, certificate: [], config: null, pledges: [], codeHash: null, authenticated: false, verified: false, configError: null, pledgeError: null, claimable: null, pending: null };
 let adapter = null;
 let accountId = null;
+let refreshSequence = 0;
+const pendingActions = new Set();
 
 function showMessage(selector, message, tone = "neutral") {
   const node = $(selector); node.textContent = message; node.dataset.tone = tone; node.hidden = false;
@@ -96,10 +98,59 @@ function renderStatus() {
   $("#live-solvency").textContent = accounting ? (accounting.solvent ? "accounting identity reconciles" : "solvency check failed") : "Reconciliation pending";
   document.body.dataset.phase = status?.phase || "unknown";
   renderCertificate();
+  renderActionAvailability();
+}
+
+function renderActionAvailability() {
+  const verified = live.verified === true;
+  const open = live.status?.phase === "OPEN";
+  $("#commit-submit").disabled = pendingActions.has("commit-submit") || !(verified && open);
+  $("#expire-submit").disabled = pendingActions.has("expire-submit") || !verified;
+  $("#withdraw-submit").disabled = pendingActions.has("withdraw-submit") || !verified;
+  $("#activate-submit").disabled = pendingActions.has("activate-submit") || !verified || $("#activate-submit").hidden;
+}
+
+function beginAction(button) {
+  pendingActions.add(button.id);
+  button.disabled = true;
+}
+
+function finishAction(button) {
+  if (button.dataset.outcome !== "unknown") pendingActions.delete(button.id);
+  renderActionAvailability();
+}
+
+function failClosed(message) {
+  live = {
+    status: null,
+    accounting: null,
+    certificate: [],
+    config: null,
+    pledges: [],
+    codeHash: null,
+    authenticated: false,
+    verified: false,
+    configError: message,
+    pledgeError: null,
+    claimable: null,
+    pending: null,
+  };
+  // A view or code-hash failure invalidates the wallet session for this page.
+  // There is deliberately no attempt to disconnect or retry a transaction: the
+  // host may own the adapter, but this route will not reuse its authorization.
+  adapter = null;
+  accountId = null;
+  if (campaign) {
+    renderStatus();
+    $("#claimable-value").textContent = "—";
+    $("#pending-value").textContent = "—";
+    $("#account-state").textContent = "Wallet authorization cleared until live state is verified again.";
+  }
+  showMessage("#campaign-error", message, "error");
 }
 
 function candidateCertificate() {
-  if (!live.authenticated || !live.pledges?.length) return null;
+  if (!live.verified || !live.pledges?.length) return null;
   try {
     return candidateFromOnchainPledges(campaign, live.pledges);
   } catch (error) {
@@ -110,12 +161,12 @@ function candidateCertificate() {
 
 function renderCertificate() {
   const holder = $("#allocation-state"); const pre = $("#allocation-certificate"); const activate = $("#activate-submit");
-  pre.hidden = true; activate.hidden = true;
-  if (live.status?.phase === "ACTIVATED" && Array.isArray(live.certificate) && live.certificate.length) {
+  pre.hidden = true; activate.hidden = true; delete activate.dataset.allocations;
+  if (live.verified && live.status?.phase === "ACTIVATED" && Array.isArray(live.certificate) && live.certificate.length) {
     holder.textContent = "The contract has accepted this allocation certificate. The JSON below is read directly from finalized state.";
     pre.textContent = JSON.stringify(live.certificate, null, 2); pre.hidden = false; return;
   }
-  if (!live.authenticated) {
+  if (!live.verified) {
     holder.textContent = live.configError || "Waiting for immutable contract verification.";
     return;
   }
@@ -137,32 +188,77 @@ async function readView(view) { return adapter?.view ? adapter.view(view) : view
 async function readCodeHash() { return adapter?.codeHash ? adapter.codeHash(contractId) : viewCodeHash(contractId); }
 
 async function refresh() {
+  const sequence = ++refreshSequence;
+  // Never leave a previously verified state usable while a new finalized read
+  // is in flight. Buttons are disabled before any wallet can be opened.
+  live.verified = false;
+  live.authenticated = false;
+  live.configError = "Verifying immutable campaign state and the latest finalized RPC state…";
+  live.status = null;
+  live.accounting = null;
+  live.certificate = [];
+  live.config = null;
+  live.pledges = [];
+  live.codeHash = null;
+  live.claimable = null;
+  live.pending = null;
+  if (campaign) renderStatus();
   try {
     const views = liveCampaignViews(contractId, accountId);
-    const values = await Promise.all(views.slice(0, 5).map(readView));
-    [live.status, live.accounting, live.certificate, live.config, live.pledges] = values;
-    live.codeHash = await readCodeHash();
-    const authentication = authenticateCampaignConfig(campaign, live.config, live.codeHash);
-    live.authenticated = authentication.valid;
-    live.configError = authentication.valid ? null : authentication.errors.join(" ");
+    const values = await Promise.all(views.map(readView));
+    const codeHash = await readCodeHash();
+    if (sequence !== refreshSequence) return false;
+    const [status, accounting, certificate, config, pledges, claimable, pending] = values;
+    const authentication = authenticateCampaignConfig(campaign, config, codeHash);
+    const stateErrors = [];
+    if (!status || typeof status !== "object" || !["OPEN", "ACTIVATED", "EXPIRED"].includes(status.phase)) stateErrors.push("The deployed contract returned an invalid campaign phase.");
+    if (!accounting || typeof accounting !== "object" || accounting.solvent !== true) stateErrors.push("The finalized accounting identity is not solvent.");
+    if (!Array.isArray(certificate) || !Array.isArray(pledges)) stateErrors.push("The deployed contract returned incomplete canonical state.");
+    if (status && Number(status.pledge_count) !== pledges.length) stateErrors.push("The finalized pledge count does not match canonical pledge records.");
+    const errors = [...authentication.errors, ...stateErrors];
+    if (errors.length) {
+      failClosed(errors.join(" "));
+      return false;
+    }
+    live.status = status;
+    live.accounting = accounting;
+    live.certificate = certificate;
+    live.config = config;
+    live.pledges = pledges;
+    live.codeHash = codeHash;
+    live.authenticated = true;
+    live.verified = true;
+    live.configError = null;
     live.pledgeError = null;
+    live.claimable = claimable;
+    live.pending = pending;
     renderStatus();
     if (accountId && views.length > 5) {
-      const balances = await Promise.all(views.slice(5).map(readView));
-      $("#claimable-value").textContent = formatNear(balances[0]);
-      $("#pending-value").textContent = formatNear(balances[1]);
+      $("#claimable-value").textContent = formatNear(claimable);
+      $("#pending-value").textContent = formatNear(pending);
     }
-    if (authentication.valid) $("#campaign-error").hidden = true;
-    else showMessage("#campaign-error", live.configError, "error");
-  } catch (error) { showMessage("#campaign-error", `Live state could not be read: ${error.message}`, "error"); }
+    $("#campaign-error").hidden = true;
+    return true;
+  } catch (error) {
+    if (sequence !== refreshSequence) return false;
+    failClosed(`Live state could not be verified: ${error.message}`);
+    return false;
+  }
 }
 
 async function wallet() {
+  // This preflight is intentionally direct-RPC when no adapter is connected.
+  // The wallet modal must never be the first step of a state-changing action.
+  if (!(await refresh())) throw new Error("Live campaign state is not verified; wallet remains closed.");
   adapter = window.PACT_NEAR_ADAPTER || await ensureWalletAdapter({ contractId });
   accountId = await adapter.connect();
+  if (!isTestnetAccount(accountId)) {
+    failClosed("The connected wallet did not provide a valid testnet account.");
+    throw new Error("A named testnet wallet account is required.");
+  }
   $("#wallet-state").textContent = `Connected as ${accountId}. Every action still requires explicit wallet approval.`;
   $("#account-state").textContent = `Connected as ${accountId}. Balances are read from finalized contract views.`;
-  await refresh();
+  if (!(await refresh())) throw new Error("Live campaign state changed or could not be verified; no transaction was submitted.");
   return adapter;
 }
 
@@ -186,7 +282,7 @@ function leavePending(button) {
 }
 
 async function commit(event) {
-  event.preventDefault(); const node = $("#commit-result"); const button = $("#commit-submit"); button.disabled = true;
+  event.preventDefault(); const node = $("#commit-result"); const button = $("#commit-submit"); beginAction(button);
   try {
     const walletAdapter = await wallet();
     const request = buildCampaignCommitRequest({ contractId, amountNear: Number($("#commit-amount").value), allowed: selectedValues("allowed"), requires: selectedValues("requires") });
@@ -195,29 +291,29 @@ async function commit(event) {
     if (!final.confirmed) { leavePending(button); resultMessage(node, `Commitment submitted as ${final.transactionHash}, but finality is unknown. Do not resubmit blindly.`, "warning", final.transactionHash); return; }
     resultMessage(node, `Commitment finalized as ${final.transactionHash}.`, "success", final.transactionHash); await refresh();
   } catch (error) { resultMessage(node, error.message || "Commitment was not confirmed.", "error"); }
-  finally { if (button.dataset.outcome !== "unknown") button.disabled = false; }
+  finally { finishAction(button); }
 }
 
 async function activate() {
-  const button = $("#activate-submit"); button.disabled = true;
+  const button = $("#activate-submit"); beginAction(button);
   try {
     const walletAdapter = await wallet(); const allocations = JSON.parse(button.dataset.allocations || "[]");
     const final = await confirmOrExplain(await walletAdapter.call(buildCampaignActivationRequest({ contractId, allocations })), "Activation");
     if (!final.confirmed) { leavePending(button); showMessage("#campaign-error", `Activation submitted as ${final.transactionHash}, but finality is unknown. Do not retry blindly.`, "warning"); return; }
     showMessage("#campaign-error", `Activation finalized as ${final.transactionHash}.`, "success"); await refresh();
   } catch (error) { showMessage("#campaign-error", error.message, "error"); }
-  finally { if (button.dataset.outcome !== "unknown") button.disabled = false; }
+  finally { finishAction(button); }
 }
 
 async function simpleAction(action, buttonSelector) {
-  const button = $(buttonSelector); button.disabled = true;
+  const button = $(buttonSelector); beginAction(button);
   try {
     const walletAdapter = await wallet(); const request = action === "expire" ? buildCampaignExpireRequest(contractId) : buildCampaignWithdrawRequest(contractId);
     const final = await confirmOrExplain(await walletAdapter.call(request), action);
     if (!final.confirmed) { leavePending(button); showMessage("#campaign-error", `${action} submitted as ${final.transactionHash}, but finality is unknown. Do not retry blindly.`, "warning"); return; }
     showMessage("#campaign-error", `${action} finalized as ${final.transactionHash}.`, "success"); await refresh();
   } catch (error) { showMessage("#campaign-error", error.message, "error"); }
-  finally { if (button.dataset.outcome !== "unknown") button.disabled = false; }
+  finally { finishAction(button); }
 }
 
 function boot() {

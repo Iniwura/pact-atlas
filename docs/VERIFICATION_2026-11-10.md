@@ -14,12 +14,18 @@ findings were reproduced with failing regression tests and fixed:
   and fail closed unless immutable project, timing and authority facts match
   finalized contract views.
 
-The Rust source change is read-only only: no accounting, authorization or
-withdrawal behavior was changed. The preserved artifacts were regenerated from
-the current source and the sandbox evidence was rerun with the new Wasm.
+The RC3.1 follow-up also closes the wallet-boundary and deployment funding
+gaps found in the pre-signing review. Live state is invalidated before every
+finalized refresh; immutable config, pinned code hash, canonical pledge state
+and solvent accounting must all verify before an adapter is created or any
+wallet modal can open. The contract now permits initialization by itself or
+the exact direct namespace parent, which is the NEAR-compatible predecessor in
+the tested atomic deployment receipt. This is a narrow authorization change,
+not a withdrawal or liability redesign. The preserved artifacts and sandbox
+evidence were regenerated from the current source and Wasm.
 
 This record covers the isolated self-service release pass descended from
-`b1ec4aa55f6f51c1d1ba2e327ac63eb8b8ed20c9`. It includes the RC3 read-only
+`9069b32bbd3abbecfdd5594338f21c6a4c52ccea`. It includes the RC3 read-only
 contract views, corrected finality transport, authenticated campaign links,
 testnet-only campaign request layer, lazy Wallet Selector host, public campaign
 route and finalized view reconciliation. No wallet was connected and no public
@@ -52,7 +58,7 @@ The following gates were run in the isolated checkout:
 
 | Gate | Result | Evidence boundary |
 | --- | --- | --- |
-| Rust unit tests | 15/15 passed | Local Rust VM |
+| Rust unit tests | 16/16 passed | Local Rust VM |
 | Rust format, locked Wasm check, clippy | Passed | Local toolchain |
 | JavaScript reference suite | 35/35 passed | Local model/tests |
 | Competitive benchmark | 9/9 passed | Bounded reference benchmark |
@@ -61,10 +67,12 @@ The following gates were run in the isolated checkout:
 | Wallet adapter | 8/8 passed | Injected adapter safety; no signing |
 | Campaign chain, RPC, live-data and ABI interface tests | 9/9 passed | Testnet-only deployment/share/call request construction, JSON-RPC transport, chain-derived certificates and ABI surface |
 | Testnet proof verifier | 7/7 passed | Read-only verifier tests |
-| Playwright browser suite | 51/51 passed | Local Chromium at 320, 360, 390, 768, 1024 and 1440px; public campaign route and fail-closed chain-auth tests included |
+| Playwright browser suite | 54/54 passed | Local Chromium at 320, 360, 390, 768, 1024 and 1440px; public campaign route and adversarial fail-closed wallet tests included |
 | NEAR sandbox: cycle/all-four/expiry/concurrent | Passed | Fresh local sandbox receipts and accounting snapshots |
 | NEAR sandbox: maximum capacity | Passed | 8 projects, 32 deposits, 32 credits, 32 withdrawals |
 | NEAR sandbox: Sputnik governance | Passed | Fresh DAO proposal, quorum, execution, funding and refund |
+| NEAR sandbox: atomic self-service deployment | Passed | CreateAccount → 3 NEAR transfer → DeployContract → new → 2 NEAR sponsor_storage → commit → activation → withdrawal |
+| Meteor Wallet / testnet RPC probe | 3/3 passed | Pinned module endpoints HTTP 200 and live testnet `status` response; no signing |
 
 The sandbox campaigns exercised expected negative paths as well as successful
 transfers. Every recorded accounting snapshot was solvent; the exercised
@@ -75,8 +83,8 @@ public testnet evidence.
 
 On 2026-11-10, a non-signing probe reached `https://rpc.testnet.fastnear.com`
 and returned `chain_id: testnet` with protocol version `88`. The three pinned
-Wallet Selector v10.1.4 ESM endpoints used by `web/wallet-selector-host.mjs`
-returned HTTP 200. This validates endpoint reachability and the configured
+Wallet Selector v10.1.4 ESM endpoints used by `web/wallet-selector-host.mjs`,
+including Meteor Wallet, returned HTTP 200. This validates endpoint reachability and the configured
 testnet network, not wallet connection, signature approval or a campaign
 transaction. No account, key, faucet call or transaction was used.
 
@@ -86,10 +94,10 @@ The release artifacts were rebuilt from the current source and preserved:
 
 | Artifact | SHA-256 |
 | --- | --- |
-| `evidence/pact_atlas_poc.wasm` | `9ed866dd401b57f26a3aa35dbe722230a0d3893bb31ed0fbbb1e320db7dd2e6f` |
+| `evidence/pact_atlas_poc.wasm` | `5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15` |
 | `evidence/pact_atlas_poc_abi.json` | `8399a2cc59c37680ed2ae418f2f04cc8121dda2eca0f8777a9933d1de46e2f5b` |
 | Sputnik sandbox Wasm | `6e3f1814d40769d8f57b9a7af689d22aaab96d3232cec4d861311829c1d2318f` |
-| PACT sandbox Wasm code hash | `Bh4oaer6T9uUwbQBEfN1RFJ4S3jteMBnH6pWH7qC5nKx` |
+| PACT sandbox Wasm code hash | `7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp` |
 | Offline certificate sample | `7a7124674a7e57ee3772b99775206833c9673446395fa0d58e5c2449dcc6d6c9` |
 
 The final local `RUSTUP_TOOLCHAIN=1.93.0 bash scripts/verify-rust.sh` pass
@@ -110,11 +118,13 @@ of this release evidence.
   reproduced by the available sandbox harness. Ordinary native transfers,
   negative authorization paths, duplicate withdrawals, expiry refunds, and
   accounting conservation were exercised.
-- The new custom-campaign deployment flow is request- and browser-tested with
-  deterministic wallet/RPC doubles, including explicit `CreateAccount`,
-  `Transfer`, `DeployContract`, `new` and `sponsor_storage` actions. This is
-  not testnet evidence: no account, contract ID, signature or explorer receipt
-  is claimed.
+- The custom-campaign deployment flow is request- and browser-tested with
+  deterministic wallet/RPC doubles, and the exact action ordering is also
+  executed in genuine local sandbox state. The sandbox is not testnet evidence:
+  no public account, signature or explorer receipt is claimed.
+- A previous 0.3 + 0.3 NEAR atomic deployment probe failed at Wasm storage
+  funding; the corrected 3 + 2 NEAR request passed. This is why deployment
+  funding is now explicit in the request and documentation.
 - No authorized testnet signing credentials were available. There is no testnet
   deployment, transaction hash, or public-chain lifecycle evidence to report.
 - The repository is not externally audited. Development-tool dependency audit

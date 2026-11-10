@@ -59,7 +59,7 @@
           <label for="commit-amount">Amount · whole NEAR<input id="commit-amount" type="number" min="1" max="100" step="1" inputmode="numeric" required></label>
           <fieldset><legend>This contribution may fund</legend><div id="allowed-projects" class="check-grid"></div></fieldset>
           <fieldset><legend>Only if these projects are funded</legend><div id="required-projects" class="check-grid"></div></fieldset>
-          <button id="commit-submit" class="primary-action" type="submit">Connect wallet and commit ↗</button>
+          <button id="commit-submit" class="primary-action" type="submit" disabled>Connect wallet and commit ↗</button>
         </form>
         <div id="wallet-state" class="wallet-state" role="status">Read-only until a testnet wallet is connected.</div>
         <div id="commit-result" class="campaign-message" role="status" aria-live="polite">No commitment submitted.</div>
@@ -70,7 +70,7 @@
       <div class="panel-heading"><div><span class="pane-kicker">03 / VERIFY AND SETTLE</span><h2 id="settlement-title">Exact allocation, finality and claims</h2></div></div>
       <div class="settlement-grid">
         <article class="settlement-card"><span class="card-label">ALLOCATION CERTIFICATE</span><div id="allocation-state" class="settlement-state">Waiting for the campaign to close or reach its funding threshold.</div><pre id="allocation-certificate" hidden></pre><button id="activate-submit" class="secondary-action" type="button" hidden>Submit authority activation ↗</button></article>
-        <article class="settlement-card"><span class="card-label">YOUR WALLET</span><div id="account-state" class="settlement-state">Connect to inspect claimable and pending balances.</div><div class="claim-numbers"><div><strong id="claimable-value">—</strong><span>claimable</span></div><div><strong id="pending-value">—</strong><span>pending</span></div></div><div class="settlement-actions"><button id="expire-submit" class="secondary-action" type="button">Expire after deadline ↗</button><button id="withdraw-submit" class="secondary-action" type="button">Claim funds ↗</button></div></article>
+        <article class="settlement-card"><span class="card-label">YOUR WALLET</span><div id="account-state" class="settlement-state">Connect to inspect claimable and pending balances.</div><div class="claim-numbers"><div><strong id="claimable-value">—</strong><span>claimable</span></div><div><strong id="pending-value">—</strong><span>pending</span></div></div><div class="settlement-actions"><button id="expire-submit" class="secondary-action" type="button" disabled>Expire after deadline ↗</button><button id="withdraw-submit" class="secondary-action" type="button" disabled>Claim funds ↗</button></div></article>
       </div>
       <p class="campaign-disclosure">Every live value above comes from finalized NEAR testnet views. A wallet hash alone is shown as submitted, never confirmed; a pending withdrawal is never retried automatically.</p>
     </section>

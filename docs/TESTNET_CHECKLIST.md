@@ -26,10 +26,11 @@
 
 ## Phase C — network
 - [x] Implement named testnet campaign validation, preserved-Wasm hash check, explicit multi-action deployment request and public share-link builder.
+- [x] Execute the exact self-service deployment action order in genuine sandbox: `CreateAccount → 3 NEAR transfer → DeployContract → new → 2 NEAR sponsor_storage`, followed by commit, activation and withdrawal.
 - [x] Correct finalized transaction RPC transport, authenticate immutable campaign configuration and derive allocation candidates from canonical onchain pledge records.
 - [x] Implement finalized read-only campaign views, explicit whole-pledge commit/activation/expiry/withdrawal requests and no-retry unknown-outcome handling.
 - [x] Browser-test the public campaign route with mocked finalized RPC responses and malformed-link fail-closed behavior. This is not a real-chain result.
-- [x] Read-only testnet RPC probe returned `chain_id: testnet` (protocol 88); pinned Wallet Selector v10.1.4 module endpoints returned HTTP 200 without signing.
+- [x] Read-only testnet RPC probe returned `chain_id: testnet` (protocol 88); pinned Wallet Selector v10.1.4 core/modal/Meteor endpoints returned HTTP 200 without signing.
 - [ ] Create separate funded NEAR testnet identities. No authorized testnet credentials were present.
 - [ ] Deploy audited/compiled WASM to a dedicated testnet account, not mainnet. **BLOCKED: no credentials/approval.**
 - [ ] Reproduce a successful activation and expired-campaign full refund with real transaction hashes. **BLOCKED: no credentials/approval.**

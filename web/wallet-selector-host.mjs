@@ -8,7 +8,7 @@ const VERSION = "10.1.4";
 const MODULES = Object.freeze({
   core: `https://esm.sh/@near-wallet-selector/core@${VERSION}?bundle`,
   modal: `https://esm.sh/@near-wallet-selector/modal-ui-js@${VERSION}?bundle`,
-  myNearWallet: `https://esm.sh/@near-wallet-selector/my-near-wallet@${VERSION}?bundle`,
+  meteorWallet: `https://esm.sh/@near-wallet-selector/meteor-wallet@${VERSION}?bundle`,
 });
 
 let selectorPromise;
@@ -46,12 +46,12 @@ async function waitForAccount(selector) {
 }
 
 async function setup() {
-  const [{ setupWalletSelector, actionCreators }, { setupModal }, { setupMyNearWallet }] = await Promise.all([
+  const [{ setupWalletSelector, actionCreators }, { setupModal }, { setupMeteorWallet }] = await Promise.all([
     import(MODULES.core),
     import(MODULES.modal),
-    import(MODULES.myNearWallet),
+    import(MODULES.meteorWallet),
   ]);
-  const selector = await setupWalletSelector({ network: "testnet", modules: [setupMyNearWallet()] });
+  const selector = await setupWalletSelector({ network: "testnet", modules: [setupMeteorWallet()] });
   return { selector, actionCreators };
 }
 

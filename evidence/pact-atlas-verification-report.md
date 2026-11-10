@@ -29,8 +29,8 @@ Local RC1 verification is green. No NEAR testnet or mainnet deployment was attem
 ## Verified artifacts
 
 - PACT Wasm: [pact_atlas_poc.wasm](./pact_atlas_poc.wasm), 207,284 bytes
-- PACT Wasm SHA-256: `9ed866dd401b57f26a3aa35dbe722230a0d3893bb31ed0fbbb1e320db7dd2e6f`
-- NEAR code hash (base58): `Bh4oaer6T9uUwbQBEfN1RFJ4S3jteMBnH6pWH7qC5nKx`
+- PACT Wasm SHA-256: `5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15`
+- NEAR code hash (base58): `7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp`
 - ABI: [pact_atlas_poc_abi.json](./pact_atlas_poc_abi.json)
 - ABI JSON SHA-256: `8399a2cc59c37680ed2ae418f2f04cc8121dda2eca0f8777a9933d1de46e2f5b`
 - Official Sputnik v2 Wasm SHA-256: `6e3f1814d40769d8f57b9a7af689d22aaab96d3232cec4d861311829c1d2318f`
@@ -49,7 +49,7 @@ Each scenario used a fresh local chain, a separately deployed contract account, 
 
 The complete evidence file contains contract addresses, receipt hashes, state transitions, accounting snapshots and balance reconciliation: [pact-atlas-sandbox-evidence.json](./pact-atlas-sandbox-evidence.json).
 
-The RC3 evidence snapshot was regenerated from the current source and Wasm; its SHA-256 is `9ed866dd401b57f26a3aa35dbe722230a0d3893bb31ed0fbbb1e320db7dd2e6f`. The browser preview loads that snapshot from `web/data/evidence.json`. The current browser campaign also verifies direct module/evidence routes, the wallet boundary, immutable configuration and chain-derived pledge checks, no console/page errors and accessibility.
+The RC3 evidence snapshot was regenerated from the current source and Wasm; its SHA-256 is `5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15`. The browser preview loads that snapshot from `web/data/evidence.json`. The current browser campaign also verifies direct module/evidence routes, the wallet boundary, immutable configuration and chain-derived pledge checks, no console/page errors and accessibility.
 
 ## Reproduction
 
@@ -63,7 +63,7 @@ npm ci
 bash scripts/verify-rust.sh
 ```
 
-`verify-rust.sh` runs formatting, locked Wasm checking, 15 Rust tests, clippy, ABI generation, optimized Wasm build, the full local JavaScript matrix and `npm run test:sandbox` with all five baseline scenarios. The chain/RPC/live-data/ABI boundary is reproduced with `npm run test:chain`; the benchmark report is regenerated with `npm run benchmark`. The capacity campaign is reproducible with `PACT_SCENARIOS=max-capacity PACT_EVIDENCE_PATH=evidence/pact-atlas-rc1-sandbox-evidence.json npm run test:sandbox` from the repository root.
+`verify-rust.sh` runs formatting, locked Wasm checking, 16 Rust tests, clippy, ABI generation, optimized Wasm build, the full local JavaScript matrix, the Meteor/testnet endpoint probe and `npm run test:sandbox` with all five baseline scenarios plus the exact atomic deployment lifecycle. The chain/RPC/live-data/ABI boundary is reproduced with `npm run test:chain`; the benchmark report is regenerated with `npm run benchmark`. The capacity campaign is reproducible with `PACT_SCENARIOS=max-capacity PACT_EVIDENCE_PATH=evidence/pact-atlas-rc1-sandbox-evidence.json npm run test:sandbox` from the repository root.
 
 For the product surface, run `npm run test:counterfactual` and `NPM_CONFIG_CACHE=/tmp/pact-npm-cache PLAYWRIGHT_BROWSERS_PATH=/tmp/pact-playwright-browsers npm run test:browser`. The latter uses a real Chromium browser against the local preview and saves the two captures above.
 
