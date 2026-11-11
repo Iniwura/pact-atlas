@@ -38,6 +38,33 @@
     "solvent": true,
     "pledge_records": []
   },
+  "finalized_account_snapshots": [
+    {
+      "account_id": "pact-atlas-sdk-20261111.testnet",
+      "amount_yocto": "4990252072623606500000000",
+      "storage_usage": 182,
+      "full_access_key_count": 1
+    },
+    {
+      "account_id": "pact-atlas-beneficiary-20261111.testnet",
+      "amount_yocto": "10000000000000000000000000",
+      "storage_usage": 182,
+      "full_access_key_count": 1
+    },
+    {
+      "account_id": "pact-atlas-meteor-20261111.testnet",
+      "amount_yocto": "10000000000000000000000000",
+      "storage_usage": 182,
+      "full_access_key_count": 1
+    },
+    {
+      "account_id": "atlas-lab-20261111.pact-atlas-sdk-20261111.testnet",
+      "amount_yocto": "5000000000000000000000000",
+      "code_hash": "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp",
+      "storage_usage": 207917,
+      "full_access_key_count": 0
+    }
+  ],
   "reproduction": {
     "local_preview": "http://127.0.0.1:4173",
     "campaign_route": "/campaign",
