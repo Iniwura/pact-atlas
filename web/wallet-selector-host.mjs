@@ -8,7 +8,9 @@ const VERSION = "10.1.4";
 const MODULES = Object.freeze({
   core: `https://esm.sh/@near-wallet-selector/core@${VERSION}?bundle`,
   modal: `https://esm.sh/@near-wallet-selector/modal-ui-js@${VERSION}?bundle`,
-  meteorWallet: `https://esm.sh/@near-wallet-selector/meteor-wallet@${VERSION}?bundle`,
+  // Meteor imports near-api-js by package name. Pin the same API major used by
+  // this release so esm.sh cannot silently resolve a newer export surface.
+  meteorWallet: `https://esm.sh/@near-wallet-selector/meteor-wallet@${VERSION}?bundle&deps=near-api-js@5.1.1`,
 });
 
 let selectorPromise;
@@ -52,14 +54,14 @@ async function setup() {
     import(MODULES.meteorWallet),
   ]);
   const selector = await setupWalletSelector({ network: "testnet", modules: [setupMeteorWallet()] });
-  return { selector, actionCreators };
+  return { selector, actionCreators, setupModal };
 }
 
 export async function ensureWalletAdapter({ contractId } = {}) {
   if (window.PACT_NEAR_ADAPTER) return window.PACT_NEAR_ADAPTER;
   if (window.PACT_DISABLE_WALLET_SELECTOR) throw new Error("Read-only mode is enabled for this preview.");
   if (!selectorPromise) selectorPromise = setup();
-  const { selector, actionCreators } = await selectorPromise;
+  const { selector, actionCreators, setupModal } = await selectorPromise;
   const modalOptions = contractId ? { contractId } : {};
   const modal = setupModal(selector, modalOptions);
   const provider = createTestnetProvider();

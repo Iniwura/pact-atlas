@@ -1,11 +1,19 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import test from "node:test";
 import { WALLET_SELECTOR_MODULES, WALLET_SELECTOR_VERSION } from "../wallet-selector-host.mjs";
 
 test("pins Meteor Wallet for explicit NEAR testnet selection", () => {
   assert.equal(WALLET_SELECTOR_VERSION, "10.1.4");
   assert.match(WALLET_SELECTOR_MODULES.meteorWallet, /@near-wallet-selector\/meteor-wallet@10\.1\.4/);
+  assert.match(WALLET_SELECTOR_MODULES.meteorWallet, /deps=near-api-js@5\.1\.1/);
   assert.equal("myNearWallet" in WALLET_SELECTOR_MODULES, false);
+});
+
+test("returns the modal factory used by the real connection boundary", () => {
+  const source = fs.readFileSync(new URL("../wallet-selector-host.mjs", import.meta.url), "utf8");
+  assert.match(source, /return \{ selector, actionCreators, setupModal \}/);
+  assert.match(source, /const \{ selector, actionCreators, setupModal \} = await selectorPromise/);
 });
 
 test("Meteor, core and modal bundles are publicly retrievable", async () => {

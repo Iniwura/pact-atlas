@@ -27,6 +27,14 @@ The self-service path now prepares a real testnet campaign lifecycle: it validat
 
 The implementation and deterministic browser-test results are supplemented by bounded public testnet demonstrations recorded in [`evidence/pact-atlas-testnet-evidence-2026-11-10.json`](../evidence/pact-atlas-testnet-evidence-2026-11-10.json) and [`evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`](../evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json). The public evidence uses disposable faucet-funded accounts only; it does not establish production safety or replace an independent audit.
 
+## 2026-11-11 Meteor browser-signing gate — not verified
+
+This gate was attempted with a fresh disposable faucet-funded `.testnet` signer, the official Meteor Wallet Chrome Web Store distribution (extension version `0.8.12`), a dedicated Playwright Chromium profile, and the real Wallet Selector v10.1.4 testnet module. The authentic extension loaded, Wallet Selector opened the Meteor connection request, and the extension's testnet connection route was reached. No signing transaction was submitted and no browser receipt is claimed.
+
+The exact external blocker was Cloudflare access denial from Meteor's official service while the extension UI attempted to look up the disposable testnet account: `https://backend-v2.meteorwallet.app/api/testnet/helper/publicKey/<public-key>/accounts` returned HTTP `403`. The official web-wallet route `https://wallet.meteorwallet.app/connect/testnet/signIn` returned the same HTTP `403` block in the isolated browser. The extension therefore could not import the disposable account through its own UI, and the connection request remained at **No Meteor Wallet account found**. This was not bypassed with extension storage injection, a patched wallet API, a fake adapter, or a direct SDK signature.
+
+The attempt also found and fixed two application-side compatibility defects before reaching this external blocker: the Meteor esm.sh module now pins `near-api-js@5.1.1`, and the Wallet Selector host now returns the imported `setupModal` factory. The regression tests cover both boundaries. The gate remains open until the official Meteor service is reachable from a disposable testnet browser session and a real wallet-signed `commit` is independently finalized on `https://rpc.testnet.near.org`.
+
 ## Completed public testnet lifecycle
 
 The following three campaigns were independently queried at finalized state on `https://rpc.testnet.near.org`:

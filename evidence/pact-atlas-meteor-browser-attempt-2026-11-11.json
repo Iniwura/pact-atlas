@@ -1,0 +1,48 @@
+{
+  "schema": "pact-atlas-meteor-browser-attempt-v1",
+  "recorded_at": "2026-11-11",
+  "network": "testnet",
+  "browser_verification": {
+    "status": "NOT_VERIFIED",
+    "transaction_hash": null,
+    "signing_was_attempted": false,
+    "reason": "The official Meteor account lookup and web connection service returned Cloudflare HTTP 403 from this isolated runtime; no wallet bypass or substitute signature was used.",
+    "official_chrome_web_store_extension_id": "pcndjhkinnkaohffealmlmhaepkpmgkb",
+    "extension_version": "0.8.12",
+    "crx_sha256": "fedec006546bce5f89bb99e5639c525a48788e579a2c18ac55f0f245b0b7e39e",
+    "wallet_selector_version": "10.1.4",
+    "meteor_module_dependency_pin": "near-api-js@5.1.1",
+    "official_backend_status": 403,
+    "official_web_connect_status": 403,
+    "official_backend_route": "https://backend-v2.meteorwallet.app/api/testnet/helper/publicKey/<public-key>/accounts",
+    "official_web_connect_route": "https://wallet.meteorwallet.app/connect/testnet/signIn"
+  },
+  "campaign_prepared_for_manual_or_later_browser_gate": {
+    "account_id": "atlas-lab-20261111.pact-atlas-sdk-20261111.testnet",
+    "deployment_transaction": "FXJSaTcbU9a8G2zk9TF2kbHb1Ye1Eiv8NU36jcPV6bQS",
+    "deployment_explorer": "https://testnet.nearblocks.io/txns/FXJSaTcbU9a8G2zk9TF2kbHb1Ye1Eiv8NU36jcPV6bQS",
+    "beneficiary_account": "pact-atlas-beneficiary-20261111.testnet",
+    "wasm_sha256": "5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15",
+    "near_code_hash": "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp",
+    "deployment_finality": "FINAL",
+    "phase": "OPEN",
+    "project": {
+      "id": "alpha",
+      "required_yocto": "1000000000000000000000000",
+      "beneficiary": "pact-atlas-beneficiary-20261111.testnet"
+    },
+    "activate_after_ms": 1794438829296,
+    "deadline_ms": 1794446029296,
+    "contract_balance_yocto": "5000000000000000000000000",
+    "liabilities_yocto": "0",
+    "solvent": true,
+    "pledge_records": []
+  },
+  "reproduction": {
+    "local_preview": "http://127.0.0.1:4173",
+    "campaign_route": "/campaign",
+    "rpc": "https://rpc.testnet.near.org",
+    "extension_source": "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=131.0&acceptformat=crx3&x=id%3Dpcndjhkinnkaohffealmlmhaepkpmgkb%26installsource%3Dondemand%26uc",
+    "notes": "The campaign deployment and immutable state were independently verified with the official RPC. This manifest contains no private key or signing credential."
+  }
+}
