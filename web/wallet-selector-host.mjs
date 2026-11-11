@@ -11,6 +11,12 @@ const MODULES = Object.freeze({
   // Meteor imports near-api-js by package name. Pin the same API major used by
   // this release so esm.sh cannot silently resolve a newer export surface.
   meteorWallet: `https://esm.sh/@near-wallet-selector/meteor-wallet@${VERSION}?bundle&deps=near-api-js@5.1.1`,
+  // Sender is optional: its official injected module is only available when the
+  // authentic extension is installed in the user's browser. PACT's contribution
+  // path uses FunctionCall actions, the action type Sender supports.
+  sender: `https://esm.sh/@near-wallet-selector/sender@${VERSION}?bundle`,
+  // Nightly is the final optional fallback for this release's browser proof.
+  nightly: `https://esm.sh/@near-wallet-selector/nightly@${VERSION}?bundle`,
 });
 
 let selectorPromise;
@@ -48,12 +54,17 @@ async function waitForAccount(selector) {
 }
 
 async function setup() {
-  const [{ setupWalletSelector, actionCreators }, { setupModal }, { setupMeteorWallet }] = await Promise.all([
+  const [{ setupWalletSelector, actionCreators }, { setupModal }, { setupMeteorWallet }, { setupSender }, { setupNightly }] = await Promise.all([
     import(MODULES.core),
     import(MODULES.modal),
     import(MODULES.meteorWallet),
+    import(MODULES.sender),
+    import(MODULES.nightly),
   ]);
-  const selector = await setupWalletSelector({ network: "testnet", modules: [setupMeteorWallet()] });
+  const selector = await setupWalletSelector({
+    network: "testnet",
+    modules: [setupMeteorWallet(), setupSender(), setupNightly()],
+  });
   return { selector, actionCreators, setupModal };
 }
 

@@ -95,7 +95,7 @@ Five contributors put in 12 NEAR total. A flexible donor can pledge 3 NEAR to ei
 - `web/campaign-live.mjs`: authenticated finalized campaign state plus explicit commit, activation, expiry and withdrawal actions.
 - `web/campaign-live-data.mjs`: immutable configuration authentication and chain-derived pledge certificate preparation.
 - `web/near-rpc.mjs`: read-only testnet RPC transport, including finalized transaction and code-hash requests.
-- `web/wallet-selector-host.mjs`: lazy Wallet Selector v10 testnet host integration; it never owns keys or retries unknown outcomes.
+- `web/wallet-selector-host.mjs`: lazy Wallet Selector v10.1.4 testnet host integration for Meteor, Sender and Nightly; it never owns keys or retries unknown outcomes.
 - `web/near-workflow.mjs`: explicit commit, Sputnik proposal, certificate, activation and withdrawal request builder.
 - `web/near-adapter.mjs`: HOT Connect / Wallet Selector-compatible host bridge; it never owns keys or retries unknown outcomes.
 - `docs/VERCEL_PREVIEW.md` and `vercel.json`: reproducible preview package and the verified sandbox-backed Vercel preview record.
@@ -171,7 +171,7 @@ SDK pinned to [`near-sdk = 5.29.1`](https://github.com/near/near-sdk-rs/releases
 
 Read `docs/SECURITY_REVIEW.md` for the risks and policy changes.
 
-**Current security warning:** No mainnet usage, production funds, or user deposits. The bounded CLI-signed faucet-funded testnet campaigns are verified, but genuine Meteor browser signing, public Sputnik governance, native-transfer failure injection, missing-callback recovery, and an independent qualified audit remain open gates. Never add a timeout retry or blind unlock for a pending withdrawal.
+**Current security warning:** No mainnet usage, production funds, or user deposits. The bounded CLI-signed faucet-funded testnet campaigns are verified, but genuine browser-wallet signing (Meteor, Sender and Nightly attempts are recorded as unverified), public Sputnik governance, native-transfer failure injection, missing-callback recovery, and an independent qualified audit remain open gates. Never add a timeout retry or blind unlock for a pending withdrawal.
 
 ## Verified local criteria
 
@@ -185,7 +185,7 @@ Read `docs/SECURITY_REVIEW.md` for the risks and policy changes.
 8. Two-council Sputnik DAO proposals are created, rejected when unauthorized/unapproved, approved, executed to fund PACT, and used to withdraw an expired DAO-owned refund in fresh sandbox state.
 9. `accounting()` proves `locked_pledges + credits + pending == liabilities` and checks the developer-sponsored storage reserve at each exercised state.
 10. The RC1 sandbox campaign exercises the configured 8-project/32-pledge capacity, exact boundary predicates in Rust VM tests, all settlement credits and repeated withdrawal rejection.
-11. Three bounded faucet-funded testnet lifecycles are verified: two settlement/refund paths in `evidence/pact-atlas-testnet-evidence-2026-11-10.json` and one dependency-aware two-project coalition in `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`; Sputnik governance and real Meteor wallet signing remain separate gates.
+11. Three bounded faucet-funded testnet lifecycles are verified: two settlement/refund paths in `evidence/pact-atlas-testnet-evidence-2026-11-10.json` and one dependency-aware two-project coalition in `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`; Sputnik governance and genuine browser-wallet signing remain separate gates. The Sender/Nightly attempts and their exact blockers are recorded in `evidence/pact-atlas-alternate-wallet-attempt-2026-11-11.json`.
 
 No testnet credentials or signing keys are included in this archive. Public transaction hashes are included only in the reproducible evidence manifest.
 

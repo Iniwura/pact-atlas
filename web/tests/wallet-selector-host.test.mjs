@@ -7,7 +7,17 @@ test("pins Meteor Wallet for explicit NEAR testnet selection", () => {
   assert.equal(WALLET_SELECTOR_VERSION, "10.1.4");
   assert.match(WALLET_SELECTOR_MODULES.meteorWallet, /@near-wallet-selector\/meteor-wallet@10\.1\.4/);
   assert.match(WALLET_SELECTOR_MODULES.meteorWallet, /deps=near-api-js@5\.1\.1/);
+  assert.match(WALLET_SELECTOR_MODULES.sender, /@near-wallet-selector\/sender@10\.1\.4/);
+  assert.match(WALLET_SELECTOR_MODULES.nightly, /@near-wallet-selector\/nightly@10\.1\.4/);
   assert.equal("myNearWallet" in WALLET_SELECTOR_MODULES, false);
+});
+
+test("registers Sender as an optional injected wallet without changing the testnet network", () => {
+  const source = fs.readFileSync(new URL("../wallet-selector-host.mjs", import.meta.url), "utf8");
+  assert.match(source, /import\(MODULES\.sender\)/);
+  assert.match(source, /import\(MODULES\.nightly\)/);
+  assert.match(source, /modules: \[setupMeteorWallet\(\), setupSender\(\), setupNightly\(\)\]/s);
+  assert.match(source, /network: "testnet"/);
 });
 
 test("returns the modal factory used by the real connection boundary", () => {
@@ -16,7 +26,7 @@ test("returns the modal factory used by the real connection boundary", () => {
   assert.match(source, /const \{ selector, actionCreators, setupModal \} = await selectorPromise/);
 });
 
-test("Meteor, core and modal bundles are publicly retrievable", async () => {
+test("Meteor, Sender, core and modal bundles are publicly retrievable", async () => {
   for (const [name, url] of Object.entries(WALLET_SELECTOR_MODULES)) {
     const response = await fetch(url);
     assert.equal(response.status, 200, `${name} bundle did not return HTTP 200`);

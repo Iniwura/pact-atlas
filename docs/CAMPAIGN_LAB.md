@@ -5,7 +5,7 @@ The Campaign Lab at `/create.html` has two explicit modes:
 - **Offline planning:** create arbitrary project and supporter constraints, run the bounded exact solver, and export a reproducible model-only certificate without a wallet or network call.
 - **Testnet campaign launch:** after a fundable plan is complete, connect an explicit named `*.testnet` wallet, fetch the preserved PACT Wasm, and prepare one atomic multi-action account deployment. The exact parent-owned namespace check permits the tested `CreateAccount → Transfer → DeployContract → new → sponsor_storage` receipt without opening initialization to unrelated accounts. Signing is always wallet-approved and is not available in read-only mode.
 
-The bounded public demonstration is recorded in [`evidence/pact-atlas-testnet-evidence-2026-11-10.json`](../evidence/pact-atlas-testnet-evidence-2026-11-10.json) and [`evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`](../evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json). The latest campaign has two projects, two independent contributors, an out-of-order conditional beta pledge requiring alpha, an accepted two-entry certificate, two beneficiary withdrawals and zero final liabilities. It uses disposable faucet-funded accounts only. Sputnik web-wallet approvals, real Meteor signing and production use remain outside this evidence.
+The bounded public demonstration is recorded in [`evidence/pact-atlas-testnet-evidence-2026-11-10.json`](../evidence/pact-atlas-testnet-evidence-2026-11-10.json) and [`evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`](../evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json). The latest campaign has two projects, two independent contributors, an out-of-order conditional beta pledge requiring alpha, an accepted two-entry certificate, two beneficiary withdrawals and zero final liabilities. It uses disposable faucet-funded accounts only. Sputnik web-wallet approvals, genuine browser-wallet signing and production use remain outside this evidence; the alternate-wallet attempts are recorded separately in [`evidence/pact-atlas-alternate-wallet-attempt-2026-11-11.json`](../evidence/pact-atlas-alternate-wallet-attempt-2026-11-11.json).
 
 ## Offline workflow
 
@@ -36,7 +36,7 @@ When an authorized named testnet wallet is connected on a fundable plan:
 6. A candidate certificate is visibly labeled as model-derived until the configured activation authority submits it. After activation, the page displays the certificate read from finalized contract state.
 7. Expiry, withdrawals and pending balances remain explicit. Missing or unknown finality never triggers an automatic retry.
 
-Use `web/campaign-chain.mjs` for deterministic request construction and `web/campaign-live.mjs` for the read/commit/activation/settlement boundary. `web/wallet-selector-host.mjs` loads pinned Wallet Selector v10 Meteor modules only after a user presses a wallet action; the default preview has no credentials. Read-only endpoint checks do not prove a real wallet signature.
+Use `web/campaign-chain.mjs` for deterministic request construction and `web/campaign-live.mjs` for the read/commit/activation/settlement boundary. `web/wallet-selector-host.mjs` loads pinned Wallet Selector v10 Meteor, Sender and Nightly modules only after a user presses a wallet action; the default preview has no credentials. Read-only endpoint checks do not prove a real wallet signature.
 
 ## Demonstrate the difference
 

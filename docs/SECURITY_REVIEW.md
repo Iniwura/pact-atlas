@@ -18,11 +18,11 @@
 
 - Native-transfer failure injection through a real predecessor account and callback non-execution recovery.
 - Independent qualified external audit.
-- Real Meteor wallet signing and multi-member Sputnik DAO approval on public testnet.
+- Genuine browser-wallet signing (Meteor, Sender or Nightly) and multi-member Sputnik DAO approval on public testnet.
 
 ## Current product boundary
 
-The browser can prepare a genuine testnet request, but the public evidence was executed with isolated local CLI signers rather than a browser wallet session. A public campaign page is read-only until a wallet action is explicitly chosen. Candidate allocations are labeled model-derived; only `activation_certificate()` from finalized contract state is described as accepted onchain. The public evidence does not establish callback liveness, DAO quorum, genuine Meteor signing or production safety.
+The browser can prepare a genuine testnet request, and Wallet Selector v10.1.4 now exposes optional Meteor, Sender and Nightly modules. The public evidence was executed with isolated local CLI signers rather than a browser wallet session; the alternate browser attempts are recorded in `evidence/pact-atlas-alternate-wallet-attempt-2026-11-11.json`. A public campaign page is read-only until a wallet action is explicitly chosen. Candidate allocations are labeled model-derived; only `activation_certificate()` from finalized contract state is described as accepted onchain. The public evidence does not establish callback liveness, DAO quorum, genuine browser signing or production safety.
 
 ## Changes since the original checkpoint
 

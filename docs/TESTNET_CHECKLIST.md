@@ -30,13 +30,13 @@
 - [x] Correct finalized transaction RPC transport, authenticate immutable campaign configuration and derive allocation candidates from canonical onchain pledge records.
 - [x] Implement finalized read-only campaign views, explicit whole-pledge commit/activation/expiry/withdrawal requests and no-retry unknown-outcome handling.
 - [x] Browser-test the public campaign route with mocked finalized RPC responses and malformed-link fail-closed behavior. This is not a real-chain result.
-- [x] Read-only testnet RPC probe returned `chain_id: testnet` (protocol 88); pinned Wallet Selector v10.1.4 core/modal/Meteor endpoints returned HTTP 200 without signing.
+- [x] Read-only testnet RPC probe returned `chain_id: testnet` (protocol 88); pinned Wallet Selector v10.1.4 core/modal/Meteor/Sender/Nightly endpoints returned HTTP 200 without signing.
 - [x] Create separate faucet-funded NEAR testnet identities with credentials kept outside the repository.
 - [x] Deploy the pinned compiled WASM to dedicated testnet accounts, not mainnet; independently verify both code hashes.
 - [x] Reproduce a successful activation/beneficiary withdrawal and a separate expired-campaign full refund with finalized transaction hashes.
 - [x] Publish explorer evidence and update `README.md` with judge-facing 'do X, see Y' instructions. See `evidence/pact-atlas-testnet-evidence-2026-11-10.json` and `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`.
 - [x] Complete a public two-project coalition campaign: independent contributors pledged out of order, a conditional pledge required a dependency, the authority accepted the canonical allocation certificate, both beneficiaries withdrew, and finalized accounting reconciled to zero liabilities.
-- [ ] Verify real Meteor wallet signing and a multi-member Sputnik DAO approval flow on public testnet.
+- [ ] Verify genuine browser-wallet signing (Meteor, Sender or Nightly) and a multi-member Sputnik DAO approval flow on public testnet. Alternate-wallet attempts are recorded as unverified in `evidence/pact-atlas-alternate-wallet-attempt-2026-11-11.json`.
 - [ ] Only after testnet success, consider a production-ready contract audit and expansion.
 
 ## Hard stop criteria
