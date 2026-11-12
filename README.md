@@ -1,6 +1,6 @@
 # PACT Atlas — executable technical checkpoint
 
-**Status (2026-11-10):** The self-service console and public campaign route have a passing local Chromium suite, alongside 16 Rust unit tests, 35 core Node tests, chain/RPC/live-data regression tests, Meteor/NEAR testnet endpoint checks, exact bounded counterfactual/benchmark checks, wallet-adapter tests, genuine local NEAR sandbox campaigns, and three faucet-funded NEAR testnet campaigns: two single-project settlement/refund lifecycles plus a two-project dependency coalition. GitHub Actions remains blocked by the account billing/spending-limit gate; see the [dated verification record](docs/VERIFICATION_2026-11-10.md), the [baseline public evidence](evidence/pact-atlas-testnet-evidence-2026-11-10.json), and the [coalition evidence](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json).
+**Status (2026-11-12):** The release remains **HOLD / testnet demonstration only**. The self-service console, public campaign route and read-only public proof index have a passing local Chromium suite, alongside 16 Rust unit tests, 29 reference-model tests, chain/RPC/live-data regression tests, exact bounded counterfactual/benchmark checks, wallet-adapter tests, genuine local NEAR sandbox campaigns, and three faucet-funded NEAR testnet campaigns: two single-project settlement/refund lifecycles plus a two-project dependency coalition. GitHub Actions remains blocked by the account billing/spending-limit gate. The unresolved missing-withdrawal-callback liveness risk is a production blocker; genuine browser-wallet signing and public Sputnik governance remain unverified evidence gates. See [the final hardening review](docs/FINAL_HARDENING_REVIEW_2026-11-12.md), the [baseline public evidence](evidence/pact-atlas-testnet-evidence-2026-11-10.json), and the [coalition evidence](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json).
 
 This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
 
@@ -57,7 +57,7 @@ Reproduce independently with `npm run verify:testnet -- <contract.testnet> <sign
 
 Open `/console` after `npm run preview`. The app begins with a simple question: **Can we fund all four community projects?** Four project cards show required amounts and dependency conditions. The right-hand panel shows **12 of 13 NEAR committed**, with Events missing 1 NEAR.
 
-Click **Simulate +1 NEAR**. The cards update and **Where the money goes** immediately shows an exact allocation across the four projects. All funds in this action are hypothetical. You can click **Reset example** to undo it, choose a project card to see its conditions, or inspect the supporter restrictions and separately verified local NEAR sandbox receipts below.
+Click **Simulate +1 NEAR**. The cards update and **Where the money goes** immediately shows an exact allocation across the four projects. All funds in this action are hypothetical. You can click **Reset example** to undo it, choose a project card to see its conditions, inspect the supporter restrictions, and open the separate **Public NEAR testnet proof** section for genuine coalition and refund receipts.
 
 For a reproducible, 60-second reviewer path, use [the judge walkthrough](docs/JUDGE_WITNESS.md). The actual calculation is derived from `web/engine.mjs` through `web/funding-view.mjs`; it is not hardcoded visual data or a signed onchain transaction.
 
@@ -135,7 +135,7 @@ npm ci
 RUSTUP_TOOLCHAIN=1.93.0 bash scripts/verify-rust.sh
 ```
 
-The script checks Rust formatting, the locked Wasm target, 16 unit tests and clippy, rebuilds the optimized Wasm and ABI with `wasm-opt`, runs the 35 core Node tests, 9 benchmark tests, 23 counterfactual tests, 8 workflow tests, 7 proof tests, 8 wallet-adapter tests, 3 Meteor/testnet-probe tests and 9 chain/RPC/live-data/ABI tests, and runs five real sandbox scenarios plus the exact atomic deployment lifecycle. The sandbox runner uses `near-sandbox` 2.13.4 through the pinned `near-sandbox-modern` alias because the older binary bundled by `near-workspaces` 5.0.0 cannot prepare this SDK's Wasm.
+The script checks Rust formatting, the locked Wasm target, 16 unit tests and clippy, rebuilds the optimized Wasm and ABI with `wasm-opt`, runs the 38 core Node tests, 9 benchmark tests, 23 counterfactual tests, 8 workflow tests, 7 proof tests, 8 wallet-adapter tests, 5 pinned Wallet Selector/testnet compatibility tests and 9 chain/RPC/live-data/ABI tests, and runs five real sandbox scenarios plus the exact atomic deployment lifecycle. The sandbox runner uses `near-sandbox` 2.13.4 through the pinned `near-sandbox-modern` alias because the older binary bundled by `near-workspaces` 5.0.0 cannot prepare this SDK's Wasm.
 
 The product checks are separate and reproducible with `npm run test:counterfactual` and `NPM_CONFIG_CACHE=/tmp/pact-npm-cache PLAYWRIGHT_BROWSERS_PATH=/tmp/pact-playwright-browsers npm run test:browser`. The browser campaign covers first-viewport comprehension, exact/blocked counterfactual states, evidence reconciliation, injected-adapter wallet safety, direct hosted routes, console/page errors, automated accessibility, graph keyboard interaction, evidence switching, narrow mobile layout and a local load-time budget. Fresh CI captures go to ignored `test-results/screenshots/`; the current redesign captures are in `docs/design-evidence/`.
 
@@ -176,7 +176,7 @@ Read `docs/SECURITY_REVIEW.md` for the risks and policy changes.
 ## Verified local criteria
 
 1. Pinned Rust/near-sdk compilation, locked Wasm check, clippy and optimized Wasm build pass.
-2. 16 Rust unit tests and 26 reference-model tests pass.
+2. 16 Rust unit tests and 29 reference-model tests pass.
 3. Real sandbox transactions use separate accounts and attached native NEAR.
 4. Invalid allocations revert without changing phase, liabilities or storage stake.
 5. A/B/C activation settles 4 + 3 + 3 NEAR and refunds the unused 2 NEAR pledge.
@@ -185,7 +185,7 @@ Read `docs/SECURITY_REVIEW.md` for the risks and policy changes.
 8. Two-council Sputnik DAO proposals are created, rejected when unauthorized/unapproved, approved, executed to fund PACT, and used to withdraw an expired DAO-owned refund in fresh sandbox state.
 9. `accounting()` proves `locked_pledges + credits + pending == liabilities` and checks the developer-sponsored storage reserve at each exercised state.
 10. The RC1 sandbox campaign exercises the configured 8-project/32-pledge capacity, exact boundary predicates in Rust VM tests, all settlement credits and repeated withdrawal rejection.
-11. Three bounded faucet-funded testnet lifecycles are verified: two settlement/refund paths in `evidence/pact-atlas-testnet-evidence-2026-11-10.json` and one dependency-aware two-project coalition in `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`; Sputnik governance and genuine browser-wallet signing remain separate gates. The Sender/Nightly attempts and their exact blockers are recorded in `evidence/pact-atlas-alternate-wallet-attempt-2026-11-11.json`.
+11. Three bounded faucet-funded testnet lifecycles are verified: two settlement/refund paths in `evidence/pact-atlas-testnet-evidence-2026-11-10.json` and one dependency-aware two-project coalition in `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`; Sputnik governance and genuine browser-wallet signing remain separate gates. The Sender/Nightly attempts and their exact blockers are recorded in `evidence/pact-atlas-alternate-wallet-attempt-2026-11-11.json`; the native-transfer failure-injection boundary is recorded in `evidence/pact-atlas-withdrawal-failure-attempt-2026-11-12.json`.
 
 No testnet credentials or signing keys are included in this archive. Public transaction hashes are included only in the reproducible evidence manifest.
 

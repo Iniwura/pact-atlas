@@ -1,11 +1,11 @@
-# PACT Atlas: security and readiness review (November 10, 2026)
+# PACT Atlas: security and readiness review (November 12, 2026)
 
 **Status: experimental only. Local Rust, Wasm, ABI, real NEAR sandbox verification and a bounded faucet-funded NEAR testnet lifecycle passed; this document is an adversarial engineering review, not an independent qualified security audit, and the contract must not be used with real value.**
 
 ## Verified in this environment
 
 - Source archive extracted and inspected.
-- Node.js reference-model suite: **26 tests pass**.
+- Node.js reference-model suite: **29 tests pass**.
 - Rust contract: **16 unit tests pass**, locked Wasm check passes, and clippy passes with warnings denied.
 - Optimized nearcore-compatible Wasm build passes; SHA-256 is recorded in the sandbox evidence.
 - Real NEAR sandbox: **5 baseline campaigns pass**, plus a fresh RC1 maximum-capacity campaign with all 8 projects, all 32 pledge slots, and a separate exact atomic self-service deployment/lifecycle campaign. Each includes measured storage reserve and settlement checks.
@@ -16,7 +16,7 @@
 
 ## Unverified gates
 
-- Native-transfer failure injection through a real predecessor account and callback non-execution recovery.
+- Native-transfer failure injection through a real predecessor account and callback non-execution recovery. The recipient-deletion attempt is now recorded separately; it cannot reach a transfer receipt because the recipient is also the authenticated predecessor.
 - Independent qualified external audit.
 - Genuine browser-wallet signing (Meteor, Sender or Nightly) and multi-member Sputnik DAO approval on public testnet.
 
@@ -34,7 +34,7 @@ The browser can prepare a genuine testnet request, and Wallet Selector v10.1.4 n
 6. `accounting()` exposes the conservation identity and reserve calculation. Solvency checks during normal state transitions verify both contract balance and liability conservation across locked pledges, credits and pending transfers.
 7. Callback gas budget is 40 TGas with explicit single-result checking. This is **not** a recovery mechanism for failed or missing callbacks.
 8. The callback validates the stored amount and promise-result count before removing the pending record. This is defense in depth; it does not solve a callback that never executes.
-9. Fifteen Rust unit tests cover JSON entrypoint decoding, initialization authorization, exact activation/deadline boundaries, maximum project/pledge capacity, accounting, callback success/failure, callback amount validation, duplicate callback behavior and canonical read-only campaign/pledge views.
+9. Sixteen Rust unit tests cover JSON entrypoint decoding, initialization authorization, exact activation/deadline boundaries, maximum project/pledge capacity, accounting, callback success/failure, callback amount validation, duplicate callback behavior and canonical read-only campaign/pledge views.
 10. A real NEAR sandbox runner verifies five fresh baseline campaigns with actual attached deposits, invalid allocations, dependency rejection, top-up activation, expiry refunds, competing requests, activation authorization, withdrawals, liabilities, storage reserve balances and Sputnik DAO proposals. An isolated RC1 run additionally exercises all 8 project slots, all 32 pledge slots, storage growth, activation, settlement and repeated withdrawal rejection.
 11. The competitive benchmark compares explicit independent and aggregate-threshold baselines with the bounded exact reference solver and checks five small scenarios against a separate exhaustive oracle. It is model evidence, not chain evidence.
 
@@ -51,6 +51,8 @@ The browser can prepare a genuine testnet request, and Wallet Selector v10.1.4 n
 | Unauthorized activation | A permissionless activation could select a valid but unapproved coalition. | **Mitigated for this build:** `activate` requires an immutable authority allowlist and sandbox evidence shows unauthorized rejection plus one winner among competing authorized requests. A future DAO should configure itself as an authority when DAO approval must control activation. |
 | Data visibility | Project choices, contributor wallets, amounts, conditions and certificates are public on NEAR. | Do not claim confidentiality or anonymous cooperation for this build. |
 | Beneficiary accountability | Beneficiaries can withdraw immediately after valid allocation, even if they later fail to deliver. | Explicitly limit promises to *funding feasibility*, not service delivery guarantees. |
+
+The consolidated P0/P1/P2 disposition for this hardening pass is in [`FINAL_HARDENING_REVIEW_2026-11-12.md`](FINAL_HARDENING_REVIEW_2026-11-12.md). F-01 (missing callback liveness) remains a P0 production blocker. F-02 (native-transfer failure receipt) is an evidence limitation, F-03 (browser-wallet signing) and F-04 (public Sputnik governance) are submission/evidence blockers, and F-05 (no independent qualified audit) remains a production blocker. No unsafe recovery was implemented.
 
 ## Financial invariant
 

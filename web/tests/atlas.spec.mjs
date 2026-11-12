@@ -102,8 +102,22 @@ test.describe("PACT Atlas / first-time funding experience", () => {
     await page.selectOption("#evidence-select","4");
     await expect(page.locator("#receipt-list")).toContainText("PACT funded");
     await expect(page.locator("#receipt-list")).toContainText("liabilities");
-    await expect(page.locator(".evidence-footnote")).toContainText("not your simulation");
+    await expect(page.locator("#evidence .evidence-footnote")).toContainText("not your simulation");
     await expect(page.getByRole("link",{name:/Open raw evidence JSON/i})).toHaveAttribute("href","./data/evidence.json");
+  });
+
+  test("genuine public coalition and refund receipts are inspectable without a wallet", async ({page,request}) => {
+    const proof = await request.get("/data/testnet-proof.json");
+    expect(proof.ok()).toBeTruthy();
+    await page.goto("/console#public-proof");
+    await expect(page.getByRole("heading", { name: "Public NEAR testnet proof" })).toBeVisible();
+    await expect(page.locator(".public-proof-card")).toHaveCount(2);
+    await expect(page.locator(".public-proof-card").first()).toContainText("Two-project dependency coalition");
+    await expect(page.locator(".public-proof-card").first()).toContainText("certificate: [1 → alpha, 0 → beta]");
+    await expect(page.locator(".public-proof-card").nth(1)).toContainText("Expired campaign refund");
+    await expect(page.locator(".public-proof-card").nth(1)).toContainText("Refund withdrawal");
+    await expect(page.locator("#public-proof-status")).toContainText("disposable CLI signers");
+    await expect(page.locator(".public-proof-card a").first()).toHaveAttribute("href", /testnet\.nearblocks\.io/);
   });
 
   test("unavailable wallet mode cannot accidentally transact", async ({page}) => {
@@ -190,7 +204,7 @@ test.describe("PACT Atlas / first-time funding experience", () => {
   }
 
   test("all browser assets return success", async ({page,request}) => {
-    for (const route of ["/console","/protocol-workspace.css","/app.js","/engine.mjs","/funding-view.mjs","/near-workflow.mjs","/data/evidence.json","/HACKATHON.md"]) {
+    for (const route of ["/console","/protocol-workspace.css","/app.js","/engine.mjs","/funding-view.mjs","/near-workflow.mjs","/public-testnet-proof.mjs","/data/evidence.json","/data/testnet-proof.json","/HACKATHON.md"]) {
       expect((await request.get(route)).ok(),route).toBeTruthy();
     }
     await page.goto("/console");

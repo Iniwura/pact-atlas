@@ -61,6 +61,7 @@ The following three campaigns were independently queried at finalized state on `
 
 - `/` — approved cinematic homepage, unchanged.
 - `/console` — inspect the 12 vs. 13 NEAR case and simulate the missing 1 NEAR.
+- `/console#public-proof` — inspect the genuine faucet-funded coalition and expiry/refund receipts, including the accepted certificate and public explorer links. This section is read-only and clearly separate from the offline simulation.
 - `/create.html` — make a custom campaign, configure projects and supporters, export the exact offline allocation, or prepare an explicitly wallet-approved testnet deployment when credentials are authorized.
 - `/campaign?contract=…&config=…` — inspect a deployed campaign's finalized testnet views, contribute, activate and settle through explicit wallet approval. The share configuration is public; it is not a fabricated live state.
 - `/verify.html` — independently inspect one of the recorded real public PACT testnet transactions.

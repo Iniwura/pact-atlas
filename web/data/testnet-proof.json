@@ -1,0 +1,54 @@
+{
+  "schema": "pact-public-testnet-proof-v1",
+  "network": "NEAR testnet",
+  "rpc": "https://rpc.testnet.near.org",
+  "artifact": {
+    "wasm_sha256": "5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15",
+    "near_code_hash": "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp"
+  },
+  "wallet_signing": "disposable CLI signers; genuine browser-wallet signing is not verified",
+  "campaigns": [
+    {
+      "id": "coalition",
+      "label": "Two-project dependency coalition",
+      "contract_id": "coalition-20261110.beneficiary-20261110.testnet",
+      "contract_explorer": "https://testnet.nearblocks.io/address/coalition-20261110.beneficiary-20261110.testnet",
+      "summary": "Beta's conditional 1 NEAR pledge arrived before alpha. The accepted certificate used each pledge exactly once, then both beneficiaries withdrew.",
+      "facts": [
+        "2 projects / 2 independent contributors",
+        "beta depends on alpha",
+        "certificate: [1 → alpha, 0 → beta]",
+        "final liabilities: 0 NEAR · solvent: true"
+      ],
+      "links": [
+        { "label": "Beta contribution", "hash": "39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN", "url": "https://testnet.nearblocks.io/txns/39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN" },
+        { "label": "Alpha contribution", "hash": "8t22n71EQDb5WCswgLu7MUH3aVeyoFaCVdKgtQBUVje3", "url": "https://testnet.nearblocks.io/txns/8t22n71EQDb5WCswgLu7MUH3aVeyoFaCVdKgtQBUVje3" },
+        { "label": "Accepted activation certificate", "hash": "31FxH2YE9FEm7iq49AH6eXMvZYiFv7Y3jeqd8rThK96v", "url": "https://testnet.nearblocks.io/txns/31FxH2YE9FEm7iq49AH6eXMvZYiFv7Y3jeqd8rThK96v" },
+        { "label": "Beneficiary withdrawals", "hash": "BF7DB9Ap711cXLfnQnUweN1Q6LgUkUGmbFP3HfcxEkex / GuUpGeBNaygqoaepXPrmxbWgEzexoXgyxxFDZ617E9FX", "url": "https://testnet.nearblocks.io/txns/BF7DB9Ap711cXLfnQnUweN1Q6LgUkUGmbFP3HfcxEkex" }
+      ]
+    },
+    {
+      "id": "refund",
+      "label": "Expired campaign refund",
+      "contract_id": "refund-20261110.supporter-20261110.testnet",
+      "contract_explorer": "https://testnet.nearblocks.io/address/refund-20261110.supporter-20261110.testnet",
+      "summary": "A 1 NEAR contribution was left unactivated, expired at the deadline, and was withdrawn by its contributor.",
+      "facts": [
+        "1 project / 1 contributor",
+        "deadline expiry converted the pledge to a credit",
+        "refund withdrawal finalized",
+        "final liabilities: 0 NEAR · solvent: true"
+      ],
+      "links": [
+        { "label": "Contribution", "hash": "Hsps9MNcY34pYJ2bUPsh6fmDvW6qa3Exr6d5HwncuwZR", "url": "https://testnet.nearblocks.io/txns/Hsps9MNcY34pYJ2bUPsh6fmDvW6qa3Exr6d5HwncuwZR" },
+        { "label": "Expiry", "hash": "BsD14fSst4b6BSDqZ6v8WkZqHCQXKXupfPrwfNDtyGFK", "url": "https://testnet.nearblocks.io/txns/BsD14fSst4b6BSDqZ6v8WkZqHCQXKXupfPrwfNDtyGFK" },
+        { "label": "Refund withdrawal", "hash": "C4yMtrjmWoBRmRutTWfdCLEeY3XDrct8ydCx2ZBtTzvT", "url": "https://testnet.nearblocks.io/txns/C4yMtrjmWoBRmRutTWfdCLEeY3XDrct8ydCx2ZBtTzvT" }
+      ]
+    }
+  ],
+  "limitations": [
+    "These are faucet-funded testnet transactions, not mainnet or production evidence.",
+    "The public campaigns were signed by disposable CLI identities; no browser-wallet signature is claimed.",
+    "A missing withdrawal callback remains a liveness blocker. No timeout retry or speculative unlock is used."
+  ]
+}
