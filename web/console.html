@@ -12,32 +12,19 @@
 <body class="protocol-app pact-workspace">
 <a class="skip-link" href="#workspace-main">Skip to campaigns</a>
 <div class="shell">
-  <aside class="shell-sidebar" aria-label="Workspace navigation">
-    <a href="/" class="shell-brand" aria-label="PACT Atlas homepage">
-      <span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b></span> PACT<b>/</b>ATLAS
-    </a>
-    <span class="shell-nav-title">Workspace</span>
-    <nav class="shell-nav" aria-label="Main">
-      <a href="./console" aria-current="page"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></span>Overview</a>
-      <a href="#campaigns"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 10v10"></path></svg></span>Campaigns</a>
-      <a href="#activity"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h4l3-7 4 14 3-7h2"></path></svg></span>Activity</a>
-      <a href="./create.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg></span>New campaign</a>
-    </nav>
-    <div class="shell-sidebar-divider"></div>
-    <span class="shell-nav-title">Tools</span>
-    <nav class="shell-nav" aria-label="Tools">
-      <a href="./verify.html"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"></path><path d="M6 3h12"></path></svg></span>Verify a transaction</a>
-      <a href="/" aria-label="Return to PACT Atlas website"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 4H4v16h16v-6M14 4h6v6M20 4 10 14"></path></svg></span>Website</a>
-    </nav>
-    <div class="shell-sidebar-footer">
-      <div class="sidebar-network"><i aria-hidden="true"></i> NEAR TESTNET</div>
-      <p>Transactions are on testnet. Financial-production use is not supported.</p>
-    </div>
-  </aside>
-
   <div class="shell-main">
     <header class="shell-topbar">
-      <div class="shell-crumb"><span>PACT ATLAS</span><span aria-hidden="true">/</span><strong>Overview</strong></div>
+      <a href="/" class="shell-brand" aria-label="PACT Atlas homepage">
+        <span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b></span>
+        <span>PACT<span class="brand-slash">/</span>ATLAS</span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="./console" aria-current="page">Overview</a>
+        <a href="#campaigns">Campaigns</a>
+        <a href="#activity">Activity</a>
+        <a href="./create.html" aria-label="New campaign">Create</a>
+        <a href="./verify.html" aria-label="Verify a transaction">Verify</a>
+      </nav>
       <div class="topbar-actions">
         <span class="network-label"><i aria-hidden="true"></i> TESTNET</span>
         <button type="button" id="connect-wallet" class="wallet-button" aria-describedby="wallet-message">Connect wallet <span aria-hidden="true">↗</span></button>
