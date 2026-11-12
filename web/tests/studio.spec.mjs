@@ -15,6 +15,15 @@ test.describe("Art-directed Atlas homepage", () => {
     await page.screenshot({path:"test-results/pact-studio-desktop.png",fullPage:true});
   });
 
+  test("cinematic hero leads to genuine campaigns and makes the bounded funding comparison accurate", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator(".hero-link")).toHaveAttribute("href", "/console#campaigns");
+    await expect(page.locator(".hero-meta")).toContainText("PUBLIC RECEIPTS");
+    await expect(page.locator(".intro-metrics")).toContainText("WITH +1 NEAR");
+    await expect(page.locator(".intro-metrics")).toContainText("04");
+    await expect(page.locator(".hero-art img")).toBeVisible();
+  });
+
   test("keeps the approved cinematic hero unchanged", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator("#hero-title")).toContainText("FUND THE");
