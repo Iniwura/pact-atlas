@@ -9,7 +9,7 @@ test.describe("Art-directed Atlas homepage", () => {
     await expect(page.locator("#hero-title")).toContainText("IMPOSSIBLE");
     await expect(page.locator(".hero-art img")).toBeVisible();
     await expect(page.locator("#intro-heading")).toContainText("AGREEMENT");
-    await expect(page.getByRole("link", { name: /Open Protocol/i }).first()).toHaveAttribute("href","/console");
+    await expect(page.getByRole("link", { name: /Open App/i }).first()).toHaveAttribute("href","/console");
     await expect(page.locator("#network-mode")).toContainText("12N");
     await expect(page.locator("#cert-total")).toContainText("10");
     await page.screenshot({path:"test-results/pact-studio-desktop.png",fullPage:true});
