@@ -85,3 +85,10 @@
   .consumer-quicknav a:hover,.consumer-quicknav a:focus-visible{background:#553021;color:#fff}
 }
 @media(max-width:380px){.consumer-quicknav a{font-size:10px;padding:13px 5px}}
+
+/* Keep the branded header within the narrowest supported 320px viewport. */
+@media(max-width:380px){
+  .consumer-console .app-header{gap:9px}
+  .consumer-console .wordmark{font-size:14px;gap:6px}
+  .consumer-console .mode-pill{font-size:8px;letter-spacing:-.04em;gap:6px;padding:8px 7px}
+}
