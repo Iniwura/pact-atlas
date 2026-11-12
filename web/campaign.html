@@ -75,8 +75,14 @@
       </div>
       <p class="campaign-disclosure">Every live value above comes from finalized NEAR testnet views. A wallet hash alone is shown as submitted, never confirmed; a pending withdrawal is never retried automatically.</p>
     </section>
+    <section id="campaign-activity" class="campaign-activity" aria-labelledby="campaign-activity-heading" hidden>
+      <div class="panel-heading"><div><span class="pane-kicker">04 / PUBLIC RECEIPTS</span><h2 id="campaign-activity-heading">Transaction history</h2></div><a class="text-link" href="./verify.html">Verify a transaction ↗</a></div>
+      <ol id="campaign-activity-timeline" class="campaign-activity-timeline"></ol>
+      <p id="campaign-activity-status" class="campaign-activity-status" role="status"></p>
+    </section>
   </main>
   <footer class="site-footer"><span>PACT/ATLAS</span><span>TESTNET ONLY / FAUCET FUNDS</span><a href="./console">Explore the example ↗</a></footer>
   <script type="module" src="./campaign-live.mjs"></script>
+  <script type="module" src="./campaign-activity.mjs"></script>
 </body>
 </html>
