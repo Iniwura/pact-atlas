@@ -9,24 +9,7 @@ body.pact-workspace{--bg:#090b0b;--sidebar:#0b0e0d;--surface:#111514;--surface-r
 .pact-workspace button{cursor:pointer}
 .pact-workspace a{color:inherit;text-decoration:none}
 .pact-workspace a:focus-visible,.pact-workspace button:focus-visible{outline:2px solid var(--copper);outline-offset:4px}
-.pact-workspace .shell{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:100vh}
-.shell-sidebar{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:32px 18px 22px;background:var(--sidebar);border-right:1px solid #28312c;z-index:20}
-.shell-brand{display:flex;gap:12px;align-items:center;padding:3px 12px 48px;font-weight:800;font-size:18px;letter-spacing:-.07em;color:#f6f0e7;white-space:nowrap}
-.shell-brand b{color:var(--copper);font-weight:800}
-.shell-brand .brand-mark{transform:scale(.98);margin-right:0}
-.shell-nav-title{padding:0 15px;margin-bottom:15px;font:700 10px/1 var(--mono);color:#707e75;letter-spacing:.13em;text-transform:uppercase}
-.shell-nav{display:grid;gap:5px}
-.shell-nav a{min-height:46px;display:flex;align-items:center;gap:14px;padding:0 15px;border:1px solid transparent;color:#a3aba3;font-size:13px;font-weight:620;transition:color .18s,background .18s,border-color .18s}
-.shell-nav a:hover{color:#faf1e6;background:#171c19}
-.shell-nav a[aria-current="page"]{background:#211e19;border-color:#584030;color:#f7e8d8}
-.shell-nav a[aria-current="page"] .nav-icon{color:var(--copper)}
-.nav-icon{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;flex:none;color:#8b988e}
-.nav-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
-.shell-sidebar-divider{height:1px;background:#28312c;margin:28px 12px}
-.shell-sidebar-footer{margin-top:auto;padding:20px 14px;border-top:1px solid #28312c}
-.sidebar-network{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:.03em;color:#d1c2b3}
-.sidebar-network i{width:7px;height:7px;border-radius:50%;background:var(--copper);box-shadow:0 0 15px #f3855366}
-.shell-sidebar-footer p{margin-top:12px;font-size:11px;line-height:1.65;color:#819087}
+.pact-workspace .shell{display:block;min-height:100vh}
 .shell-main{min-width:0}
 .shell-topbar{height:83px;border-bottom:1px solid #28312c;padding:0 clamp(24px,4.4vw,76px);display:flex;align-items:center;justify-content:space-between;gap:20px;background:#0b0e0df0}
 .shell-crumb{display:flex;align-items:center;gap:12px;font-size:11px;font-weight:700;letter-spacing:.03em;color:#aeb5ac}
@@ -152,3 +135,90 @@ body.pact-workspace{--bg:#090b0b;--sidebar:#0b0e0d;--surface:#111514;--surface-r
 .join-panel #join-status{font-size:11px;color:#e3ae8e;margin-top:9px;min-height:16px;line-height:1.5}
 @media(max-width:900px){.join-panel{grid-template-columns:1fr;gap:18px}}
 @media(max-width:600px){.join-panel{padding:21px 16px}.join-controls{flex-direction:column;gap:8px}.join-controls button{min-height:43px}}
+
+
+/* Lurais-informed editorial navigation: one clean horizontal header.
+   The approved cinematic marketing page has its own untouched stylesheet. */
+.pact-workspace .shell{display:block}
+.pact-workspace .shell-main{width:100%;min-width:0}
+.pact-workspace .shell-topbar{
+  height:auto;min-height:92px;display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;gap:clamp(24px,3.4vw,54px);
+  padding:20px clamp(24px,5.3vw,94px);
+  background:#0b0d0c;border-bottom:1px solid #39362f;
+}
+.pact-workspace .shell-brand{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:0;margin:0;font-size:19px;font-weight:790;
+  letter-spacing:-.075em;color:#f6efe7;line-height:1;
+  white-space:nowrap;
+}
+.pact-workspace .shell-brand b,.pact-workspace .brand-slash{color:#f38553}
+.pact-workspace .shell-brand .brand-mark{transform:scale(.94);transform-origin:center;margin:0}
+.pact-workspace .top-nav{
+  display:flex;align-items:center;justify-content:center;gap:clamp(12px,2.3vw,38px);
+  min-width:0;
+}
+.pact-workspace .top-nav a{
+  position:relative;display:inline-flex;align-items:center;
+  min-height:42px;white-space:nowrap;
+  color:#a8b0a7;font-size:12px;font-weight:670;
+  letter-spacing:-.012em;transition:color .18s ease;
+}
+.pact-workspace .top-nav a:hover{color:#f6e9dd}
+.pact-workspace .top-nav a[aria-current="page"]{color:#f6ebdf}
+.pact-workspace .top-nav a[aria-current="page"]:after{
+  content:"";position:absolute;bottom:3px;left:0;right:0;height:1px;
+  background:#ee915f;
+}
+.pact-workspace .topbar-actions{justify-self:end;gap:11px}
+.pact-workspace .network-label{background:#181b17;border-color:#364038;color:#bda18c}
+.pact-workspace .wallet-button{background:#2b211b;color:#f4d9c5;border-color:#73503d}
+.pact-workspace .wallet-button:hover{background:#413024}
+.pact-workspace .workspace-content{
+  max-width:1570px;
+  padding:clamp(38px,4.4vw,72px) clamp(24px,5.3vw,94px) 96px;
+}
+.pact-workspace .dashboard-heading{margin-bottom:39px}
+.pact-workspace .dashboard-heading h1{font-size:clamp(48px,5.1vw,82px);letter-spacing:-.085em}
+.pact-workspace .workspace-section{margin-top:clamp(48px,5.4vw,83px)}
+.pact-workspace .section-titlebar{margin-bottom:26px}
+
+@media(max-width:1110px){
+  .pact-workspace .shell-topbar{
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:8px 24px;padding:20px clamp(20px,4vw,44px) 0;
+  }
+  .pact-workspace .shell-brand{grid-column:1;grid-row:1;font-size:18px}
+  .pact-workspace .topbar-actions{grid-column:2;grid-row:1}
+  .pact-workspace .top-nav{
+    grid-column:1/-1;grid-row:2;justify-content:flex-start;
+    gap:clamp(20px,4vw,42px);border-top:1px solid #242a25;margin-top:10px;
+    overflow-x:auto;scrollbar-width:none;
+  }
+  .pact-workspace .top-nav::-webkit-scrollbar{display:none}
+  .pact-workspace .top-nav a{min-height:49px}
+  .pact-workspace .workspace-content{padding:45px clamp(22px,4vw,44px) 72px}
+}
+@media(max-width:650px){
+  .pact-workspace .shell-topbar{padding:16px 16px 0;gap:7px 10px;min-height:0}
+  .pact-workspace .shell-brand{font-size:16px;gap:7px}
+  .pact-workspace .shell-brand .brand-mark{transform:scale(.78);transform-origin:left center}
+  .pact-workspace .network-label{display:none}
+  .pact-workspace .topbar-actions{gap:0}
+  .pact-workspace .wallet-button{min-height:36px;max-width:146px;padding:8px 10px;font-size:10px}
+  .pact-workspace .top-nav{
+    justify-content:space-between;gap:5px;margin-top:10px;
+    overflow-x:visible;min-width:0;
+  }
+  .pact-workspace .top-nav a{min-height:46px;padding:0 2px;font-size:11px}
+  .pact-workspace .workspace-content{padding:36px 16px 64px}
+  .pact-workspace .dashboard-heading h1{font-size:clamp(43px,10vw,62px)}
+  .pact-workspace .workspace-section{margin-top:49px}
+}
+@media(max-width:375px){
+  .pact-workspace .shell-brand{font-size:14px}
+  .pact-workspace .top-nav a{font-size:10px}
+  .pact-workspace .wallet-button{max-width:124px;font-size:9px}
+}
