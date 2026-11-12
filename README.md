@@ -1,8 +1,22 @@
-# PACT Atlas — executable technical checkpoint
+# PACT Atlas
 
-**Status (2026-11-12):** The release remains **HOLD / testnet demonstration only**. The self-service console, public campaign route and read-only public proof index have a passing local Chromium suite, alongside 16 Rust unit tests, 29 reference-model tests, chain/RPC/live-data regression tests, exact bounded counterfactual/benchmark checks, wallet-adapter tests, genuine local NEAR sandbox campaigns, and three faucet-funded NEAR testnet campaigns: two single-project settlement/refund lifecycles plus a two-project dependency coalition. GitHub Actions remains blocked by the account billing/spending-limit gate. The unresolved missing-withdrawal-callback liveness risk is a production blocker; genuine browser-wallet signing and public Sputnik governance remain unverified evidence gates. See [the final hardening review](docs/FINAL_HARDENING_REVIEW_2026-11-12.md), the [baseline public evidence](evidence/pact-atlas-testnet-evidence-2026-11-10.json), and the [coalition evidence](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json).
+**Conditional community funding, verified on NEAR.**
 
-This archive is a **feasibility experiment**, not a commercial product or an audited smart contract.
+PACT Atlas helps a group fund projects that depend on each other. Contributors choose where their commitments may go and what else must be funded first. The contract accepts a valid allocation only when the conditions are met, with no pledge counted twice. If a campaign expires, unused contributions become refundable.
+
+**Release status: testnet-only demonstration.** Three real NEAR testnet campaigns prove activation, a full refund and a two-project dependency coalition. The current application has an interactive planning experience, a real testnet campaign reader, and independently linked receipts. Its browser-wallet signing flow has **not** completed genuine extension signing, and an unresolved missing-withdrawal-callback issue prevents safe use with valuable funds. Do not use PACT Atlas for production deposits. This is not an independently audited financial service.
+
+### Start here
+
+1. Open **/console** to see a completed public testnet coalition: two projects, two independent contributors, a dependency and settled payouts.
+2. Select **Open live campaign state**. The app derives the campaign link from preserved immutable contract facts, then independently checks deployed code, funding rules and finalized state against testnet RPC. If RPC is unavailable, it fails closed instead of inventing verification.
+3. Open **Real activity** to inspect separate contribution, activation, beneficiary-withdrawal and expiry/refund receipts. These archival links remain readable without a wallet.
+4. Scroll to **Try the funding model** and select **Simulate +1 NEAR** to explore how a bounded exact allocation changes. This is an offline model, not a payment.
+5. Select **Create a campaign** to configure projects, dependencies and contributor constraints. Real onchain deployment is testnet-only and requires separately approved wallet signing; the extension flow remains unverified.
+
+The approved cinematic landing page stays at **/**. The consumer console is **/console**; the builder is **/create.html**; the public campaign route is **/campaign**; independent receipt verification is **/verify.html**.
+
+Full evidence: [coalition receipts](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json), [expiry and refund](evidence/pact-atlas-testnet-evidence-2026-11-10.json), and [security limitations](docs/FINAL_HARDENING_REVIEW_2026-11-12.md). All onchain demonstration transactions were signed by disposable CLI identities, not by a verified browser-wallet session. GitHub Actions cannot run because of account billing restrictions; local verification is documented separately.
 
 ## NEAR HACKATHON submission candidate
 
@@ -55,7 +69,7 @@ Reproduce independently with `npm run verify:testnet -- <contract.testnet> <sign
 
 ## Try the app in one minute
 
-Open `/console` after `npm run preview`. The app begins with a simple question: **Can we fund all four community projects?** Four project cards show required amounts and dependency conditions. The right-hand panel shows **12 of 13 NEAR committed**, with Events missing 1 NEAR.
+Open `/console` after `npm run preview`. The first screen highlights a completed two-project public NEAR testnet coalition. Below it, the interactive example asks: **Can we fund all four community projects?** Four project cards show required amounts and dependency conditions. The right-hand panel shows **12 of 13 NEAR committed**, with Events missing 1 NEAR.
 
 Click **Simulate +1 NEAR**. The cards update and **Where the money goes** immediately shows an exact allocation across the four projects. All funds in this action are hypothetical. You can click **Reset example** to undo it, choose a project card to see its conditions, inspect the supporter restrictions, and open the separate **Public NEAR testnet proof** section for genuine coalition and refund receipts.
 
