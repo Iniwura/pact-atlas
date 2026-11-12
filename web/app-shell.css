@@ -540,3 +540,21 @@ body.pact-workspace{--bg:#090b0b;--sidebar:#0b0e0d;--surface:#111514;--surface-r
   .pact-workspace .activity-entry a{grid-column:3;grid-row:1/3}
   .pact-workspace .join-panel{margin-top:49px}
 }
+
+
+/* Editorial sequence: campaigns first, then the case study and its numbers. */
+.pact-workspace #campaigns{margin-top:0}
+.pact-workspace #featured{margin-top:clamp(92px,10vw,155px)}
+.pact-workspace .workspace-stats{
+  margin-top:clamp(52px,6vw,93px);
+  margin-bottom:clamp(47px,5.5vw,78px);
+}
+.pact-workspace .workspace-stats .metric{border-left-color:#c5c3b7}
+.pact-workspace .section-titlebar h2{max-width:940px}
+.pact-workspace .campaign-list{scroll-margin-top:26px}
+@media(max-width:650px){
+  .pact-workspace #featured{margin-top:74px}
+  .pact-workspace .workspace-stats{margin-top:53px;margin-bottom:39px}
+  .pact-workspace .metric{min-width:0}
+  .pact-workspace .metric-value{overflow-wrap:anywhere}
+}
