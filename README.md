@@ -40,7 +40,7 @@ performed by this checkout.
 
 From the workspace, select **Create campaign** or open /create.html directly. Set 1–5 projects, their funding requirements and dependencies, then enter 1–8 supporters with permitted destinations and optional conditions. Select **Check funding** to see a valid whole-contribution allocation or an explained blocked result.
 
-The draft is stored only in your browser. Select **Download funding plan**, then independently check it with:
+The draft is stored only in your browser. Select **Export funding plan**, then independently check it with:
 
     npm run verify:campaign -- /path/to/pact-campaign-proof.json
 
