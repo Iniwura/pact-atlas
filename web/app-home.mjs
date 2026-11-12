@@ -1,4 +1,4 @@
-import { publicCampaignConfig, campaignUrl } from "./campaign-chain.mjs";
+import { publicCampaignConfig, campaignUrl, campaignFromShareToken, isTestnetAccount } from "./campaign-chain.mjs";
 import { authenticateCampaignConfig } from "./campaign-live-data.mjs";
 import { viewMethod, viewCodeHash } from "./near-rpc.mjs";
 import { ensureWalletAdapter } from "./wallet-selector-host.mjs";
@@ -264,6 +264,27 @@ function savedDeployedCampaigns() {
 }
 
 async function boot() {
+  $("#join-form").addEventListener("submit", event => {
+    event.preventDefault();
+    const status = $("#join-status");
+    try {
+      const input = $("#join-url").value.trim();
+      const shared = new URL(input);
+      if (!["https:", "http:"].includes(shared.protocol) || shared.pathname !== "/campaign") throw Error("Use a complete PACT campaign URL.");
+      const contract = shared.searchParams.get("contract");
+      const token = shared.searchParams.get("config");
+      if (!isTestnetAccount(contract) || !token) throw Error("The link has no valid testnet campaign account or configuration.");
+      campaignFromShareToken(token);
+      // Never navigate to an untrusted host. Import only the public, validated
+      // share token onto our own origin, where immutable RPC checks fail closed.
+      const destination = new URL("/campaign", window.location.origin);
+      destination.searchParams.set("contract", contract);
+      destination.searchParams.set("config", token);
+      window.location.assign(destination.pathname + destination.search);
+    } catch (error) {
+      status.textContent = error?.message || "This is not a valid PACT campaign link.";
+    }
+  });
   $("#connect-wallet").addEventListener("click", connectWallet);
   filterControls("[data-campaign-filter]", "campaignFilter", renderCampaigns);
   filterControls("[data-activity-filter]", "activityFilter", renderActivity);
