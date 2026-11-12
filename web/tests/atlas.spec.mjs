@@ -19,6 +19,14 @@ test.describe("PACT Atlas / real funding workspace", () => {
     await page.goto("/console");
     await expect(page.getByRole("heading", { name: "Funding. Together." })).toBeVisible();
     await expect(page.locator("#campaign-list .campaign-tile")).toHaveCount(2);
+    const sequence = await page.evaluate(() => {
+      const campaigns = document.getElementById("campaigns");
+      const story = document.getElementById("featured");
+      const numbers = document.querySelector(".workspace-stats");
+      return (campaigns.compareDocumentPosition(story) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0
+        && (story.compareDocumentPosition(numbers) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+    });
+    expect(sequence).toBe(true);
     await expect(page.locator("#metric-campaigns")).toHaveText("02");
     await expect(page.locator("#metric-funded")).toHaveText("2");
     await expect(page.locator("#metric-refunded")).toHaveText("1");
