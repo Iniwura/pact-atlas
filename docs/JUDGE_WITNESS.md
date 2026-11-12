@@ -1,55 +1,43 @@
-# PACT Atlas — judge walkthrough
+# PACT Atlas — independent judge witness
 
-**Start:** Open `/console`. This is an interactive example, not a real payment or a deployed campaign.
+## Start in the application
 
-## 60-second walkthrough
+Open `/console`, not a test harness. The home screen is a campaign workspace containing recorded real NEAR testnet activity, a direct campaign creator and links to a receipt verifier.
 
-1. **Read the question:** “Can we fund all four?” Five supporters have committed **12 NEAR**. Four community projects require **13 NEAR**.
-2. **Look at the cards:** Training needs 4 NEAR, Internet 3, Equipment 3, and Events 3. A valid potential allocation covers the first three projects, but Events has only **2/3 NEAR**. The cards show possible coverage, not onchain payments.
-3. **Click “Why can't we use the existing money?”** Supporter 01's 3 NEAR is permitted for either Training or Events. It cannot fund both. Independent eligibility sums can double-count flexible commitments; an exact allocation cannot.
-4. **Click “Simulate +1 NEAR.”** This introduces a sixth *hypothetical* contribution allowed for Events only. The existing exact reference solver now finds a plan covering all four.
-5. **Read “Where the money goes.”** The interface automatically exposes the real model allocation, without requiring a second page or a hidden developer inspector.
-6. **Click “Reset example.”** The hypothetical contribution disappears. Nothing is signed or moved.
+### 1. Browse a real conditional coalition
 
-## Model-generated allocation for the successful example
+Choose the **Conditional coalition** campaign. Its contract is `coalition-20261110.beneficiary-20261110.testnet`. There are two 1 NEAR projects: Beta depends on Alpha. The beta contribution arrived first, followed by alpha. The accepted certificate was `[1 → alpha, 0 → beta]`.
 
-| Project | Requirement | Allocation |
-| --- | ---: | --- |
-| Training | 4 NEAR | Supporter 01 (3) + Supporter 02 (1) |
-| Internet | 3 NEAR | Supporter 03 (3) |
-| Equipment | 3 NEAR | Supporter 04 (3) |
-| Events | 3 NEAR | Supporter 05 (2) + simulated contribution (1) |
+The reader authenticates a share token against the immutable contract configuration, verifies the pinned code hash and reads finalized status/accounting. If RPC is unavailable, the onchain state view fails closed rather than pretending success. Archival explorer receipts remain independently accessible.
 
-All 13 NEAR are allocated exactly once. The local witness validates destination permissions, pledge conditions, project dependencies, exact requirements, and conserved capital. It is a bounded, model-level certificate, not a completed blockchain settlement.
+### 2. Follow the money
 
-## Reproduce independently
+Open `/console#activity`, then check the transactions for contributions, activation, alpha beneficiary payout and beta beneficiary payout. Each entry links to the original testnet receipt. Inspect the separate expiry/refund campaign: `refund-20261110.supporter-20261110.testnet`. It has finalized contribution, expiry and refund records.
 
-From repository root:
+The two public evidence manifests are:
 
-```sh
-npm ci
-npm run test:counterfactual
-node scripts/certificate.js
-node scripts/certificate.js --topup
-npm run test:benchmark
-npm run test:browser
-```
+- [Coalition evidence](../evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json)
+- [Single-project activation and refund evidence](../evidence/pact-atlas-testnet-evidence-2026-11-10.json)
 
-To verify the NEAR contract and local sandbox separately, install the pinned toolchain and run `RUSTUP_TOOLCHAIN=1.93.0 bash scripts/verify-rust.sh` as documented in the README.
+These real public testnet transactions were signed by disposable CLI keys, not by a browser-wallet extension.
 
-## Evidence and limits
+### 3. Create a campaign
 
-- The interactive project cards and allocation breakdown come from `web/funding-view.mjs` and the existing bounded solver in `web/engine.mjs`.
-- The local NEAR sandbox receipts are available in the console's **Local sandbox evidence** section and `web/data/evidence.json`. They come from independent local test runs, not the hypothetical browser action.
-- The extra 1 NEAR is never deposited, signed, or sent from the browser example.
-- The bounded public testnet evidence is available in `evidence/pact-atlas-testnet-evidence-2026-11-10.json` and `evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`. It demonstrates disposable CLI-signed campaigns only; it does **not** claim genuine Meteor browser signing, public Sputnik web-wallet governance, an independent qualified security audit, production readiness, guaranteed delivery, or universal mathematical optimality.
-- Withdrawal callback non-execution remains a real protocol limitation. No blind retry or unsafe unlock is used. See `docs/WITHDRAWAL_REVIEW.md` and `docs/SECURITY_REVIEW.md`.
+Open `/create.html`. A new browser starts with a blank draft. Add projects, funding requirements, dependencies, beneficiaries and supporter conditions. The planner can calculate an exact bounded allocation; exporting a draft does not deploy anything.
 
-## The actual differentiator
+If the draft is fundable, the app exposes an optional testnet-only deployment path that requires a real wallet approval. This browser-signing flow is implemented but **not** independently verified end-to-end. A successfully signed and finalized deployment can be rediscovered from the same browser's saved draft.
 
-PACT Atlas finds and shows a **constraint-valid, inspectable one-use funding allocation** across projects that depend on one another. It does not claim higher raw activation counts than all competing approaches. See `docs/COMPETITIVE_ADVANTAGE.md` for benchmark semantics, prior art, and honest limits.
+### 4. Verify independently
 
-## Optional live witness
+Open `/verify.html` and submit a genuine recorded `commit`, `activate`, `withdraw` or `expire` transaction. The verifier requires finalized execution and the pinned PACT code hash. Provider timeouts are unknown outcomes, not proof that a transaction failed.
 
-Open the recorded coalition contract at
-[`coalition-20261110.beneficiary-20261110.testnet`](https://testnet.nearblocks.io/address/coalition-20261110.beneficiary-20261110.testnet), then inspect the manifest and run the read-only verifier command in `README.md`. The accepted certificate uses pledge index `1` for alpha and index `0` for beta, even though beta's contribution arrived first. The public route is read-only until a separately authorized, fully verified testnet wallet action is chosen.
+## Boundaries and safety
+
+- This is a NEAR testnet application; no mainnet or valuable funds should be deposited.
+- Callback non-execution can leave a withdrawal indefinitely pending. No safe recovery is proven; do not retry or unlock speculatively.
+- Public Sputnik DAO execution and browser-extension signing remain unverified. Sandbox governance tests do not equal a public DAO lifecycle.
+- No independent qualified security audit has been completed.
+
+## Reproduce
+
+From the repository root: `npm run verify` for the contract and model tests; `npm run test:browser` for the product. The public receipts are in the evidence manifests. GitHub Actions is blocked by account billing restrictions, so do not represent CI as green.
