@@ -120,6 +120,28 @@ test.describe("PACT Atlas / first-time funding experience", () => {
     await expect(page.locator(".public-proof-card a").first()).toHaveAttribute("href", /testnet\.nearblocks\.io/);
   });
 
+  test("consumer workspace highlights verified coalition with correct historical receipts", async ({page}) => {
+    await page.goto("/console");
+    await expect(page.getByRole("heading", {name: /Make funding work together/i})).toBeVisible();
+    await expect(page.locator("#featured-proof")).toContainText("Beta depends on Alpha");
+    await expect(page.locator("#featured-campaign-link")).toHaveAttribute("href", /\/campaign\?contract=coalition-20261110/);
+    await page.locator(".consumer-quicknav a[href='#public-proof']").count().then(count => { expect(count).toBe(0); });
+    await page.locator("a[href='#public-proof']").first().click();
+    await expect(page.locator("#public-proof-status")).toContainText("archival evidence");
+    await expect(page.locator(".public-proof-card").first().getByRole("link", {name: /Alpha beneficiary withdrawal/i})).toHaveAttribute("href", /BF7DB9A/);
+    await expect(page.locator(".public-proof-card").first().getByRole("link", {name: /Beta beneficiary withdrawal/i})).toHaveAttribute("href", /GuUpGeBN/);
+    await expect(page.locator(".public-proof-card").first().getByRole("link", {name: /Open authenticated campaign/i})).toHaveAttribute("href", /\/campaign\?contract=coalition-20261110/);
+  });
+
+  test("consumer console keeps real campaign accessible at mobile widths", async ({page}) => {
+    await page.setViewportSize({width:360,height:780});
+    await page.goto("/console");
+    await expect(page.locator(".consumer-quicknav")).toBeVisible();
+    await expect(page.locator("#featured-campaign-link")).toHaveAttribute("href", /\/campaign\?contract=coalition-20261110/);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    expect(overflow).toBe(false);
+  });
+
   test("unavailable wallet mode cannot accidentally transact", async ({page}) => {
     await page.goto("/console");
     await page.locator("#workflow > summary").click();
