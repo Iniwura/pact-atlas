@@ -120,7 +120,8 @@ test.describe("PACT Atlas / real funding workspace", () => {
     await page.goto("/console");
     await expect(page.locator(".campaign-tile")).toHaveCount(2);
     const href = await page.locator(".campaign-tile").first().getByRole("link", { name: /Open campaign/i }).getAttribute("href");
-    const invite = new URL(href, "https://untrusted.example");
+    const invite = new URL(href, page.url());
+    invite.hostname = "untrusted.example";
     await page.locator("#join-url").fill(invite.href);
     await page.getByRole("button", { name: /Open agreement/i }).click();
     await expect(page).toHaveURL(/\/campaign\?contract=coalition-20261110/);
