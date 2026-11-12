@@ -35,3 +35,5 @@
 .campaign-activity-item a:hover{background:#42291e}
 .campaign-activity-status{font-size:11px;line-height:1.6;color:#c3ab98;margin-top:18px}
 @media(max-width:600px){.campaign-activity{padding:20px 16px}.campaign-activity-item{grid-template-columns:26px minmax(0,1fr);gap:10px}.campaign-activity-item a{grid-column:2;justify-self:start}.campaign-activity-item code{max-width:210px}.campaign-activity .panel-heading{align-items:start;flex-direction:column}}
+
+.campaign-copy-link{margin-top:8px;display:inline-flex;align-self:flex-start;border:1px solid #9b6848;background:#2c211a;color:#f6c3a3;padding:10px 12px;font-size:11px;font-weight:730;cursor:pointer}.campaign-copy-link:hover{background:#593723;color:#fff}.campaign-copy-status{display:block;color:#b9aa9b;font-size:10px;margin-top:7px;line-height:1.4}
