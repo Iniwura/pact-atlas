@@ -9,11 +9,13 @@ This is a serious technical checkpoint, not an externally audited or production-
 Open /create.html from the **Build your own funding plan** link in /console. A judge can start blank or edit the prepared Community Hub scenario. They can set their own project goals, dependencies, contributor constraints and amounts, then inspect or export an exact allocation result. A fundable plan also exposes a testnet-only deployment request requiring an explicit wallet approval; the exported JSON and local plan remain usable without a wallet. The full path is documented in [docs/CAMPAIGN_LAB.md](docs/CAMPAIGN_LAB.md).
 
 The custom planner and the deployed campaign share deterministic public inputs, but the contract remains authoritative for onchain activation. Three minimal campaigns have now been signed and settled on public NEAR testnet: an activated single-project campaign, an expired/refunded campaign, and a two-project dependency coalition with independent out-of-order contributions and an accepted activation certificate. The local sandbox evidence in /console remains independently recorded from the public receipts.
-## Judge-first demo — 60 seconds
+## Judge-first demo — 90 seconds
 
-Open `/console`. It begins with one question: **Can we fund all four?** The four named project cards show possible funding coverage, not payments or activations. Five supporters offered 12 NEAR, but the total requirement is 13 NEAR. Events has 2/3 NEAR available.
+Open `/console`. The first screen shows the completed testnet coalition: Alpha and Beta each received 1 NEAR, but Beta was conditional on Alpha being funded. Select **Open live campaign state** to independently re-read the immutable contract configuration, accepted certificate and accounting. The two beneficiary withdrawals and full refund trail are individually linked in the nearby **Real activity** section.
 
-Click **Simulate +1 NEAR**. The existing bounded exact solver finds a one-use allocation for all four projects and displays the precise supporter-to-project assignments immediately beside the result. Click **Reset example** to return to the blocked case. No wallet is needed and no money moves.
+Next scroll to the **Interactive example**. Four fictional projects require 13 NEAR together but their five supporters have only 12 NEAR. Select **Simulate +1 NEAR**. The model finds a one-use allocation for all four projects. This is clearly marked as an offline simulation; no payments move. Select **Create campaign** to try independent project conditions.
+
+Real public NEAR testnet receipts exist for the contract lifecycles, but genuine browser-extension signing is not yet verified. No mainnet funds or production use is supported.
 
 The detailed [judge walkthrough](docs/JUDGE_WITNESS.md) explains the flexible supporter restriction, demonstrates what the model checks, and gives exact reproduction commands. The **Supporters** section explains individual restrictions in plain English. The **Local sandbox evidence** section separately shows preserved NEAR sandbox receipts. The collapsed **Developer tools** section contains optional authorization-gated wallet workflows, not pre-authorized funding.
 
