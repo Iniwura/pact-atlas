@@ -4,30 +4,26 @@ PACT Atlas is a constrained, native-NEAR proof of coalition funding. It verifies
 
 This is a serious technical checkpoint, not an externally audited or production-ready financial protocol.
 
-## Self-service experiment for independent judges
+## Self-service campaign creation
 
-Open /create.html from the **Build your own funding plan** link in /console. A judge can start blank or edit the prepared Community Hub scenario. They can set their own project goals, dependencies, contributor constraints and amounts, then inspect or export an exact allocation result. A fundable plan also exposes a testnet-only deployment request requiring an explicit wallet approval; the exported JSON and local plan remain usable without a wallet. The full path is documented in [docs/CAMPAIGN_LAB.md](docs/CAMPAIGN_LAB.md).
+Open /create.html from the **Create campaign** action in /console. Every new visitor starts with a blank draft. They can set their own project goals, dependencies, contributor constraints and amounts, then inspect or export an exact allocation result. A fundable plan also exposes a testnet-only deployment request requiring an explicit wallet approval; the exported JSON and local plan remain usable without a wallet. The full path is documented in [docs/CAMPAIGN_LAB.md](docs/CAMPAIGN_LAB.md).
 
-The custom planner and the deployed campaign share deterministic public inputs, but the contract remains authoritative for onchain activation. Three minimal campaigns have now been signed and settled on public NEAR testnet: an activated single-project campaign, an expired/refunded campaign, and a two-project dependency coalition with independent out-of-order contributions and an accepted activation certificate. The local sandbox evidence in /console remains independently recorded from the public receipts.
-## Judge-first demo — 90 seconds
+The custom planner and the deployed campaign share deterministic public inputs, but the contract remains authoritative for onchain activation. Three minimal campaigns have now been signed and settled on public NEAR testnet: an activated single-project campaign, an expired/refunded campaign, and a two-project dependency coalition with independent out-of-order contributions and an accepted activation certificate. Local sandbox evidence remains independently recorded in the repository, separate from public-chain receipts.
+## Judge-first product walkthrough
 
-Open `/console`. The first screen shows the completed testnet coalition: Alpha and Beta each received 1 NEAR, but Beta was conditional on Alpha being funded. Select **Open live campaign state** to independently re-read the immutable contract configuration, accepted certificate and accounting. The two beneficiary withdrawals and full refund trail are individually linked in the nearby **Real activity** section.
+Open `/console` as a first-time user. This is a consumer workspace, not a simulation or a developer evidence board. Browse actual recorded testnet campaigns; see the conditional two-project coalition at the top, and use **Campaigns** to open its signed immutable public configuration. The campaign page reads finalized chain state when testnet RPC is available and fails closed otherwise.
 
-Next scroll to the **Interactive example**. Four fictional projects require 13 NEAR together but their five supporters have only 12 NEAR. Select **Simulate +1 NEAR**. The model finds a one-use allocation for all four projects. This is clearly marked as an offline simulation; no payments move. Select **Create campaign** to try independent project conditions.
+Open **Activity** to inspect independent contribution, activation, payout, expiry and refund receipts. Each transaction is clickable. Visit **Create campaign** to begin a blank draft and set project dependencies and contribution conditions. A funding plan can be checked before any wallet signing; however, browser-extension signing remains unverified and no production funds are supported.
 
-Real public NEAR testnet receipts exist for the contract lifecycles, but genuine browser-extension signing is not yet verified. No mainnet funds or production use is supported.
-
-The detailed [judge walkthrough](docs/JUDGE_WITNESS.md) explains the flexible supporter restriction, demonstrates what the model checks, and gives exact reproduction commands. The **Supporters** section explains individual restrictions in plain English. The **Local sandbox evidence** section separately shows preserved NEAR sandbox receipts. The collapsed **Developer tools** section contains optional authorization-gated wallet workflows, not pre-authorized funding.
-
-This is an experimental hackathon prototype with a bounded faucet-funded testnet demonstration, **not** audited production software or a guarantee of project delivery. The cinematic homepage at `/` is preserved; the functional demonstration lives at `/console`.
+The cinematic marketing homepage at `/` retains its approved design and now leads to **Open App**.
 
 ## What the first-time user can do
 
-1. See project amounts and real dependency requirements without interpreting anonymous network nodes.
-2. See why the current commitments cannot fund the full group, including a plain-English explanation of why one pledge cannot pay twice.
-3. Preview the extra 1 NEAR safely, watch the funding totals change, and inspect the exact proposed allocation.
-4. Select any project or supporter to view its conditions and intended funding choices.
-5. Review reproducible model checks and separately recorded local NEAR sandbox receipts.
+1. Browse recorded real NEAR testnet campaigns, with separate chain-verified versus archived status.
+2. See project dependency rules and the real two-project activation certificate.
+3. Create a blank campaign, configure beneficiaries, goals and contributor restrictions, and check an exact local funding plan.
+4. Inspect a real campaign, where immutable contract state is checked on load.
+5. Follow each recorded contribution, beneficiary withdrawal and refund directly in the explorer.
 6. If authorized testnet credentials are available, deploy a dedicated campaign account, share its public link, inspect finalized state and use the wallet-approved commit/activation/settlement actions.
 
 Run `npm run preview` from the repository root and visit `/console`. The browser checks capture desktop/mobile before-and-after screenshots under `test-results/screenshots/`. The evidence viewer loads `web/data/evidence.json` without pretending those receipts came from the browser simulation.
