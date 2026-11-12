@@ -30,6 +30,19 @@ let campaign=restore();
 let step=1,latest=null;
 
 function save(){try{localStorage.setItem(store,JSON.stringify(campaign));}catch{}}
+const deployedStore="pact-atlas-deployed-campaigns-v1";
+function saveSuccessfulDeployment(deployed){
+  // Only the fully finalized transaction path calls this. The saved data
+  // contains public immutable campaign facts, never private signing keys.
+  try{
+    const previous=JSON.parse(localStorage.getItem(deployedStore)||"[]");
+    const entries=Array.isArray(previous)?previous:[];
+    const record=JSON.parse(JSON.stringify(deployed));
+    const next=[record,...entries.filter(item=>item?.deployment?.contractId!==record.deployment.contractId)].slice(0,12);
+    localStorage.setItem(deployedStore,JSON.stringify(next));
+  }catch{/* Storage can be unavailable: a shareable campaign link still exists. */}
+}
+
 function touch(){latest=null;save();renderPreview();hideErrors();}
 function hideErrors(){const holder=$("#form-errors");holder.hidden=true;holder.replaceChildren();}
 function showErrors(errors){const holder=$("#form-errors");holder.replaceChildren();
@@ -235,7 +248,7 @@ async function deployCampaign({slugInput,authorityInput,activationInput,expiryIn
     }
     if(!final.confirmed){button.dataset.outcome="unknown";button.disabled=true;chainState(`Deployment submitted as ${submitted.transactionHash}, but finality is not verified. Do not retry blindly.`,"warning");return;}
     campaign.deployment={...campaign.deployment,contractId:request.campaignId,transactionHash:submitted.transactionHash,timing:request.timing};
-    save(); renderForm();
+    save(); saveSuccessfulDeployment(campaign); renderForm();
   }catch(error){chainState(error.message||"Deployment was not confirmed.","error");}
   finally{if(button.dataset.outcome!=="unknown")button.disabled=false;}
 }
