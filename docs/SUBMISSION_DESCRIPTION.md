@@ -1,22 +1,13 @@
-# Submission description — Social Money
+# PACT Atlas — Social Money submission
 
-PACT Atlas helps independent communities coordinate conditional funding without
-double-counting commitments. A campaign can describe projects, dependencies,
-contributor restrictions and immutable activation authorities. The browser
-solver explains which coalitions are feasible and produces a bounded,
-reproducible allocation certificate. The native-NEAR contract independently
-checks that certificate, preserves canonical pledge records, settles valid
-beneficiary credits and refunds expired commitments.
+PACT Atlas coordinates community funding when projects and supporters have conditions.
 
-The release includes genuine faucet-funded NEAR testnet evidence: an activated
-campaign, an expired/refunded campaign, and a two-project coalition where beta
-depends on alpha. Two contributors pledged out of order; the contract accepted
-the exact certificate and both beneficiaries withdrew. Final liabilities were
-zero. NEAR matters because the agreement, attached native funds, authorization,
-finality and settlement evidence are inspectable on a public chain rather than
-being represented by a dashboard-only simulation.
+Most fundraising tools show whether each project has reached its target. PACT solves a more difficult question: **Can a group of interdependent projects be funded together, without counting anyone's contribution twice?**
 
-This is a bounded testnet prototype, not production financial software. Real
-Meteor browser signing, public Sputnik governance, missing-callback recovery,
-native-transfer failure injection and independent qualified audit remain
-explicit limitations.
+Communities create projects with goals and dependencies. A supporter can restrict their pledge to particular projects or require another project to receive funding first. PACT's solver produces a reproducible allocation certificate; the NEAR contract independently checks the conditions before activation. Unused contributions become refundable if the campaign expires.
+
+**Real public testnet proof:** Our featured two-project campaign funded Alpha and Beta, with Beta dependent on Alpha. Beta's conditional pledge arrived first, Alpha's pledge second. The contract accepted the certificate `[1 → alpha, 0 → beta]`; both beneficiaries withdrew, and final liabilities were zero. A separate expired campaign refunded its 1 NEAR contribution. Each payment and withdrawal has an individually accessible explorer receipt.
+
+The console presents this verified historical coalition first, provides a separate interactive 12/13 NEAR scenario, and lets visitors inspect a real campaign's latest finalized state without a wallet.
+
+**Scope and limitations:** These are genuine faucet-funded NEAR testnet transactions signed with disposable CLI keys. Meteor, Sender and Nightly browser extension signing has not yet been verified. Public Sputnik governance is sandbox-tested, not demonstrated on public testnet. A missing withdrawal callback may strand a pending claim, so production funds are unsupported. No independent qualified security audit has been performed. The simulated planning view is not a transfer of funds.
