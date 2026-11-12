@@ -558,3 +558,26 @@ body.pact-workspace{--bg:#090b0b;--sidebar:#0b0e0d;--surface:#111514;--surface-r
   .pact-workspace .metric{min-width:0}
   .pact-workspace .metric-value{overflow-wrap:anywhere}
 }
+
+
+/* Shared cinematic sculpture: exact authored orbital art reused from home.
+   It is decoration only; campaign names and transaction facts remain text. */
+.pact-workspace .feature-story{isolation:isolate}
+.pact-workspace .feature-story:after{
+  content:"";position:absolute;z-index:0;
+  top:-13%;right:-10%;width:81%;height:126%;
+  background:url("./orbital-art.svg") center center / contain no-repeat;
+  opacity:.49;mix-blend-mode:screen;
+  mask-image:linear-gradient(90deg,transparent 0%,#000 34%);
+  pointer-events:none;filter:saturate(.98);
+}
+.pact-workspace .feature-story>*{z-index:1}
+@media(max-width:650px){
+  .pact-workspace .feature-story:after{
+    right:-28%;top:-12%;width:105%;height:120%;
+    opacity:.26;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .pact-workspace .feature-story:after{animation:none}
+}
