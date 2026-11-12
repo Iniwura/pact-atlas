@@ -48,18 +48,18 @@
         }
       ],
       "share": {
-        "title": "Community funding coalition",
+        "title": "Conditional coalition",
         "projects": [
           {
             "id": "alpha",
-            "name": "Community internet",
+            "name": "Project Alpha",
             "goal": 1,
             "dependencies": [],
             "beneficiary": "beneficiary-20261110.testnet"
           },
           {
             "id": "beta",
-            "name": "Digital training",
+            "name": "Project Beta",
             "goal": 1,
             "dependencies": [
               "alpha"
@@ -134,11 +134,11 @@
         }
       ],
       "share": {
-        "title": "Community funding refund",
+        "title": "Expired funding campaign",
         "projects": [
           {
             "id": "alpha",
-            "name": "Community project",
+            "name": "Project Alpha",
             "goal": 1,
             "dependencies": [],
             "beneficiary": "beneficiary-20261110.testnet"
