@@ -115,6 +115,28 @@ test.describe("PACT Atlas / real funding workspace", () => {
     await expect(saved.locator(".tile-rpc")).not.toContainText("Finalized chain state checked");
   });
 
+  test("imports a shared public campaign onto the verified local route without trusting a foreign host", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.goto("/console");
+    await expect(page.locator(".campaign-tile")).toHaveCount(2);
+    const href = await page.locator(".campaign-tile").first().getByRole("link", { name: /Open campaign/i }).getAttribute("href");
+    const invite = new URL(href, "https://untrusted.example");
+    await page.locator("#join-url").fill(invite.href);
+    await page.getByRole("button", { name: /Open agreement/i }).click();
+    await expect(page).toHaveURL(/\/campaign\?contract=coalition-20261110/);
+    expect(new URL(page.url()).hostname).not.toBe("untrusted.example");
+    await expect(page.locator("#campaign-title")).toContainText("Conditional coalition");
+  });
+
+  test("rejects malformed campaign invites without leaving the workspace", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.goto("/console");
+    await page.locator("#join-url").fill("https://outside.example/unsafe");
+    await page.getByRole("button", { name: /Open agreement/i }).click();
+    await expect(page.locator("#join-status")).toContainText("Use a complete PACT campaign URL");
+    await expect(page).toHaveURL(/\/console$/);
+  });
+
   test("only calls a real testnet wallet on explicit user action", async ({ page }) => {
     await noExternalRpc(page);
     await page.addInitScript(() => { window.PACT_DISABLE_WALLET_SELECTOR = true; });
