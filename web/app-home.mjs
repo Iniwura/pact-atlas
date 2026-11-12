@@ -235,21 +235,32 @@ async function connectWallet() {
   }
 }
 
-function savedDeployedCampaign() {
+function savedDeployedCampaigns() {
+  const drafts = [];
   try {
-    const raw = localStorage.getItem("pact-atlas-custom-campaign-v1");
-    if (!raw) return null;
-    const draft = JSON.parse(raw);
-    const contractId = draft?.deployment?.contractId;
-    if (typeof contractId !== "string" || !contractId.endsWith(".testnet")) return null;
-    if (!Number.isSafeInteger(draft?.deployment?.timing?.deadlineMs) || !Number.isSafeInteger(draft?.deployment?.timing?.activateAfterMs)) return null;
-    const record = {
-      id: "saved-campaign", origin: "local", label: String(draft.title || "Your campaign"),
-      contract_id: contractId, contract_explorer: "https://testnet.nearblocks.io/address/" + encodeURIComponent(contractId),
-      status: "UNKNOWN", share: draft, links: [], chain: null, rpcError: false,
-    };
-    return validateEvidence(record) ? record : null;
-  } catch { return null; }
+    const stored = JSON.parse(localStorage.getItem("pact-atlas-deployed-campaigns-v1") || "[]");
+    if (Array.isArray(stored)) drafts.push(...stored.slice(0, 12));
+  } catch {}
+  try {
+    const latest = JSON.parse(localStorage.getItem("pact-atlas-custom-campaign-v1") || "null");
+    if (latest) drafts.push(latest);
+  } catch {}
+
+  const result = [], seen = new Set();
+  for (const draft of drafts) {
+    try {
+      const contractId = draft?.deployment?.contractId;
+      if (typeof contractId !== "string" || !contractId.endsWith(".testnet") || seen.has(contractId)) continue;
+      if (!Number.isSafeInteger(draft?.deployment?.timing?.deadlineMs) || !Number.isSafeInteger(draft?.deployment?.timing?.activateAfterMs)) continue;
+      const record = {
+        id: "saved-" + result.length, origin: "local", label: String(draft.title || "Your campaign"),
+        contract_id: contractId, contract_explorer: "https://testnet.nearblocks.io/address/" + encodeURIComponent(contractId),
+        status: "UNKNOWN", share: draft, links: [], chain: null, rpcError: false,
+      };
+      if (validateEvidence(record)) { result.push(record); seen.add(contractId); }
+    } catch {}
+  }
+  return result;
 }
 
 async function boot() {
@@ -262,8 +273,9 @@ async function boot() {
     const proof = await response.json();
     if (proof.network !== "NEAR testnet" || !Array.isArray(proof.campaigns)) throw Error("Invalid evidence index");
     const listed = proof.campaigns.filter(validateEvidence).map(campaign => ({ ...campaign, chain: null, rpcError: false, origin: "recorded" }));
-    const saved = savedDeployedCampaign();
-    model.campaigns = saved && !listed.some(campaign => campaign.contract_id === saved.contract_id) ? [saved, ...listed] : listed;
+    const known = new Set(listed.map(campaign => campaign.contract_id));
+    const saved = savedDeployedCampaigns().filter(campaign => !known.has(campaign.contract_id));
+    model.campaigns = [...saved, ...listed];
     renderSummary();
     renderCampaigns();
     renderActivity();
