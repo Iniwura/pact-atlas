@@ -11,7 +11,7 @@ async function fill(page) {
 test.describe("Independent testnet evidence workspace", () => {
   test("begins without invented live evidence and links from the console", async ({ page }) => {
     await page.goto("/console");
-    await page.getByRole("link", { name: /Verify a public NEAR testnet transaction/i }).click();
+    await page.getByRole("link", { name: /Verify a transaction/i }).click();
     await expect(page).toHaveURL(/verify/);
     await expect(page.getByRole("heading", { name: /No transaction checked/ })).toBeVisible();
     await expect(page.locator("#proof-explorer")).toBeHidden();
