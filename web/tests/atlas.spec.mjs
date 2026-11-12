@@ -30,6 +30,26 @@ test.describe("PACT Atlas / real funding workspace", () => {
     await expect(page.locator("body")).not.toContainText("INTERACTIVE EXAMPLE");
   });
 
+  test("uses minimal top navigation without a left sidebar at every viewport", async ({ page }) => {
+    await noExternalRpc(page);
+    for (const width of [320, 390, 768, 1024, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/console");
+      await expect(page.locator(".shell-sidebar")).toHaveCount(0);
+      await expect(page.getByRole("navigation", { name: "Main navigation" })).toBeVisible();
+      for (const label of ["Overview", "Campaigns", "Activity", "New campaign", "Verify a transaction"]) {
+        await expect(page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: label })).toBeVisible();
+      }
+      const widths = await page.evaluate(() => ({
+        document: document.documentElement.scrollWidth,
+        viewport: innerWidth,
+        header: document.querySelector(".shell-topbar").getBoundingClientRect().width,
+      }));
+      expect(widths.document, JSON.stringify(widths)).toBeLessThanOrEqual(width + 1);
+      expect(widths.header).toBeLessThanOrEqual(width + 1);
+    }
+  });
+
   test("every real campaign opens a correctly encoded immutable onchain reader", async ({ page }) => {
     await noExternalRpc(page);
     await page.goto("/console");
