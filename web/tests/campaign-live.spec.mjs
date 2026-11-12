@@ -61,6 +61,20 @@ async function submitCommitForm(page) {
 }
 
 test.describe("Public testnet campaign", () => {
+  test("historical coalition keeps real receipts visible when live RPC is unreachable", async ({ page }) => {
+    await page.route(/rpc\\.testnet\\.fastnear\\.com/, route => route.abort());
+    const evidence = await page.request.get("/data/testnet-proof.json");
+    const data = await evidence.json();
+    const sample = data.campaigns.find(item => item.id === "coalition");
+    const url = `/campaign?contract=${sample.contract_id}&config=${encodeURIComponent(campaignShareToken(sample.share))}`;
+    await page.goto(url);
+    await expect(page.locator("#campaign-activity")).toBeVisible();
+    await expect(page.locator("#campaign-activity-timeline li")).toHaveCount(5);
+    await expect(page.locator("#campaign-activity-timeline")).toContainText("Beta beneficiary withdrawal");
+    await expect(page.locator("#campaign-activity-status")).toContainText("historical links");
+    await expect(page.locator("#campaign-activity-timeline a").last()).toHaveAttribute("href", /GuUpGeBN/);
+  });
+
   test("renders finalized state, conditions and a clearly labeled candidate certificate", async ({ page }) => {
     await mockFinalizedViews(page);
     await page.goto(`/campaign?contract=river.testnet&config=${encodeURIComponent(campaignShareToken(campaign))}`);
