@@ -91,7 +91,31 @@ function renderStatus() {
   $("#live-phase").textContent = status?.phase || "Unavailable";
   $("#live-window").textContent = status ? `opens ${new Date(Number(status.activate_after_ms)).toLocaleString()} · expires ${new Date(Number(status.deadline_ms)).toLocaleString()}` : "—";
   const required = campaign.projects.reduce((total, project) => total + Number(project.goal || 0), 0);
-  $("#live-committed").textContent = accounting ? formatNear(accounting.locked_pledges) : "—";
+  // Historical allocation was settled, so locked escrow is zero. Display
+  // the amount the contract actually allocated from canonical pledge records.
+  const phase = status?.phase;
+  const committed = (() => {
+    if (!live.verified || !Array.isArray(live.pledges)) return accounting?.locked_pledges ?? null;
+    if (phase === "ACTIVATED") {
+      const allocated = new Set((live.certificate ?? []).map(row => Number(row.pledge_index)));
+      return live.pledges.reduce((sum, pledge) => sum + (allocated.has(pledge.index) ? BigInt(pledge.amount) : 0n), 0n).toString();
+    }
+    if (phase === "EXPIRED") return live.pledges.reduce((sum, pledge) => sum + BigInt(pledge.amount), 0n).toString();
+    return accounting?.locked_pledges ?? null;
+  })();
+  $("#live-committed").textContent = committed != null ? formatNear(committed) : "—";
+  $("#live-money-label").textContent = phase === "ACTIVATED" ? "FUNDED" : phase === "EXPIRED" ? "ORIGINAL PLEDGES" : "COMMITTED";
+  const closed = live.verified && (phase === "ACTIVATED" || phase === "EXPIRED");
+  $("#commit-form").hidden = closed;
+  $("#campaign-history-note").hidden = !closed;
+  if (closed) {
+    $("#contribute-title").textContent = phase === "ACTIVATED" ? "Funding completed" : "Campaign expired";
+    $("#campaign-history-note").textContent = phase === "ACTIVATED"
+      ? "Funding is closed. Review the onchain allocation and the beneficiary withdrawals in the public proof timeline."
+      : "The campaign expired before activation. Contributions became refundable credits; inspect the recorded refund receipts.";
+  } else {
+    $("#contribute-title").textContent = "Add a commitment";
+  }
   $("#live-required").textContent = `${required} NEAR required across the full coalition`;
   $("#live-pledges").textContent = status ? String(status.pledge_count) : "—";
   $("#live-liabilities").textContent = accounting ? formatNear(accounting.liabilities) : "—";
