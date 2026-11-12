@@ -37,7 +37,7 @@
 
     <section class="campaign-status-grid" aria-label="Live campaign status">
       <article class="campaign-status-card"><span>PHASE</span><strong id="live-phase">Checking…</strong><small id="live-window">—</small></article>
-      <article class="campaign-status-card"><span>COMMITTED</span><strong id="live-committed">—</strong><small id="live-required">—</small></article>
+      <article class="campaign-status-card"><span id="live-money-label">COMMITTED</span><strong id="live-committed">—</strong><small id="live-required">—</small></article>
       <article class="campaign-status-card"><span>CONTRIBUTIONS</span><strong id="live-pledges">—</strong><small>finalized pledge records</small></article>
       <article class="campaign-status-card"><span>LIABILITIES</span><strong id="live-liabilities">—</strong><small id="live-solvency">Reconciliation pending</small></article>
     </section>
@@ -61,6 +61,7 @@
           <fieldset><legend>Only if these projects are funded</legend><div id="required-projects" class="check-grid"></div></fieldset>
           <button id="commit-submit" class="primary-action" type="submit" disabled>Connect wallet and commit ↗</button>
         </form>
+        <p id="campaign-history-note" class="campaign-history-note" hidden></p>
         <div id="wallet-state" class="wallet-state" role="status">Read-only until a testnet wallet is connected.</div>
         <div id="commit-result" class="campaign-message" role="status" aria-live="polite">No commitment submitted.</div>
       </aside>
