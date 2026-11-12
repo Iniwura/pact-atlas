@@ -136,3 +136,19 @@ body.pact-workspace{--bg:#090b0b;--sidebar:#0b0e0d;--surface:#111514;--surface-r
 @media(max-width:650px){.shell-sidebar{padding:0 16px;display:block}.shell-brand{padding:16px 0 12px;font-size:16px}.shell-brand .brand-mark{transform:scale(.8)}.shell-nav{margin:0 -16px;padding:0 14px 10px}.shell-nav a{padding:9px 12px;min-height:35px;font-size:12px}.shell-topbar{height:58px;padding:0 16px;gap:10px}.shell-crumb{font-size:10px}.network-label{font-size:9px;padding:7px 8px}.wallet-button{min-height:34px;font-size:10px;padding:7px 9px;max-width:158px}.topbar-actions{gap:7px}.workspace-content{padding:30px 15px 50px}.dashboard-heading{align-items:stretch;flex-direction:column;gap:22px;margin-bottom:26px}.dashboard-heading h1{font-size:clamp(40px,10vw,55px)}.dashboard-heading .intro{font-size:13px}.new-button{align-self:flex-start}.workspace-stats{margin-bottom:36px}.metric{padding:16px 14px;min-height:112px}.metric-value{font-size:25px;gap:4px}.metric-value small{font-size:9px}.metric-label{font-size:10px;line-height:1.4}.metric-caption{font-size:9px}.section-titlebar{flex-direction:column;align-items:flex-start;gap:15px}.section-titlebar h2{font-size:29px}.feature-story{padding:23px 17px;min-height:365px}.feature-story h3{font-size:36px;margin-top:24px}.feature-status{font-size:9px}.feature-tag{font-size:9px}.dependency-graph{margin:27px 0 22px;grid-template-columns:minmax(0,1fr) 26px minmax(0,1fr)}.dep-node{min-height:125px;padding:13px 11px}.dep-node strong{font-size:17px}.dep-node small{font-size:8px}.dep-node span{font-size:10px}.feature-details{padding:25px 20px;min-height:280px}.feature-details h3{font-size:36px}.campaign-list{grid-template-columns:1fr}.campaign-tile{padding:20px}.inventory-head{display:block}.tab-row{width:100%;margin-top:16px;justify-content:space-between}.tab-row button{flex:1;padding:10px 7px}.activity-entry{grid-template-columns:22px minmax(0,1fr) auto;gap:10px;padding:15px 12px}.activity-entry code{grid-column:2;grid-row:2;max-width:180px}.activity-entry a{grid-column:3;grid-row:1/3;padding:8px}.activity-entry p{font-size:10px}.trust-bar{grid-template-columns:1fr;gap:15px}.trust-bar a{justify-self:start}.shell-footer{font-size:9px}}
 @media(max-width:370px){.shell-crumb span:first-child{display:none}.metric{padding:13px 10px}.metric-value{font-size:23px}.network-label{font-size:8px}.wallet-button{max-width:128px}.shell-brand{font-size:15px}.dashboard-heading h1{font-size:38px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0ms!important;transition-duration:0ms!important;scroll-behavior:auto!important}}
+
+/* Safely open an organizer's shareable immutable campaign agreement. */
+.join-panel{margin-top:30px;padding:26px 28px;border:1px solid #3a453a;background:linear-gradient(115deg,#1a211c,#131813);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:35px;align-items:center}
+.join-panel .micro-label{margin-bottom:9px}
+.join-panel h2{font-size:24px;letter-spacing:-.06em;font-weight:740}
+.join-panel>div>p:last-child{color:#9da99d;font-size:12px;line-height:1.6;margin-top:8px}
+.join-panel form{min-width:0}
+.join-panel label{font-size:10px;color:#9ba99a;display:block;margin-bottom:9px}
+.join-controls{display:flex;min-width:0}
+.join-controls input{min-width:0;flex:1;border:1px solid #455345;background:#0d130f;color:#e9ecdf;padding:13px 14px;font-size:12px;outline:none}
+.join-controls input:focus{border-color:#ed9a6c}
+.join-controls button{padding:12px 14px;border:1px solid #f38553;background:#f38553;color:#18100c;font-size:11px;font-weight:800;white-space:nowrap}
+.join-controls button:hover{background:#ffa071}
+.join-panel #join-status{font-size:11px;color:#e3ae8e;margin-top:9px;min-height:16px;line-height:1.5}
+@media(max-width:900px){.join-panel{grid-template-columns:1fr;gap:18px}}
+@media(max-width:600px){.join-panel{padding:21px 16px}.join-controls{flex-direction:column;gap:8px}.join-controls button{min-height:43px}}
