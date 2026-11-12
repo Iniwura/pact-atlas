@@ -52,7 +52,7 @@ test.describe("PACT Atlas / campaign creation", () => {
     await expect(page.locator("#preview-result")).toContainText("Alex · 2 NEAR");
     await expect(page.locator("#deploy-campaign")).toBeVisible();
     const downloadPromise = page.waitForEvent("download");
-    await page.getByRole("button", { name: /Download funding plan/i }).click();
+    await page.getByRole("button", { name: /Export funding plan/i }).click();
     const download = await downloadPromise;
     const data = JSON.parse(await readFile(await download.path(), "utf8"));
     expect(data.network).toBe("OFFLINE-NOT-ONCHAIN");
