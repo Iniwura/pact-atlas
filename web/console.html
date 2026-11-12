@@ -34,24 +34,33 @@
     <main id="workspace-main" class="workspace-content">
       <section class="dashboard-heading" aria-labelledby="page-title">
         <div>
-          <p class="micro-label">Community money / Workspace</p>
+          <p class="micro-label">PACT ATLAS / SOCIAL MONEY</p>
           <h1 id="page-title">Funding<span>.</span> Together<span>.</span></h1>
-          <p class="intro">Create funding agreements, coordinate dependent projects and follow the money on NEAR.</p>
+          <p class="intro">Fund connected projects with clear conditions. See where every contribution goes.</p>
         </div>
         <a href="./create.html" class="new-button">Create campaign
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7"></path></svg>
         </a>
       </section>
 
-      <div class="workspace-stats" aria-label="Recorded public testnet campaign activity">
-        <div class="metric"><span class="metric-label">Campaigns in this workspace</span><div class="metric-value"><span id="metric-campaigns">—</span></div><span class="metric-caption">Public records and saved campaigns</span></div>
-        <div class="metric"><span class="metric-label">Coalition funding settled</span><div class="metric-value"><span id="metric-funded">—</span><small>NEAR</small></div><span class="metric-caption">From public receipts</span></div>
-        <div class="metric"><span class="metric-label">Contributions refunded</span><div class="metric-value"><span id="metric-refunded">—</span><small>NEAR</small></div><span class="metric-caption">From public receipts</span></div>
-      </div>
+      <section class="workspace-section" id="campaigns" aria-labelledby="campaigns-title">
+        <div class="section-titlebar inventory-head">
+          <div><p class="micro-label">01 / Public funding</p><h2 id="campaigns-title">Community campaigns.</h2><p>Explore actual testnet agreements. Open any campaign to check its status and conditions.</p></div>
+          <div class="tab-row" role="group" aria-label="Filter campaigns">
+            <button type="button" data-campaign-filter="all" aria-pressed="true">All</button>
+            <button type="button" data-campaign-filter="ACTIVATED" aria-pressed="false">Funded</button>
+            <button type="button" data-campaign-filter="EXPIRED" aria-pressed="false">Expired</button>
+          </div>
+        </div>
+        <div id="campaign-list" class="campaign-list" aria-live="polite">
+          <div class="loading-card" aria-hidden="true"></div><div class="loading-card" aria-hidden="true"></div>
+        </div>
+        <p id="campaign-list-status" class="empty-state" hidden role="status"></p>
+      </section>
 
       <section class="workspace-section" id="featured" aria-labelledby="featured-title">
         <div class="section-titlebar">
-          <div><p class="micro-label">Onchain coordination</p><h2 id="featured-title">A funding agreement in action</h2></div>
+          <div><p class="micro-label">02 / Inside an agreement</p><h2 id="featured-title">Why funding together matters.</h2></div>
           <a class="section-link" href="#campaigns">Browse campaigns ↗</a>
         </div>
         <div class="feature-panel">
@@ -79,20 +88,11 @@
         </div>
       </section>
 
-      <section class="workspace-section" id="campaigns" aria-labelledby="campaigns-title">
-        <div class="section-titlebar inventory-head">
-          <div><p class="micro-label">From NEAR testnet</p><h2 id="campaigns-title">Campaigns</h2><p>Recorded onchain campaigns. Open one to check its latest finalized state.</p></div>
-          <div class="tab-row" role="group" aria-label="Filter campaigns">
-            <button type="button" data-campaign-filter="all" aria-pressed="true">All</button>
-            <button type="button" data-campaign-filter="ACTIVATED" aria-pressed="false">Funded</button>
-            <button type="button" data-campaign-filter="EXPIRED" aria-pressed="false">Expired</button>
-          </div>
-        </div>
-        <div id="campaign-list" class="campaign-list" aria-live="polite">
-          <div class="loading-card" aria-hidden="true"></div><div class="loading-card" aria-hidden="true"></div>
-        </div>
-        <p id="campaign-list-status" class="empty-state" hidden role="status"></p>
-      </section>
+      <div class="workspace-stats" aria-label="Recorded public testnet campaign activity">
+        <div class="metric"><span class="metric-label">Campaigns in this workspace</span><div class="metric-value"><span id="metric-campaigns">—</span></div><span class="metric-caption">Public records and saved campaigns</span></div>
+        <div class="metric"><span class="metric-label">Coalition funding settled</span><div class="metric-value"><span id="metric-funded">—</span><small>NEAR</small></div><span class="metric-caption">From public receipts</span></div>
+        <div class="metric"><span class="metric-label">Contributions refunded</span><div class="metric-value"><span id="metric-refunded">—</span><small>NEAR</small></div><span class="metric-caption">From public receipts</span></div>
+      </div>
 
       <section class="join-panel" aria-labelledby="join-title">
         <div><p class="micro-label">Shared agreement</p><h2 id="join-title">Have a campaign link?</h2><p>Open a funding agreement shared by its organizer.</p></div>
