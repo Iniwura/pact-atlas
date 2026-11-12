@@ -20,3 +20,18 @@
 /* Historical campaigns are read-only in the contribution panel. */
 #commit-form[hidden],#campaign-history-note[hidden]{display:none!important}
 .campaign-history-note{font-size:14px;line-height:1.75;color:#d6c4b5;border-left:2px solid #e88252;padding:15px 17px;background:#2b201a;margin:20px 0}
+
+/* Archive activity complements live RPC state without suggesting a live feed. */
+.campaign-activity{margin-top:40px;border:1px solid #65513f;padding:25px 29px;background:#171714}
+.campaign-activity[hidden]{display:none!important}
+.campaign-activity .panel-heading{display:flex;justify-content:space-between;align-items:end;gap:15px}
+.campaign-activity .panel-heading>a{font-size:12px;font-weight:700;color:#efb78b}
+.campaign-activity-timeline{list-style:none;padding:0;margin:22px 0 0;border-top:1px solid #514134}
+.campaign-activity-item{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:18px;align-items:center;padding:18px 0;border-bottom:1px solid #514134}
+.campaign-activity-step{font:700 11px var(--mono);color:#b98968}
+.campaign-activity-item strong{display:block;color:#f5ebe0;font-size:13px;font-weight:720}
+.campaign-activity-item code{display:block;margin-top:5px;max-width:430px;overflow:hidden;text-overflow:ellipsis;color:#afa69a;font:500 10px var(--mono);white-space:nowrap}
+.campaign-activity-item a{font-size:11px;font-weight:730;color:#efad87;border:1px solid #78543e;padding:10px 13px}
+.campaign-activity-item a:hover{background:#42291e}
+.campaign-activity-status{font-size:11px;line-height:1.6;color:#c3ab98;margin-top:18px}
+@media(max-width:600px){.campaign-activity{padding:20px 16px}.campaign-activity-item{grid-template-columns:26px minmax(0,1fr);gap:10px}.campaign-activity-item a{grid-column:2;justify-self:start}.campaign-activity-item code{max-width:210px}.campaign-activity .panel-heading{align-items:start;flex-direction:column}}
