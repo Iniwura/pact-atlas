@@ -107,6 +107,15 @@
         <p id="campaign-list-status" class="empty-state" hidden role="status"></p>
       </section>
 
+      <section class="join-panel" aria-labelledby="join-title">
+        <div><p class="micro-label">Shared agreement</p><h2 id="join-title">Have a campaign link?</h2><p>Open a funding agreement shared by its organizer.</p></div>
+        <form id="join-form">
+          <label for="join-url">Campaign URL</label>
+          <div class="join-controls"><input id="join-url" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste a PACT campaign link" required><button type="submit">Open agreement ↗</button></div>
+          <p id="join-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
       <section class="workspace-section" id="activity" aria-labelledby="activity-title">
         <div class="section-titlebar inventory-head">
           <div><p class="micro-label">Public transaction record</p><h2 id="activity-title">Activity</h2><p>Contributions, activations, payouts and refunds. Every entry links to a public NEAR receipt.</p></div>
