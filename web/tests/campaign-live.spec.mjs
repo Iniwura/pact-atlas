@@ -62,7 +62,7 @@ async function submitCommitForm(page) {
 
 test.describe("Public testnet campaign", () => {
   test("historical coalition keeps real receipts visible when live RPC is unreachable", async ({ page }) => {
-    await page.route(/rpc\\.testnet\\.fastnear\\.com/, route => route.abort());
+    await page.route("**/rpc.testnet.fastnear.com/**", route => route.abort());
     const evidence = await page.request.get("/data/testnet-proof.json");
     const data = await evidence.json();
     const sample = data.campaigns.find(item => item.id === "coalition");
