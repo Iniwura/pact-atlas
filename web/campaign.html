@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0b0c0b">
-  <meta name="description" content="A public PACT Atlas funding campaign on NEAR testnet.">
-  <title>Live campaign — PACT Atlas</title>
+  <meta name="description" content="Inspect a real NEAR testnet funding agreement, with conditions, balances and receipt history.">
+  <title>Campaign — PACT Atlas</title>
   <link rel="stylesheet" href="./protocol-workspace.css">
   <link rel="stylesheet" href="./campaign.css">
 </head>
@@ -17,15 +17,17 @@
       <span>PACT<span class="brand-slash">/</span>ATLAS</span>
     </a>
     <nav class="main-nav" aria-label="Main navigation">
-      <a href="./console">Explore example</a>
-      <a href="./create.html">Create plan</a>
+      <a href="./console">Overview</a>
+      <a href="./console#campaigns">Campaigns</a>
+      <a href="./create.html">Create</a>
+      <a href="./console#activity">Activity</a>
       <a href="./verify.html">Verify</a>
     </nav>
     <span id="campaign-network" class="mode-pill"><span class="mode-dot"></span> NEAR TESTNET</span>
   </header>
   <main id="campaign-main" class="campaign-main">
     <section class="campaign-hero" aria-labelledby="campaign-title">
-      <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true">✳</span> PUBLIC CAMPAIGN / PACT TESTNET</p>
+      <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true">✳</span> CAMPAIGN / NEAR TESTNET</p>
       <div class="campaign-hero-row">
         <div>
           <h1 id="campaign-title">Loading campaign…</h1>
@@ -53,7 +55,7 @@
 
       <aside class="campaign-action-panel" aria-labelledby="contribute-title">
         <div class="panel-heading"><div><span class="pane-kicker">02 / PARTICIPATE</span><h2 id="contribute-title">Add a commitment</h2></div></div>
-        <p class="action-intro">Choose the projects your whole contribution may support. Your wallet will show the exact amount and contract method before anything is signed.</p>
+        <p class="action-intro">Set the conditions of your contribution. Your testnet wallet must approve the exact amount before anything is signed.</p>
         <form id="commit-form" class="campaign-form">
           <label for="supporter-plan">Planned contribution <select id="supporter-plan"></select></label>
           <label for="commit-amount">Amount · whole NEAR<input id="commit-amount" type="number" min="1" max="100" step="1" inputmode="numeric" required></label>
@@ -81,7 +83,7 @@
       <p id="campaign-activity-status" class="campaign-activity-status" role="status"></p>
     </section>
   </main>
-  <footer class="site-footer"><span>PACT/ATLAS</span><span>TESTNET ONLY / FAUCET FUNDS</span><a href="./console">Explore the example ↗</a></footer>
+  <footer class="site-footer"><span>PACT/ATLAS</span><span>TESTNET ONLY / FAUCET FUNDS</span><a href="./console#campaigns">Back to campaigns ↗</a></footer>
   <script type="module" src="./campaign-live.mjs"></script>
   <script type="module" src="./campaign-activity.mjs"></script>
 </body>
