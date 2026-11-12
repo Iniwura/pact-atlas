@@ -88,6 +88,33 @@ test.describe("PACT Atlas / real funding workspace", () => {
     await expect(page.locator(".status-chip").first()).toHaveAttribute("data-live", "unavailable");
   });
 
+  test("recovers a successfully deployed campaign from the same browser without claiming RPC verification", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.goto("/console");
+    await page.evaluate(() => {
+      const campaign = {
+        title: "Neighborhood garden",
+        projects: [{ id: "p1", name: "Garden", goal: 1, beneficiary: "recipient.testnet", included: true, dependencies: [] }],
+        supporters: [{ id: "s1", name: "Alex", amount: 1, allowed: ["p1"], requires: [] }],
+        deployment: {
+          slug: "garden", authority: "organizer.testnet",
+          timing: { activateAfterMs: 1794600000000, deadlineMs: 1794700000000 },
+          minFundedProjects: 1, requiredForActivation: ["p1"],
+          contractId: "garden.organizer.testnet"
+        },
+      };
+      localStorage.setItem("pact-atlas-custom-campaign-v1", JSON.stringify(campaign));
+    });
+    await page.reload();
+    await expect(page.locator(".campaign-tile")).toHaveCount(3);
+    const saved = page.locator(".campaign-tile").first();
+    await expect(saved).toContainText("Neighborhood garden");
+    await expect(saved).toContainText("SAVED IN THIS BROWSER");
+    await expect(saved).toContainText("Live RPC unavailable");
+    await expect(saved.getByRole("link", { name: /Open campaign/i })).toHaveAttribute("href", /garden.organizer.testnet/);
+    await expect(saved.locator(".tile-rpc")).not.toContainText("Finalized chain state checked");
+  });
+
   test("only calls a real testnet wallet on explicit user action", async ({ page }) => {
     await noExternalRpc(page);
     await page.addInitScript(() => { window.PACT_DISABLE_WALLET_SELECTOR = true; });
