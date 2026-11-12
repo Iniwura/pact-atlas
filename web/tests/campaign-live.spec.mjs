@@ -20,7 +20,7 @@ function encodedView(value) {
   return [...new TextEncoder().encode(JSON.stringify(value))];
 }
 
-async function mockFinalizedViews(page) {
+async function mockFinalizedViews(page, phase = "OPEN") {
   await page.route(/rpc\.testnet\.fastnear\.com/, async route => {
     const request = route.request().postDataJSON();
     const method = request?.params?.method_name;
@@ -29,14 +29,14 @@ async function mockFinalizedViews(page) {
       return;
     }
     const value = method === "status"
-      ? { phase: "OPEN", activate_after_ms: timing.activateAfterMs, deadline_ms: timing.deadlineMs, pledge_count: 2 }
+      ? { phase, activate_after_ms: timing.activateAfterMs, deadline_ms: timing.deadlineMs, pledge_count: 2 }
       : method === "accounting"
-        ? { locked_pledges: "2000000000000000000000000", liabilities: "2000000000000000000000000", solvent: true }
+        ? { locked_pledges: phase === "OPEN" ? "2000000000000000000000000" : "0", liabilities: phase === "OPEN" ? "2000000000000000000000000" : "0", solvent: true }
         : method === "campaign_config"
           ? { projects: campaign.projects.map(project => ({ id: project.id, beneficiary: project.beneficiary, required: String(BigInt(project.goal) * ONE_NEAR), dependencies: project.dependencies })), deadline_ms: timing.deadlineMs, activate_after_ms: timing.activateAfterMs, min_funded_projects: 2, required_for_activation: ["alpha", "beta"], activation_authorities: ["authority.testnet"] }
           : method === "pledge_records"
             ? [{ index: 0, owner: "alice.testnet", amount: String(ONE_NEAR), allowed: ["alpha"], requires: [] }, { index: 1, owner: "bob.testnet", amount: String(ONE_NEAR), allowed: ["beta"], requires: [] }]
-            : [];
+            : method === "activation_certificate" && phase === "ACTIVATED" ? [{ pledge_index: 0, project_id: "alpha" }, { pledge_index: 1, project_id: "beta" }] : [];
     await route.fulfill({
       status: 200,
       contentType: "application/json",
@@ -77,6 +77,17 @@ test.describe("Public testnet campaign", () => {
     await expect(page.locator("#allocation-certificate")).toBeVisible();
     await expect(page.locator("#activate-submit")).toBeVisible();
     await expect(page.locator("#commit-submit")).toBeEnabled();
+    await expect(page.locator("#campaign-error")).toBeHidden();
+  });
+
+  test("completed onchain campaign shows funded total and no misleading commitment form", async ({ page }) => {
+    await mockFinalizedViews(page, "ACTIVATED");
+    await page.goto(`/campaign?contract=river.testnet&config=${encodeURIComponent(campaignShareToken(campaign))}`);
+    await expect(page.locator("#live-phase")).toHaveText("ACTIVATED");
+    await expect(page.locator("#live-money-label")).toHaveText("FUNDED");
+    await expect(page.locator("#live-committed")).toHaveText("2 NEAR");
+    await expect(page.locator("#commit-form")).toBeHidden();
+    await expect(page.locator("#campaign-history-note")).toContainText("Funding is closed");
     await expect(page.locator("#campaign-error")).toBeHidden();
   });
 
