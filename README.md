@@ -4,19 +4,21 @@
 
 PACT Atlas helps a group fund projects that depend on each other. Contributors choose where their commitments may go and what else must be funded first. The contract accepts a valid allocation only when the conditions are met, with no pledge counted twice. If a campaign expires, unused contributions become refundable.
 
-**Release status: testnet-only demonstration.** Three real NEAR testnet campaigns prove activation, a full refund and a two-project dependency coalition. The current application has an interactive planning experience, a real testnet campaign reader, and independently linked receipts. Its browser-wallet signing flow has **not** completed genuine extension signing, and an unresolved missing-withdrawal-callback issue prevents safe use with valuable funds. Do not use PACT Atlas for production deposits. This is not an independently audited financial service.
+**Release status: testnet-only application preview.** Three real NEAR testnet campaigns prove activation, a full refund and a two-project dependency coalition. The current application has a campaign workspace, a clean creation flow, authenticated testnet campaign readers, and independently linked transaction activity. Its browser-wallet signing flow has **not** completed genuine extension signing, and an unresolved missing-withdrawal-callback issue prevents safe use with valuable funds. Do not use PACT Atlas for production deposits. This is not an independently audited financial service.
 
-### Start here
+### Use the application
 
-1. Open **/console** to see a completed public testnet coalition: two projects, two independent contributors, a dependency and settled payouts.
-2. Select **Open live campaign state**. The app derives the campaign link from preserved immutable contract facts, then independently checks deployed code, funding rules and finalized state against testnet RPC. If RPC is unavailable, it fails closed instead of inventing verification.
-3. Open **Real activity** to inspect separate contribution, activation, beneficiary-withdrawal and expiry/refund receipts. These archival links remain readable without a wallet.
-4. Scroll to **Try the funding model** and select **Simulate +1 NEAR** to explore how a bounded exact allocation changes. This is an offline model, not a payment.
-5. Select **Create a campaign** to configure projects, dependencies and contributor constraints. Real onchain deployment is testnet-only and requires separately approved wallet signing; the extension flow remains unverified.
+1. **Overview — `/console`.** See actual recorded NEAR testnet campaigns, a dependency-aware funding agreement, and links to public receipt history. No fictional funding is shown in the console.
+2. **Campaigns — `/console#campaigns`.** Filter funded and expired campaigns. Each campaign link contains the recorded immutable configuration; opening it triggers a fresh code-hash and finalized-accounting check. If RPC fails, no unverified live state is claimed.
+3. **Create — `/create.html`.** Start from a blank private draft, add projects and conditions, preview an exact bounded funding plan, then optionally authorize a testnet contract deployment through a real wallet. The deployment path is implemented but its browser-extension signing is not yet proven end-to-end.
+4. **Activity — `/console#activity`.** Inspect genuine recorded testnet contributions, activation, withdrawals and refunds. Every receipt opens NEAR testnet explorer. Saved successful deployments appear in the same browser's campaign workspace, subject to independent live-contract checks.
+5. **Verify — `/verify.html`.** Independently inspect finalized transactions and matching contract code. This requires no wallet.
 
-The approved cinematic landing page stays at **/**. The consumer console is **/console**; the builder is **/create.html**; the public campaign route is **/campaign**; independent receipt verification is **/verify.html**.
+The approved cinematic landing page remains at `/`. No user money moves merely by exploring or configuring a draft.
 
-Full evidence: [coalition receipts](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json), [expiry and refund](evidence/pact-atlas-testnet-evidence-2026-11-10.json), and [security limitations](docs/FINAL_HARDENING_REVIEW_2026-11-12.md). All onchain demonstration transactions were signed by disposable CLI identities, not by a verified browser-wallet session. GitHub Actions cannot run because of account billing restrictions; local verification is documented separately.
+**What is proven:** three faucet-funded public testnet campaign lifecycles, including a two-project conditional coalition and an expiry/refund case. **What is not proven:** authentic browser-extension signing, independent security audit, public Sputnik governance execution and recovery when a withdrawal callback never arrives. Do not use valuable funds.
+
+The recorded proof is in [the coalition manifest](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json), [the settlement/refund manifest](evidence/pact-atlas-testnet-evidence-2026-11-10.json), and [the financial safety review](docs/FINAL_HARDENING_REVIEW_2026-11-12.md). GitHub Actions is blocked by account billing restrictions; local verification evidence is separate.
 
 ## NEAR HACKATHON submission candidate
 
@@ -36,13 +38,13 @@ performed by this checkout.
 
 ## Make your own campaign
 
-From the interactive example at /console, select **Build your own funding plan** or open /create.html directly. Set 1–5 projects, their funding requirements and dependencies, then enter 1–8 supporters with permitted destinations and optional conditions. Select **Check funding** to see a valid whole-contribution allocation or an explained blocked result.
+From the workspace, select **Create campaign** or open /create.html directly. Set 1–5 projects, their funding requirements and dependencies, then enter 1–8 supporters with permitted destinations and optional conditions. Select **Check funding** to see a valid whole-contribution allocation or an explained blocked result.
 
-The draft is stored only in your browser. Select **Download scenario and verification JSON**, then independently check it with:
+The draft is stored only in your browser. Select **Download funding plan**, then independently check it with:
 
     npm run verify:campaign -- /path/to/pact-campaign-proof.json
 
-An exact plan can continue into an explicitly labeled **Deploy this campaign to NEAR testnet** flow. That flow builds a multi-action account deployment request and waits for wallet finality before creating a shareable campaign link. No credentials are bundled. The original local NEAR sandbox receipts and the separately recorded public testnet lifecycle remain distinct. See [the Campaign Lab judge guide](docs/CAMPAIGN_LAB.md).
+An exact plan can continue into an explicitly labeled **Deploy this campaign to NEAR testnet** flow. That flow builds a multi-action account deployment request and waits for wallet finality before creating a shareable campaign link. No credentials are bundled. The original local NEAR sandbox receipts and separately recorded public testnet lifecycles remain distinct. See [the Campaign Lab judge guide](docs/CAMPAIGN_LAB.md).
 
 ## Share a live campaign (testnet path)
 
@@ -67,13 +69,13 @@ The new `/verify.html` page checks a supplied NEAR testnet transaction against t
 
 Reproduce independently with `npm run verify:testnet -- <contract.testnet> <signer.testnet> <hash> commit`. This verifies the named method execution, **not** an entire campaign lifecycle or secure delivery of payouts. The completed public campaign/refund evidence is recorded in [the baseline testnet manifest](evidence/pact-atlas-testnet-evidence-2026-11-10.json), and the multi-project dependency campaign is recorded in [the coalition manifest](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json). See [testnet proof and release gates](docs/TESTNET_PROOF.md).
 
-## Try the app in one minute
+## First-use product journey
 
-Open `/console` after `npm run preview`. The first screen highlights a completed two-project public NEAR testnet coalition. Below it, the interactive example asks: **Can we fund all four community projects?** Four project cards show required amounts and dependency conditions. The right-hand panel shows **12 of 13 NEAR committed**, with Events missing 1 NEAR.
+Run `npm run preview`, then open `/console`. The application opens on actual recorded public testnet campaigns, not on a seeded simulation. The funded coalition demonstrates two projects where Beta depends on Alpha. Open the campaign to read immutable conditions, finalized status and accounting. Follow the Activity receipts to independently inspect both contributions, activation and individual payouts. The expired campaign supplies a separate contribution → expiry → refund history.
 
-Click **Simulate +1 NEAR**. The cards update and **Where the money goes** immediately shows an exact allocation across the four projects. All funds in this action are hypothetical. You can click **Reset example** to undo it, choose a project card to see its conditions, inspect the supporter restrictions, and open the separate **Public NEAR testnet proof** section for genuine coalition and refund receipts.
+Select **Create campaign** to begin a blank draft. Configure at least one named project, its beneficiary account and supporter conditions. A fundable local plan can be reviewed and exported; it is not itself a transaction. Onchain deployment requires a separate testnet wallet approval and remains an unverified browser E2E integration, so the product cannot claim that onboarding succeeds until an authentic wallet path is completed.
 
-For a reproducible, 60-second reviewer path, use [the judge walkthrough](docs/JUDGE_WITNESS.md). The actual calculation is derived from `web/engine.mjs` through `web/funding-view.mjs`; it is not hardcoded visual data or a signed onchain transaction.
+The approved cinematic homepage is preserved. The archived model and sandbox proof remain in this repository for reproducible engineering review, not as fictional user activity in the app.
 
 ## Experiment
 
