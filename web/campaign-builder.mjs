@@ -1,4 +1,3 @@
-import { MODEL } from "./engine.mjs";
 import { CAMPAIGN_LIMITS, solveCampaign, validateCampaign } from "./campaign-solver.mjs";
 import {
   PACT_WASM_SHA256,
@@ -14,30 +13,19 @@ const element=(tag,cls="",content)=>{const node=document.createElement(tag);if(c
 const safeNumber=value=>value==="" ? NaN : Number(value);
 const sum=items=>items.reduce((a,x)=>a+(Number.isSafeInteger(x)?x:0),0);
 const store="pact-atlas-custom-campaign-v1";
-const starting=()=>({
-  title:"Community Hub",
-  projects:Object.entries(MODEL.projects).map(([id,p])=>({
-    id,name:p.label,goal:Number(p.required),dependencies:[...p.dependencies],beneficiary:"",included:true
-  })),
-  supporters:MODEL.pledges.map((s,i)=>({
-    id:"s"+(i+1),name:"Supporter "+(i+1),amount:Number(s.amount),
-    allowed:[...s.allowed],requires:[...s.requires]
-  }))
-});
 const blank=()=>({
   title:"",projects:[
-    {id:"p1",name:"",goal:1,dependencies:[],beneficiary:"",included:true},
-    {id:"p2",name:"",goal:1,dependencies:[],beneficiary:"",included:true}
+    {id:"p1",name:"",goal:1,dependencies:[],beneficiary:"",included:true}
   ],supporters:[]
 });
-const restore=()=>{try{const raw=localStorage.getItem(store);if(!raw)return starting();const obj=JSON.parse(raw);
+const restore=()=>{try{const raw=localStorage.getItem(store);if(!raw)return blank();const obj=JSON.parse(raw);
   if(!obj||typeof obj!=="object"||!Array.isArray(obj.projects)||!Array.isArray(obj.supporters)||
     obj.projects.length>CAMPAIGN_LIMITS.maxProjects||obj.supporters.length>CAMPAIGN_LIMITS.maxSupporters||
     obj.projects.some(p=>!p||typeof p.id!=="string"||!Array.isArray(p.dependencies))||
     obj.supporters.some(s=>!s||typeof s.id!=="string"||!Array.isArray(s.allowed)||!Array.isArray(s.requires)))
-    return starting();
+    return blank();
   return obj;
-}catch{return starting();}};
+}catch{return blank();}};
 let campaign=restore();
 let step=1,latest=null;
 
@@ -162,7 +150,7 @@ function renderForm(){
     pane.append(verdict);
     if(result.status==="fundable"||result.status==="blocked"){
       pane.append(element("p","plan-detail","PACT either assigns an entire contribution to one allowed project or leaves it unassigned. No partial spending."));
-      pane.append(actionButton("Download scenario and verification JSON ↗",download,"export-button"));
+      pane.append(actionButton("Download funding plan ↗",download,"export-button"));
     }
     if(result.status==="fundable") pane.append(renderChainLaunch());
     if(result.status!=="fundable")pane.append(actionButton("Edit supporters",()=>changeStep(2),"quiet-button"));
@@ -294,7 +282,7 @@ function renderPreview(){
     box.append(checks,element("p","local-warning","Verified against this local model only. No blockchain transfer occurred."));
     if(r.certificate.unused)box.append(element("p","unused-funds",r.certificate.unused+" NEAR is unassigned in this plan."));
   }else{
-    box.append(element("h3","",r.status==="blocked"?"What prevents funding?":"Review this example"),
+    box.append(element("h3","",r.status==="blocked"?"What prevents funding?":"Review your campaign"),
       element("p","",r.reason||r.errors?.join(" ")||"Enter valid project and supporter details."));
     if(r.issues?.length>1){
       const issues=element("ul");r.issues.slice(1,5).forEach(issue=>issues.append(element("li","",issue)));box.append(issues);
@@ -334,9 +322,6 @@ $("#next-step").addEventListener("click",()=>changeStep(step+1));
 $("#step-projects").addEventListener("click",()=>changeStep(1));
 $("#step-supporters").addEventListener("click",()=>changeStep(2));
 $("#step-plan").addEventListener("click",()=>changeStep(3));
-$("#load-example").addEventListener("click",()=>{
-  campaign=starting();step=1;latest=null;save();$("#campaign-title").value=campaign.title;hideErrors();renderForm();
-});
 $("#start-blank").addEventListener("click",()=>{
   campaign=blank();step=1;latest=null;save();$("#campaign-title").value=campaign.title;hideErrors();renderForm();
 });
