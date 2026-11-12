@@ -153,7 +153,7 @@ function renderForm(){
     pane.append(add);
   } else {
     const result=latest??solveCampaign(campaign);latest=result;
-    pane.append(heading("Your funding plan","This is a simulated decision. It cannot publish a campaign or move NEAR."));
+    pane.append(heading("Your funding plan","Review the proposed allocation. No NEAR moves before a separately approved testnet transaction."));
     const verdict=element("div","editor-verdict");
     const status=result.status==="fundable"?"A valid plan exists":
       result.status==="blocked"?"The funding conditions aren't met":
@@ -163,7 +163,7 @@ function renderForm(){
     pane.append(verdict);
     if(result.status==="fundable"||result.status==="blocked"){
       pane.append(element("p","plan-detail","PACT either assigns an entire contribution to one allowed project or leaves it unassigned. No partial spending."));
-      pane.append(actionButton("Download funding plan ↗",download,"export-button"));
+      pane.append(actionButton("Export funding plan ↗",download,"export-button"));
     }
     if(result.status==="fundable") pane.append(renderChainLaunch());
     if(result.status!=="fundable")pane.append(actionButton("Edit supporters",()=>changeStep(2),"quiet-button"));
@@ -292,7 +292,7 @@ function renderPreview(){
     }
     box.append(groups);
     const checks=element("p","verified-checks","✓ Whole contributions  ✓ Allowed projects  ✓ Dependencies  ✓ No double-spending");
-    box.append(checks,element("p","local-warning","Verified against this local model only. No blockchain transfer occurred."));
+    box.append(checks,element("p","local-warning","Checked locally against the funding rules. No onchain transaction has occurred."));
     if(r.certificate.unused)box.append(element("p","unused-funds",r.certificate.unused+" NEAR is unassigned in this plan."));
   }else{
     box.append(element("h3","",r.status==="blocked"?"What prevents funding?":"Review your campaign"),
