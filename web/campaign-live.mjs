@@ -348,6 +348,16 @@ function boot() {
   if (!isTestnetAccount(contractId)) { showMessage("#campaign-error", "This campaign link must point to a dedicated *.testnet account.", "error"); return; }
   try { campaign = campaignFromShareToken(params.get("config")); } catch (error) { showMessage("#campaign-error", error.message, "error"); return; }
   renderHeader(); renderProjects(); renderSupporterOptions();
+  $("#copy-campaign-link").addEventListener("click", async () => {
+    const status = $("#copy-campaign-status");
+    try {
+      if (!navigator.clipboard?.writeText) throw Error("Clipboard access is unavailable in this browser.");
+      await navigator.clipboard.writeText(window.location.href);
+      status.textContent = "Link copied.";
+    } catch {
+      status.textContent = "Copy the address from your browser to share this campaign.";
+    }
+  });
   $("#commit-form").addEventListener("submit", commit);
   $("#refresh-campaign").addEventListener("click", refresh);
   $("#activate-submit").addEventListener("click", activate);
