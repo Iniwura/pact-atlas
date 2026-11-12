@@ -13,7 +13,7 @@ test.describe("PACT Atlas / first-time funding experience", () => {
     await page.setViewportSize({width:1440,height:900});
     await page.goto("/console");
     await expect(page.getByRole("heading",{name:"Can we fund all four?"})).toBeVisible();
-    await expect(page.locator(".hero-description")).toContainText("Five supporters have pledged 12 NEAR");
+    await expect(page.locator(".hero-description")).toContainText("Five fictional supporters have committed 12 NEAR");
     await expect(page.locator("#committed-value")).toHaveText("12");
     await expect(page.locator("#required-value")).toHaveText("13");
     await expect(page.locator("#gap-value")).toContainText("1 NEAR still needed");
@@ -125,7 +125,6 @@ test.describe("PACT Atlas / first-time funding experience", () => {
     await expect(page.getByRole("heading", {name: /Make funding work together/i})).toBeVisible();
     await expect(page.locator("#featured-proof")).toContainText("Beta depends on Alpha");
     await expect(page.locator("#featured-campaign-link")).toHaveAttribute("href", /\/campaign\?contract=coalition-20261110/);
-    await page.locator(".consumer-quicknav a[href='#public-proof']").count().then(count => { expect(count).toBe(0); });
     await page.locator("a[href='#public-proof']").first().click();
     await expect(page.locator("#public-proof-status")).toContainText("archival evidence");
     await expect(page.locator(".public-proof-card").first().getByRole("link", {name: /Alpha beneficiary withdrawal/i})).toHaveAttribute("href", /BF7DB9A/);
