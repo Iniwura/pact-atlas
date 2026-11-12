@@ -10,9 +10,10 @@ PACT Atlas helps a group fund projects that depend on each other. Contributors c
 
 1. **Overview — `/console`.** See actual recorded NEAR testnet campaigns, a dependency-aware funding agreement, and links to public receipt history. No fictional funding is shown in the console.
 2. **Campaigns — `/console#campaigns`.** Filter funded and expired campaigns. Each campaign link contains the recorded immutable configuration; opening it triggers a fresh code-hash and finalized-accounting check. If RPC fails, no unverified live state is claimed.
-3. **Create — `/create.html`.** Start from a blank private draft, add projects and conditions, preview an exact bounded funding plan, then optionally authorize a testnet contract deployment through a real wallet. The deployment path is implemented but its browser-extension signing is not yet proven end-to-end.
-4. **Activity — `/console#activity`.** Inspect genuine recorded testnet contributions, activation, withdrawals and refunds. Every receipt opens NEAR testnet explorer. Saved successful deployments appear in the same browser's campaign workspace, subject to independent live-contract checks.
-5. **Verify — `/verify.html`.** Independently inspect finalized transactions and matching contract code. This requires no wallet.
+3. **Open a shared agreement.** Paste an organizer’s full campaign URL in the workspace. The app validates its public share-token format and opens the agreement on PACT’s own origin, where immutable contract checks are repeated; it never redirects to an arbitrary pasted host.
+4. **Create — `/create.html`.** Start from a blank private draft, add projects and conditions, preview an exact bounded funding plan, then optionally authorize a testnet contract deployment through a real wallet. The deployment path is implemented but its browser-extension signing is not yet proven end-to-end.
+5. **Activity — `/console#activity`.** Inspect genuine recorded testnet contributions, activation, withdrawals and refunds. Every receipt opens NEAR testnet explorer. Saved successful deployments appear in the same browser's campaign workspace, subject to independent live-contract checks.
+6. **Verify — `/verify.html`.** Independently inspect finalized transactions and matching contract code. This requires no wallet.
 
 The approved cinematic landing page remains at `/`. No user money moves merely by exploring or configuring a draft.
 
