@@ -21,11 +21,88 @@
         "final liabilities: 0 NEAR · solvent: true"
       ],
       "links": [
-        { "label": "Beta contribution", "hash": "39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN", "url": "https://testnet.nearblocks.io/txns/39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN" },
-        { "label": "Alpha contribution", "hash": "8t22n71EQDb5WCswgLu7MUH3aVeyoFaCVdKgtQBUVje3", "url": "https://testnet.nearblocks.io/txns/8t22n71EQDb5WCswgLu7MUH3aVeyoFaCVdKgtQBUVje3" },
-        { "label": "Accepted activation certificate", "hash": "31FxH2YE9FEm7iq49AH6eXMvZYiFv7Y3jeqd8rThK96v", "url": "https://testnet.nearblocks.io/txns/31FxH2YE9FEm7iq49AH6eXMvZYiFv7Y3jeqd8rThK96v" },
-        { "label": "Beneficiary withdrawals", "hash": "BF7DB9Ap711cXLfnQnUweN1Q6LgUkUGmbFP3HfcxEkex / GuUpGeBNaygqoaepXPrmxbWgEzexoXgyxxFDZ617E9FX", "url": "https://testnet.nearblocks.io/txns/BF7DB9Ap711cXLfnQnUweN1Q6LgUkUGmbFP3HfcxEkex" }
-      ]
+        {
+          "label": "Beta contribution",
+          "hash": "39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN",
+          "url": "https://testnet.nearblocks.io/txns/39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN"
+        },
+        {
+          "label": "Alpha contribution",
+          "hash": "8t22n71EQDb5WCswgLu7MUH3aVeyoFaCVdKgtQBUVje3",
+          "url": "https://testnet.nearblocks.io/txns/8t22n71EQDb5WCswgLu7MUH3aVeyoFaCVdKgtQBUVje3"
+        },
+        {
+          "label": "Accepted activation certificate",
+          "hash": "31FxH2YE9FEm7iq49AH6eXMvZYiFv7Y3jeqd8rThK96v",
+          "url": "https://testnet.nearblocks.io/txns/31FxH2YE9FEm7iq49AH6eXMvZYiFv7Y3jeqd8rThK96v"
+        },
+        {
+          "label": "Alpha beneficiary withdrawal",
+          "hash": "BF7DB9Ap711cXLfnQnUweN1Q6LgUkUGmbFP3HfcxEkex",
+          "url": "https://testnet.nearblocks.io/txns/BF7DB9Ap711cXLfnQnUweN1Q6LgUkUGmbFP3HfcxEkex"
+        },
+        {
+          "label": "Beta beneficiary withdrawal",
+          "hash": "GuUpGeBNaygqoaepXPrmxbWgEzexoXgyxxFDZ617E9FX",
+          "url": "https://testnet.nearblocks.io/txns/GuUpGeBNaygqoaepXPrmxbWgEzexoXgyxxFDZ617E9FX"
+        }
+      ],
+      "share": {
+        "title": "Community funding coalition",
+        "projects": [
+          {
+            "id": "alpha",
+            "name": "Community internet",
+            "goal": 1,
+            "dependencies": [],
+            "beneficiary": "beneficiary-20261110.testnet"
+          },
+          {
+            "id": "beta",
+            "name": "Digital training",
+            "goal": 1,
+            "dependencies": [
+              "alpha"
+            ],
+            "beneficiary": "coalition-beneficiary-20261110.testnet"
+          }
+        ],
+        "supporters": [
+          {
+            "id": "s1",
+            "name": "Recorded contributor 01",
+            "amount": 1,
+            "allowed": [
+              "beta"
+            ],
+            "requires": [
+              "alpha"
+            ]
+          },
+          {
+            "id": "s2",
+            "name": "Recorded contributor 02",
+            "amount": 1,
+            "allowed": [
+              "alpha"
+            ],
+            "requires": []
+          }
+        ],
+        "deployment": {
+          "authority": "beneficiary-20261110.testnet",
+          "timing": {
+            "activateAfterMs": 1794346353456,
+            "deadlineMs": 1794347433456
+          },
+          "minFundedProjects": 2,
+          "requiredForActivation": [
+            "alpha",
+            "beta"
+          ]
+        }
+      },
+      "status": "ACTIVATED"
     },
     {
       "id": "refund",
@@ -40,15 +117,64 @@
         "final liabilities: 0 NEAR · solvent: true"
       ],
       "links": [
-        { "label": "Contribution", "hash": "Hsps9MNcY34pYJ2bUPsh6fmDvW6qa3Exr6d5HwncuwZR", "url": "https://testnet.nearblocks.io/txns/Hsps9MNcY34pYJ2bUPsh6fmDvW6qa3Exr6d5HwncuwZR" },
-        { "label": "Expiry", "hash": "BsD14fSst4b6BSDqZ6v8WkZqHCQXKXupfPrwfNDtyGFK", "url": "https://testnet.nearblocks.io/txns/BsD14fSst4b6BSDqZ6v8WkZqHCQXKXupfPrwfNDtyGFK" },
-        { "label": "Refund withdrawal", "hash": "C4yMtrjmWoBRmRutTWfdCLEeY3XDrct8ydCx2ZBtTzvT", "url": "https://testnet.nearblocks.io/txns/C4yMtrjmWoBRmRutTWfdCLEeY3XDrct8ydCx2ZBtTzvT" }
-      ]
+        {
+          "label": "Contribution",
+          "hash": "Hsps9MNcY34pYJ2bUPsh6fmDvW6qa3Exr6d5HwncuwZR",
+          "url": "https://testnet.nearblocks.io/txns/Hsps9MNcY34pYJ2bUPsh6fmDvW6qa3Exr6d5HwncuwZR"
+        },
+        {
+          "label": "Expiry",
+          "hash": "BsD14fSst4b6BSDqZ6v8WkZqHCQXKXupfPrwfNDtyGFK",
+          "url": "https://testnet.nearblocks.io/txns/BsD14fSst4b6BSDqZ6v8WkZqHCQXKXupfPrwfNDtyGFK"
+        },
+        {
+          "label": "Refund withdrawal",
+          "hash": "C4yMtrjmWoBRmRutTWfdCLEeY3XDrct8ydCx2ZBtTzvT",
+          "url": "https://testnet.nearblocks.io/txns/C4yMtrjmWoBRmRutTWfdCLEeY3XDrct8ydCx2ZBtTzvT"
+        }
+      ],
+      "share": {
+        "title": "Community funding refund",
+        "projects": [
+          {
+            "id": "alpha",
+            "name": "Community project",
+            "goal": 1,
+            "dependencies": [],
+            "beneficiary": "beneficiary-20261110.testnet"
+          }
+        ],
+        "supporters": [
+          {
+            "id": "s1",
+            "name": "Recorded contributor 01",
+            "amount": 1,
+            "allowed": [
+              "alpha"
+            ],
+            "requires": []
+          }
+        ],
+        "deployment": {
+          "authority": "supporter-20261110.testnet",
+          "timing": {
+            "activateAfterMs": 1794344517442,
+            "deadlineMs": 1794344637442
+          },
+          "minFundedProjects": 1,
+          "requiredForActivation": [
+            "alpha"
+          ]
+        }
+      },
+      "status": "EXPIRED"
     }
   ],
   "limitations": [
     "These are faucet-funded testnet transactions, not mainnet or production evidence.",
     "The public campaigns were signed by disposable CLI identities; no browser-wallet signature is claimed.",
     "A missing withdrawal callback remains a liveness blocker. No timeout retry or speculative unlock is used."
-  ]
+  ],
+  "recorded_at": "2026-11-10T21:39:05.261Z",
+  "proof_kind": "Historical receipt links and recorded finalized state; open the campaign to refresh independent onchain state."
 }
