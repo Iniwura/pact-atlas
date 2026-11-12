@@ -42,12 +42,13 @@ function recordedAmount(campaign) {
   const supporters = campaign?.share?.supporters || [];
   if (campaign.id === "coalition") return projects.reduce((total, project) => total + Number(project.goal || 0), 0);
   if (campaign.id === "refund") return supporters.reduce((total, supporter) => total + Number(supporter.amount || 0), 0);
-  return 0;
+  return null;
 }
 
 function titleOf(campaign) {
   if (campaign.id === "coalition") return "Conditional coalition";
   if (campaign.id === "refund") return "Expired campaign";
+  if (campaign.origin === "local") return String(campaign.label || campaign.share?.title || "Your campaign");
   return String(campaign.label || "Community campaign");
 }
 
@@ -73,14 +74,16 @@ function renderCampaignTile(campaign) {
   const phase = campaign.chain?.phase || campaign.status;
   const card = node("article", "campaign-tile");
   const head = node("div", "tile-head");
-  head.append(node("span", "tile-index", campaign.id === "coalition" ? "CAMPAIGN / 01" : "CAMPAIGN / 02"));
+  head.append(node("span", "tile-index", campaign.origin === "local" ? "SAVED IN THIS BROWSER" : campaign.id === "coalition" ? "ONCHAIN / 01" : "ONCHAIN / 02"));
   const status = node("span", "status-chip", phaseLabel(phase));
   status.dataset.phase = phase || "UNKNOWN";
   status.dataset.live = campaign.chain ? "verified" : "unavailable";
   head.append(status);
 
   const heading = node("h3", "", titleOf(campaign));
-  const description = node("p", "", campaign.id === "coalition"
+  const description = node("p", "", campaign.origin === "local"
+    ? "Deployed from this browser. Inspect its verified contract state and project conditions."
+    : campaign.id === "coalition"
     ? "Two projects funded together. Beta's contribution depended on Alpha receiving funding."
     : "The funding period ended without activation. The recorded contributor received a refund.");
 
@@ -90,8 +93,9 @@ function renderCampaignTile(campaign) {
   const projectCount = node("strong", "", String(campaign.share?.projects?.length ?? "—"));
   projects.append(projectCaption, projectCount);
   const funded = node("div");
-  const fundedCaption = node("span", "", campaign.status === "EXPIRED" ? "REFUNDED" : "RECORDED FUNDING");
-  const fundedValue = node("strong", "", String(recordedAmount(campaign)));
+  const fundedCaption = node("span", "", campaign.origin === "local" ? "CURRENTLY LOCKED" : campaign.status === "EXPIRED" ? "REFUNDED" : "RECORDED FUNDING");
+  const amount = campaign.origin === "local" ? (campaign.chain ? amountFromYocto(campaign.chain.lockedPledges) : "—") : String(recordedAmount(campaign));
+  const fundedValue = node("strong", "", amount);
   fundedValue.append(node("small", "", " NEAR"));
   funded.append(fundedCaption, fundedValue);
   stats.append(projects, funded);
@@ -100,7 +104,7 @@ function renderCampaignTile(campaign) {
   const action = link("Open campaign ↗", campaignLink(campaign));
   const chainState = node("span", "tile-rpc", campaign.chain
     ? "Finalized chain state checked"
-    : campaign.rpcError ? "Live RPC unavailable · recorded data" : "Checking latest state…");
+     : campaign.rpcError ? (campaign.origin === "local" ? "Live RPC unavailable · saved link" : "Live RPC unavailable · recorded data") : "Checking latest state…");
   footer.append(action, chainState);
   card.append(head, heading, description, stats, footer);
   return card;
@@ -188,7 +192,7 @@ async function finalizedState(campaign, rpcUrl) {
   if (!auth.valid || accounting?.solvent !== true || !["ACTIVATED", "EXPIRED", "OPEN"].includes(status?.phase)) {
     throw Error("Contract or accounting verification failed");
   }
-  return { phase: status.phase, liabilities: String(accounting.liabilities), pledgeCount: Number(status.pledge_count) };
+  return { phase: status.phase, liabilities: String(accounting.liabilities), pledgeCount: Number(status.pledge_count), lockedPledges: String(accounting.locked_pledges) };
 }
 
 async function refreshCampaign(campaign) {
@@ -231,6 +235,23 @@ async function connectWallet() {
   }
 }
 
+function savedDeployedCampaign() {
+  try {
+    const raw = localStorage.getItem("pact-atlas-custom-campaign-v1");
+    if (!raw) return null;
+    const draft = JSON.parse(raw);
+    const contractId = draft?.deployment?.contractId;
+    if (typeof contractId !== "string" || !contractId.endsWith(".testnet")) return null;
+    if (!Number.isSafeInteger(draft?.deployment?.timing?.deadlineMs) || !Number.isSafeInteger(draft?.deployment?.timing?.activateAfterMs)) return null;
+    const record = {
+      id: "saved-campaign", origin: "local", label: String(draft.title || "Your campaign"),
+      contract_id: contractId, contract_explorer: "https://testnet.nearblocks.io/address/" + encodeURIComponent(contractId),
+      status: "UNKNOWN", share: draft, links: [], chain: null, rpcError: false,
+    };
+    return validateEvidence(record) ? record : null;
+  } catch { return null; }
+}
+
 async function boot() {
   $("#connect-wallet").addEventListener("click", connectWallet);
   filterControls("[data-campaign-filter]", "campaignFilter", renderCampaigns);
@@ -240,7 +261,9 @@ async function boot() {
     if (!response.ok) throw Error("HTTP " + response.status);
     const proof = await response.json();
     if (proof.network !== "NEAR testnet" || !Array.isArray(proof.campaigns)) throw Error("Invalid evidence index");
-    model.campaigns = proof.campaigns.filter(validateEvidence).map(campaign => ({ ...campaign, chain: null, rpcError: false }));
+    const listed = proof.campaigns.filter(validateEvidence).map(campaign => ({ ...campaign, chain: null, rpcError: false, origin: "recorded" }));
+    const saved = savedDeployedCampaign();
+    model.campaigns = saved && !listed.some(campaign => campaign.contract_id === saved.contract_id) ? [saved, ...listed] : listed;
     renderSummary();
     renderCampaigns();
     renderActivity();
