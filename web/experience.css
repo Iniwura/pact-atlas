@@ -152,7 +152,7 @@ body{font-feature-settings:"kern" 1}
  .hero-art{inset:4% -38% 12%;transform-origin:center}
  .hero-art img{object-fit:cover;transform:scale(1.15);object-position:53% 39%}
  .hero-edition{bottom:43%;left:18px}
- .hero-reference{right:18px;bottom:42%;font-size:21px;max-width:126px}
+ .hero-reference{right:18px;bottom:59%;font-size:21px;max-width:126px}
  .hero h1{left:15px;right:15px;bottom:23%;font-size:clamp(43px,13.4vw,67px);line-height:.86;letter-spacing:-.11em}
  .hero-title-last{font-size:.94em}
  .hero-bottom{left:18px;right:18px;bottom:23px;padding-top:16px;display:flex;align-items:flex-end;gap:15px}
