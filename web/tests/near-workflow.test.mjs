@@ -19,6 +19,8 @@ test("builds a Sputnik proposal containing the exact PACT call", () => {
   assert.equal(request.contractId, config.daoId);
   assert.equal(functionCall.receiver_id, config.contractId);
   assert.equal(action.method_name, "commit");
+  assert.equal(action.deposit, "3000000000000000000000000");
+  assert.equal(request.deposit, "1000000000000000000000000");
   assert.deepEqual(JSON.parse(Buffer.from(action.args, "base64").toString()), { allowed: ["a", "d"], requires: [] });
 });
 
@@ -40,5 +42,35 @@ test("builds activation and settlement requests from the same contract config", 
 
 test("refuses signing requests without an explicit configured contract", () => {
   assert.throws(() => buildWorkflowRequest("activate"), /contract ID is not configured/);
-  assert.throws(() => buildWorkflowRequest("approve", { config: { contractId: config.contractId } }), /DAO contract ID is not configured/);
+  assert.throws(() => buildWorkflowRequest("approve", {
+    config: { network: "testnet", contractId: config.contractId }
+  }), /DAO contract ID is not configured/);
+});
+
+test("all signing requests reject implicit or explicit mainnet configuration", () => {
+  for (const action of ["commit", "activate", "withdraw", "approve"]) {
+    assert.throws(() => buildWorkflowRequest(action, {
+      config: { ...config, network: "mainnet" }
+    }), /testnet/i);
+    assert.throws(() => buildWorkflowRequest(action, {
+      config: { contractId: config.contractId, daoId: config.daoId }
+    }), /testnet/i);
+  }
+});
+
+test("signing requests reject non-testnet contract and DAO account IDs", () => {
+  for (const action of ["commit", "activate", "withdraw", "approve"]) {
+    assert.throws(() => buildWorkflowRequest(action, {
+      config: { ...config, contractId: "pact.near" }
+    }), /testnet/i);
+  }
+  assert.throws(() => buildWorkflowRequest("approve", {
+    config: { ...config, daoId: "sputnik.near" }
+  }), /testnet/i);
+});
+
+test("local certificate remains available without a wallet or network", () => {
+  const proof = buildWorkflowRequest("certify");
+  assert.equal(proof.kind, "local-certificate");
+  assert.equal(proof.exact, true);
 });

@@ -1,0 +1,70 @@
+{
+  "type": "PACT-LOCAL-SANDBOX-EVIDENCE",
+  "version": 2,
+  "network": "NEAR-SANDBOX",
+  "generatedAt": "2026-11-12T12:36:58.520Z",
+  "sandboxVersion": "2.13.4",
+  "sandboxBinaryPath": "/tmp/pact-atlas-near-sandbox/near-sandbox-2.13.4/near-sandbox",
+  "wasmPath": "/mnt/c/Users/DELL 7400/Documents/Codex/2026-10-30/target-post-https-x-com-bitget-2/work/pact-atlas-self-serve/contract/target/near-build/pact_atlas_poc.wasm",
+  "sputnikWasmPath": "/mnt/c/Users/DELL 7400/Documents/Codex/2026-10-30/target-post-https-x-com-bitget-2/work/pact-atlas-self-serve/vendor/sputnik/sputnikdao2_original.wasm",
+  "selectedScenarios": [
+    "withdrawal-failure"
+  ],
+  "scenarios": [
+    {
+      "name": "native transfer failure injection attempt is unreachable through authenticated predecessor",
+      "contract": "dev-27335-75200.test.near",
+      "wasmCodeHash": "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp",
+      "receipts": {
+        "deploy": "HyJXpGAJdWyAraasjcNXidG2y8DGZPHaQZjNis9GtHkr",
+        "initialize": "6ueiBdyDJEdRirWdoE5FuwAf4bpR7ow4RK5CKSonar6P",
+        "sponsorStorage": "5svnCK7pjDwTyWX9jcpyVCCZRMZcKu25PqtCzfpVxdgV",
+        "commit": "3AMSd5qsc7LxY1Aw59aHpaNG4DQ9wHmt6WGaDsdrd9mK",
+        "activation": "8YYE4qUimP62fHtCn6TK4UtZ7oeQB5EK98Av2hJ4oavT",
+        "recipientDeletion": "ExQGbYwyMQqEZ6vtgWWgM8q9age3vKm6QGuaQ6Qhydgf"
+      },
+      "attemptedWithdrawal": {
+        "recipient": "beneficiary.test.near",
+        "error": "no matching key pair found in InMemorySigner(UnencryptedFileSystemKeyStore(/tmp/sandbox/63db9185-10d8-4d4e-8fa2-075556d1896b))",
+        "nativeTransferReceiptReached": false,
+        "callbackReceiptReached": false
+      },
+      "accounting": {
+        "beforeDelete": {
+          "phase": "ACTIVATED",
+          "locked_pledges": "0",
+          "credits": "1000000000000000000000000",
+          "pending": "0",
+          "accounted": "1000000000000000000000000",
+          "liabilities": "1000000000000000000000000",
+          "contract_balance": "21998349019505202900000000",
+          "storage_reserve": "2281110000000000000000000",
+          "solvent": true
+        },
+        "afterAttempt": {
+          "phase": "ACTIVATED",
+          "locked_pledges": "0",
+          "credits": "1000000000000000000000000",
+          "pending": "0",
+          "accounted": "1000000000000000000000000",
+          "liabilities": "1000000000000000000000000",
+          "contract_balance": "21998349019505202900000000",
+          "storage_reserve": "2281110000000000000000000",
+          "solvent": true
+        }
+      },
+      "claimableAfterAttempt": "1000000000000000000000000",
+      "pendingAfterAttempt": "0",
+      "conclusion": "The public withdraw method targets its authenticated predecessor. A deleted recipient cannot submit it, so this attempt cannot reach the native transfer failure branch."
+    }
+  ],
+  "limitations": [
+    "No mainnet or testnet calls are made by this runner.",
+    "Native-transfer failure injection is not safely reachable through an ordinary authenticated sandbox transaction while preserving the predecessor account. The callback failure branch is tested with an explicit NEAR VM PromiseResult::Failed unit test; missing callback execution remains unresolved and blocks production use.",
+    "Exact timestamp equality at the activation/deadline boundaries is not directly controllable through near-workspaces fast-forward; the campaign tests cross each boundary and verify the strict/open and inclusive/expiry predicates around it.",
+    "Duplicate callback execution is tested as a private-method guard and in the Rust VM; a forged callback cannot be submitted by an external signer. A callback that never executes remains an unresolved operational recovery risk.",
+    "The RC1 maximum-capacity campaign is a genuine sandbox run. It exercises all 8 project slots, all 32 pledge slots, measured storage reserve, activation, 32 credits, 32 successful withdrawals, and a repeated withdrawal failure. It does not prove behavior on testnet or mainnet."
+  ],
+  "wasmSha256": "5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15",
+  "sputnikWasmSha256": "6e3f1814d40769d8f57b9a7af689d22aaab96d3232cec4d861311829c1d2318f"
+}

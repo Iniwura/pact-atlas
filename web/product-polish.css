@@ -1,0 +1,139 @@
+/* PACT Atlas / consumer product cohesion.
+   Minimal improvements to existing high-contrast campaign and creator UI. */
+:root{color-scheme:dark}
+.protocol-app .app-header{background:#0b0e0d;border-bottom-color:#344036;min-height:76px}
+.protocol-app .app-header .wordmark{font-size:18px;letter-spacing:-.068em;color:#f4ebdf}
+.protocol-app .app-header .main-nav{gap:27px}
+.protocol-app .app-header .main-nav a{font-size:12px;font-weight:720}
+.protocol-app .app-header .main-nav a:hover{color:#ffac7d}
+.protocol-app .app-header .mode-pill{border-color:#5b4435;color:#e9b190}
+.route-mobile-nav{display:none}
+.create-app .creator-heading{padding-top:52px}
+.create-app .creator-headline h1{font-weight:770;letter-spacing:-.08em}
+.create-app .creator-layout{box-shadow:0 32px 95px #0007;border-color:#765644}
+.create-app .creator-editor{background:#f3eee5}
+.create-app .creator-editor .creator-toolbar h2{font-size:29px;letter-spacing:-.065em}
+.create-app .creator-preview{background:linear-gradient(150deg,#201d18,#111713 83%)}
+.create-app .creator-steps .step-chip{transition:color .16s,border-color .16s,background .16s}
+.create-app .creator-note{color:#998e7f;line-height:1.6}
+.campaign-app .campaign-hero h1{letter-spacing:-.073em;font-weight:780}
+.campaign-app .campaign-status-grid{box-shadow:0 22px 60px #0003}
+.campaign-app .campaign-status-card strong{font-variant-numeric:tabular-nums}
+.campaign-app .campaign-project-card{transition:border-color .15s,transform .15s}
+.campaign-app .campaign-project-card:hover{border-color:#c47c51}
+.campaign-app .campaign-action-panel .primary-action{transition:background .16s,transform .16s}
+.campaign-app .campaign-action-panel .primary-action:hover:not([disabled]){transform:translateY(-1px)}
+.verify-main .verify-intro h1{letter-spacing:-.075em}
+.verify-main .verify-layout{box-shadow:0 22px 66px #0003}
+@media(max-width:1000px){.protocol-app .app-header .main-nav{gap:17px}}
+@media(max-width:820px){
+  .protocol-app .app-header .main-nav{display:none}
+  .route-mobile-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:#141914;border-bottom:1px solid #394035;padding:0 16px}
+  .route-mobile-nav a{min-height:43px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;font-weight:720;color:#b4bfb2;white-space:nowrap;border-bottom:2px solid transparent}
+  .route-mobile-nav a[aria-current="page"]{color:#f9bf98;border-bottom-color:#f38553}
+  .route-mobile-nav a:hover{color:#ffe9d7}
+}
+@media(max-width:600px){
+  .protocol-app .app-header{min-height:67px}
+  .protocol-app .app-header .wordmark{font-size:15px}
+  .protocol-app .app-header .mode-pill{font-size:8px;letter-spacing:-.015em;padding:9px}
+  .route-mobile-nav{padding:0 9px}
+  .route-mobile-nav a{font-size:10px}
+  .create-app .creator-heading{padding-top:33px}
+}
+@media(prefers-reduced-motion:reduce){.protocol-app *, .protocol-app *:before,.protocol-app *:after{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* Editorial app identity, extended across the live financial workflows.
+   A paper canvas carries the composition; transactional controls stay
+   sharply contrasted on ink surfaces. */
+body.create-app,body.campaign-app,body.verify-app{background:#ece9e1;color:#222720}
+.create-app .creator-heading,
+.campaign-app .campaign-hero,
+.verify-app .verify-intro{color:#242923}
+.create-app .creator-heading .eyebrow,
+.campaign-app .campaign-hero .eyebrow,
+.verify-app .verify-intro .eyebrow{color:#91583e}
+.create-app .creator-headline h1,
+.campaign-app .campaign-hero h1,
+.verify-app .verify-intro h1{
+  font-weight:780;letter-spacing:-.082em;
+  color:#222720;
+}
+.create-app .creator-headline h1{font-size:clamp(48px,7.1vw,101px);line-height:.94}
+.campaign-app .campaign-hero h1{font-size:clamp(48px,6.8vw,97px);line-height:.96}
+.verify-app .verify-intro h1{font-size:clamp(56px,8vw,116px);line-height:.95}
+.create-app .creator-headline h1 em,
+.campaign-app .campaign-hero h1 em,
+.verify-app .verify-intro h1 em{color:#c66c42}
+.create-app .creator-headline p,
+.campaign-app .campaign-hero p:not(.eyebrow),
+.verify-app .verify-intro>p:last-child{color:#646d63;line-height:1.68}
+.create-app .creator-heading,
+.campaign-app .campaign-hero,
+.verify-app .verify-intro{border-bottom:1px solid #b5b7a9}
+.create-app .creator-heading{padding-top:clamp(49px,5vw,82px);padding-bottom:43px;margin-bottom:34px}
+.campaign-app .campaign-hero{padding-top:clamp(49px,5vw,82px);padding-bottom:40px;margin-bottom:31px}
+.verify-app .verify-intro{padding-bottom:43px;margin-bottom:39px}
+.create-app .back-link{color:#995b3c;border-color:#a67c61}
+.create-app .back-link:hover{color:#66321c}
+.create-app .creator-layout,
+.verify-app .verify-layout{border-color:#a69d8e;box-shadow:0 20px 55px #100b0820}
+.create-app .creator-editor{background:#f6f2ea}
+.create-app .creator-preview{background:radial-gradient(ellipse at 68% 11%,#4b2b20,#26251f 49%,#121813 100%)}
+.create-app .creator-headline{align-items:end}
+.create-app .creator-steps{scroll-margin-top:24px}
+.create-app .creator-note{color:#8a9084}
+.create-app .site-footer,.campaign-app .site-footer,.verify-app .site-footer{color:#6a766a}
+.create-app .site-footer a,.campaign-app .site-footer a,.verify-app .site-footer a{color:#83513b}
+.campaign-app .campaign-main{max-width:1480px}
+.campaign-app .campaign-account{background:#222820;border-color:#4a5145}
+.campaign-app .campaign-account span{color:#d5a488}
+.campaign-app .campaign-account code{color:#f2d5c1}
+.campaign-app .campaign-status-grid{background:#1b211b;border-color:#495147}
+.campaign-app .campaign-status-card{border-color:#495147}
+.campaign-app .campaign-layout{border-color:#7d8076}
+.campaign-app .campaign-projects-panel{background:#191e19;color:#eee9e0}
+.campaign-app .campaign-action-panel{background:#f2eee6;color:#232922}
+.campaign-app .campaign-project-card{background:#242720;border-color:#5c6255}
+.campaign-app .campaign-project-card[data-funded=true]{background:#382a1f;border-color:#ab7757}
+.campaign-app .campaign-settlement,
+.campaign-app .campaign-activity{border-color:#3f4e40;background:#1a1e1a;color:#efe9de}
+.campaign-app .campaign-activity .panel-heading h2{color:#f5e9da}
+.verify-app .verify-form{background:#191e19}
+.verify-app .verify-result{background:#f5f0e7;color:#262b24}
+.verify-app .verify-form h2{color:#eee9e0}
+.verify-app .verify-layout{background:#191e19}
+.verify-app .verify-local{color:#687168}
+.verify-app .verify-local a{color:#a15d3c}
+.verify-app .proof-scope{color:#566157}
+.protocol-app .app-header .main-nav a{position:relative}
+.protocol-app .app-header .main-nav a[aria-current="page"]:after{
+  content:"";position:absolute;height:1px;left:0;right:0;bottom:-8px;background:#e78b59;
+}
+@media(max-width:900px){
+  .create-app .creator-heading{padding-top:47px;margin-bottom:19px}
+  .campaign-app .campaign-hero{padding-top:49px;margin-bottom:18px}
+  .verify-app .verify-intro{padding-top:13px}
+}
+@media(max-width:600px){
+  .create-app .creator-headline h1{font-size:clamp(48px,12vw,74px)}
+  .campaign-app .campaign-hero h1{font-size:clamp(45px,11vw,68px)}
+  .verify-app .verify-intro h1{font-size:clamp(54px,13vw,82px)}
+  .create-app .creator-heading,
+  .campaign-app .campaign-hero,
+  .verify-app .verify-intro{padding-bottom:28px}
+  .campaign-app .campaign-account{width:100%}
+}
+
+
+/* Accessible editorial typography on the shared light canvas. */
+.create-app .creator-headline p,
+.verify-app .verify-intro>p:last-child{color:#4c574c}
+.create-app .back-link{color:#794126}
+.create-app .creator-note{color:#4c574c}
+.create-app .site-footer,
+.campaign-app .site-footer,
+.verify-app .site-footer{color:#4c574c}
+.verify-app .verify-local{color:#4c574c}
+.verify-app .verify-local a{color:#793e24}

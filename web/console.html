@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090b0b">
+  <meta name="description" content="Coordinate conditional community funding on NEAR. Explore real campaigns, create funding agreements and trace settled transactions.">
+  <title>Workspace — PACT Atlas</title>
+  <link rel="stylesheet" href="./protocol-workspace.css">
+  <link rel="stylesheet" href="./app-shell.css">
+  <link rel="stylesheet" href="./app-refinement.css">
+</head>
+<body class="protocol-app pact-workspace">
+<a class="skip-link" href="#workspace-main">Skip to campaigns</a>
+<div class="shell">
+  <div class="shell-main">
+    <header class="shell-topbar">
+      <a href="/" class="shell-brand" aria-label="PACT Atlas homepage">
+        <span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b></span>
+        <span>PACT<span class="brand-slash">/</span>ATLAS</span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="./console" aria-current="page">Overview</a>
+        <a href="#campaigns">Campaigns</a>
+        <a href="#activity">Activity</a>
+        <a href="./create.html" aria-label="New campaign">Create</a>
+        <a href="./verify.html" aria-label="Verify a transaction">Verify</a>
+      </nav>
+      <div class="topbar-actions">
+        <span class="network-label"><i aria-hidden="true"></i> TESTNET</span>
+        <button type="button" id="connect-wallet" class="wallet-button" aria-describedby="wallet-message">Connect wallet <span aria-hidden="true">↗</span></button>
+      </div>
+    </header>
+    <p id="wallet-message" class="wallet-message" role="status" aria-live="polite"></p>
+    <main id="workspace-main" class="workspace-content">
+      <section class="dashboard-heading" aria-labelledby="page-title">
+        <div>
+          <p class="micro-label">PACT ATLAS / SOCIAL MONEY</p>
+          <h1 id="page-title">Funding<span>.</span> Together<span>.</span></h1>
+          <p class="intro">Fund connected projects with clear conditions. See where every contribution goes.</p><a class="story-jump" href="/#real-proof">See a real funded agreement <span aria-hidden="true">↗</span></a>
+        </div>
+        <a href="./create.html" class="new-button">Create campaign
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7"></path></svg>
+        </a>
+      </section>
+
+      <section class="workspace-section" id="campaigns" aria-labelledby="campaigns-title">
+        <div class="section-titlebar inventory-head">
+          <div><p class="micro-label">01 / Public funding</p><h2 id="campaigns-title">Community campaigns.</h2><p>Explore actual testnet agreements. Open any campaign to check its status and conditions.</p></div>
+          <div class="tab-row" role="group" aria-label="Filter campaigns">
+            <button type="button" data-campaign-filter="all" aria-pressed="true">All</button>
+            <button type="button" data-campaign-filter="ACTIVATED" aria-pressed="false">Funded</button>
+            <button type="button" data-campaign-filter="EXPIRED" aria-pressed="false">Expired</button>
+          </div>
+        </div>
+        <div id="campaign-list" class="campaign-list" aria-live="polite">
+          <div class="loading-card" aria-hidden="true"></div><div class="loading-card" aria-hidden="true"></div>
+        </div>
+        <p id="campaign-list-status" class="empty-state" hidden role="status"></p>
+      </section>
+
+      <section class="workspace-section" id="featured" aria-labelledby="featured-title">
+        <div class="section-titlebar">
+          <div><p class="micro-label">02 / Inside an agreement</p><h2 id="featured-title">Why funding together matters.</h2></div>
+          <a class="section-link" href="#campaigns">Browse campaigns ↗</a>
+        </div>
+        <div class="feature-panel">
+          <div class="feature-story">
+            <div class="feature-head"><span class="feature-tag">PACT / CONDITIONAL FUNDING</span><span class="feature-status">RECORDED · TESTNET</span></div>
+            <h3>Two projects.<br>One condition.</h3>
+            <p>Beta can receive funding only when Alpha is funded. The contract enforces the full allocation, not just individual balances.</p>
+            <div class="dependency-graph" aria-label="Project Beta depends on Project Alpha">
+              <div class="dep-node"><small>01 / INDEPENDENT</small><strong>Alpha</strong><span>1 NEAR</span></div>
+              <div class="dep-arrow" aria-hidden="true"></div>
+              <div class="dep-node dep-dependent"><small>02 / REQUIRES ALPHA</small><strong>Beta</strong><span>1 NEAR</span></div>
+            </div>
+            <p>Two contributor pledges. One accepted certificate. Both beneficiaries paid.</p>
+          </div>
+          <div class="feature-details">
+            <p class="micro-label">Recorded outcome</p>
+            <h3>Funded.<br>Settled.<br>Verifiable.</h3>
+            <p>A conditional pledge arrived before its dependency was funded. PACT accepted the final allocation and preserved proof of every transfer.</p>
+            <div class="feature-pills"><span>2 contributions</span><span>2 projects</span><span>0 final liabilities</span></div>
+            <div class="feature-details-footer">
+              <a id="featured-open" class="dark-action" href="#campaigns">Open campaign <span aria-hidden="true">↗</span></a>
+              <a class="ghost-action" href="#activity">View receipts ↗</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="workspace-stats" aria-label="Recorded public testnet campaign activity">
+        <div class="metric"><span class="metric-label">Campaigns in this workspace</span><div class="metric-value"><span id="metric-campaigns">—</span></div><span class="metric-caption">Public records and saved campaigns</span></div>
+        <div class="metric"><span class="metric-label">Coalition funding settled</span><div class="metric-value"><span id="metric-funded">—</span><small>NEAR</small></div><span class="metric-caption">From public receipts</span></div>
+        <div class="metric"><span class="metric-label">Contributions refunded</span><div class="metric-value"><span id="metric-refunded">—</span><small>NEAR</small></div><span class="metric-caption">From public receipts</span></div>
+      </div>
+
+      <section class="join-panel" aria-labelledby="join-title">
+        <div><p class="micro-label">Shared agreement</p><h2 id="join-title">Have a campaign link?</h2><p>Open a funding agreement shared by its organizer.</p></div>
+        <form id="join-form">
+          <label for="join-url">Campaign URL</label>
+          <div class="join-controls"><input id="join-url" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste a PACT campaign link" required><button type="submit">Open agreement ↗</button></div>
+          <p id="join-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="workspace-section" id="activity" aria-labelledby="activity-title">
+        <div class="section-titlebar inventory-head">
+          <div><p class="micro-label">Public transaction record</p><h2 id="activity-title">Activity</h2><p>Contributions, activations, payouts and refunds. Every entry links to a public NEAR receipt.</p></div>
+          <div class="tab-row" role="group" aria-label="Filter transaction activity">
+            <button type="button" data-activity-filter="all" aria-pressed="true">All</button>
+            <button type="button" data-activity-filter="contribution" aria-pressed="false">Funding</button>
+            <button type="button" data-activity-filter="payout" aria-pressed="false">Payouts</button>
+            <button type="button" data-activity-filter="other" aria-pressed="false">Other</button>
+          </div>
+        </div>
+        <div id="activity-list" class="activity-list" aria-live="polite">
+          <p class="empty-state">Loading recorded testnet receipts…</p>
+        </div>
+        <p id="activity-note" class="metric-caption">Historical records, not a live transaction feed.</p>
+      </section>
+
+      <section class="trust-bar" aria-labelledby="trust-title">
+        <div><h2 id="trust-title">Verify before you fund.</h2><p>Recorded receipts are public, but their presence does not establish financial-production safety. Live reads may be unavailable when testnet RPC is down. Browser-wallet signing and withdrawal callback recovery are not yet verified end-to-end.</p></div>
+        <a href="./verify.html">Independent verification ↗</a>
+      </section>
+      <footer class="shell-footer"><span>PACT / ATLAS © 2026</span><span>NEAR TESTNET · NO MAINNET FUNDS</span></footer>
+    </main>
+  </div>
+</div>
+<script type="module" src="./app-home.mjs"></script>
+</body>
+</html>

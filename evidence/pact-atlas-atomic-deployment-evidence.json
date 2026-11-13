@@ -1,0 +1,88 @@
+{
+  "type": "PACT-LOCAL-SANDBOX-EVIDENCE",
+  "version": 2,
+  "network": "NEAR-SANDBOX",
+  "generatedAt": "2026-11-10T19:19:43.471Z",
+  "sandboxVersion": "2.13.4",
+  "sandboxBinaryPath": "/tmp/pact-atlas-near-sandbox/near-sandbox-2.13.4/near-sandbox",
+  "wasmPath": "/mnt/c/Users/DELL 7400/Documents/Codex/2026-10-30/target-post-https-x-com-bitget-2/work/pact-atlas-self-serve/contract/target/near-build/pact_atlas_poc.wasm",
+  "sputnikWasmPath": "/mnt/c/Users/DELL 7400/Documents/Codex/2026-10-30/target-post-https-x-com-bitget-2/work/pact-atlas-self-serve/vendor/sputnik/sputnikdao2_original.wasm",
+  "selectedScenarios": [
+    "deployment"
+  ],
+  "scenarios": [
+    {
+      "name": "atomic self-service deployment and lifecycle compatibility",
+      "contract": "atomic-campaign.test.near",
+      "wasmCodeHash": "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp",
+      "deploymentFundingNear": {
+        "beforeDeploy": "3",
+        "storageSponsor": "2"
+      },
+      "receipts": {
+        "deployment": "Bz7guYmhydSmc6ks3DD4doz54zRGpnjeHXeZ5bwT49uZ",
+        "commit": "9KMnuwJENeAUViN2MHoVigcwFbsLYeYCEZwYLByX3aX2",
+        "activation": "8H4wFuwDYQjKEJBeh9Qr9442rys3y9W1fLecnbnVGdtR",
+        "withdrawal": "2MTB4ccFKWAfn9WzMf2oxnuig32hHgRP4e4jfBpaB8JV"
+      },
+      "initialStatus": {
+        "phase": "OPEN",
+        "deadline_ms": 1794338570964,
+        "activate_after_ms": 1794338420964,
+        "min_funded_projects": 1,
+        "activation_authorities": [
+          "atomic-authority.test.near"
+        ],
+        "pledge_count": 0,
+        "liabilities": "0",
+        "project_ids": [
+          "atomic"
+        ],
+        "required_for_activation": [
+          "atomic"
+        ],
+        "funded_project_ids": []
+      },
+      "finalStatus": {
+        "phase": "ACTIVATED",
+        "deadline_ms": 1794338570964,
+        "activate_after_ms": 1794338420964,
+        "min_funded_projects": 1,
+        "activation_authorities": [
+          "atomic-authority.test.near"
+        ],
+        "pledge_count": 1,
+        "liabilities": "0",
+        "project_ids": [
+          "atomic"
+        ],
+        "required_for_activation": [
+          "atomic"
+        ],
+        "funded_project_ids": [
+          "atomic"
+        ]
+      },
+      "finalAccounting": {
+        "phase": "ACTIVATED",
+        "locked_pledges": "0",
+        "credits": "0",
+        "pending": "0",
+        "accounted": "0",
+        "liabilities": "0",
+        "contract_balance": "5000102549496038200000000",
+        "storage_reserve": "2279870000000000000000000",
+        "solvent": true
+      }
+    }
+  ],
+  "limitations": [
+    "No mainnet or testnet calls are made by this runner.",
+    "Native-transfer failure injection is not safely reachable through an ordinary authenticated sandbox transaction while preserving the predecessor account. The callback failure branch is tested with an explicit NEAR VM PromiseResult::Failed unit test; missing callback execution remains unresolved and blocks production use.",
+    "Exact timestamp equality at the activation/deadline boundaries is not directly controllable through near-workspaces fast-forward; the campaign tests cross each boundary and verify the strict/open and inclusive/expiry predicates around it.",
+    "Duplicate callback execution is tested as a private-method guard and in the Rust VM; a forged callback cannot be submitted by an external signer. A callback that never executes remains an unresolved operational recovery risk.",
+    "The RC1 maximum-capacity campaign is a genuine sandbox run. It exercises all 8 project slots, all 32 pledge slots, measured storage reserve, activation, 32 credits, 32 successful withdrawals, and a repeated withdrawal failure. It does not prove behavior on testnet or mainnet."
+  ],
+  "wasmSha256": "5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15",
+  "sputnikWasmSha256": "6e3f1814d40769d8f57b9a7af689d22aaab96d3232cec4d861311829c1d2318f"
+}
