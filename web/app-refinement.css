@@ -1,0 +1,67 @@
+/* PACT — final editorial refinement for the actual campaign workspace.
+   Scope to /console; no change to contract, wallet, or transaction logic. */
+.pact-workspace .shell-topbar{border-bottom-color:#494037}
+.pact-workspace .shell-topbar:after{content:"";position:absolute;left:0;bottom:0;height:1px;width:20%;background:linear-gradient(90deg,#f38b57,transparent);pointer-events:none}
+.pact-workspace .workspace-content{padding-top:clamp(46px,6.2vw,102px)}
+.pact-workspace .dashboard-heading{position:relative;margin-bottom:clamp(58px,7vw,122px);padding-bottom:clamp(42px,4vw,72px);border-bottom:1px solid #b3b4a9;align-items:flex-end}
+.pact-workspace .dashboard-heading:before{content:"PACT / 01";position:absolute;top:-38px;left:0;font:700 10px/1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.15em;color:#8c502d}
+.pact-workspace .dashboard-heading h1{font-size:clamp(58px,8.4vw,148px);line-height:.86;letter-spacing:-.095em;max-width:1000px;font-weight:790}
+.pact-workspace .dashboard-heading h1 span{color:#c15f30}
+.pact-workspace .dashboard-heading .intro{font-size:clamp(15px,1.45vw,21px);line-height:1.4;letter-spacing:-.025em;max-width:490px;margin-top:34px;color:#4e574c}
+.pact-workspace .new-button{min-height:56px;padding-inline:25px;box-shadow:5px 5px 0 #d0b39c;transition:background .25s,box-shadow .25s,transform .25s}
+.pact-workspace .new-button:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 #d0b39c}
+.pact-workspace .workspace-section{margin-top:clamp(60px,7vw,120px)}
+.pact-workspace #campaigns{margin-top:0}
+.pact-workspace .section-titlebar h2{font-size:clamp(36px,4.6vw,78px);letter-spacing:-.085em;line-height:.93}
+.pact-workspace .section-titlebar p:not(.micro-label){max-width:610px;margin-top:16px;line-height:1.4;font-size:15px}
+.pact-workspace .section-titlebar .micro-label{font-size:10px;letter-spacing:.13em;font-weight:760;color:#784328}
+.pact-workspace .campaign-list{border-top:1px solid #777c72}
+.pact-workspace .campaign-tile{position:relative;padding-top:clamp(35px,4.3vw,69px);padding-bottom:clamp(35px,4.3vw,69px)}
+.pact-workspace .campaign-tile:before{content:"";position:absolute;left:0;top:0;width:0;height:2px;background:#b55f32;transition:width .3s cubic-bezier(.18,.7,.25,1)}
+.pact-workspace .campaign-tile:hover:before,.pact-workspace .campaign-tile:focus-within:before{width:100%}
+.pact-workspace .campaign-tile h3{font-size:clamp(32px,3.6vw,62px);letter-spacing:-.078em}
+.pact-workspace .campaign-tile p{font-size:14px;max-width:420px}
+.pact-workspace .tile-footer a{font-weight:760;border-bottom:1px solid #714e38;padding-bottom:9px}
+.pact-workspace #featured .section-titlebar{margin-bottom:35px}
+.pact-workspace #featured .feature-panel{position:relative;box-shadow:0 26px 75px rgba(14,17,13,.15)}
+.pact-workspace .feature-story{position:relative;isolation:isolate;background:radial-gradient(ellipse at 83% 22%,rgba(169,78,38,.45),transparent 51%),linear-gradient(120deg,#28231f,#121a17 72%);overflow:hidden;min-height:570px}
+.pact-workspace .feature-story:before{content:"";position:absolute;width:70%;aspect-ratio:1;right:-10%;top:12%;border:1px solid rgba(237,143,85,.36);border-radius:50%;box-shadow:0 0 0 44px rgba(237,143,85,.045),0 0 0 112px rgba(237,143,85,.018);pointer-events:none}
+.pact-workspace .feature-story:after{content:"02 / SOCIAL MONEY";position:absolute;right:33px;bottom:22px;font:700 10px/1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.13em;color:#a79f91}
+.pact-workspace .feature-story h3{font-size:clamp(55px,5.6vw,100px);letter-spacing:-.1em;line-height:.86;position:relative;z-index:1}
+.pact-workspace .feature-story>p{position:relative;z-index:1;font-size:14px;color:#e1d2c4;max-width:440px;line-height:1.55}
+.pact-workspace .dependency-graph{position:relative;z-index:1}
+.pact-workspace .dep-node{min-height:158px;background:linear-gradient(130deg,rgba(44,44,37,.94),rgba(20,25,22,.92));box-shadow:0 17px 37px rgba(0,0,0,.2);border-color:#ad7c5b}
+.pact-workspace .dep-node.dep-dependent{background:linear-gradient(135deg,#543321,#241f1c);border-color:#f09d67}
+.pact-workspace .dep-node strong{font-size:clamp(27px,3vw,45px)}
+.pact-workspace .feature-details{background:#e6e0d3;padding:clamp(36px,4.4vw,76px)}
+.pact-workspace .feature-details .micro-label{color:#8a4c2c}
+.pact-workspace .feature-details h3{font-size:clamp(58px,5vw,90px);font-weight:760;line-height:.93}
+.pact-workspace .feature-details p:not(.micro-label){font-size:14px;color:#4d574e;max-width:420px}
+.pact-workspace .feature-pills{margin-top:36px}
+.pact-workspace .feature-pills span{border-radius:0;border-color:#a8a397;font-size:11px;color:#4e554b}
+.pact-workspace .join-panel{border-top:1px solid #8c8c81;padding-top:50px}
+.pact-workspace .activity-entry{transition:background .2s}
+.pact-workspace .activity-entry:hover{background:#dedacf}
+.pact-workspace .trust-bar{background:#101712}
+.pact-workspace .trust-bar h2{letter-spacing:-.06em}
+@media(max-width:1110px){
+ .pact-workspace .dashboard-heading h1{font-size:clamp(58px,8vw,112px)}
+ .pact-workspace .feature-story h3{font-size:clamp(57px,6.3vw,90px)}
+}
+@media(max-width:650px){
+ .pact-workspace .workspace-content{padding-top:65px}
+ .pact-workspace .dashboard-heading{margin-bottom:46px;padding-bottom:47px}
+ .pact-workspace .dashboard-heading:before{top:-25px}
+ .pact-workspace .dashboard-heading h1{font-size:clamp(46px,11.5vw,73px);line-height:.91}
+ .pact-workspace .dashboard-heading .intro{font-size:15px;margin-top:23px}
+ .pact-workspace .new-button{box-shadow:3px 3px 0 #d0b39c}
+ .pact-workspace .section-titlebar h2{font-size:clamp(36px,9vw,55px)}
+ .pact-workspace .section-titlebar p:not(.micro-label){font-size:13px}
+ .pact-workspace .campaign-tile h3{font-size:clamp(32px,9vw,46px)}
+ .pact-workspace .feature-story{min-height:0}
+ .pact-workspace .feature-story h3{font-size:clamp(55px,11vw,76px)}
+ .pact-workspace .feature-details h3{font-size:clamp(52px,11vw,71px)}
+ .pact-workspace .feature-story:after{right:22px;bottom:15px;font-size:9px}
+ .pact-workspace .dep-node{min-height:120px}
+}
+@media(prefers-reduced-motion:reduce){.pact-workspace .campaign-tile:before,.pact-workspace .new-button{transition:none!important}}
