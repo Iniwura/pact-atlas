@@ -70,7 +70,7 @@ function checklist(label,options,values,fn){
   if(!options.length){field.append(element("p","empty-rules","No other projects available."));return field;}
   const choices=element("div","choice-list");
   for(const option of options){
-    const item=element("label","choice-pill");
+    const item=element("label","choice-pill");item.dataset.projectId=option.id;
     const input=element("input");input.type="checkbox";input.checked=values.includes(option.id);
     const caption=element("span","",option.name?.trim()||"Unnamed project");
     input.addEventListener("change",()=>{
@@ -103,7 +103,17 @@ function projectRow(p,index){
   remove.disabled=campaign.projects.length<=1;
   head.append(name,remove);
   const fields=element("div","edit-fields");
-  fields.append(textField("Project name",p.name,v=>p.name=v,"e.g. Community Wi-Fi"),
+  fields.append(textField("Project name",p.name,v=>{
+      p.name=v;
+      // Keep names in dependency choices synchronized without replacing inputs
+      // or disrupting keyboard focus during typing.
+      document.querySelectorAll(".choice-pill[data-project-id]").forEach(choice=>{
+        if(choice.dataset.projectId===p.id){
+          const caption=choice.querySelector("span");
+          if(caption)caption.textContent=v.trim()||"Unnamed project";
+        }
+      });
+    },"e.g. Community Wi-Fi"),
     numberField("Goal · NEAR",p.goal,v=>p.goal=v),
     textField("Beneficiary · *.testnet",p.beneficiary,v=>p.beneficiary=v,"e.g. project.testnet",64));
   const included=element("label","include-toggle");
