@@ -54,6 +54,20 @@ test.describe("PACT / cinematic public-evidence story", () => {
     });
   }
 
+  for (const [width,height] of [[320,700],[390,844],[768,850],[960,680],[1366,768]]) {
+    test("hero typography and actions do not collide at "+width+"×"+height, async ({ page }) => {
+      await page.setViewportSize({width,height});
+      await page.goto("/");
+      const result=await page.evaluate(() => {
+        const box=x=>document.querySelector(x).getBoundingClientRect();
+        const title=box("#hero-title"),overline=box(".hero-edition"),quote=box(".hero-reference"),bottom=box(".hero-bottom"),action=box(".hero-link");
+        const overlap=(a,b)=>a.left<b.right-2&&a.right>b.left+2&&a.top<b.bottom-2&&a.bottom>b.top+2;
+        return {ctaVisible:action.bottom<=innerHeight+1,displayVsAction:overlap(title,bottom),overlineVsTitle:overlap(overline,title),quoteVsTitle:overlap(quote,title),quoteVsOverline:overlap(quote,overline)};
+      });
+      expect(result).toEqual({ctaVisible:true,displayVsAction:false,overlineVsTitle:false,quoteVsTitle:false,quoteVsOverline:false});
+    });
+  }
+
   test("story supports keyboard and reduced motion", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
