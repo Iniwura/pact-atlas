@@ -73,3 +73,16 @@
 .pact-workspace .story-jump{display:inline-flex;align-items:center;gap:11px;margin-top:22px;border-bottom:1px solid #6c4937;padding-bottom:8px;color:#75452c;font-weight:720;font-size:12px;letter-spacing:-.005em}
 .pact-workspace .story-jump:hover{color:#ad572c}
 .pact-workspace .story-jump span{font-size:16px}
+
+/* A restrained echo of the original orbital identity within the product,
+   not a second marketing banner. */
+@media(min-width:851px){
+ .pact-workspace .dashboard-heading:after{
+  content:"";position:absolute;z-index:0;pointer-events:none;
+  width:min(45%,640px);height:125%;right:0;top:-19%;
+  background:url("./orbital-art.svg") center center/cover no-repeat;
+  opacity:.16;mix-blend-mode:multiply;
+  mask-image:radial-gradient(ellipse at 58% 45%,#000 12%,transparent 74%);
+ }
+ .pact-workspace .dashboard-heading>*{position:relative;z-index:1}
+}
