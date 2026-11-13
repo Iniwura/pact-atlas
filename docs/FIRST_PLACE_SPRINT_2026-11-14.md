@@ -25,6 +25,14 @@ Normalized baseline: (47 / 80) × 100 = **58.75 ≈ 59/100**.
 
 **Accept/reject:** Reassess all eight categories with evidence. Require the normalized total to be **≥90/100**, plus the submission-critical gates below. If limitations prevent that score, report the actual number rather than adjusting it to the target.
 
+## Sprint result — 14 November
+
+- **Implemented:** redesigned cinematic landing, real interactive evidence stages with original receipts, polished consumer campaign workspace, accessible reduced-motion states, responsive first-screen typography.
+- **Verified:** **73/73 Chrome tests** and **60/60 Node tests**, including new UX collision and receipt-provenance assertions. See [visual QA report](VISUAL_SPRINT_2026-11-14.md).
+- **Still unverified:** real extension signing, callback recovery, public Sputnik governance and external audit.
+- **Still incomplete:** public GitHub visibility, anonymous judge access, X demo posting and actual submission.
+- **Competitive score:** retain the strict **59/100 baseline** pending a new independent-style rescore on the finished, public submission. **90/100 is a target, not an automatically earned grade.**
+
 ## P0 — Eligibility before aesthetic perfection
 
 - [ ] Final app URL works for anonymous judges without Vercel Authentication or SSO.
