@@ -42,7 +42,10 @@
 .pact-workspace .join-panel{border-top:1px solid #8c8c81;padding-top:50px}
 .pact-workspace .activity-entry{transition:background .2s}
 .pact-workspace .activity-entry:hover{background:#dedacf}
-.pact-workspace .trust-bar{background:#101712}
+.pact-workspace .trust-bar{background:#101712;color:#f1eee6;border-color:#3f473d}
+.pact-workspace .trust-bar h2{color:#f1eee6}
+.pact-workspace .trust-bar p{color:#c6d0c4}
+.pact-workspace .trust-bar a{color:#f4b287!important}
 .pact-workspace .trust-bar h2{letter-spacing:-.06em}
 @media(max-width:1110px){
  .pact-workspace .dashboard-heading h1{font-size:clamp(58px,8vw,112px)}
