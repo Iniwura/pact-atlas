@@ -1,5 +1,7 @@
 # PACT Atlas | submission checklist
 
+**Competitive target: ≥90/100, NOT YET ACHIEVED.** Preserve the [independent-judge baseline (59/100) and all remediation gates](FIRST_PLACE_SPRINT_2026-11-14.md). Re-score only from release evidence, never from intention.
+
 **Latest executed QA (13 Nov 2026): 58/58 Chrome product tests and 60/60 Node safety/model tests passed.** See [the reproducible scope and limitations](RELEASE_QA_2026-11-13.md). Real wallet signing, withdrawal callback recovery and independent Rust/sandbox reruns are separate gates. The current browser-tested release is still testnet-only.
 
 
