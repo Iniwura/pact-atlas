@@ -581,3 +581,25 @@ body.pact-workspace{--bg:#090b0b;--sidebar:#0b0e0d;--surface:#111514;--surface-r
 @media(prefers-reduced-motion:reduce){
   .pact-workspace .feature-story:after{animation:none}
 }
+
+
+/* WCAG AA: editorial detail text on the parchment canvas.  Maintains the
+   muted ink/copper palette without sacrificing readability for small text. */
+.pact-workspace .section-titlebar .micro-label{color:#784328}
+.pact-workspace .section-titlebar p:not(.micro-label),
+.pact-workspace .metric-label,
+.pact-workspace .metric-caption,
+.pact-workspace .campaign-tile p,
+.pact-workspace .tile-summary span,
+.pact-workspace .tile-summary strong small,
+.pact-workspace .tile-footer .tile-rpc,
+.pact-workspace .activity-entry p,
+.pact-workspace .activity-entry code,
+.pact-workspace #activity-note,
+.pact-workspace .trust-bar p,
+.pact-workspace .shell-footer{color:#4c574c}
+.pact-workspace .tab-row button{color:#455043}
+.pact-workspace .campaign-tile .tile-index,
+.pact-workspace .activity-index{color:#68462f}
+.pact-workspace .status-chip[data-phase="EXPIRED"]{color:#475447}
+.pact-workspace .trust-bar a{color:#804324!important}
