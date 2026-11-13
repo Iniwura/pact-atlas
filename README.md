@@ -19,7 +19,7 @@ The approved cinematic landing page remains at `/`. No user money moves merely b
 
 **What is proven:** three faucet-funded public testnet campaign lifecycles, including a two-project conditional coalition and an expiry/refund case. **What is not proven:** authentic browser-extension signing, independent security audit, public Sputnik governance execution and recovery when a withdrawal callback never arrives. Do not use valuable funds.
 
-The recorded proof is in [the coalition manifest](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json), [the settlement/refund manifest](evidence/pact-atlas-testnet-evidence-2026-11-10.json), and [the financial safety review](docs/FINAL_HARDENING_REVIEW_2026-11-12.md). GitHub Actions is blocked by account billing restrictions; local verification evidence is separate.
+The recorded proof is in [the coalition manifest](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json), [the settlement/refund manifest](evidence/pact-atlas-testnet-evidence-2026-11-10.json), and [the financial safety review](docs/FINAL_HARDENING_REVIEW_2026-11-12.md). GitHub Actions is blocked by account billing restrictions. The [latest isolated Chrome and Node verification](docs/RELEASE_QA_2026-11-13.md) documents the executed 118 checks and limitations.
 
 ## NEAR HACKATHON submission candidate
 
@@ -31,7 +31,7 @@ inspectable activation certificate; the browser explains the counterfactual
 before any wallet action. The public evidence is faucet-funded and bounded,
 not production financial security or an external audit.
 
-Judge the release with the [reproducible walkthrough](docs/JUDGE_WITNESS.md),
+Judge the release with the [executed 118-test product audit](docs/RELEASE_QA_2026-11-13.md), [reproducible walkthrough](docs/JUDGE_WITNESS.md),
 [submission description](docs/SUBMISSION_DESCRIPTION.md), and
 [release checklist](docs/SUBMISSION_CHECKLIST_2026-11-10.md). The repository
 must be made public before submission; no access or submission action is
