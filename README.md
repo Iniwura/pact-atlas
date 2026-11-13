@@ -6,6 +6,12 @@ PACT Atlas helps a group fund projects that depend on each other. Contributors c
 
 **Release status: testnet-only application preview.** Three real NEAR testnet campaigns prove activation, a full refund and a two-project dependency coalition. The current application has a campaign workspace, a clean creation flow, authenticated testnet campaign readers, and independently linked transaction activity. Its browser-wallet signing flow has **not** completed genuine extension signing, and an unresolved missing-withdrawal-callback issue prevents safe use with valuable funds. Do not use PACT Atlas for production deposits. This is not an independently audited financial service.
 
+### See the proof, then use the product
+
+The new homepage has an interactive **historical proof story** at `/#real-proof`. It follows a real two-project Alpha/Beta coalition from out-of-order contributions through contract activation to both beneficiary payouts, with the original testnet receipts attached to every step. It is not a simulated live transaction. Open `/console` to browse the recorded campaigns, create an agreement and independently verify receipts.
+
+**Latest executed product QA:** 73/73 Chrome tests and 60/60 Node tests passed in an isolated environment on November 14. See the [visual design and QA handoff](docs/VISUAL_SPRINT_2026-11-14.md). The previous production-security blockers and limitations remain in force.
+
 ### Use the application
 
 1. **Overview — `/console`.** See actual recorded NEAR testnet campaigns, a dependency-aware funding agreement, and links to public receipt history. No fictional funding is shown in the console.
