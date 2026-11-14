@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="/experience.css">
 <link rel="stylesheet" href="/atlas-visual-system.css">
 <link rel="stylesheet" href="/cinematic-system.css">
+<link rel="stylesheet" href="/premium-experience.css">
 </head>
 <body class="pact-marketing">
 <a class="skip" href="#main">Skip to content</a>
@@ -76,20 +77,28 @@
  <div class="atlas-title-row"><h2 id="atlas-heading">Explore the<br><em>dependencies.</em></h2><div class="atlas-intro"><p>Four projects, five commitments, and one valid allocation.</p><span>Choose a project, test a contribution and inspect the local-model result. No wallet is used here.</span></div></div>
  <div class="workspace">
   <div class="graph-area">
-   <div class="graph-toolbar"><div><span class="tiny-dot orange"></span> THE COALITION NETWORK</div><div id="network-mode" aria-live="polite">BASE / 12N AVAILABLE</div></div>
+   <div class="graph-toolbar">
+     <div class="graph-toolbar-name"><span class="tiny-dot orange"></span> COALITION / REFERENCE MODEL</div>
+     <div class="graph-capital-readout" aria-live="polite"><span>ALLOCATED CAPITAL</span><strong id="graph-allocated">10 <span>/ 12 NEAR</span></strong></div>
+     <div id="network-mode" aria-live="polite">BASE / 12N AVAILABLE</div>
+   </div>
    <div class="graph-stage" aria-label="Interactive funding dependency graph">
     <div class="topology-topline"><span>DEPENDENCY MAP</span><span>SELECT A PROJECT ↗</span></div>
     <svg class="graph-lines" viewBox="0 0 700 500" preserveAspectRatio="none" aria-hidden="true">
       <defs><linearGradient id="network-flow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0ae86" stop-opacity=".9"/><stop offset=".55" stop-color="#dc7549" stop-opacity=".72"/><stop offset="1" stop-color="#e3ad86" stop-opacity=".85"/></linearGradient></defs>
-      <g class="dependency-lines"><path d="M350 126 C278 154 206 191 165 279"/><path d="M350 126 C420 154 490 191 540 279"/></g>
-      <path class="network-independent-ring" d="M282 425 A68 68 0 1 1 418 425 A68 68 0 1 1 282 425"/>
-      <path id="d-route" class="pending-line" d="M282 425 A68 68 0 1 1 418 425 A68 68 0 1 1 282 425"/>
+      <g class="dependency-lines">
+        <path class="flow-into-pact" d="M350 126 L350 258"/>
+        <path class="flow-to-b" d="M350 279 C278 279 220 279 165 279"/>
+        <path class="flow-to-c" d="M350 279 C422 279 480 279 540 279"/>
+      </g>
+      <path id="d-route" class="pending-line" d="M350 313 C350 350 350 380 350 425"/>
     </svg>
+    <div class="atlas-core" aria-hidden="true"><span class="atlas-core-orbit"></span><strong>PACT</strong><small>ALLOCATION<br>ENGINE</small></div>
     <button class="graph-node node-a selected" type="button" data-project="a" style="--x:50%;--y:25.2%" aria-pressed="true"><span class="node-number">01 / A</span><span class="node-title">TRAINING CENTRE</span><span class="node-amount">4 NEAR</span></button>
     <button class="graph-node node-b" type="button" data-project="b" style="--x:23.6%;--y:55.8%" aria-pressed="false"><span class="node-number">02 / B</span><span class="node-title">INTERNET</span><span class="node-amount">3 NEAR</span></button>
     <button class="graph-node node-c" type="button" data-project="c" style="--x:77.1%;--y:55.8%" aria-pressed="false"><span class="node-number">03 / C</span><span class="node-title">EQUIPMENT</span><span class="node-amount">3 NEAR</span></button>
     <button class="graph-node node-d blocked" type="button" data-project="d" style="--x:50%;--y:85%" aria-pressed="false"><span class="node-number">04 / D</span><span class="node-title">EVENTS</span><span class="node-amount">3 NEAR</span></button>
-    <div class="topology-footnote"><span>3 LINKED PROJECTS</span><span>01 INDEPENDENT</span></div>
+    <div class="topology-footnote"><span><span class="flow-dot" aria-hidden="true"></span> <span id="graph-outcome-label">03 PROJECTS FUNDABLE</span></span><span>COMPUTED · NO ONCHAIN TRANSFER</span></div>
    </div>
    <div class="graph-footer"><span><i class="key-dot good"></i> VALID ALLOCATION</span><span><i class="key-dot inactive"></i> NOT YET FUNDED</span><span class="footer-note">MODEL OUTPUT — NOT LIVE TRANSACTIONS</span></div>
   </div>
@@ -97,6 +106,10 @@
     <div class="inspector-label"><span>PROJECT FOCUS</span><span id="inspector-id">01 / 04</span></div>
     <div class="inspector-main"><span class="inspector-overline">SELECTED PROJECT</span><h3 id="inspector-heading">Training Centre<span class="period">.</span></h3><div id="inspector-status" class="state-tag good-tag"><span>✓</span> CONSTRAINT-VALID</div><p id="inspector-description">Requires the internet and equipment projects to be funded in the same coalition.</p></div>
     <div class="inspector-detail"><div><span>CAPITAL REQUIRED</span><strong id="inspector-required">4 NEAR</strong></div><div><span>ALLOCATED</span><strong id="inspector-allocated">4 NEAR</strong></div><div class="inspector-dependencies"><span>NEEDS</span><strong id="inspector-deps">INTERNET / EQUIPMENT</strong></div></div>
+    <div class="project-funding-meter" aria-label="Selected project's calculated funding">
+      <div class="project-meter-head"><span>ALLOCATION COVERAGE</span><strong id="inspector-coverage">100%</strong></div>
+      <div class="project-meter-track"><span id="inspector-meter-fill" style="width:100%"></span></div>
+     </div>
     <div class="inspector-summary"><span>NETWORK FUNDING</span><div><strong id="funded-count">3<span>/4</span></strong><p>PROJECTS FUNDED<br>WITH VALID RULES</p></div></div>
     <a class="inspector-link" href="#proof">VIEW ALLOCATION CERTIFICATE <span aria-hidden="true">↗</span></a>
   </aside>

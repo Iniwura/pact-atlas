@@ -242,16 +242,30 @@ function update(){
  document.body.classList.toggle('topup-on',state.topped);
  $('#network-mode').textContent=state.topped?'TOP-UP / 13N AVAILABLE':'BASE / 12N AVAILABLE';
  $('#funded-count').innerHTML=`${d.funded.size}<span>/4</span>`;
+ const available=d.pledges.reduce((sum,pledge)=>sum+pledge.amount,0n);
+ const capital=d.checked.allocated;
+ $('#graph-allocated').replaceChildren(
+   document.createTextNode(String(funds(capital))+" "),
+   Object.assign(document.createElement('span'),{textContent:"/ "+funds(available)+" NEAR"})
+ );
+ $('#graph-outcome-label').textContent=String(d.funded.size).padStart(2,'0')+" PROJECTS FUNDABLE";
  $('#topup-display').textContent=state.topped?'1 NEAR':'0 NEAR';
  $('#topup-button').setAttribute('aria-pressed',String(state.topped));
  $('#topup-caption').innerHTML=state.topped?'REMOVE THE ADDED 1N <b>↗</b>':'ADD THE MISSING 1N <b>↗</b>';
  $('#topup-foot').textContent=state.topped?'ALL FOUR PROJECTS FUNDED / CONDITIONS PRESERVED':'FOURTH PROJECT BLOCKED / CONDITIONS PRESERVED';
+ const focus=projects.find(x=>x.id===state.selected);
  for(const btn of $$('.graph-node')){
   const valid=d.funded.has(btn.dataset.project),selected=btn.dataset.project===state.selected;
+  const related=focus.deps.includes(btn.dataset.project)
+     || projects.find(x=>x.id===btn.dataset.project).deps.includes(state.selected);
   btn.classList.toggle('blocked',!valid);btn.classList.toggle('selected',selected);
+  btn.classList.toggle('related',related&&!selected);
+  btn.classList.toggle('funded',valid);
   btn.setAttribute('aria-pressed',String(selected));
+  btn.dataset.funding=valid?'fundable':'unfunded';
  }
- const p=projects.find(x=>x.id===state.selected);
+ document.body.dataset.atlasFocus=state.selected;
+ const p=focus;
  const allocated=d.checked.amounts.get(p.id);
  const isFunded=d.funded.has(p.id);
  $('#inspector-id').textContent=`0${projects.indexOf(p)+1} / 04`;
@@ -259,6 +273,10 @@ function update(){
  $('#inspector-description').textContent=p.explanation;
  $('#inspector-required').textContent=`${funds(p.required)} NEAR`;
  $('#inspector-allocated').textContent=`${funds(allocated)} NEAR`;
+ const coverage=Math.min(100,Math.round(100*Number(allocated)/Number(p.required)));
+ $('#inspector-coverage').textContent=String(coverage)+"%";
+ $('#inspector-meter-fill').style.width=String(coverage)+"%";
+ $('#inspector-meter-fill').classList.toggle('incomplete',!isFunded);
  $('#inspector-deps').textContent=p.deps.length?p.deps.map(x=>names[x]).join(' / ').toUpperCase():'NONE';
  $('#inspector-status').className=`state-tag ${isFunded?'good-tag':'block-tag'}`;
  $('#inspector-status').innerHTML=`<span>${isFunded?'✓':'×'}</span> ${isFunded?'CONSTRAINT-VALID':'NOT FUNDED'}`;
@@ -319,14 +337,35 @@ function renderBenchmark(id){
   const name=document.createElement('span');name.textContent=label;
   const index=document.createElement('span');index.textContent=key==='pact'?'03 / 03':key==='threshold'?'02 / 03':'01 / 03';
   top.append(name,index);
+  col.dataset.valid=String(item.valid);
+  const validity=document.createElement('div');
+  validity.className='bench-validity';
+  validity.textContent=item.valid?'✓ RULES SATISFIED':'× INVALID PLAN / RAW COUNT';
   const num=document.createElement('div');num.className='bench-num';num.textContent=item.projects;
   const sub=document.createElement('small');sub.textContent='PROJECTS';num.append(sub);
+  const allocation=document.createElement('div');allocation.className='bench-capital-visual';
+  const allocationHead=document.createElement('div');allocationHead.className='bench-budget-head';
+  const allocationLabel=document.createElement('span');allocationLabel.textContent='ALLOCATED CAPITAL';
+  const allocationValue=document.createElement('strong');allocationValue.textContent=String(item.allocated)+' / '+String(data.budget)+' NEAR';
+  allocationHead.append(allocationLabel,allocationValue);
+  const budgetTrack=document.createElement('div');budgetTrack.className='bench-budget-track';
+  const budgetFill=document.createElement('span');budgetFill.className='bench-budget-fill';
+  const committed=Number(item.allocated),budget=Number(data.budget);
+  if(!(budget>0) || !Number.isFinite(committed)) throw new Error('Invalid benchmark capital values');
+  const overLimit=committed>budget;
+  col.dataset.overLimit=String(overLimit);
+  budgetFill.style.width=String(Math.min(100,Math.max(0,100*committed/budget)))+'%';
+  budgetTrack.append(budgetFill);
+  const budgetNote=document.createElement('span');budgetNote.className='bench-budget-note';
+  budgetNote.textContent=overLimit?'OVER BUDGET — NOT AN EXECUTABLE PLAN':
+    item.valid?'WITHIN BUDGET · CONDITIONS MET':'WITHIN BUDGET · CONDITIONS BROKEN';
+  allocation.append(allocationHead,budgetTrack,budgetNote);
   const rule=document.createElement('div');rule.className='bench-rule';
   const bottom=document.createElement('div');bottom.className='bench-bottom';
   const capital=document.createElement('span');capital.textContent=`${item.allocated} / ${data.budget} N ALLOCATED`;
   const status=document.createElement('span');status.className='bench-status';
   status.textContent=item.valid?(item.exact?'✓ EXACT VALID':'✓ VALID · OPTIMUM UNPROVEN'):'× CONSTRAINT-INVALID';
-  bottom.append(capital,status);col.append(top,num,rule,bottom);group.append(col);
+  bottom.append(capital,status);col.append(top,validity,num,allocation,rule,bottom);group.append(col);
  }
  root.append(group);
  const closing=document.createElement('div');closing.className='bench-context-bottom';
