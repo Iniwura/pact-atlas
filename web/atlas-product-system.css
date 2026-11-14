@@ -215,3 +215,5 @@ body.protocol-app.pact-workspace,body.protocol-app.create-app,body.protocol-app.
 .pact-workspace .activity-list .activity-entry>a{color:#ffc19b!important}
 .create-app .creator-heading .eyebrow,.verify-app .verify-intro .eyebrow,.campaign-app .campaign-hero .eyebrow{color:#f1b88d!important}
 .create-app .creator-heading .back-link{color:#ffc19e!important}
+
+.pact-workspace #activity-note{color:#cad4c8!important}
