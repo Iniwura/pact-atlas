@@ -1,0 +1,347 @@
+/* RESPONSIVE / every breakpoint deliberately typeset, never scaled blindly. */
+@media(max-width:1150px){
+ .pact-marketing .header-center {display:none!important}
+ .pact-marketing .header {grid-template-columns:1fr auto!important}
+ .pact-marketing .hero h1 {font-size:clamp(56px,9.7vw,128px)!important}
+ .pact-marketing .intro-grid {
+  grid-template-columns:minmax(0,1.35fr) minmax(255px,.75fr)!important;
+  gap:40px;
+ }
+ .pact-marketing .evidence-script {padding-inline:clamp(25px,4vw,55px)!important}
+ .pact-marketing .evidence-script h2 {font-size:clamp(62px,7.2vw,100px)!important}
+ .pact-marketing .evidence-canvas {min-height:680px}
+ .pact-marketing .evidence-art {padding-inline:15px!important}
+ .pact-marketing .evidence-project,.pact-marketing .evidence-project.alpha,.pact-marketing .evidence-project.beta{
+  padding:26px 18px!important;
+ }
+ .pact-marketing .atlas-title-row h2 {font-size:clamp(60px,8.3vw,115px)!important}
+ .pact-marketing .atlas-title-row{grid-template-columns:1.25fr .75fr;gap:25px}
+ .pact-marketing .benchmark-heading-wrap{grid-template-columns:1.25fr .75fr;gap:30px}
+ .pact-marketing .proof-title{grid-template-columns:1.2fr .8fr}
+ .pact-workspace .desk-lead{padding:50px!important}
+ .pact-workspace .desk-eyebrow{left:50px}
+ .pact-workspace .desk-lead h1{font-size:clamp(66px,8.1vw,108px)!important}
+ .pact-workspace .campaign-list .campaign-tile>h3{font-size:clamp(55px,7vw,95px)!important}
+ .pact-workspace .campaign-list .campaign-tile .tile-summary{min-height:340px!important}
+ .pact-workspace .campaign-list .campaign-tile .tile-summary strong{font-size:clamp(50px,6vw,80px)!important}
+ .create-app .creator-headline h1,.verify-app .verify-intro h1,.campaign-app .campaign-hero h1 {font-size:clamp(57px,8.3vw,115px)!important}
+}
+@media(max-width:900px){
+ .pact-marketing .intro-grid,.pact-marketing .atlas-title-row,
+ .pact-marketing .benchmark-heading-wrap,.pact-marketing .proof-title{
+  grid-template-columns:1fr!important;gap:33px!important;
+ }
+ .pact-marketing .intro-grid h2{max-width:860px}
+ .pact-marketing .intro-aside{max-width:610px;margin-left:auto}
+ .pact-marketing .evidence-theatre{
+  grid-template-columns:1fr!important;
+ }
+ .pact-marketing .evidence-script{min-height:auto!important;padding-block:65px!important}
+ .pact-marketing .evidence-script h2{margin-top:45px!important}
+ .pact-marketing .evidence-description{max-width:700px!important}
+ .pact-marketing .evidence-steps{padding-top:40px;margin-top:22px}
+ .pact-marketing .evidence-canvas{min-height:540px}
+ .pact-marketing .evidence-art{min-height:415px!important;padding-inline:clamp(20px,6vw,60px)!important}
+ .pact-marketing .evidence-project strong {font-size:clamp(50px,8vw,76px)!important}
+ .pact-marketing .intro .section-index{margin-bottom:55px}
+ .pact-marketing .atlas-top{margin-bottom:60px}
+ .pact-marketing .atlas-section .atlas-title-row{padding-bottom:50px!important}
+ .pact-marketing .benchmark-heading-wrap{padding:80px 0 60px!important}
+ .pact-marketing .proof-title{padding:85px 0 58px!important}
+ .pact-workspace .pact-desk{grid-template-columns:1fr!important}
+ .pact-workspace .desk-lead{min-height:530px!important;padding:55px!important}
+ .pact-workspace .desk-proof{min-height:470px!important;border-left:0!important;border-top:1px solid #414841!important}
+ .pact-workspace .desk-eyebrow{top:40px;left:55px}
+ .pact-workspace .desk-proof-number{font-size:clamp(120px,22vw,220px)!important}
+ .pact-workspace .pact-entryways{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .pact-workspace .pact-entryways .entryway:first-child{grid-column:1/-1;min-height:240px!important}
+ .pact-workspace .pact-entryways .entryway{min-height:260px!important}
+ .pact-workspace .section-titlebar h2{font-size:clamp(63px,9vw,110px)!important}
+ .pact-workspace .campaign-list .campaign-tile{
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-areas:"head" "title" "description" "stats" "story" "footer"!important;
+ }
+ .pact-workspace .campaign-list .campaign-tile .tile-summary{
+  min-height:350px!important;margin-top:28px!important;
+ }
+ .pact-workspace .campaign-list .campaign-tile>h3{max-width:850px!important}
+ .create-app .creator-layout{grid-template-columns:1fr!important}
+ .create-app .creator-headline{grid-template-columns:1fr!important}
+ .create-app .back-link{justify-self:start}
+ .verify-app .verify-layout{grid-template-columns:1fr!important}
+ .verify-app .verify-result{min-height:370px}
+ .campaign-app .campaign-hero-row{flex-direction:column!important;align-items:stretch!important}
+ .campaign-app .campaign-account{max-width:460px}
+ .campaign-app .campaign-status-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .campaign-app .campaign-status-card:nth-child(2){border-right:0!important}
+ .campaign-app .campaign-status-card:nth-child(-n+2){border-bottom:1px solid #576258}
+}
+@media(max-width:790px){
+ .pact-marketing .header {
+  height:74px;grid-template-columns:1fr auto!important;
+  padding-inline:24px!important;
+ }
+ .pact-marketing .header::after{left:24px;right:24px}
+ .pact-marketing .head-nav {display:none!important}
+ .pact-marketing .menu-toggle{display:flex!important;color:white!important;border:1px solid #797b75!important;border-radius:100px!important}
+ .pact-marketing .mobile-menu{
+  position:absolute;top:74px;left:0;right:0;z-index:250;
+  background:#1c1e1d!important;
+  color:#f7f7f3!important;
+ }
+ .pact-marketing .mobile-menu a {color:#eee!important}
+ .pact-marketing .hero-meta{top:110px}
+ .pact-marketing .hero h1{font-size:clamp(55px,10vw,88px)!important}
+ .pact-marketing .hero-art{inset:-9% -25% -13% 0}
+ .pact-marketing .hero-bottom .vertical-indicator{display:none!important}
+ .pact-marketing .evidence-secondary {grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ .pact-marketing .evidence-secondary>div{padding:27px 15px!important}
+ .pact-marketing .evidence-secondary strong{font-size:clamp(46px,7vw,72px)!important}
+ .pact-marketing .intro-metrics strong{font-size:clamp(56px,9vw,85px)!important}
+ .pact-workspace .shell-topbar {
+  height:auto!important;min-height:104px!important;
+  flex-wrap:wrap!important;
+  padding:17px 24px 0!important;
+  row-gap:15px!important;
+ }
+ .pact-workspace .topbar-actions{margin-left:auto}
+ .pact-workspace .top-nav {
+  order:3;flex:none;width:100%;
+  display:flex!important;justify-content:flex-start;gap:26px!important;
+  overflow-x:auto;scrollbar-width:none;
+  padding-bottom:12px;
+ }
+ .pact-workspace .top-nav::-webkit-scrollbar{display:none}
+ .pact-workspace .network-label{display:none!important}
+ .pact-workspace .desk-lead{padding:45px 25px!important}
+ .pact-workspace .desk-eyebrow{left:25px}
+ .pact-workspace .desk-lead h1{font-size:clamp(60px,10vw,89px)!important}
+ .pact-workspace .desk-proof{padding:35px 25px!important}
+ .pact-workspace .pact-entryways .entryway strong{font-size:clamp(29px,4.5vw,43px)!important}
+ .pact-workspace .section-titlebar{align-items:start!important;flex-direction:column!important}
+ .pact-workspace .campaign-list .campaign-tile .tile-summary{padding:30px!important}
+ .pact-workspace .trust-bar{grid-template-columns:1fr!important}
+}
+@media(max-width:650px){
+ .pact-marketing .hero{
+  height:min(780px,100svh)!important;min-height:630px!important;
+ }
+ .pact-marketing .hero-art{
+  inset:-13% -70% -18% -25%;
+  transform:scale(1.1);
+ }
+ .pact-marketing .hero::before{
+  background:linear-gradient(180deg,rgba(18,19,19,.17),rgba(18,19,19,.36) 42%,rgba(18,19,19,.9) 94%);
+ }
+ .pact-marketing .hero h1{
+  left:22px!important;right:20px!important;
+  font-size:clamp(43px,10vw,66px)!important;
+  bottom:170px!important;line-height:.87!important;
+  letter-spacing:-.085em!important;
+ }
+ .pact-marketing .hero-meta{
+  left:22px;right:22px;top:110px;
+  gap:16px;font-size:9px!important;
+ }
+ .pact-marketing .hero-status{font-size:9px!important;text-align:right}
+ .pact-marketing .hero-bottom{
+  left:22px!important;right:22px!important;
+  min-height:138px;padding:22px 0!important;gap:18px;
+ }
+ .pact-marketing .hero-bottom p{font-size:13px!important;max-width:210px}
+ .pact-marketing .hero-link{font-size:0!important;gap:0!important}
+ .pact-marketing .hero-link .arrow-round{font-size:23px!important;width:49px;height:49px}
+ .pact-marketing .intro{
+  padding:66px 22px 75px!important;
+ }
+ .pact-marketing .intro .section-index{
+  margin-bottom:65px;gap:12px;align-items:start;
+ }
+ .pact-marketing .intro .section-index span:first-child{width:100px;flex:none}
+ .pact-marketing .intro-grid{gap:38px}
+ .pact-marketing .intro-grid h2{
+  font-size:clamp(53px,10.5vw,78px)!important;
+  line-height:.94!important;
+ }
+ .pact-marketing .intro-aside{margin:0;max-width:none}
+ .pact-marketing .intro-aside .tiny-cross{margin-bottom:24px}
+ .pact-marketing .intro-aside p{font-size:18px!important}
+ .pact-marketing .intro-metrics{
+  margin-top:70px;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ }
+ .pact-marketing .intro-metrics>div{
+  min-height:175px;padding:18px 10px 0!important;
+ }
+ .pact-marketing .intro-metrics strong{
+  font-size:clamp(38px,10vw,60px)!important;
+  padding-top:22px!important;
+ }
+ .pact-marketing .intro-metrics .metric-kicker{font-size:8px!important}
+ .pact-marketing .intro-metrics p{font-size:10px!important}
+ .pact-marketing .evidence-script{
+  padding:54px 22px 41px!important;
+ }
+ .pact-marketing .evidence-script h2{
+  font-size:clamp(64px,12.2vw,94px)!important;margin-top:50px!important;
+ }
+ .pact-marketing .evidence-description{font-size:15px!important}
+ .pact-marketing .evidence-canvas{min-height:590px!important}
+ .pact-marketing .evidence-art{
+  display:grid!important;grid-template-columns:1fr!important;
+  min-height:460px!important;gap:0;
+  padding:20px 25px 72px!important;
+ }
+ .pact-marketing .evidence-project,.pact-marketing .evidence-project.alpha,.pact-marketing .evidence-project.beta{
+  min-height:150px!important;padding:18px 25px!important;
+ }
+ .pact-marketing .evidence-project small{margin-bottom:15px}
+ .pact-marketing .evidence-project strong{font-size:clamp(45px,10vw,63px)!important;margin-bottom:10px}
+ .pact-marketing .evidence-bridge{
+  width:2px!important;height:40px!important;
+  justify-self:center;
+ }
+ .pact-marketing .evidence-bridge-arrow{
+  right:50%!important;top:auto!important;bottom:-8px!important;
+  transform:translate(50%,25%) rotate(90deg)!important;
+ }
+ .pact-marketing .evidence-secondary{
+  grid-template-columns:1fr!important;padding-inline:22px!important;
+ }
+ .pact-marketing .evidence-secondary>div{
+  border-right:0!important;border-bottom:1px solid #c7c8c3!important;
+  padding:25px 0!important;
+ }
+ .pact-marketing .evidence-secondary strong{font-size:60px!important}
+ .pact-marketing .evidence-secondary[style]>div{border-bottom:0!important}
+ .pact-marketing .atlas-section{
+  padding:64px 22px 80px!important;
+ }
+ .pact-marketing .atlas-top{margin-bottom:55px;flex-wrap:wrap}
+ .pact-marketing .atlas-title-row h2{
+  font-size:clamp(56px,11vw,85px)!important;
+ }
+ .pact-marketing .atlas-intro p{font-size:22px!important}
+ .pact-marketing .funding-copy h3{
+  font-size:clamp(47px,10vw,74px)!important;
+ }
+ .pact-marketing .benchmark-section{
+  padding:65px 22px 78px!important;
+ }
+ .pact-marketing .benchmark-heading-wrap{
+  padding:66px 0 52px!important;
+ }
+ .pact-marketing .benchmark-heading-wrap h2{
+  font-size:clamp(60px,11vw,85px)!important;
+ }
+ .pact-marketing .benchmark-heading-wrap>p{font-size:17px!important}
+ .pact-marketing .benchmark-selector{flex-direction:column!important;align-items:stretch!important;gap:17px}
+ .pact-marketing .benchmark-selector select{width:100%!important}
+ .pact-marketing .proof-section{
+  padding:70px 22px 80px!important;
+ }
+ .pact-marketing .proof-title h2{
+  font-size:clamp(68px,12vw,93px)!important;
+ }
+ .pact-marketing .certificate{
+  padding:25px 18px!important;
+ }
+ .pact-marketing .certificate-topline strong{
+  font-size:clamp(21px,6.7vw,34px)!important;
+ }
+ .pact-marketing .pledge-ledger h3{font-size:clamp(50px,10vw,78px)!important}
+ .pact-marketing .pact-next{padding:65px 22px 70px!important}
+ .pact-marketing .pact-next-heading h2{font-size:clamp(75px,12vw,93px)!important}
+ .pact-marketing .footer{padding:60px 22px 27px!important}
+ .pact-marketing .footer-title{font-size:clamp(58px,10.5vw,87px)!important}
+ .pact-workspace .desk-lead{min-height:530px!important}
+ .pact-workspace .desk-lead h1{font-size:clamp(58px,11vw,83px)!important}
+ .pact-workspace .desk-proof{min-height:450px!important}
+ .pact-workspace .desk-proof-number{font-size:clamp(125px,28vw,180px)!important}
+ .pact-workspace .pact-entryways{
+  margin:28px 22px 75px!important;
+  grid-template-columns:1fr!important;gap:7px!important;
+ }
+ .pact-workspace .pact-entryways .entryway:first-child{grid-column:1!important}
+ .pact-workspace .pact-entryways .entryway{min-height:185px!important}
+ .pact-workspace .pact-entryways .entryway strong{font-size:35px!important}
+ .pact-workspace .workspace-section{margin:0 22px 75px!important}
+ .pact-workspace .section-titlebar h2{font-size:clamp(55px,11vw,82px)!important}
+ .pact-workspace .section-titlebar .micro-label{margin-bottom:22px!important}
+ .pact-workspace .campaign-list .campaign-tile{
+  padding:23px!important;min-height:0!important;
+ }
+ .pact-workspace .campaign-list .campaign-tile>h3{
+  font-size:clamp(40px,10vw,65px)!important;
+  line-height:.92!important;
+ }
+ .pact-workspace .campaign-list .campaign-tile>p{font-size:15px!important}
+ .pact-workspace .campaign-list .campaign-tile .tile-summary{
+  min-height:240px!important;padding:24px!important;
+ }
+ .pact-workspace .campaign-list .campaign-tile .tile-summary strong{
+  font-size:clamp(49px,12vw,71px)!important;
+ }
+ .pact-workspace .campaign-list .campaign-tile .tile-lifecycle{
+  grid-template-columns:1fr!important;gap:19px!important;
+ }
+ .pact-workspace .campaign-list .campaign-tile .tile-step:not(:last-child)::after{
+  top:22px!important;left:12px!important;
+  right:auto!important;width:1px!important;height:calc(100% + 18px)!important;
+ }
+ .pact-workspace .campaign-list .campaign-tile .tile-step-copy strong{font-size:15px!important}
+ .pact-workspace .campaign-list .campaign-tile .tile-step-copy small{font-size:11px!important}
+ .pact-workspace .campaign-list .campaign-tile .tile-footer{
+  flex-direction:column;align-items:flex-start;gap:18px;
+ }
+ .pact-workspace .workspace-stats{margin:0 22px 74px!important}
+ .pact-workspace .trust-bar{margin:0 22px!important;padding:35px 26px!important}
+ .pact-workspace .trust-bar h2{font-size:clamp(36px,9vw,55px)!important}
+ .pact-workspace .shell-footer{margin:20px 22px 0!important}
+ .pact-workspace .pact-tour-panel{right:10px;bottom:10px;width:calc(100vw - 20px)}
+ .create-app .app-main,.verify-app .verify-main,.campaign-app .campaign-main{
+  padding-inline:22px!important;
+ }
+ .create-app .creator-heading,.verify-app .verify-intro,.campaign-app .campaign-hero{
+  margin-inline:-22px!important;padding-inline:22px!important;
+ }
+ .create-app .creator-heading,.verify-app .verify-intro,.campaign-app .campaign-hero{
+  padding-block:65px!important;
+ }
+ .create-app .creator-headline h1,
+ .verify-app .verify-intro h1,.campaign-app .campaign-hero h1{
+  font-size:clamp(56px,11.3vw,85px)!important;
+ }
+ .create-app .creator-editor,.verify-app .verify-form,.verify-app .verify-result{
+  padding:28px 22px!important;
+ }
+ .create-app .creator-layout{margin-top:35px!important}
+ .campaign-app .campaign-status-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .campaign-app .campaign-status-card{padding:21px 17px!important}
+ .campaign-app .campaign-status-card strong{font-size:clamp(25px,7vw,41px)!important}
+}
+@media(max-width:390px){
+ .pact-marketing .hero h1{font-size:clamp(37px,9.8vw,43px)!important}
+ .pact-marketing .hero-meta{font-size:8px!important}
+ .pact-marketing .intro-grid h2{font-size:clamp(49px,11.4vw,57px)!important}
+ .pact-marketing .atlas-title-row h2{font-size:clamp(49px,12vw,63px)!important}
+ .pact-marketing .proof-title h2{font-size:clamp(60px,13vw,69px)!important}
+ .pact-marketing .evidence-script h2{font-size:clamp(58px,14vw,69px)!important}
+ .pact-marketing .footer-title{font-size:clamp(49px,12vw,59px)!important}
+ .pact-workspace .shell-topbar{padding-inline:16px!important}
+ .pact-workspace #connect-wallet{padding:11px 12px!important;font-size:10px!important}
+ .pact-workspace .desk-lead h1{font-size:clamp(53px,12vw,65px)!important}
+ .pact-workspace .campaign-list .campaign-tile>h3{font-size:clamp(34px,9.6vw,42px)!important}
+ .pact-workspace .campaign-list .campaign-tile .tile-summary strong{font-size:clamp(39px,11vw,51px)!important}
+ .protocol-app .app-header{padding-inline:15px!important;gap:12px}
+ .protocol-app .mode-pill{font-size:8px!important;padding:7px 8px!important}
+}
+@media(prefers-reduced-motion:reduce) {
+ .pact-marketing .hero-art,
+ .pact-workspace .desk-proof::before{animation:none!important}
+ .pact-marketing .hero-link .arrow-round,
+ .pact-marketing .evidence-step,
+ .pact-workspace .pact-entryways .entryway,
+ .pact-workspace .desk-primary{transition:none!important}
+}
+
