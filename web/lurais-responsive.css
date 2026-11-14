@@ -345,3 +345,40 @@
  .pact-workspace .desk-primary{transition:none!important}
 }
 
+
+/* ACCESSIBILITY AUDIT / minimum AA contrast in the actual light surfaces. */
+.pact-marketing .intro-aside p+p{color:#545650!important}
+.pact-marketing .model-disclaimer{color:#565a54!important}
+.pact-marketing .atlas-top .section-index span:first-child,
+.pact-marketing .bench-top .section-index span:first-child{color:#40443e!important}
+.pact-marketing .project-meter-head>span{color:#384e3d!important}
+.pact-marketing .funding-control .section-index-inline{color:#555b53!important}
+.pact-marketing .funding-control .funding-copy>p{color:#4c514b!important}
+.pact-marketing .benchmark-footer>p,
+.pact-marketing .benchmark-footer>span{color:#545953!important}
+.pact-marketing .intro-metrics strong span{margin-left:9px!important}
+.pact-workspace .pact-entryways .entryway:nth-child(2) strong{color:#202422!important}
+.pact-workspace .pact-entryways .entryway:nth-child(2) .entryway-index{color:#884526!important}
+.pact-workspace .section-titlebar p:not(.micro-label){color:#5a5f58!important}
+.pact-workspace .campaign-list .campaign-tile .tile-story-eyebrow{color:#50564f!important}
+.pact-workspace .campaign-list .campaign-tile .tile-step-copy small{color:#51574e!important}
+.pact-workspace .section-link{color:#292c28!important}
+.pact-workspace #activity-note{color:#515750!important}
+.pact-workspace .shell-footer{color:#555c55!important}
+.pact-workspace .shell-footer span{color:#555c55!important}
+
+
+/* Final contrast corrections on the campaign detail and editorial links. */
+.pact-workspace .section-titlebar .section-link,
+.pact-workspace #featured .section-titlebar .section-link{
+ color:#30332e!important;
+ font-weight:660!important;
+}
+.campaign-app .campaign-layout .pane-kicker,
+.campaign-app .campaign-settlement .pane-kicker{
+ color:#754b32!important;
+}
+.campaign-app #wallet-state{color:#354037!important}
+.campaign-app .campaign-disclosure{color:#4e514b!important}
+
+.campaign-app .campaign-projects-panel .pane-kicker{color:#754b32!important}
