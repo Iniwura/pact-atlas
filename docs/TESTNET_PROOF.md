@@ -1,3 +1,5 @@
+> **Historical testnet verification record (10–11 November).** The original Meteor/Wallet Selector attempts described below are preserved as an audit trail. On 14 November the app switched to NEAR Connect v0.12.0 and the user confirmed a live Meteor account connection, but no browser-signed `commit` or payout has been finalized as part of that check. Use [README](../README.md) for the current connector and judge flow.
+
 # PACT Atlas | NEAR testnet proof and honest release gate
 
 ## What is already verified
