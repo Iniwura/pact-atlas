@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="./tour-premium.css">
   <link rel="stylesheet" href="./system-recovery.css">
   <link rel="stylesheet" href="/visual-consistency.css">
+  <link rel="stylesheet" href="./release-ux.css">
 </head>
 <body class="protocol-app pact-workspace">
 <a class="skip-link" href="#workspace-main">Skip to campaigns</a>
@@ -39,6 +40,7 @@
         <a href="./verify.html" aria-label="Verify a transaction">Verify</a>
       </nav>
       <div class="topbar-actions">
+        <button type="button" id="pact-guide-header" class="pact-guide-header" aria-controls="pact-tour-panel">Guide ↗</button>
         <span class="network-label"><i aria-hidden="true"></i> TESTNET</span>
         <button type="button" id="connect-wallet" class="wallet-button" aria-describedby="wallet-message">Connect wallet <span aria-hidden="true">↗</span></button>
         <button type="button" id="wallet-disconnect" class="wallet-disconnect" hidden>Disconnect</button>
@@ -183,6 +185,7 @@
   </div>
 </aside>
 <script type="module" src="./app-home.mjs"></script>
+<script type="module" src="./wallet-shell.mjs"></script>
 <script type="module" src="./first-visit.mjs"></script>
 <script type="module" src="./system-recovery.mjs"></script>
 </body>
