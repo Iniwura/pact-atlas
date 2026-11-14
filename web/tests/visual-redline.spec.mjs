@@ -68,7 +68,8 @@ test.describe("PACT visual redline regressions", () => {
         const proof = document.querySelector(".desk-proof").getBoundingClientRect();
         return {copyBottom: copy.bottom, copyRight: copy.right, proofTop: proof.top, proofLeft: proof.left, scrollWidth: document.documentElement.scrollWidth};
       });
-      if (width <= 750) expect(geometry.proofTop, JSON.stringify(geometry)).toBeGreaterThanOrEqual(geometry.copyBottom - 1);
+      // The editorial console intentionally stacks its cinematic hero at tablet width.
+      if (width <= 900) expect(geometry.proofTop, JSON.stringify(geometry)).toBeGreaterThanOrEqual(geometry.copyBottom - 1);
       else expect(geometry.proofLeft, JSON.stringify(geometry)).toBeGreaterThanOrEqual(geometry.copyRight - 1);
       expect(geometry.scrollWidth).toBeLessThanOrEqual(width + 1);
     });
