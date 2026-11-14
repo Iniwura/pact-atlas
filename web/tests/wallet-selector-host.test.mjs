@@ -49,6 +49,6 @@ test("new connector bundle is publicly reachable",async()=>{
 test("wallet failures do not claim funds were moved or connected",()=>{
   assert.match(readableWalletError({code:"wallet-cancelled"}),/Nothing was connected or signed/);
   assert.match(readableWalletError({code:"wallet-timeout"}),/did not respond/);
-  assert.match(readableWalletError(new Error("User rejected")),/cancelled/);
+  assert.match(readableWalletError(new Error("User rejected")),/Nothing was connected or signed/);
   assert.doesNotMatch(readableWalletError(new Error("token=SENSITIVE_SECRET")) ,/SENSITIVE_SECRET/);
 });
