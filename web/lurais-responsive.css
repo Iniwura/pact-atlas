@@ -382,3 +382,5 @@
 .campaign-app .campaign-disclosure{color:#4e514b!important}
 
 .campaign-app .campaign-projects-panel .pane-kicker{color:#754b32!important}
+/* Agreement details are a dark panel, unlike the light participation panel. */
+.campaign-app .campaign-projects-panel .pane-kicker{color:#f2c4a4!important}
