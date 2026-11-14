@@ -22,7 +22,7 @@
 | 68–84 s | **Create** blank agreement, edit project dependencies, preview an exact plan; optional **Guide** | “Anyone can compose an agreement, inspect its conditions and prepare an explicit wallet-approved testnet deployment. A plan is not a transfer.” |
 | 84–95 s | Show **Verify** example and read-only result if RPC available, then GitHub link; end on product | “Anyone can inspect the original testnet receipts. This release is testnet-only, and the source is public.” |
 
-**If verifier RPC is unavailable:** show the original explorer link and tell the viewer the live check is currently unavailable; never screenshot an unknown result as green. If full capture would run long, cut exposition, not the complete onchain story.
+**Live verifier:** the 10 November Beta commitment now re-verifies as FINAL with two successful receipts and matching PACT code hash via archival NEAR RPC (confirmed 14 November). In the demo, load the recorded example and click **Verify on NEAR** for genuine proof. **If both archival RPCs are unavailable:** show the original explorer link and state the live check is temporarily unavailable; never screenshot an unknown result as green. If full capture would run long, cut exposition, not the complete onchain story.
 
 ## Capture quality
 

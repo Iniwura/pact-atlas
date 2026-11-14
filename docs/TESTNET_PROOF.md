@@ -8,13 +8,15 @@ The exact offline campaign planner at `/create.html` accepts custom projects and
 
 ## What is newly implemented
 
-The separate `/verify.html` page and the `api/verify-testnet.mjs` endpoint verify a **user-supplied public NEAR testnet transaction** by querying a fixed testnet RPC, without a wallet or secrets. A valid result must:
+The separate `/verify.html` page and the `api/verify-testnet.mjs` endpoint verify a **user-supplied public NEAR testnet transaction** through two pinned, read-only **archival** NEAR testnet RPCs (FastNEAR primary, official NEAR archival fallback), without a wallet or secrets. Archival endpoints are needed because ordinary RPC nodes may prune historical receipts after recent epochs. A valid result must:
 
 1. Match the requested transaction hash, signer and destination contract account.
 2. Call the specifically named PACT method (`commit`, `activate`, `expire` or `withdraw`).
 3. Have `final_execution_status: FINAL` with successful transaction and receipt outcomes.
 4. Find a matching current code hash for the contract. The pinned RC3 hash is `7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp`, taken from the regenerated PACT Wasm local sandbox evidence.
 5. Fail closed if the RPC, transaction, receipts, identity or code hash cannot be checked.
+
+**14 November 2026 live recheck:** switching from regular to archival RPC retrieval restored receipt verification for **all 11 published PACT method transactions** across the dependency coalition, single-project activation/payout and expired/refund testnet campaigns. Each read returned `verified: true` with expected signer, destination, method, `FINAL` status, successful receipt outcomes (2 for commits/activations/expiry, 6 for beneficiary/refund withdrawals), and the pinned current contract code hash `7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp`. The Beta first commitment is `39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN`. No signing occurred. Both archival hosts remain independent read-only sources; if neither responds, the verifier returns an explicit unverified result. New regression tests cover fallback and fail-closed RPC errors.
 
 Independent command-line reproduction (requires public RPC access):
 
