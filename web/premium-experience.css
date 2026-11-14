@@ -652,3 +652,51 @@
   to{opacity:1;transform:translateY(0)}
 }
 
+
+/* Mobile benchmark reading order: override old responsive grid placement. */
+@media(max-width:660px){
+  .pact-marketing .bench-approach,
+  .pact-marketing .bench-approach:not(.pact),
+  .pact-marketing .bench-approach.pact {
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    grid-template-columns:none!important;
+    min-height:0!important;
+    gap:14px!important;
+  }
+  .pact-marketing .bench-approach > * {
+    grid-column:auto!important;
+    grid-row:auto!important;
+    width:auto;
+  }
+  .pact-marketing .bench-approach .bench-validity {
+    display:inline-flex!important;
+    align-self:flex-start;
+    max-width:100%;
+    width:max-content;
+    white-space:normal;
+  }
+  .pact-marketing .bench-approach .bench-num {
+    display:flex!important;
+    flex-direction:row!important;
+    align-items:baseline!important;
+    justify-content:flex-start!important;
+    gap:10px!important;
+    font-size:clamp(65px,19vw,84px);
+    width:100%;
+  }
+  .pact-marketing .bench-approach .bench-capital-visual {
+    margin-top:0!important;
+    width:100%;
+  }
+  .pact-marketing .bench-approach .bench-bottom {
+    display:flex!important;
+    flex-direction:row!important;
+    align-items:center!important;
+    gap:15px!important;
+    justify-content:space-between!important;
+    width:100%;
+  }
+}
+

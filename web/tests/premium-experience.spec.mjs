@@ -56,6 +56,21 @@ test.describe('PACT premium experience integrity',()=>{
    expect(records.every(r=>r.cap!=='true'||r.text.includes('OVER BUDGET'))).toBe(true);
   }
  });
+ test('mobile benchmark cards keep a clear vertical reading order',async({page})=>{
+  await page.setViewportSize({width:390,height:850});
+  await page.goto('/');
+  const cards=page.locator('.bench-approach');
+  await expect(cards).toHaveCount(3);
+  for(const card of await cards.all()){
+   const r=await card.evaluate(e=>{
+     const box=s=>e.querySelector(s).getBoundingClientRect();
+     return {valid:box('.bench-validity'),number:box('.bench-num'),budget:box('.bench-capital-visual')};
+   });
+   expect(r.number.top).toBeGreaterThanOrEqual(r.valid.bottom-1);
+   expect(r.budget.top).toBeGreaterThanOrEqual(r.number.bottom-1);
+   expect(r.budget.left).toBeGreaterThanOrEqual(r.number.left-2);
+  }
+ });
  test('reduced motion disables theatrical animation',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.goto('/');
