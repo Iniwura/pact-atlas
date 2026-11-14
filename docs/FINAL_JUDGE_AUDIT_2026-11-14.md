@@ -61,7 +61,7 @@ Full contract IDs, transaction hashes, pinned code hash, mutable/finalized views
 | No public SputnikDAO multi-member governance vote | **Medium for claims** | Describe the DAO proposal path as **sandbox-tested only** |
 | Final-day RPC read unavailable | **Medium for fresh demo** | Show archived transaction hyperlinks and allow read-only verifier to fail closed |
 | No qualified external audit / latest Rust matrix rebuild | **Medium** | Explain scope and preserved reproducibility; do not describe the protocol as audited |
-| Vercel daily deployment limit | **Release operational** | Confirm public deployment **exact code SHA** before giving a final judge URL; do not label a stale preview as new UI |
+| Vercel daily deployment limit | **Resolved for release** | The public alias `pact-atlas-near-connect.vercel.app` was reassigned to READY deployment `dpl_CC3xZZ1eTcQuCb2zSjN8C4GENWuZ`, source SHA `ddadcd3`. All 13 final UI file blob hashes match merged `main`; later source changes are docs-only. Public 200/asset checks and live mobile/desktop Chrome smoke tests passed. |
 | Public X demo and submission form | **Submission gate** | Human publishes real footage/screenshots and provides a public X post; user must confirm exact one-time submission payload |
 
 ## Hackathon eligibility
@@ -73,3 +73,7 @@ The official `HACKATHON.md` says testnet-only projects may compete; use of Inten
 **Recommended: submit as an experimental testnet contender.** It demonstrates a real end-to-end onchain funding mechanism, contract rules and independently inspectable receipts rather than an empty prototype. The strongest demonstration is a single Beta-before-Alpha contribution story ending with both beneficiary withdrawals, plus an expired refund and blank campaign creator.
 
 **Do not claim first place is assured.** A judge could deduct heavily for callback-liveness risk, missing production readiness, absence of a newly browser-signed contract action and unproven live DAO governance. A compelling authentic screen-recorded demo and transparent explanation can improve the presentation, but cannot erase those technical limitations.
+
+### Final public release confirmation
+
+The tested feature branch was merged to `main` in [PR #26](https://github.com/Iniwura/pact-atlas/pull/26), source release commit `f6889e3607eb5808368f4e071867bd317992f104`. The public judge alias now serves READY Vercel deployment `dpl_CC3xZZ1eTcQuCb2zSjN8C4GENWuZ`, whose UI files are byte-for-byte identical to source `main` across all 13 modified application files. An anonymous HTTP inspection returned 200 for the homepage, console, creator, campaign reader, verifier, wallet shell, notification center, CSS and tour script. Chrome smoke checks of live console, creator and verifier at 390px and 1440px found zero horizontal overflow and no page errors. Deployment is **preview target**, anonymously accessible; it is not a paid production build or audited finance deployment.
