@@ -30,7 +30,7 @@ export function readableWalletError(error) {
   if (error?.code === "wallet-unavailable") return "Wallet connections are temporarily unavailable. Browse public records and retry later.";
   if (error?.code === "wallet-timeout") return "The wallet did not respond. Unlock your wallet and retry.";
   const message = String(error?.message || "");
-  if (/user rejected|denied|cancel|closed|reject/i.test(message)) return "Wallet approval was cancelled. Nothing was signed.";
+  if (/user rejected|denied|cancel|closed|reject/i.test(message)) return "Wallet selection closed. Nothing was connected or signed.";
   if (/popup.*block/i.test(message)) return "Allow wallet popups for this site and retry.";
   if (/locked/i.test(message)) return "Unlock your NEAR testnet wallet and retry.";
   if (/network|failed to fetch|load|timeout|module|chunk/i.test(message)) return "Wallet or network unavailable. Check your connection.";
