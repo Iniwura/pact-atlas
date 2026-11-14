@@ -3,7 +3,10 @@
  * Does not sign transactions, process payments, or claim production safety.
  */
 export const PACT_WASM_CODE_HASH = "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp";
-export const RPC_URL = "https://rpc.testnet.fastnear.com";
+// Historical November receipts may be pruned from regular RPC nodes.
+// Use independent, archival NEAR testnet endpoints for receipt verification.
+export const RPC_URL = "https://archival-rpc.testnet.fastnear.com";
+export const BACKUP_RPC_URL = "https://archival-rpc.testnet.near.org";
 export const ALLOWED_METHODS = Object.freeze(["commit", "activate", "expire", "withdraw"]);
 const methodSet = new Set(ALLOWED_METHODS);
 const testnetAccount = /^(?:[a-z0-9_-]+\.)+testnet$/;
@@ -101,14 +104,27 @@ export async function verifyTestnetProof(input, rpc = jsonRpc) {
 }
 
 export async function jsonRpc(method, params, fetchImpl = fetch) {
-  const response = await fetchImpl(RPC_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: "pact-verify", method, params }),
-    signal: AbortSignal.timeout(9000)
-  });
-  if (!response.ok) throw new Error("NEAR testnet RPC returned HTTP " + response.status);
-  const body = await response.text();
-  if (body.length > 300000) throw new Error("Oversized response from NEAR RPC");
-  return JSON.parse(body);
+  const payload = JSON.stringify({ jsonrpc: "2.0", id: "pact-verify", method, params });
+  let lastFailure;
+  for (const rpcUrl of [RPC_URL, BACKUP_RPC_URL]) {
+    try {
+      const response = await fetchImpl(rpcUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+        signal: AbortSignal.timeout(7500)
+      });
+      if (!response.ok) throw new Error("NEAR archival RPC returned HTTP " + response.status);
+      const body = await response.text();
+      if (body.length > 300000) throw new Error("Oversized response from NEAR archival RPC");
+      const result = JSON.parse(body);
+      if (result?.error || !result?.result) throw new Error("NEAR archival RPC did not return a valid result");
+      return result;
+    } catch (error) {
+      lastFailure = error;
+      // Failure to read the archive must never be presented as a successful
+      // transaction. Retry the read against an independent archival host only.
+    }
+  }
+  throw new Error("Both NEAR archival RPC reads failed.", { cause: lastFailure });
 }
