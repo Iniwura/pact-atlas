@@ -24,3 +24,22 @@ test("wallet chooser delegates to MyNearWallet with a scoped NEAR testnet author
     await expect(page.locator("#connect-wallet")).not.toHaveAttribute("data-connected","true");
   } finally { await popup.close(); }
 });
+
+test("closing an external wallet popup unlocks Connect without claiming a connection", async ({page}) => {
+  await page.route("**/rpc.testnet.fastnear.com/**",route=>route.abort());
+  await page.route("**/rpc.testnet.near.org/**",route=>route.abort());
+  await page.context().route("https://testnet.mynearwallet.com/**", route =>
+    route.fulfill({status:200,contentType:"text/html",body:"<h1>External wallet login</h1>"}));
+  await page.goto("/console");
+  await page.locator("#connect-wallet").click();
+  await expect(page.locator(".nws-modal-wrapper.open")).toBeVisible({timeout:30000});
+  const popupPromise=page.waitForEvent("popup",{timeout:15000});
+  await page.locator("#module-my-near-wallet").click();
+  const popup=await popupPromise;
+  await popup.close();
+  await expect(page.locator("#connect-wallet")).toBeEnabled({timeout:10000});
+  await expect(page.locator("#connect-wallet")).toContainText("Connect wallet");
+  await expect(page.locator("#wallet-message")).toContainText("did not authorize",{timeout:10000});
+  await expect(page.locator("#wallet-disconnect")).toBeHidden();
+  await expect(page.locator(".nws-modal-wrapper.open")).toBeHidden();
+});
