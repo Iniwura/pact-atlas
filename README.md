@@ -83,7 +83,7 @@ npm run verify:testnet -- \
   39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN commit
 ```
 
-This checks actual testnet finalized method execution and the contract's **current** code hash, not the historical code hash at the block where that transaction occurred. For contract reconstruction, Rust checks and fresh NEAR sandbox scenarios, follow [the hackathon reproduction guide](HACKATHON.md) and [security evidence](docs/SECURITY_REVIEW.md). Rust 1.93.0 and pinned cargo-near/optimized Wasm paths are required for byte-for-byte comparisons.
+This uses **archival** NEAR testnet RPCs for historical receipts (FastNEAR, with an independent NEAR archival fallback), and checks finalized method execution plus the contract's **current** code hash, not the historical code hash at the transaction's block. The recorded Beta commitment was independently reverified successfully on 14 November; an unavailable RPC still fails closed. For contract reconstruction, Rust checks and fresh NEAR sandbox scenarios, follow [the hackathon reproduction guide](HACKATHON.md) and [security evidence](docs/SECURITY_REVIEW.md). Rust 1.93.0 and pinned cargo-near/optimized Wasm paths are required for byte-for-byte comparisons.
 
 ## Architecture and trust boundaries
 
