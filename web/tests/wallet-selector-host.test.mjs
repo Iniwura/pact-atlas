@@ -38,11 +38,11 @@ test("both overview and creator sign in against a known testnet PACT contract, w
 
 test("wallet navigation never counts as cancelling an already approved wallet handoff", () => {
   const source = fs.readFileSync(new URL("../wallet-selector-host.mjs", import.meta.url), "utf8");
-  assert.match(source, /modal\\?\\.on\\?\\.\\("onHide"/);
-  assert.match(source, /hideReason === "user-triggered"/);
-  assert.doesNotMatch(source, /classList\\.contains\\("open"\\).*seenOpen/);
-  assert.match(source, /waitForAccount\\(selector, modal\\)/);
-  assert.match(source, /setupModal\\(selector, walletSignInOptions\\(contractId\\)\\)/);
+  assert.ok(source.includes('modal?.on?.("onHide"'));
+  assert.ok(source.includes('hideReason === "user-triggered"'));
+  assert.ok(!source.includes('classList.contains("open")'));
+  assert.ok(source.includes("waitForAccount(selector, modal)"));
+  assert.ok(source.includes("setupModal(selector, walletSignInOptions(contractId))"));
 });
 
 test("returns the modal factory used by the real connection boundary", () => {
