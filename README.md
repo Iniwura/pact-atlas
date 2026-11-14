@@ -48,7 +48,7 @@ not production financial security or an external audit.
 
 Judge the release with the [executed 118-test product audit](docs/RELEASE_QA_2026-11-13.md), [reproducible walkthrough](docs/JUDGE_WITNESS.md),
 [submission description](docs/SUBMISSION_DESCRIPTION.md), and
-[release checklist](docs/SUBMISSION_CHECKLIST_2026-11-10.md). The repository is public. The verified release branch is `feature/near-connect-gasless-20261114`; the primary judge URL is linked above. The mandatory public X demo post and official submission are separate steps and are not completed merely by making the repository public.
+[release checklist](docs/SUBMISSION_CHECKLIST_2026-11-10.md). The repository is public and the tested application has been merged into the default `main` branch through [release PR #25](https://github.com/Iniwura/pact-atlas/pull/25). The primary judge URL is the **anonymous NEAR Connect review deployment linked above**; the older `pact-atlas.vercel.app` alias is not the submitted wallet build. The mandatory public X demo post and official submission remain separate steps.
 
 ## Make your own campaign
 
