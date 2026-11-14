@@ -4,15 +4,22 @@
 
 PACT Atlas helps a group fund projects that depend on each other. Contributors choose where their commitments may go and what else must be funded first. The contract accepts a valid allocation only when the conditions are met, with no pledge counted twice. If a campaign expires, unused contributions become refundable.
 
-**Public, login-free judge preview:** [pact-atlas-judges.vercel.app](https://pact-atlas-judges.vercel.app/) · [Campaign workspace](https://pact-atlas-judges.vercel.app/console) · [Independent proof checker](https://pact-atlas-judges.vercel.app/verify). These routes were verified anonymously on November 14. The temporary public deployment is the earlier successful redesign build (`3bfd21da`), while this branch contains newer onboarding, contrast, and navigation refinements that have not been deployed due to Vercel's free daily deployment cap. The public site and source branch therefore differ in those UI refinements; no contract behavior is represented as production-ready.
+**Public, login-free latest review:** [Open PACT Atlas](https://pact-atlas-consistency.vercel.app/) · [Campaign workspace](https://pact-atlas-consistency.vercel.app/console) · [Create](https://pact-atlas-consistency.vercel.app/create.html) · [Verify a receipt](https://pact-atlas-consistency.vercel.app/verify.html). This anonymous-access preview is verified against UI commit `d01892c97fcc8311657fd8ee068767059b05d7af` from `design/consistency-fixes-20261114`, as recorded in [PR #21](https://github.com/Iniwura/pact-atlas/pull/21). It is the latest **testnet-only review build**, not a production-finance deployment. The repository is public, but `main` still points to an older release until the reviewed branch is merged.
 
 **Release status: testnet-only application preview.** Three real NEAR testnet campaigns prove activation, a full refund and a two-project dependency coalition. The current application has a campaign workspace, a clean creation flow, authenticated testnet campaign readers, and independently linked transaction activity. Its browser-wallet signing flow has **not** completed genuine extension signing, and an unresolved missing-withdrawal-callback issue prevents safe use with valuable funds. Do not use PACT Atlas for production deposits. This is not an independently audited financial service.
+
+### Judge walkthrough — use the real proof first
+
+1. **Inspect** the historical Alpha/Beta funding story at [/#real-proof](https://pact-atlas-consistency.vercel.app/#real-proof). The receipts are actual faucet-funded NEAR testnet transactions, **CLI-signed**, not fake UI transfers.
+2. **Follow** the real coalition and separate refund journey from the [campaign workspace](https://pact-atlas-consistency.vercel.app/console) and its transaction activity.
+3. **Create** a blank campaign at [/create.html](https://pact-atlas-consistency.vercel.app/create.html), change dependencies, and preview/export an exact plan. Do not confuse a local plan with signed onchain deployment.
+4. **Verify** a recorded transaction independently at [/verify.html](https://pact-atlas-consistency.vercel.app/verify.html). Unavailable RPC is an unknown state, not a verified success.
 
 ### See the proof, then use the product
 
 The new homepage has an interactive **historical proof story** at `/#real-proof`. It follows a real two-project Alpha/Beta coalition from out-of-order contributions through contract activation to both beneficiary payouts, with the original testnet receipts attached to every step. It is not a simulated live transaction. Open `/console` to browse the recorded campaigns, create an agreement and independently verify receipts.
 
-**Verification:** The previous release checkpoint passed 73/73 Chromium and 60/60 Node checks. The wider redesign subsequently passed 75/76 Chromium tests; the remaining accessible-label failure was corrected and its targeted test passed. The complete browser suite has **not yet been rerun after that final correction**. No test establishes real extension signing or production financial safety. See the [design/QA handoff](docs/VISUAL_SPRINT_2026-11-14.md).
+**Latest recorded verification (14 Nov 2026):** 116/116 Chromium browser tests passed (zero retries), including the focused wallet and recovery coverage; 16/16 focused wallet Node tests passed. PR #21 records live anonymous preview checks at 390px and 1440px, zero horizontal overflow, no JavaScript errors, and zero wallet-modal WCAG A/AA violations. These are **browser/UI evidence**, not proof of completed external wallet signing, live public DAO voting, missing-callback recovery, or mainnet safety. See [the exact release review](https://github.com/Iniwura/pact-atlas/pull/21) and [the prior independent product QA scope](docs/RELEASE_QA_2026-11-13.md).
 
 ### Use the application
 
@@ -23,7 +30,7 @@ The new homepage has an interactive **historical proof story** at `/#real-proof`
 5. **Activity — `/console#activity`.** Inspect genuine recorded testnet contributions, activation, withdrawals and refunds. Every receipt opens NEAR testnet explorer. Saved successful deployments appear in the same browser's campaign workspace, subject to independent live-contract checks.
 6. **Verify — `/verify.html`.** Independently inspect finalized transactions and matching contract code. This requires no wallet.
 
-The approved cinematic landing page remains at `/`. No user money moves merely by exploring or configuring a draft.
+The cinematic landing page is at `/`. The **+1 NEAR** interaction is an explicitly labeled reversible planning simulation, not an onchain transfer. No user money moves merely by exploring or configuring a draft.
 
 **What is proven:** three faucet-funded public testnet campaign lifecycles, including a two-project conditional coalition and an expiry/refund case. **What is not proven:** authentic browser-extension signing, independent security audit, public Sputnik governance execution and recovery when a withdrawal callback never arrives. Do not use valuable funds.
 
@@ -41,9 +48,7 @@ not production financial security or an external audit.
 
 Judge the release with the [executed 118-test product audit](docs/RELEASE_QA_2026-11-13.md), [reproducible walkthrough](docs/JUDGE_WITNESS.md),
 [submission description](docs/SUBMISSION_DESCRIPTION.md), and
-[release checklist](docs/SUBMISSION_CHECKLIST_2026-11-10.md). The repository
-must be made public before submission; no access or submission action is
-performed by this checkout.
+[release checklist](docs/SUBMISSION_CHECKLIST_2026-11-10.md). The repository is now public. The most recent implementation remains on the unmerged review branch, not `main`; judges should use the exact preview and branch above until a release is approved. A public X demo post and the official final submission are still required.
 
 ## Make your own campaign
 
