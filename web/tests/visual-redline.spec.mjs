@@ -38,6 +38,10 @@ test.describe("PACT visual redline regressions", () => {
       await page.goto("/console");
       const card = page.locator(".campaign-tile").first();
       await expect(card).toBeVisible();
+      // The live RPC response can replace the card DOM during initial load.
+      // Measure the hover only after this refresh has completed.
+      await page.waitForFunction(() => [...document.querySelectorAll('.tile-rpc')]
+        .every(el => !el.textContent.includes('Checking latest state')), null, { timeout: 18000 });
       const initial = await card.evaluate(el => ({
         height: el.getBoundingClientRect().height,
         pseudo: getComputedStyle(el, "::before").content, pseudoDisplay: getComputedStyle(el, "::before").display

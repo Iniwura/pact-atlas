@@ -100,13 +100,39 @@ function renderCampaignTile(campaign) {
   funded.append(fundedCaption, fundedValue);
   stats.append(projects, funded);
 
+  // Display known lifecycle milestones only. These are recorded testnet
+  // examples or chain-derived local states, never a simulated live feed.
+  const lifecycle = node("ol", "tile-lifecycle");
+  const history = campaign.origin !== "local";
+  const isCoalition = history && campaign.id === "coalition";
+  const isRefund = history && campaign.id === "refund";
+  lifecycle.setAttribute("aria-label", history ? "Recorded testnet lifecycle" : "Current agreement state");
+  const stages = isCoalition
+    ? [["Pledged", "Contribution recorded", true],["Validated", "Conditions satisfied", true],["Settled", "Payouts verified", true]]
+    : isRefund
+      ? [["Pledged", "Contribution recorded", true],["Expired", "Funding period ended", true],["Refunded", "Return recorded", true]]
+      : [["Created", "Contract deployed", true],["Checked", campaign.chain ? "Finalized state read" : "Live state unavailable", !!campaign.chain],["Outcome", phase === "ACTIVATED" ? "Activated" : phase === "EXPIRED" ? "Expired" : "Not yet finalized", phase === "ACTIVATED" || phase === "EXPIRED"]];
+  for (const [i, stage] of stages.entries()) {
+    const [name, detail, done] = stage;
+    const item = node("li", "tile-step");
+    item.dataset.complete = String(done);
+    item.append(node("span", "tile-step-index", String(i + 1).padStart(2, "0")));
+    const copy = node("span", "tile-step-copy");
+    copy.append(node("strong", "", name), node("small", "", detail));
+    item.append(copy);
+    lifecycle.append(item);
+  }
+  const storyline = node("div", "tile-storyline");
+  storyline.append(node("span", "tile-story-eyebrow", "AGREEMENT PATH"));
+  storyline.append(lifecycle);
   const footer = node("div", "tile-footer");
   const action = link("Open campaign ↗", campaignLink(campaign));
   const chainState = node("span", "tile-rpc", campaign.chain
     ? "Finalized chain state checked"
      : campaign.rpcError ? (campaign.origin === "local" ? "Live RPC unavailable · saved link" : "Live RPC unavailable · recorded data") : "Checking latest state…");
   footer.append(action, chainState);
-  card.append(head, heading, description, stats, footer);
+  card.dataset.record = campaign.origin === "local" ? "local" : isCoalition ? "funded" : isRefund ? "refund" : "recorded";
+  card.append(head, heading, description, stats, storyline, footer);
   return card;
 }
 
