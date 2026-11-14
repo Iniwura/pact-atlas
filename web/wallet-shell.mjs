@@ -107,7 +107,7 @@ window.addEventListener("pact:wallet-account", event => {
   const next = event.detail?.accountId || "";
   if (next !== accountId) {
     display(next);
-    if (next) notifyUser("success", "Wallet ready: " + next, {title:"Wallet connected"});
+    if (next && !busy) notifyUser("success", "Wallet ready: " + next, {title:"Wallet connected"});
   }
 });
 // A wallet can connect during an explicit deploy/commit flow on another page.
