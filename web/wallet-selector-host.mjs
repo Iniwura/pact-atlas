@@ -1,25 +1,23 @@
+/**
+ * PACT Atlas — NEAR Connect (NEAR Builders-style account-first wallet flow).
+ *
+ * Account connection NEVER requests an access key, an allowance or a transfer.
+ * Each later state-changing operation requires a separate wallet approval.
+ * The existing PACT transaction adapter enforces exact requests/finality.
+ */
 import { createNearWalletAdapter } from "./near-adapter.mjs";
 import { createTestnetProvider } from "./near-rpc.mjs";
 
-const VERSION = "10.1.4";
-// A real faucet-funded PACT contract is used solely to scope the optional
-// function-call login permission on routes without a campaign contract.
-// Wallet approval is still needed for every state-changing action.
-export const DEFAULT_SIGNIN_CONTRACT = "coalition-20261110.beneficiary-20261110.testnet";
-const SIGNIN_METHODS = Object.freeze(["status"]);
-export function walletSignInOptions(contractId) {
-  const id = contractId ?? DEFAULT_SIGNIN_CONTRACT;
-  if (typeof id !== "string" || !/^[a-z0-9][a-z0-9._-]*\.testnet$/.test(id))
-    throw problem("wallet-unavailable", "The requested NEAR testnet contract is invalid.");
-  return { contractId: id, methodNames: [...SIGNIN_METHODS] };
-}
-const BASE = "https://esm.sh/@near-wallet-selector/";
-const MODULES = Object.freeze({
-  core: BASE + "core@" + VERSION + "?bundle",
-  modal: BASE + "modal-ui-js@" + VERSION + "?bundle",
-  meteorWallet: BASE + "meteor-wallet@" + VERSION + "?bundle&deps=near-api-js@5.1.1",
+export const NEAR_CONNECT_VERSION = "0.12.0";
+export const NEAR_CONNECT_MODULE = "https://esm.sh/@hot-labs/near-connect@" + NEAR_CONNECT_VERSION + "?bundle";
+export const CONNECT_OPTIONS = Object.freeze({
+  network: "testnet",
+  autoConnect: false,
+  features: { testnet: true, signInWithoutAddKey: true, signAndSendTransaction: true },
+  // Retired MyNearWallet and unavailable CLI are not functional choices in a browser.
+  excludedWallets: ["my-near-wallet", "near-cli", "wallet-connect", "ethereum-wallets"],
 });
-let selectorPromise;
+let setupPromise;
 
 function problem(code, message) {
   const error = new Error(message);
@@ -27,131 +25,104 @@ function problem(code, message) {
   return error;
 }
 export function readableWalletError(error) {
+  if (error?.code === "wallet-disabled") return "Wallet connections are disabled in this preview. Public proof stays available.";
   if (error?.code === "wallet-cancelled") return "Wallet selection closed. Nothing was connected or signed.";
-  if (error?.code === "wallet-unavailable") return "The wallet chooser could not load. Check your connection and try again.";
-  if (error?.code === "wallet-signin-failed") return "The wallet did not authorize the connection. Unlock it, check testnet, or choose another wallet.";
-  if (error?.code === "wallet-timeout") return "The wallet did not respond. Reopen the chooser and try again.";
-  if (error?.code === "wallet-disabled") return "Wallet signing is disabled in this preview. Browse the public records without connecting.";
+  if (error?.code === "wallet-unavailable") return "Wallet connections are temporarily unavailable. Browse public records and retry later.";
+  if (error?.code === "wallet-timeout") return "The wallet did not respond. Unlock your wallet and retry.";
   const message = String(error?.message || "");
-  if (/popup.*block/i.test(message)) return "Your browser blocked the wallet popup. Allow popups for this site and retry.";
-  if (/locked/i.test(message)) return "Unlock your NEAR wallet and retry.";
-  if (/reject|denied|cancelled|canceled|closed/i.test(message)) return "Wallet approval was cancelled. No transaction was submitted by PACT.";
-  if (/network|failed to fetch|load|timeout|module|chunk/i.test(message)) return "The wallet or network is unavailable. Check your connection and retry.";
-  if (/account|not installed|not found/i.test(message)) return "No NEAR testnet account is available in Meteor Wallet. Unlock Meteor and choose a testnet account.";
-  return "Wallet connection could not be completed. No transaction was signed. Try another wallet.";
+  if (/user rejected|denied|cancel|closed|reject/i.test(message)) return "Wallet approval was cancelled. Nothing was signed.";
+  if (/popup.*block/i.test(message)) return "Allow wallet popups for this site and retry.";
+  if (/locked/i.test(message)) return "Unlock your NEAR testnet wallet and retry.";
+  if (/network|failed to fetch|load|timeout|module|chunk/i.test(message)) return "Wallet or network unavailable. Check your connection.";
+  if (/account|not installed|not found|no wallet/i.test(message)) return "Unlock a supported NEAR testnet wallet and select an account.";
+  return "Wallet connection was not completed. Nothing was signed.";
 }
-function currentAccount(selector) {
-  const accounts = selector?.store?.getState?.()?.accounts || [];
-  return accounts.find(item => item?.active)?.accountId || accounts[0]?.accountId || null;
-}
-async function guarded(work, ms) {
-  let timer;
-  return Promise.race([
-    work,
-    new Promise((_, reject) => timer = setTimeout(() => reject(problem("wallet-timeout", "Wallet chooser took too long.")), ms)),
-  ]).finally(() => clearTimeout(timer));
-}
-// Wallet Selector emits "user-triggered" for cancellations and
-// "wallet-navigation" after an authorized wallet handoff. A hidden chooser
-// is not necessarily cancelled: browser wallets may still be approving in a
-// popup. Do not infer cancellation by observing DOM visibility alone.
-export async function waitForWalletAccount(selector, modal, { timeoutMs = 120000 } = {}) {
-  if (currentAccount(selector)) return currentAccount(selector);
-  return new Promise((resolve, reject) => {
-    let settled = false, poll, limit, subscription, modalSubscription;
-    function finish(error, account) {
-      if (settled) return;
-      settled = true;
-      clearInterval(poll); clearTimeout(limit);
-      subscription?.unsubscribe?.();
-      modalSubscription?.remove?.();
-      modalSubscription?.unsubscribe?.();
-      if (error) reject(error); else resolve(account);
-    }
-    function check() {
-      const account = currentAccount(selector);
-      if (account) return finish(null, account);
-      // The upstream modal renders this only after the selected wallet's
-      // signIn() rejects (e.g. popup closed, locked or wrong network).
-      // Do not leave a permanent "Opening wallets" state behind the error.
-      if (typeof document !== "undefined" &&
-          document.querySelector("#near-wallet-selector-modal .connecting-wrapper-err"))
-        finish(problem("wallet-signin-failed", "Wallet sign-in was not completed."));
-    }
-    try {
-      modalSubscription = modal?.on?.("onHide", ({ hideReason }) => {
-        if (hideReason === "user-triggered") {
-          const account = currentAccount(selector);
-          if (account) finish(null, account);
-          else finish(problem("wallet-cancelled", "Wallet chooser closed."));
-        }
-        // wallet-navigation is not cancellation: do not discard a pending
-        // popup/redirect sign-in just because the modal has disappeared.
-      });
-      subscription = selector?.store?.observable?.subscribe?.(check);
-      poll = setInterval(check, 250);
-      limit = setTimeout(() => finish(problem("wallet-timeout", "Wallet was not connected.")), timeoutMs);
-      check();
-    } catch (error) { finish(error); }
-  });
+export function connectorSettings() {
+  return {
+    network: CONNECT_OPTIONS.network,
+    autoConnect: CONNECT_OPTIONS.autoConnect,
+    features: { ...CONNECT_OPTIONS.features },
+    excludedWallets: [...CONNECT_OPTIONS.excludedWallets]
+  };
 }
 async function setup() {
-  // Only offer wallets verified to open a genuine testnet authorization request.
-  // MyNearWallet retired new connections in Nov 2026; Sender was not installed
-  // in user QA and Nightly did not yield an account. Avoid dead-end options.
-  const [{setupWalletSelector,actionCreators},{setupModal},{setupMeteorWallet}] = await Promise.all([
-    import(MODULES.core),import(MODULES.modal),import(MODULES.meteorWallet),
-  ]);
-  const selector = await setupWalletSelector({
-    network:"testnet",
-    modules:[setupMeteorWallet()],
-  });
-  return {selector,actionCreators,setupModal};
+  const { NearConnector } = await import(NEAR_CONNECT_MODULE);
+  if (typeof NearConnector !== "function") throw problem("wallet-unavailable", "NEAR Connect did not load.");
+  const connector = new NearConnector(connectorSettings());
+  await connector.whenManifestLoaded;
+  if (!connector.availableWallets?.length) throw problem("wallet-unavailable", "No compatible testnet wallet was found.");
+  return connector;
 }
-export async function ensureWalletAdapter({contractId}={}) {
+function currentAccountId(accounts) {
+  return accounts?.find?.(a => typeof a?.accountId === "string" && a.accountId.endsWith(".testnet"))?.accountId ?? null;
+}
+export async function ensureWalletAdapter() {
   if (typeof window === "undefined" || window.PACT_DISABLE_WALLET_SELECTOR)
     throw problem("wallet-disabled", "Read-only mode is enabled for this preview.");
   if (window.PACT_NEAR_ADAPTER) return window.PACT_NEAR_ADAPTER;
-  if (!selectorPromise) selectorPromise = guarded(setup(),30000).catch(error=>{
-    selectorPromise = null;
-    if (error.code) throw error;
-    throw problem("wallet-unavailable",String(error?.message || "Could not load wallet selector"));
+  if (!setupPromise) setupPromise = setup().catch(e => { setupPromise = null; throw e; });
+  const connector = await setupPromise;
+  let accountId = null;
+  const observers = new Set();
+  const notify = () => { for (const listener of [...observers]) listener(accountId); };
+  connector.on("wallet:signIn", ({ accounts }) => {
+    const next = currentAccountId(accounts);
+    if (next) { accountId = next; notify(); }
   });
-  const {selector,actionCreators,setupModal} = await selectorPromise;
-  if (!document.querySelector('link[href*="near-wallet-selector.css"]'))
-    throw problem("wallet-unavailable", "Wallet chooser stylesheet missing.");
-  const modal = setupModal(selector, walletSignInOptions(contractId));
-  // Add the accessible name after the chooser constructs its DOM.
-  const showModal = () => {
-    modal.show();
-    document.querySelector('#near-wallet-selector-modal .close-button')
-      ?.setAttribute('aria-label','Close wallet chooser');
+  connector.on("wallet:signOut", () => { accountId = null; notify(); });
+
+  // Uses the wallet's real connector signing interface. No mock signatures.
+  const walletBridge = {
+    getAccounts: async () => {
+      const signed = await connector.getConnectedWallet().catch(() => null);
+      return signed?.accounts ?? [];
+    },
+    signAndSendTransaction: async request => {
+      const signed = await connector.getConnectedWallet();
+      if (!currentAccountId(signed.accounts)) throw problem("wallet-unavailable", "Testnet account not authorized.");
+      return signed.wallet.signAndSendTransaction(request);
+    },
   };
-  const adapter = createNearWalletAdapter({selector,actionCreators,provider:createTestnetProvider()});
-  const connect = async()=>{
-    if (!currentAccount(selector)) {
-      showModal();
-      try {
-        await waitForWalletAccount(selector, modal);
-      } catch (error) {
-        // Do not leave an active chooser visible behind a "timed out" notice.
-        // Cancellation is already dismissed by the wallet's close control.
-        if (error?.code === "wallet-timeout" || error?.code === "wallet-signin-failed") modal.hide?.();
-        throw error;
-      }
-    }
-    return adapter.connect();
+  const transactionAdapter = createNearWalletAdapter({
+    wallet: walletBridge,
+    provider: createTestnetProvider(),
+  });
+  async function connect() {
+    if (accountId) return accountId;
+    // Calling connect() without addFunctionCallKey is intentional: zero gas
+    // required to view the connected account; permission is per transaction.
+    const wallet = await connector.connect();
+    const accounts = await wallet.getAccounts();
+    const next = currentAccountId(accounts);
+    if (!next) throw problem("wallet-unavailable", "The wallet returned no NEAR testnet account.");
+    accountId = next;
+    notify();
+    return transactionAdapter.connect();
+  }
+  async function disconnect() {
+    if (!accountId) return;
+    await connector.disconnect();
+    accountId = null;
+    notify();
+  }
+  function chooseWallet() {
+    void connector.connect().then(async wallet => {
+      const next = currentAccountId(await wallet.getAccounts());
+      if (next) { accountId = next; notify(); }
+    }).catch(error => {
+      // Keep the existing connected account if switching was cancelled.
+      if (!accountId) console.warn("Wallet selection ended:", readableWalletError(error));
+    });
+  }
+  const instance = {
+    ...transactionAdapter,
+    connect, disconnect, chooseWallet,
+    getAccount: () => accountId,
+    subscribeAccount: listener => {
+      observers.add(listener);
+      return { unsubscribe: () => observers.delete(listener) };
+    },
   };
-  const disconnect = async()=>{
-    if (!currentAccount(selector)) return;
-    const wallet=await selector.wallet();
-    if (!wallet?.signOut) throw problem("wallet-unavailable","Disconnect not supported.");
-    await wallet.signOut();
-  };
-  const subscribeAccount=callback=>selector.store.observable.subscribe(()=>callback(currentAccount(selector)));
-  const instance={...adapter,connect,disconnect,chooseWallet:()=>showModal(),
-    subscribeAccount,getAccount:()=>currentAccount(selector)};
-  window.PACT_NEAR_ADAPTER=instance;
+  window.PACT_NEAR_ADAPTER = instance;
   return instance;
 }
-export {MODULES as WALLET_SELECTOR_MODULES,VERSION as WALLET_SELECTOR_VERSION};
