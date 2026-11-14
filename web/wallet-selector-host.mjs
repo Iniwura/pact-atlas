@@ -103,7 +103,17 @@ export async function ensureWalletAdapter({contractId}={}) {
   };
   const adapter = createNearWalletAdapter({selector,actionCreators,provider:createTestnetProvider()});
   const connect = async()=>{
-    if (!currentAccount(selector)) {showModal();await waitForAccount(selector);}
+    if (!currentAccount(selector)) {
+      showModal();
+      try {
+        await waitForAccount(selector);
+      } catch (error) {
+        // Do not leave an active chooser visible behind a "timed out" notice.
+        // Cancellation is already dismissed by the wallet's close control.
+        if (error?.code === "wallet-timeout") modal.hide?.();
+        throw error;
+      }
+    }
     return adapter.connect();
   };
   const disconnect = async()=>{

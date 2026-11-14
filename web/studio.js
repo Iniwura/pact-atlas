@@ -251,7 +251,7 @@ function update(){
  $('#graph-outcome-label').textContent=String(d.funded.size).padStart(2,'0')+" PROJECTS FUNDABLE";
  $('#topup-display').textContent=state.topped?'1 NEAR':'0 NEAR';
  $('#topup-button').setAttribute('aria-pressed',String(state.topped));
- $('#topup-caption').innerHTML=state.topped?'REMOVE THE ADDED 1N <b>↗</b>':'ADD THE MISSING 1N <b>↗</b>';
+ $('#topup-caption').innerHTML=state.topped?'RESET SIMULATION <b>↗</b>':'SIMULATE +1 NEAR <b>↗</b>';
  $('#topup-foot').textContent=state.topped?'ALL FOUR PROJECTS FUNDED / CONDITIONS PRESERVED':'FOURTH PROJECT BLOCKED / CONDITIONS PRESERVED';
  const focus=projects.find(x=>x.id===state.selected);
  for(const btn of $$('.graph-node')){

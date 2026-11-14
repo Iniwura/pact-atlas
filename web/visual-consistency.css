@@ -1,0 +1,270 @@
+/* PACT · final visual consistency corrections.
+   Scoped to the two editorial surfaces, without touching onchain or evidence logic. */
+
+/* Console: make the three journeys a composed triptych, not three unrelated panels. */
+.pact-workspace .pact-entryways{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:2px!important;
+  margin-top:clamp(44px,5vw,76px)!important;
+  margin-bottom:clamp(68px,7vw,106px)!important;
+  background:#98a39a!important;
+}
+.pact-workspace .pact-entryways .entryway{
+  min-height:clamp(250px,24vw,336px)!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 34px!important;
+  grid-template-rows:auto 1fr auto!important;
+  align-content:space-between;
+  align-items:end!important;
+  gap:10px!important;
+  padding:clamp(24px,3vw,44px)!important;
+  isolation:isolate;
+  box-shadow:none!important;
+  border:0!important;
+  transition:background .24s ease,filter .24s ease!important;
+}
+.pact-workspace .pact-entryways .entryway-index{
+  grid-column:1 / -1;
+  align-self:start;
+  position:relative;z-index:2;
+  font-weight:750!important;
+  color:#f5be98!important;
+}
+.pact-workspace .pact-entryways .entryway strong{
+  grid-column:1;grid-row:3;
+  align-self:end;
+  font-size:clamp(34px,3.55vw,53px)!important;
+  line-height:.94!important;
+  letter-spacing:-.07em!important;
+  max-width:95%;
+  overflow-wrap:normal!important;
+  color:inherit!important;
+}
+.pact-workspace .pact-entryways .entryway-arrow{
+  grid-column:2;grid-row:3;
+  align-self:end;justify-self:end;
+  font-size:28px!important;
+  position:relative;z-index:2;
+  line-height:1;
+  transition:transform .2s ease;
+}
+.pact-workspace .pact-entryways .entryway::after{
+  content:"";position:absolute;
+  inset:auto 0 0 0;height:3px;
+  background:#da855b;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .24s ease;
+  z-index:3;
+}
+.pact-workspace .pact-entryways .entryway:hover::after,
+.pact-workspace .pact-entryways .entryway:focus-visible::after{transform:scaleX(1)}
+.pact-workspace .pact-entryways .entryway:nth-child(1){
+  background:linear-gradient(125deg,#243128,#101815)!important;
+}
+.pact-workspace .pact-entryways .entryway:nth-child(1)::before{
+  width:clamp(250px,28vw,405px)!important;
+  height:clamp(250px,28vw,405px)!important;
+  top:-30%!important;right:-20%!important;
+  box-shadow:0 0 0 42px #bb78470d,0 0 0 95px #bb784709!important;
+}
+.pact-workspace .pact-entryways .entryway:nth-child(2){
+  background:#e8e8e2!important;color:#242e25!important;
+}
+.pact-workspace .pact-entryways .entryway:nth-child(2)::before{
+  content:"";position:absolute;
+  top:-45%;right:-27%;
+  width:clamp(270px,28vw,430px);height:clamp(270px,28vw,430px);
+  border:1px solid rgba(114,88,64,.22);
+  border-radius:50%;
+  box-shadow:0 0 0 39px #b58d6410,0 0 0 92px #b58d6408;
+  pointer-events:none;
+}
+.pact-workspace .pact-entryways .entryway:nth-child(2) .entryway-index,
+.pact-workspace .pact-entryways .entryway:nth-child(2) .entryway-arrow{
+  color:#8f4a2b!important;
+}
+.pact-workspace .pact-entryways .entryway:nth-child(3){
+  background:linear-gradient(140deg,#29332e,#19221c)!important;
+}
+.pact-workspace .pact-entryways .entryway:nth-child(3)::before{
+  content:"";position:absolute;
+  width:clamp(270px,28vw,420px);height:clamp(270px,28vw,420px);
+  right:-30%;top:-40%;
+  border:1px solid #c68b5f44;
+  border-radius:50%;
+  box-shadow:0 0 0 46px #bd82570b,0 0 0 101px #c68b5f06;
+  pointer-events:none;
+}
+.pact-workspace .pact-entryways .entryway:nth-child(3) .entryway-index{color:#e6b695!important}
+.pact-workspace .pact-entryways .entryway:hover,
+.pact-workspace .pact-entryways .entryway:focus-visible{
+  transform:none!important;filter:brightness(1.035)!important;
+}
+.pact-workspace .pact-entryways .entryway:focus-visible{outline:3px solid #db8552!important;outline-offset:3px!important}
+
+/* Atlas: regularize its ledger rhythm and remove the floating empty panel feel. */
+.pact-marketing .graph-toolbar{min-height:67px!important;align-items:center!important}
+.pact-marketing .topology-topline{padding-inline:clamp(22px,3.1vw,43px)!important}
+.pact-marketing .graph-footer{
+  min-height:61px!important;display:flex!important;
+  align-items:center!important;padding-inline:clamp(22px,3vw,40px)!important;
+}
+.pact-marketing .graph-footer .footer-note{margin-left:auto!important}
+.pact-marketing .inspector{
+  display:flex!important;flex-direction:column!important;
+}
+.pact-marketing .inspector .inspector-main{margin-top:clamp(24px,3.4vw,43px)!important}
+.pact-marketing .inspector .inspector-detail{margin-top:clamp(28px,3vw,43px)!important}
+.pact-marketing .project-funding-meter{margin-top:clamp(20px,2.3vw,34px)!important}
+
+/* The 1 NEAR action is a simulation with a single clear target. */
+.pact-marketing .funding-control{
+  grid-template-columns:minmax(0,1.15fr) minmax(310px,.65fr)!important;
+  gap:clamp(40px,5vw,82px)!important;
+  align-items:center!important;
+  padding:clamp(43px,5.1vw,73px) clamp(10px,1.5vw,22px)!important;
+  min-height:310px!important;
+  background:#eeece7!important;
+}
+.pact-marketing .funding-copy h3{
+  font-size:clamp(49px,5.1vw,76px)!important;
+  max-width:780px!important;
+  line-height:.94!important;
+}
+.pact-marketing .funding-copy>p{
+  max-width:550px!important;
+  font-size:clamp(13px,1vw,16px)!important;
+  line-height:1.55!important;
+  margin-top:23px!important;
+}
+.pact-marketing .switch-zone{
+  width:100%!important;max-width:430px!important;
+  padding:22px 22px 19px!important;
+  border:1px solid #697f6b!important;
+  background:linear-gradient(145deg,#203627,#14231b)!important;
+  color:#f8f7f1!important;
+  box-shadow:0 15px 48px #182c1a11;
+}
+.pact-marketing .switch-zone .switch-header{
+  border-bottom:1px solid #647867!important;
+  color:#e8e5db!important;
+  padding-bottom:17px!important;
+}
+.pact-marketing .switch-zone .switch-header span{font-size:10px!important;letter-spacing:.07em!important}
+.pact-marketing .switch-zone .switch-header strong{
+  color:#f4aa80!important;font-size:clamp(21px,2vw,29px)!important;
+  letter-spacing:-.045em!important;
+}
+.pact-marketing .switch-zone .topup-button{
+  display:flex!important;
+  flex-direction:row-reverse!important;
+  justify-content:space-between!important;
+  align-items:center!important;
+  gap:12px!important;
+  width:100%!important;
+  padding:13px 13px 13px 18px!important;
+  margin:19px 0!important;
+  min-height:72px!important;
+  border:1px solid #eee8da!important;
+  background:#f6f5ee!important;
+  color:#213026!important;
+  cursor:pointer!important;
+  font-weight:800!important;letter-spacing:.03em!important;
+  text-align:left!important;
+}
+.pact-marketing .switch-zone .topup-button:hover{background:#e7ebdf!important;border-color:#f0a875!important}
+.pact-marketing .switch-zone .topup-button .topup-track{
+  width:47px!important;height:47px!important;
+  padding:0!important;flex:none!important;
+  border:0!important;border-radius:50%!important;
+  background:#273a2d!important;
+}
+.pact-marketing .switch-zone .topup-button .topup-knob{
+  display:grid!important;place-items:center!important;
+  width:47px!important;height:47px!important;
+  border-radius:50%!important;
+  background:transparent!important;color:#fafaf5!important;
+  font-size:24px!important;
+  transform:none!important;
+}
+.pact-marketing.topup-on .switch-zone .topup-button .topup-knob,
+.topup-on .pact-marketing .switch-zone .topup-button .topup-knob{
+  transform:rotate(-135deg)!important;
+}
+.pact-marketing .switch-zone #topup-caption{
+  display:flex!important;align-items:center!important;
+  font-size:clamp(11px,1.05vw,14px)!important;
+  letter-spacing:0!important;white-space:normal!important;
+  line-height:1.25!important;
+}
+.pact-marketing .switch-zone #topup-caption b{display:none!important}
+.pact-marketing .switch-zone .switch-foot{
+  display:block!important;
+  font-size:10px!important;line-height:1.45!important;
+  color:#f0c5a9!important;letter-spacing:.045em!important;
+}
+
+/* Closing action: preserve the intentional two-line statement, not three broken lines. */
+@media(min-width:1080px){
+  .pact-marketing .pact-next{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:clamp(40px,4vw,68px)!important;
+    align-items:center!important;
+  }
+  .pact-marketing .pact-next-heading h2{
+    font-size:clamp(82px,7.35vw,124px)!important;
+    line-height:.91!important;
+    letter-spacing:-.078em!important;
+    white-space:nowrap!important;
+  }
+  .pact-marketing .pact-next-heading>span{margin-bottom:clamp(53px,5vw,75px)!important}
+}
+.pact-marketing .pact-next-paths{
+  background:#b7bcb4!important;
+  border:1px solid #b7bcb4!important;
+}
+.pact-marketing .pact-next-paths a{
+  padding:clamp(25px,2.6vw,36px) clamp(20px,2.1vw,30px)!important;
+  background:#f7f7f3!important;
+  gap:9px 16px!important;
+}
+.pact-marketing .pact-next-paths a:nth-child(2){background:#f0f0eb!important}
+.pact-marketing .pact-next-paths a strong{font-size:clamp(28px,2.85vw,44px)!important}
+.pact-marketing .pact-next-paths a:hover{background:#e6ede3!important;padding-left:clamp(20px,2.1vw,30px)!important}
+.pact-marketing .pact-next-paths a:focus-visible{outline:3px solid #ae6b45!important;outline-offset:-3px!important}
+
+@media(max-width:1100px) {
+  .pact-workspace .pact-entryways{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:2px!important}
+  .pact-workspace .pact-entryways .entryway{min-height:245px!important;padding:26px!important}
+  .pact-workspace .pact-entryways .entryway strong{font-size:clamp(28px,3.6vw,43px)!important}
+}
+@media(max-width:790px){
+  .pact-workspace .pact-entryways{
+    grid-template-columns:1fr!important;margin-inline:22px!important;
+    margin-bottom:70px!important;
+  }
+  .pact-workspace .pact-entryways .entryway,
+  .pact-workspace .pact-entryways .entryway:first-child{
+    grid-column:auto!important;min-height:180px!important;
+    padding:28px!important;
+  }
+  .pact-workspace .pact-entryways .entryway strong{font-size:clamp(36px,7.6vw,58px)!important;max-width:85%}
+  .pact-marketing .funding-control{
+    grid-template-columns:1fr!important;gap:30px!important;
+    padding-inline:0!important;
+  }
+  .pact-marketing .switch-zone{max-width:100%!important}
+  .pact-marketing .pact-next-heading h2{font-size:clamp(67px,10vw,95px)!important;white-space:normal!important}
+  .pact-marketing .graph-footer{flex-wrap:wrap!important;row-gap:10px!important}
+}
+@media(max-width:390px){
+  .pact-workspace .pact-entryways .entryway{min-height:160px!important;padding:23px!important}
+  .pact-workspace .pact-entryways .entryway strong{font-size:37px!important}
+  .pact-marketing .pact-next-heading h2{font-size:clamp(58px,13.6vw,69px)!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .pact-workspace .pact-entryways .entryway,
+ .pact-workspace .pact-entryways .entryway::after,
+ .pact-marketing .topup-button *{transition:none!important;animation:none!important}
+}
+

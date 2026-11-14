@@ -91,3 +91,109 @@
 #near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar.selected-wallet .content .title{color:#ffffff!important}
 #near-wallet-selector-modal .nws-modal .modal-right .info p,
 #near-wallet-selector-modal .nws-modal .info p{color:#38453b!important}
+
+/* Wallet modal composition: balanced choice area and readable provider identity. */
+#near-wallet-selector-modal .nws-modal{display:flex!important;align-items:stretch!important;min-height:355px!important}
+#near-wallet-selector-modal .nws-modal .modal-left{
+  box-sizing:border-box!important;width:54%!important;flex:0 0 54%!important;
+  height:auto!important;min-height:355px!important;
+  padding:28px 26px!important;background:#f3f3ed!important;
+  border-right:1px solid #b6c1b5!important;
+}
+#near-wallet-selector-modal .nws-modal .modal-right{
+  box-sizing:border-box!important;width:46%!important;flex:1 1 46%!important;
+  min-width:0!important;min-height:355px!important;height:auto!important;
+  padding:16px!important;background:#e5e9df!important;
+}
+#near-wallet-selector-modal .nws-modal .modal-left .wallet-options-wrapper,
+#near-wallet-selector-modal .nws-modal .modal-left .wallet-options-wrapper .options-list{
+  width:100%!important;max-width:100%!important;
+}
+#near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:12px!important;
+}
+#near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar{
+  min-width:0!important;min-height:104px!important;
+  display:flex!important;flex-direction:row!important;align-items:center!important;
+  justify-content:flex-start!important;gap:13px!important;
+  padding:15px!important;
+  border-radius:2px!important;
+  background:#fffefa!important;
+}
+#near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar .icon{
+  width:31px!important;height:31px!important;min-width:31px!important;
+  flex:0 0 31px!important;padding:0!important;margin:0!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+}
+#near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar .icon img{
+  width:28px!important;height:28px!important;min-width:28px!important;
+  object-fit:contain!important;
+}
+#near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar .content{
+  flex:1 1 auto!important;min-width:0!important;width:auto!important;
+  height:auto!important;max-width:none!important;margin:0!important;
+}
+#near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar .content .title{
+  font-family:'Geist','Inter',Arial,sans-serif!important;
+  font-size:13px!important;line-height:1.3!important;
+  letter-spacing:-.018em!important;
+  white-space:normal!important;overflow-wrap:normal!important;
+  width:auto!important;height:auto!important;max-width:none!important;
+  color:#243229!important;
+}
+#near-wallet-selector-modal .nws-modal .modal-right .wallet-home-wrapper,
+#near-wallet-selector-modal .nws-modal .modal-right .wallet-info-wrapper{
+  border-radius:2px!important;background:#f8f7f2!important;
+}
+#near-wallet-selector-modal .nws-modal .modal-right .info{
+  justify-items:start!important;text-align:left!important;
+  gap:12px!important;padding:27px!important;
+  max-width:320px;
+}
+#near-wallet-selector-modal .nws-modal .modal-right .info::before{
+  content:"NEAR  /  TESTNET";display:block;
+  font:760 10px/1.2 'Geist','Inter',Arial,sans-serif;
+  letter-spacing:.1em;color:#845136;
+  border-bottom:1px solid #bdc4bb;padding-bottom:15px;width:100%;
+}
+#near-wallet-selector-modal .nws-modal .modal-right .info p{color:#39473c!important;line-height:1.55!important}
+@media(max-width:700px){
+ #near-wallet-selector-modal .nws-modal{flex-direction:column!important;min-height:0!important}
+ #near-wallet-selector-modal .nws-modal .modal-left{
+  width:100%!important;flex:auto!important;height:auto!important;min-height:0!important;
+  padding:18px 20px 22px!important;border-right:0!important;border-bottom:1px solid #b4bdb3!important;
+ }
+ #near-wallet-selector-modal .nws-modal .modal-right{
+  width:100%!important;flex:auto!important;min-height:150px!important;
+  padding:9px!important;
+ }
+ #near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+ #near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar{min-height:70px!important;gap:8px!important;padding:12px!important}
+ #near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar .icon{width:22px!important;height:22px!important;min-width:22px!important;flex-basis:22px!important}
+ #near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar .icon img{width:21px!important;height:21px!important;min-width:21px!important}
+ #near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar .content .title{font-size:11px!important}
+ #near-wallet-selector-modal .nws-modal .modal-right .info{gap:6px!important;padding:14px!important}
+ #near-wallet-selector-modal .nws-modal .modal-right .info::before{padding-bottom:9px}
+}
+@media(max-width:350px){
+ #near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list{grid-template-columns:1fr!important}
+}
+
+/* Remove the upstream nested 28px gutters that squeezed copy to 62px. */
+#near-wallet-selector-modal .nws-modal .modal-right .wallet-info-wrapper{
+  box-sizing:border-box!important;width:100%!important;min-width:0!important;
+  padding:0!important;
+}
+#near-wallet-selector-modal .nws-modal .modal-right .info{
+  box-sizing:border-box!important;width:100%!important;min-width:0!important;
+  max-width:none!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  padding:clamp(22px,2.3vw,35px)!important;
+}
+#near-wallet-selector-modal .nws-modal .modal-right .info p{
+  max-width:270px!important;line-height:1.5!important;
+}
+@media(max-width:700px){
+ #near-wallet-selector-modal .nws-modal .modal-right .info{padding:15px!important}
+}
