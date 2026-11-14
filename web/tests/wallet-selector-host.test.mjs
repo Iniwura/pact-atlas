@@ -7,17 +7,17 @@ test("pins Meteor Wallet for explicit NEAR testnet selection", () => {
   assert.equal(WALLET_SELECTOR_VERSION, "10.1.4");
   assert.match(WALLET_SELECTOR_MODULES.meteorWallet, /@near-wallet-selector\/meteor-wallet@10\.1\.4/);
   assert.match(WALLET_SELECTOR_MODULES.meteorWallet, /deps=near-api-js@5\.1\.1/);
-  assert.match(WALLET_SELECTOR_MODULES.sender, /@near-wallet-selector\/sender@10\.1\.4/);
-  assert.match(WALLET_SELECTOR_MODULES.nightly, /@near-wallet-selector\/nightly@10\.1\.4/);
-  assert.match(WALLET_SELECTOR_MODULES.myNearWallet,/my-near-wallet@10\.1\.4/);
+  assert.equal("sender" in WALLET_SELECTOR_MODULES, false);
+  assert.equal("nightly" in WALLET_SELECTOR_MODULES, false);
+  assert.equal("myNearWallet" in WALLET_SELECTOR_MODULES, false);
 });
 
-test("registers Sender as an optional injected wallet without changing the testnet network", () => {
+test("offers only the supported Meteor route on NEAR testnet", () => {
   const source = fs.readFileSync(new URL("../wallet-selector-host.mjs", import.meta.url), "utf8");
-  assert.match(source, /import\(MODULES\.sender\)/);
-  assert.match(source, /import\(MODULES\.nightly\)/);
-  assert.match(source, /import\(MODULES\.myNearWallet\)/);
-  assert.ok(source.includes("modules:[setupMeteorWallet(),setupSender(),setupNightly(),setupMyNearWallet()]"));
+  assert.ok(source.includes('modules:[setupMeteorWallet()]'));
+  assert.ok(!source.includes('import(MODULES.myNearWallet)'));
+  assert.ok(!source.includes('import(MODULES.nightly)'));
+  assert.ok(!source.includes('import(MODULES.sender)'));
   assert.match(source, /network:\s*"testnet"/);
 });
 
@@ -103,7 +103,7 @@ test("returns the modal factory used by the real connection boundary", () => {
   assert.ok(source.includes("const {selector,actionCreators,setupModal} = await selectorPromise"));
 });
 
-test("Meteor, Sender, core and modal bundles are publicly retrievable", async () => {
+test("the supported Meteor, core and modal bundles are publicly retrievable", async () => {
   for (const [name, url] of Object.entries(WALLET_SELECTOR_MODULES)) {
     const response = await fetch(url);
     assert.equal(response.status, 200, `${name} bundle did not return HTTP 200`);
