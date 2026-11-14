@@ -1,0 +1,84 @@
+import { validateProofInput } from "./testnet-proof.mjs";
+
+const $ = selector => document.querySelector(selector);
+const form = $("#proof-form");
+const button = $("#proof-check");
+const panel = $("#proof-result");
+const verdict = $("#proof-verdict");
+const explanation = $("#proof-explanation");
+const symbol = $("#proof-symbol");
+const details = $("#proof-details");
+const explorer = $("#proof-explorer");
+
+function show(state, title, message, proof = null) {
+  panel.dataset.state = state;
+  verdict.textContent = title;
+  explanation.textContent = message;
+  symbol.textContent = state === "verified" ? "✓" : state === "failed" ? "!" : "✳";
+  details.hidden = state !== "verified";
+  explorer.hidden = state !== "verified";
+  if (state === "verified" && proof) {
+    $("#proof-method-output").textContent = proof.method;
+    explorer.href = proof.explorerUrl;
+  } else {
+    explorer.removeAttribute("href");
+  }
+}
+
+// Public November 10 coalition receipt. Loading it never submits a transaction
+// or asserts a verification result; the user explicitly starts the read-only check.
+function loadRecordedExample() {
+  $("#proof-contract").value = "coalition-20261110.beneficiary-20261110.testnet";
+  $("#proof-signer").value = "refund-supporter-20261110.testnet";
+  $("#proof-hash").value = "39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN";
+  $("#proof-method").value = "commit";
+  const note = $("#verify-example-note");
+  note.hidden = false;
+  note.textContent = "Historical Beta commitment loaded. Select Verify on NEAR to independently check the receipt.";
+  show("idle", "Ready to verify", "A recorded testnet transaction is loaded. No result is claimed until the independent check completes.");
+}
+$("#load-real-proof")?.addEventListener("click",loadRecordedExample);
+if (new URLSearchParams(window.location.search).get("example") === "1") loadRecordedExample();
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+  if (button.disabled) return;
+  const input = {
+    contractId: $("#proof-contract").value.trim(),
+    signerId: $("#proof-signer").value.trim(),
+    transactionHash: $("#proof-hash").value.trim(),
+    method: $("#proof-method").value
+  };
+  const error = validateProofInput(input);
+  if (error) { show("failed","Not verified",error); verdict.focus({preventScroll:false}); return; }
+  button.disabled = true;
+  button.textContent = "Checking testnet…";
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 18000);
+  show("checking", "Checking NEAR testnet", "Looking up the finalized transaction and PACT code hash.");
+  try {
+    const response = await fetch("/api/verify-testnet", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify(input),
+      signal:controller.signal
+    });
+    const result = await response.json();
+    if (!result || typeof result !== "object") throw Error("Malformed proof result");
+    if (!response.ok || !result.verified) {
+      show("failed", "Not verified", typeof result.reason==="string" && result.reason.trim()
+        ? result.reason : "The testnet evidence could not be confirmed.");
+    } else {
+      show("verified", "Verified on NEAR testnet",
+        "The named method completed with finalized receipts, and the contract's current Wasm matches the preserved PACT build.", result);
+    }
+  } catch (error) {
+    show("failed", "Verification unavailable", error?.name==="AbortError"
+      ? "The independent check timed out. No result was claimed. Try this read-only verification again."
+      : "The independent proof endpoint could not be reached. No transaction was treated as verified.");
+  } finally {
+    clearTimeout(timeout);
+    button.disabled = false;
+    button.replaceChildren("Verify on NEAR ", Object.assign(document.createElement("span"), {textContent:"↗"}));
+  }
+});

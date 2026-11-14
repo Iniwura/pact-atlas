@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0c0b">
+<meta name="description" content="Independently check a finalized PACT contract call on NEAR testnet.">
+<title>Verify a transaction — PACT Atlas</title>
+<link rel="stylesheet" href="./protocol-workspace.css">
+<link rel="stylesheet" href="./verify.css">
+  <link rel="stylesheet" href="./product-polish.css">
+  <link rel="stylesheet" href="./atlas-product-system.css">
+  <link rel="stylesheet" href="./lurais-direction.css">
+  <link rel="stylesheet" href="./lurais-product.css">
+  <link rel="stylesheet" href="./lurais-responsive.css">
+  <link rel="stylesheet" href="./system-recovery.css">
+</head>
+<body class="protocol-app verify-app">
+<a class="skip-link" href="#verify-main">Skip to transaction verification</a>
+<header class="app-header">
+  <a href="/" class="wordmark" aria-label="PACT Atlas homepage">
+    <span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b></span>
+    <span>PACT<span class="brand-slash">/</span>ATLAS</span>
+  </a>
+  <nav class="main-nav" aria-label="Main navigation">
+    <a href="./console">Overview</a>
+    <a href="./console#campaigns">Campaigns</a>
+    <a href="./create.html">Create</a>
+    <a href="./console#activity">Activity</a>
+    <a href="./verify.html" aria-current="page">Verify</a>
+  </nav>
+  <span class="mode-pill"><span class="mode-dot"></span> NEAR TESTNET</span>
+</header>
+  <nav class="route-mobile-nav" aria-label="Quick app navigation"><a href="./console#campaigns">Campaigns</a><a href="./create.html">Create</a><a href="./console#activity">Activity</a><a href="./verify.html" aria-current="page">Verify</a></nav>
+<main class="verify-main" id="verify-main">
+  <div class="verify-intro">
+    <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true">✳</span> INDEPENDENT VERIFICATION</p>
+    <h1>Check the <em>chain.</em></h1>
+    <p>Enter a PACT testnet transaction. We'll verify the final result and contract code directly against NEAR, without asking you to connect a wallet.</p>
+  </div>
+  <div class="verify-layout">
+    <form id="proof-form" class="verify-form">
+      <div class="verify-form-head"><h2>Transaction details</h2><button type="button" id="load-real-proof" class="verify-example-button">Load real example ↗</button></div><p id="verify-example-note" class="verify-example-note" role="status" hidden></p>
+      <label for="proof-contract">PACT contract account
+        <input id="proof-contract" name="contractId" type="text" autocapitalize="off" spellcheck="false" autocomplete="off" maxlength="64" placeholder="pact-example.testnet" required>
+      </label>
+      <label for="proof-signer">Transaction signer
+        <input id="proof-signer" name="signerId" type="text" autocapitalize="off" spellcheck="false" autocomplete="off" maxlength="64" placeholder="supporter.testnet" required>
+      </label>
+      <label for="proof-hash">Transaction hash
+        <input id="proof-hash" name="transactionHash" type="text" autocapitalize="off" spellcheck="false" autocomplete="off" maxlength="50" placeholder="The full Base58 transaction hash" required>
+      </label>
+      <label for="proof-method">PACT action
+        <select id="proof-method" name="method">
+          <option value="commit">Commit funds</option>
+          <option value="activate">Activate coalition</option>
+          <option value="withdraw">Withdraw funds</option>
+          <option value="expire">Expire and unlock refunds</option>
+        </select>
+      </label>
+      <button id="proof-check" type="submit">Verify on NEAR <span aria-hidden="true">↗</span></button>
+      <p class="verify-privacy">Read-only. No wallet, private keys or funds are accessed.</p>
+    </form>
+    <section class="verify-result" aria-label="Verification result" aria-live="polite" aria-atomic="true">
+      <span class="proof-result-label">VERIFICATION RESULT</span>
+      <div id="proof-result" data-state="idle">
+        <span id="proof-symbol" class="proof-symbol" aria-hidden="true">✳</span>
+        <h2 id="proof-verdict" tabindex="-1">No transaction checked</h2>
+        <p id="proof-explanation">This page starts without evidence. A valid testnet transaction must match the published PACT contract build.</p>
+        <dl id="proof-details" hidden>
+          <div><dt>Method</dt><dd id="proof-method-output"></dd></div>
+          <div><dt>Network</dt><dd>NEAR testnet</dd></div>
+          <div><dt>Execution</dt><dd>Finalized</dd></div>
+          <div><dt>Wasm code</dt><dd>Matches preserved PACT build</dd></div>
+        </dl>
+        <a id="proof-explorer" hidden target="_blank" rel="noopener noreferrer">Open transaction in NEAR explorer ↗</a>
+      </div>
+      <p class="proof-scope">A matching receipt proves the named method executed on a contract currently running the published PACT build. It does not, by itself, prove correct allocation, payout delivery, DAO approval or security auditing.</p>
+    </section>
+  </div>
+  <p class="verify-local">See the <a href="/#real-proof">recorded testnet funding story</a> and its original receipts. Local sandbox tests are separate from public NEAR transactions.</p>
+</main>
+<footer class="site-footer"><span>PACT/ATLAS</span><span>NEAR HACKATHON 2026</span><a href="./console">Explore the example ↗</a></footer>
+<script type="module" src="./verify.js"></script>
+<script type="module" src="./system-recovery.mjs"></script>
+</body>
+</html>

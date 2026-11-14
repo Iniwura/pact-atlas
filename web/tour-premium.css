@@ -1,0 +1,81 @@
+/* PACT Field Guide · immersive agreement preview, task-focused product walk. */
+#pact-tour-backdrop[hidden],#pact-tour-spotlight[hidden]{display:none!important}
+#pact-tour-backdrop{position:fixed;inset:0;z-index:1180;background:rgba(7,12,9,.74);backdrop-filter:blur(5px)}
+#pact-tour-spotlight{position:fixed;z-index:1179;pointer-events:none;border:2px solid #ffb68a;outline:1px solid #fff8;border-radius:2px;box-shadow:0 0 0 150vmax rgba(6,12,8,.55),0 0 32px #ed99623d}
+.pact-workspace .pact-tour-panel{z-index:1300!important;background:#f7f7f4!important;color:#222a23!important;border:1px solid #abb8a9!important;border-radius:2px!important;box-shadow:0 28px 95px #0008!important;font-family:'Geist','Inter',Arial,sans-serif!important;overscroll-behavior:contain}
+.pact-workspace .pact-tour-panel[data-stage=welcome]{position:fixed!important;left:50%!important;right:auto!important;top:50%!important;bottom:auto!important;transform:translate(-50%,-50%)!important;width:min(990px,calc(100vw - 38px))!important;max-height:calc(100dvh - 34px)!important}
+.pact-workspace .pact-tour-top{height:62px!important;padding:0 clamp(22px,3vw,39px)!important;background:#1a241d!important;color:#faf9f5!important;border-bottom:1px solid #657164!important}
+.pact-workspace .pact-tour-overline{font:750 10px/1.2 'Geist',Arial,sans-serif!important;letter-spacing:.09em!important}
+.pact-workspace .pact-tour-dismiss{width:40px;height:40px;border:1px solid #8a958a!important;border-radius:50%;font-size:25px!important;color:#f8f8f3!important;background:transparent!important}
+.pact-workspace .pact-tour-dismiss:hover{background:#425343!important}
+.pact-workspace .tour-welcome{padding:0!important}
+.pact-workspace .tour-welcome-grid{display:grid;grid-template-columns:1.03fr .97fr;min-height:540px}
+.pact-workspace .tour-visual{position:relative;isolation:isolate;min-height:540px!important;height:auto!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important;padding:clamp(25px,3.6vw,48px)!important;margin:0!important;border:0!important;border-radius:0!important;background:linear-gradient(165deg,#17231950,#07120de8),url('/orbital-art.svg') center/cover!important;overflow:hidden}
+.pact-workspace .tour-visual>*{position:relative;z-index:1}
+.pact-workspace .tour-visual-top,.pact-workspace .tour-visual-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;border-color:#dfc2a170;color:#f9e6d6;font:710 10px/1.3 'Geist',Arial,sans-serif;letter-spacing:.06em}
+.pact-workspace .tour-visual-top{padding-bottom:14px;border-bottom:1px solid}
+.pact-workspace .tour-visual-bottom{padding-top:14px;border-top:1px solid}
+.pact-workspace .tour-visual-nodes{display:flex;flex-direction:column;align-items:center;gap:5px}
+.pact-workspace .tour-visual-node{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:24px 22px;border:1px solid #f1d4b8a6;background:#1b2922e8}
+.pact-workspace .tour-visual-node:last-child{border-color:#edb38e;background:#513325e8}
+.pact-workspace .tour-visual-node small{font:700 9px 'Geist',Arial,sans-serif;color:#f2c7a9}
+.pact-workspace .tour-visual-node strong{font:800 clamp(32px,3.4vw,49px)/1 'Geist',Arial,sans-serif;letter-spacing:-.07em;color:#fff}
+.pact-workspace .tour-visual-node>span{font:700 11px 'Geist',Arial,sans-serif;color:#ffbe91;white-space:nowrap}
+.pact-workspace .tour-visual-connector{height:39px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;font:720 9px 'Geist',Arial,sans-serif;color:#f7bd91;letter-spacing:.045em}
+.pact-workspace .tour-visual-connector i{height:11px;width:1px;background:#ed9561}
+.pact-workspace .tour-welcome-copy{display:flex;flex-direction:column;justify-content:center;padding:clamp(30px,4vw,61px)!important;background:#f7f7f4}
+.pact-workspace .tour-welcome-copy .tour-caption{font:720 10px 'Geist',Arial,sans-serif!important;letter-spacing:.08em;color:#895035!important;margin-bottom:24px!important}
+.pact-workspace #pact-tour-title{font:800 clamp(43px,5.2vw,75px)/.91 'Geist',Arial,sans-serif!important;letter-spacing:-.083em!important;color:#1d251e!important;margin-bottom:27px!important}
+.pact-workspace #pact-tour-title em{font:inherit!important;color:#a45330!important}
+.pact-workspace #pact-tour-copy{font:470 15px/1.5 'Geist',Arial,sans-serif!important;letter-spacing:-.015em!important;color:#4d584e!important;margin-bottom:20px!important}
+.pact-workspace .tour-choice-list{border-top:1px solid #bac3b8!important;margin:0 0 15px!important}
+.pact-workspace .tour-choice-list button{background:transparent!important;border:0!important;border-bottom:1px solid #bac3b8!important;border-radius:0!important;padding:17px 3px!important;transition:background .2s,padding .2s}
+.pact-workspace .tour-choice-list button:hover{background:#e8ede7!important;padding-left:13px!important}
+.pact-workspace .tour-choice-list span{color:#7c4b32!important;font:690 10px 'Geist',Arial,sans-serif!important}
+.pact-workspace .tour-choice-list strong{color:#263127!important;font:780 clamp(20px,2.1vw,28px)/1.2 'Geist',Arial,sans-serif!important;letter-spacing:-.055em!important}
+.pact-workspace .tour-choice-list b{color:#a15d3c!important}
+.pact-workspace .tour-skip{color:#48554a!important;align-self:start}
+.pact-workspace .pact-tour-panel[data-stage=guided]{position:fixed!important;left:auto!important;top:auto!important;right:clamp(12px,3vw,45px)!important;bottom:clamp(12px,3vw,40px)!important;transform:none!important;width:min(500px,calc(100vw - 25px))!important;max-height:calc(100dvh - 24px)!important}
+.pact-workspace .tour-guided{padding:clamp(24px,3vw,39px)!important}
+.pact-workspace .tour-guided-head{margin:0 0 20px!important;padding-bottom:17px;border-bottom:1px solid #bdc7bb}
+.pact-workspace .tour-current,.pact-workspace .tour-location{font:730 10px 'Geist',Arial,sans-serif!important;letter-spacing:.08em;color:#885137!important}
+.pact-workspace .pact-tour-counter{font:760 12px 'Geist',Arial,sans-serif!important;color:#465147!important}
+.pact-workspace .pact-tour-track{margin-bottom:34px!important;gap:5px}
+.pact-workspace .pact-tour-track span{height:4px!important;background:#c9d0c6}
+.pact-workspace .pact-tour-track span.active{background:#a55d3b!important}
+.pact-workspace #pact-tour-step-title{font:800 clamp(37px,4vw,52px)/.96 'Geist',Arial,sans-serif!important;letter-spacing:-.075em!important;color:#1b261e!important;margin-bottom:22px!important}
+.pact-workspace #pact-tour-step-copy{font:470 14px/1.55 'Geist',Arial,sans-serif!important;color:#475449!important;min-height:55px}
+.pact-workspace .tour-step-preview{margin:20px 0 24px!important;height:100px!important;border:0!important;background:radial-gradient(circle at 62% 45%,#50301c,#17291e 70%,#0e1913)!important;color:#fff}
+.pact-workspace .pact-tour-actions{gap:8px!important}
+.pact-workspace .pact-tour-actions button{min-height:49px!important;font:700 12px 'Geist',Arial,sans-serif!important;border-radius:0!important}
+.pact-workspace .pact-tour-back{background:#e5eae4!important;color:#2d4030!important;border:1px solid #bac4b8!important}
+.pact-workspace .pact-tour-visit{background:transparent!important;color:#754830!important;border:1px solid #a77759!important}
+.pact-workspace .pact-tour-next{background:#253c2b!important;color:#fff!important;border:1px solid #253c2b!important}
+.pact-workspace .pact-tour-panel button:focus-visible{outline:3px solid #e28b57!important;outline-offset:2px}
+@media(max-width:700px){
+ .pact-workspace .pact-tour-panel[data-stage=welcome]{left:9px!important;right:9px!important;top:9px!important;bottom:9px!important;transform:none!important;width:calc(100vw - 18px)!important;max-height:calc(100dvh - 18px)!important}
+ .pact-workspace .tour-welcome-grid{grid-template-columns:1fr!important;min-height:0}
+ .pact-workspace .tour-visual{height:213px!important;min-height:213px!important;padding:17px 21px!important}
+ .pact-workspace .tour-visual-top,.pact-workspace .tour-visual-bottom{font-size:9px}
+ .pact-workspace .tour-visual-nodes{flex-direction:row;gap:6px}
+ .pact-workspace .tour-visual-node{min-width:0;min-height:79px;flex:1;flex-direction:column;gap:4px;align-items:start;padding:11px!important}
+ .pact-workspace .tour-visual-node strong{font-size:29px!important}
+ .pact-workspace .tour-visual-node small,.pact-workspace .tour-visual-node>span{font-size:8px}
+ .pact-workspace .tour-visual-connector{width:28px;flex:none}
+ .pact-workspace .tour-visual-connector i{width:10px;height:1px}
+ .pact-workspace .tour-visual-connector span{font-size:7px}
+ .pact-workspace .tour-welcome-copy{padding:24px!important}
+ .pact-workspace #pact-tour-title{font-size:clamp(42px,10vw,62px)!important;margin-bottom:19px!important}
+ .pact-workspace #pact-tour-copy{font-size:13px!important;margin-bottom:15px!important}
+ .pact-workspace .tour-choice-list button{padding:14px 2px!important}
+ .pact-workspace .pact-tour-panel[data-stage=guided]{left:9px!important;right:9px!important;bottom:9px!important;width:calc(100vw - 18px)!important;max-height:min(580px,calc(100dvh - 18px))!important}
+ .pact-workspace .tour-guided{padding:22px!important}
+ .pact-workspace .tour-guided #pact-tour-step-title{font-size:clamp(36px,9vw,47px)!important}
+ .pact-workspace .tour-step-preview{height:75px!important;margin:15px 0 16px!important}
+ .pact-workspace .tour-guided #pact-tour-step-copy{min-height:0;margin-bottom:12px!important}
+ .pact-workspace .pact-tour-actions{display:grid;grid-template-columns:.75fr 1fr 1fr}
+ .pact-workspace .pact-tour-actions button{min-width:0;padding-inline:6px!important}
+}
+@media(max-width:380px){.pact-workspace .tour-visual{height:184px!important;min-height:184px!important}.pact-workspace .tour-welcome-copy{padding:19px!important}.pact-workspace #pact-tour-title{font-size:38px!important}.pact-workspace .tour-guided{padding:18px!important}}
+@media(prefers-reduced-motion:reduce){.pact-workspace .pact-tour-panel *,#pact-tour-spotlight{animation:none!important;transition:none!important}}
+

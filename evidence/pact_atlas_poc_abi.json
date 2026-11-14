@@ -51,6 +51,17 @@
         }
       },
       {
+        "name": "campaign_config",
+        "doc": " Public immutable campaign facts used to authenticate share-link\n configuration before any contribution or activation control is shown.",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/CampaignConfig"
+          }
+        }
+      },
+      {
         "name": "claimable",
         "kind": "view",
         "params": {
@@ -239,6 +250,20 @@
         }
       },
       {
+        "name": "pledge_records",
+        "doc": " Public canonical pledge facts. No state is changed and no authorization\n surface is added; the returned indexes are the exact values accepted by\n `activate`.",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/PledgeView"
+            }
+          }
+        }
+      },
+      {
         "name": "sponsor_storage",
         "doc": " Sponsor storage with an ordinary NEAR transfer to the contract account.\n Do NOT attach storage sponsorship to the `commit` method: that deposit\n represents a participant's fully refundable funding liability.",
         "kind": "call",
@@ -334,7 +359,119 @@
             }
           }
         },
+        "CampaignConfig": {
+          "type": "object",
+          "required": [
+            "activate_after_ms",
+            "activation_authorities",
+            "deadline_ms",
+            "min_funded_projects",
+            "projects",
+            "required_for_activation"
+          ],
+          "properties": {
+            "activate_after_ms": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "activation_authorities": {
+              "type": "array",
+              "items": {
+                "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+                "type": "string"
+              }
+            },
+            "deadline_ms": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "min_funded_projects": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "projects": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProjectView"
+              }
+            },
+            "required_for_activation": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "PledgeView": {
+          "description": "Canonical on-chain pledge records. The vector order is the contract's allocation index order and is part of the public certificate input.",
+          "type": "object",
+          "required": [
+            "allowed",
+            "amount",
+            "index",
+            "owner",
+            "requires"
+          ],
+          "properties": {
+            "allowed": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "amount": {
+              "type": "string"
+            },
+            "index": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "owner": {
+              "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+              "type": "string"
+            },
+            "requires": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
         "ProjectInput": {
+          "type": "object",
+          "required": [
+            "beneficiary",
+            "dependencies",
+            "id",
+            "required"
+          ],
+          "properties": {
+            "beneficiary": {
+              "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+              "type": "string"
+            },
+            "dependencies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "id": {
+              "type": "string"
+            },
+            "required": {
+              "type": "string"
+            }
+          }
+        },
+        "ProjectView": {
+          "description": "Immutable project facts exposed for independent campaign-link verification. Project names intentionally remain off-chain presentation metadata; funding decisions are bound to these identifiers, beneficiaries, requirements and dependencies.",
           "type": "object",
           "required": [
             "beneficiary",

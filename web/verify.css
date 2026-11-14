@@ -1,0 +1,35 @@
+/* One purpose: verify an external transaction, without a wallet. */
+.verify-main{max-width:1200px;margin:auto;padding:70px 34px 95px}
+.verify-intro{max-width:850px;margin-bottom:50px}
+.verify-intro h1{font:800 clamp(48px,7vw,91px)/.97 var(--sans);letter-spacing:-.085em}
+.verify-intro h1 em{font-style:normal;color:var(--orange)}
+.verify-intro>p:last-child{margin-top:23px;max-width:610px;font-size:15px;line-height:1.65;color:#c9c0b3}
+.verify-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border:1px solid #50443b;background:#151310}
+.verify-form{padding:39px;min-width:0}
+.verify-form h2{font-size:23px;letter-spacing:-.05em;margin-bottom:25px}
+.verify-form label{display:flex;flex-direction:column;gap:9px;margin-bottom:20px;font-size:12px;font-weight:650;color:#e6d9ca}
+.verify-form input,.verify-form select{width:100%;min-width:0;border:1px solid #625044;background:#221d18;border-radius:3px;color:#fff1e1;min-height:51px;padding:13px 14px;font:500 13px var(--sans)}
+.verify-form input::placeholder{color:#c4b1a2;opacity:1}
+.verify-form button{width:100%;min-height:55px;display:flex;justify-content:space-between;align-items:center;background:var(--orange);border:0;color:#21140d;padding:0 19px;font-weight:800;font-size:13px;margin-top:27px}
+.verify-form button:disabled{opacity:.65;cursor:wait}
+.verify-privacy{font-size:11px;color:#c1b6ab;margin-top:14px}
+.verify-result{padding:39px;background:var(--paper);color:var(--ink);border-left:1px solid #bcae9d;min-width:0;display:flex;flex-direction:column}
+.proof-result-label{font:700 10px var(--mono);letter-spacing:.08em;color:#8c5033}
+#proof-result{margin-top:65px;min-height:220px}
+.proof-symbol{display:inline-grid;place-items:center;width:43px;height:43px;border:1px solid #9b6b54;border-radius:50%;font-size:24px;color:#a65b34}
+#proof-verdict{font:800 clamp(26px,3vw,41px)/1.07 var(--sans);letter-spacing:-.065em;margin-top:25px}
+#proof-explanation{font-size:13px;line-height:1.65;margin-top:15px;max-width:440px;color:#5e554d;overflow-wrap:anywhere}
+#proof-result[data-state="verified"] .proof-symbol{color:#506a47;border-color:#597b50}
+#proof-result[data-state="failed"] .proof-symbol{color:#a44e2c;border-color:#a44e2c}
+#proof-details{margin:26px 0 0;border-top:1px solid #c9c0b6}
+#proof-details div{display:flex;gap:20px;justify-content:space-between;border-bottom:1px solid #c9c0b6;padding:9px 0;font-size:11px}
+#proof-details dt{color:#635a52}
+#proof-details dd{font-weight:750;margin:0;text-align:right}
+#proof-explorer{display:inline-flex;margin-top:26px;color:#9b4b2c;text-decoration:underline;font-weight:700;font-size:12px}
+#proof-explorer[hidden]{display:none}
+.proof-scope{margin-top:auto;padding-top:35px;font-size:11px;line-height:1.6;color:#73695e}
+.verify-local{font-size:12px;color:#c6b8aa;margin-top:28px}
+.verify-local a{color:#ffaf85;text-decoration:underline}
+@media(max-width:900px){.verify-main{padding:54px 23px 76px}.verify-layout{grid-template-columns:1fr}.verify-result{border-left:0;border-top:1px solid #bcae9d}.proof-scope{margin-top:35px;padding-top:0}#proof-result{margin-top:35px;min-height:0}.verify-form,.verify-result{padding:29px}}
+@media(max-width:560px){.verify-main{padding:40px 16px 60px}.verify-intro{margin-bottom:35px}.verify-form,.verify-result{padding:22px}.verify-form label{margin-bottom:17px}.verify-intro>p:last-child{font-size:13px}.verify-intro h1{font-size:48px}.app-header{gap:10px;padding:0 16px}.app-header .mode-pill{display:none}.main-nav{gap:12px}.main-nav a{font-size:10px}.wordmark{font-size:14px}.brand-mark{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

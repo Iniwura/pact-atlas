@@ -19,7 +19,7 @@ flowchart LR
 
 ## Evidence boundary
 
-- `web/data/evidence.json` is copied from `outputs/pact-atlas-sandbox-evidence.json`. It contains fresh local sandbox receipts, account IDs, code hashes and accounting transitions.
+- `web/data/evidence.json` is copied from the checked-in `evidence/pact-atlas-sandbox-evidence.json`. It contains fresh local sandbox receipts, account IDs, code hashes and accounting transitions.
 - `web/engine.mjs` is deterministic and bounded. It exhaustively enumerates the small demonstration commitment space and returns exact allocation certificates where one exists. It does not claim a general global optimizer.
 - The interface labels model-only condition changes and never edits DAO-approved conditions.
 - `window.PACT_NEAR_ADAPTER` is an explicit host integration boundary. Without an authorized adapter, the app remains read-only and displays no fabricated transaction hash.

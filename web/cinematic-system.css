@@ -1,0 +1,330 @@
+/* PACT / CINEMATIC SYSTEM
+   Focus: the real product, not decorative grids or overlapping type.
+   No contract, wallet, or solver logic is changed by this stylesheet. */
+:root{--cinema-copper:#d9784c;--cinema-paper:#ebe7df;--cinema-night:#0b1510}
+.pact-marketing .hero{isolation:isolate;background:#070b09}
+.pact-marketing .hero-side,.pact-marketing .hero-edition{display:none!important}
+.pact-marketing .hero::after{background-image:none!important;opacity:.04}
+.pact-marketing .hero h1{
+  position:absolute;z-index:8;max-width:none;
+  font-size:clamp(45px,10.25vw,164px);line-height:.9;
+  letter-spacing:-.105em;white-space:nowrap
+}
+.pact-marketing .hero-title-last{white-space:nowrap;font-size:.93em;letter-spacing:-.103em}
+.pact-marketing .hero-meta{top:clamp(23px,3vw,47px)}
+.pact-marketing .hero-bottom{position:absolute;z-index:9}
+.pact-marketing .hero-reference{z-index:9}
+.pact-marketing .hero-link .arrow-round{transition:transform .25s ease,background-color .2s ease}
+.pact-marketing .hero-link:hover .arrow-round{transform:rotate(45deg)}
+/* The onchain sequence is illustrated by a single dependency, not a grid. */
+.pact-marketing .evidence-theatre{background:#0c1610;border-color:#3a473e}
+.pact-marketing .evidence-script{background:radial-gradient(ellipse at 25% 85%,rgba(133,62,29,.15),transparent 60%),#111b14}
+.pact-marketing .evidence-canvas{
+  background:radial-gradient(ellipse at 55% 52%,rgba(129,60,32,.17),transparent 69%),#0a120e;
+  min-height:560px;border-color:#455042;isolation:isolate;overflow:hidden
+}
+.pact-marketing .evidence-canvas::before,.pact-marketing .evidence-canvas::after,
+.pact-marketing .evidence-art::before,.pact-marketing .evidence-art::after{content:none!important;display:none!important;background-image:none!important}
+.pact-marketing .evidence-art{
+  position:relative;display:grid;grid-template-columns:minmax(0,1fr) clamp(35px,4.5vw,78px) minmax(0,1fr);
+  gap:0;align-items:center;min-height:325px;flex:1;
+  padding:clamp(20px,2.4vw,38px) clamp(12px,2vw,30px) 62px;
+  background:none!important;isolation:isolate;overflow:hidden
+}
+.pact-marketing .evidence-atmosphere{
+  position:absolute;z-index:0;inset:-8% -4%;pointer-events:none;
+  background:radial-gradient(ellipse 41% 37% at 50% 48%,rgba(215,111,61,.22),transparent 80%),
+  radial-gradient(ellipse 64% 55% at 50% 48%,transparent 48%,rgba(214,120,67,.14) 48.5%,transparent 49.3%);
+  animation:pact-breathe 11s ease-in-out infinite alternate
+}
+.pact-marketing .evidence-project,.pact-marketing .evidence-project.alpha,.pact-marketing .evidence-project.beta{
+  position:relative;z-index:2;min-width:0;min-height:clamp(178px,18vw,225px);
+  padding:clamp(21px,2.5vw,36px) clamp(15px,2.1vw,31px);
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:0;
+  border-radius:3px;border:1px solid rgba(209,214,194,.49);
+  background:linear-gradient(154deg,#2d3930,#171f19);
+  box-shadow:0 22px 62px rgba(0,0,0,.25);
+  color:#f5f2e9;transform:none!important;
+  transition:border-color .3s ease,box-shadow .3s ease
+}
+.pact-marketing .evidence-project.beta{border-color:#b9896e;background:linear-gradient(150deg,#513627,#212720)}
+.pact-marketing .evidence-project::before,.pact-marketing .evidence-project::after{content:none!important;display:none!important}
+.pact-marketing .evidence-project small{
+  font-size:10px;font-weight:740;letter-spacing:.085em;line-height:1.35;
+  color:#d5d6ca;margin-bottom:clamp(22px,2.8vw,40px);white-space:nowrap
+}
+.pact-marketing .evidence-project strong{
+  margin:0 0 17px;font-family:var(--display);font-size:clamp(38px,4.6vw,71px);
+  font-weight:760;line-height:1;letter-spacing:-.08em;color:#f5f2e9;white-space:nowrap
+}
+.pact-marketing .evidence-project .evidence-amount{
+  display:flex;justify-content:space-between;align-items:baseline;gap:9px;
+  width:100%;border-top:1px solid #737b6e;padding-top:11px;
+  font-size:9px;font-weight:730;letter-spacing:.06em;color:#d2d0c5
+}
+.pact-marketing .evidence-project .evidence-amount em{font-size:12px;letter-spacing:-.01em;color:#f4b18c;font-weight:760}
+.pact-marketing .evidence-bridge{
+  position:relative;display:block;z-index:3;height:1px;width:100%;
+  margin:0;background:linear-gradient(90deg,#c86b41,#f0af83);box-shadow:0 0 17px rgba(223,125,65,.45)
+}
+.pact-marketing .evidence-bridge::before,.pact-marketing .evidence-bridge::after{content:none!important;display:none!important}
+.pact-marketing .evidence-bridge-arrow{
+  position:absolute;right:0;top:50%;transform:translate(40%,-54%);
+  color:#efb18d;font:400 27px/1 Georgia,serif
+}
+.pact-marketing .evidence-stage-note{
+  display:flex;align-items:center;gap:10px;position:absolute;z-index:3;
+  bottom:17px;left:clamp(14px,2vw,30px);right:clamp(14px,2vw,30px);
+  padding-top:16px;border-top:1px solid rgba(240,164,118,.37);
+  color:#d6cec1;font-size:10px;font-weight:740;letter-spacing:.075em
+}
+.pact-marketing .stage-glow{height:7px;width:7px;flex:none;border-radius:50%;background:#e9986a;box-shadow:0 0 17px rgba(244,155,88,.57)}
+.pact-marketing .evidence-theatre[data-stage="pledges"] .evidence-project.beta,
+.pact-marketing .evidence-theatre[data-stage="conditions"] .evidence-project,
+.pact-marketing .evidence-theatre[data-stage="settled"] .evidence-project{
+  border-color:#f1b184;box-shadow:0 18px 56px rgba(126,64,32,.22),0 0 0 1px rgba(237,143,91,.13)
+}
+.pact-marketing .evidence-canvas-bottom{position:relative;z-index:3}
+.pact-marketing .evidence-current strong{line-height:1.18;text-wrap:balance}
+/* A dependency topology, with readable nodes and an editorial detail sheet. */
+.pact-marketing .workspace{
+  display:grid;grid-template-columns:minmax(0,1.72fr) minmax(305px,.65fr);
+  border:1px solid #566454;box-shadow:0 40px 100px rgba(0,0,0,.27);overflow:hidden
+}
+.pact-marketing .graph-area{background:#0e1812;min-width:0}
+.pact-marketing .graph-toolbar{min-height:60px;padding:20px 26px;background:#122017;color:#eae8dd;border-color:#49584b}
+.pact-marketing .graph-stage{
+  position:relative;height:520px!important;min-height:520px!important;isolation:isolate;overflow:hidden;
+  background:radial-gradient(ellipse 42% 40% at 50% 42%,rgba(155,83,49,.18),transparent 84%),
+             radial-gradient(ellipse 36% 23% at 50% 83%,rgba(188,95,54,.09),transparent 91%),
+             linear-gradient(160deg,#0d1a12,#142019 46%,#0b1510)!important
+}
+.pact-marketing .graph-stage::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 46% 45% at 51% 45%,rgba(219,120,65,.08),transparent 77%)!important;
+  background-size:auto!important;mask-image:none!important
+}
+.pact-marketing .graph-stage::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:none!important;box-shadow:inset 0 0 110px rgba(3,9,5,.37)
+}
+.pact-marketing .topology-topline,.pact-marketing .topology-footnote{
+  position:absolute;left:clamp(18px,2.4vw,34px);right:clamp(18px,2.4vw,34px);
+  z-index:4;display:flex;justify-content:space-between;gap:16px;pointer-events:none;
+  color:#c4ccbc;font-size:10px;font-weight:730;letter-spacing:.075em
+}
+.pact-marketing .topology-topline{top:23px}
+.pact-marketing .topology-footnote{bottom:20px;color:#b6c1af}
+.pact-marketing .graph-lines{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.pact-marketing .dependency-lines path{
+  fill:none;stroke:url(#network-flow);stroke-width:1.7;stroke-dasharray:none;opacity:.86;
+  filter:drop-shadow(0 0 6px rgba(218,113,64,.24))
+}
+.pact-marketing .network-independent-ring{fill:none;stroke:#deaa87;stroke-width:.8;stroke-dasharray:3 9;opacity:.4}
+.pact-marketing #d-route{fill:none;stroke:#edac7a;stroke-width:1.8;stroke-dasharray:5 9;opacity:0;transition:opacity .4s}
+.pact-marketing.topup-on #d-route{opacity:.92;animation:pact-trace 7s linear infinite}
+.pact-marketing .graph-node{
+  position:absolute;z-index:5;left:var(--x);top:var(--y);transform:translate(-50%,-50%)!important;
+  width:clamp(128px,12.9vw,165px);height:126px;padding:16px 15px 13px;
+  display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:0;
+  text-align:left;border-radius:10px;border:1px solid rgba(202,212,188,.53);
+  background:linear-gradient(145deg,#2a3c30,#151f19);color:#f6f2e8;
+  box-shadow:0 16px 32px rgba(0,0,0,.25);
+  transition:border-color .23s ease,box-shadow .23s ease,background-color .23s ease,opacity .23s ease
+}
+.pact-marketing .graph-node::before,.pact-marketing .graph-node::after{content:none!important;display:none!important}
+.pact-marketing .graph-node .node-number{font-size:9px;letter-spacing:.1em;color:#d0d6c9;font-weight:740}
+.pact-marketing .graph-node .node-title{
+  font:770 clamp(12px,1.23vw,17px)/1.12 var(--body);
+  letter-spacing:-.045em;white-space:nowrap;color:#f3efe4
+}
+.pact-marketing .graph-node .node-amount{
+  width:100%;border-top:1px solid rgba(220,222,206,.21);padding-top:10px;
+  font-size:11px;font-weight:760;letter-spacing:.01em;color:#efac85
+}
+.pact-marketing .graph-node:hover,.pact-marketing .graph-node.selected,.pact-marketing .graph-node:focus-visible{
+  border-color:#f5ab7a;background:linear-gradient(145deg,#59432e,#273628);
+  box-shadow:0 0 0 3px rgba(221,123,69,.17),0 20px 44px rgba(0,0,0,.31),0 0 34px rgba(210,100,50,.16);
+  transform:translate(-50%,-50%)!important;filter:none;opacity:1
+}
+.pact-marketing .graph-node.blocked{filter:none!important;opacity:.72;background:linear-gradient(140deg,#283229,#18221b)}
+.pact-marketing .graph-node.blocked.selected{opacity:1;border-color:#e6a073}
+.pact-marketing .graph-node:focus-visible{outline:3px solid #efad85;outline-offset:4px}
+.pact-marketing .graph-caption,.pact-marketing .graph-watermark{display:none!important}
+.pact-marketing .graph-footer{min-height:62px;padding:18px 25px;background:#111e15;border-top:1px solid #445344}
+.pact-marketing .graph-footer .footer-note{color:#c2cabd}
+/* Selected project: calm, high-contrast editorial information. */
+.pact-marketing .inspector{
+  position:relative;display:flex;flex-direction:column;min-width:0;padding:26px 29px 0;
+  background:linear-gradient(157deg,#eeebe2,#dedfd2);color:#152117;
+  border-left:1px solid #53614e;overflow:hidden
+}
+.pact-marketing .inspector::before,.pact-marketing .inspector::after{content:none!important;display:none!important}
+.pact-marketing .inspector-label{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:0 0 23px;margin:0;border-bottom:1px solid #adb6a7;
+  font-size:10px;letter-spacing:.09em;font-weight:750;color:#4e6050
+}
+.pact-marketing .inspector-label>span+span{color:#a7502e}
+.pact-marketing .inspector-main{padding-top:29px;min-width:0}
+.pact-marketing .inspector-overline{display:block;margin-bottom:19px;color:#647365;font-size:10px;font-weight:730;letter-spacing:.075em}
+.pact-marketing .inspector-main h3{
+  font:760 clamp(24px,2.28vw,35px)/1.08 var(--body);
+  letter-spacing:-.075em;white-space:nowrap;color:#16241a;margin:0 0 21px
+}
+.pact-marketing .inspector-main h3 .period{color:#b45c36}
+.pact-marketing .inspector .state-tag{
+  display:inline-flex;align-items:center;width:max-content;max-width:100%;
+  margin:0 0 19px;padding:8px 10px;border:1px solid #9daea0;
+  background:#d6e1d2;color:#31553b;font-size:10px;line-height:1.2;
+  font-weight:750;letter-spacing:.035em;white-space:nowrap
+}
+.pact-marketing .inspector .state-tag.block-tag{background:#ead7c9;color:#793e27;border-color:#c4aa9b}
+.pact-marketing .inspector .state-tag span{margin-right:6px}
+.pact-marketing .inspector-main p{max-width:37ch;color:#4e5c50;font-size:14px;line-height:1.55;margin:0}
+.pact-marketing .inspector-detail{margin:27px 0 0;border-top:1px solid #aeb7a8;color:#485849}
+.pact-marketing .inspector-detail>div{
+  display:flex;justify-content:space-between;align-items:baseline;gap:15px;
+  border-top:0;border-bottom:1px solid #adb7a8;padding:16px 0;min-width:0
+}
+.pact-marketing .inspector-detail span{font-size:10px;line-height:1.4;letter-spacing:.045em;font-weight:750;color:#586b59}
+.pact-marketing .inspector-detail strong{
+  color:#1b2c1e;font-size:clamp(14px,1.38vw,19px);font-weight:750;
+  letter-spacing:-.03em;line-height:1.3;text-align:right;max-width:63%;overflow-wrap:anywhere
+}
+.pact-marketing .inspector-detail .inspector-dependencies strong{font-size:12px;letter-spacing:0}
+.pact-marketing .inspector-summary{margin-top:auto;padding:22px 0 25px;border:0;color:#1a271c}
+.pact-marketing .inspector-summary>span{color:#526351;font-size:10px;font-weight:740;letter-spacing:.085em}
+.pact-marketing .inspector-summary>div{padding-top:9px;display:flex;align-items:end;justify-content:space-between;gap:12px}
+.pact-marketing .inspector-summary strong{font:750 clamp(55px,5.4vw,85px)/.93 var(--body);color:#1c2c1e;letter-spacing:-.085em}
+.pact-marketing .inspector-summary strong span{font-size:.39em;color:#617563;letter-spacing:-.04em;margin-left:7px}
+.pact-marketing .inspector-summary p{color:#566758;font-size:10px;font-weight:730;line-height:1.4;text-align:right;padding-bottom:4px}
+.pact-marketing .inspector-link{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  min-height:65px;margin:0 -29px;padding:20px 28px;
+  color:#f1ede3;background:#19291d;border:0;
+  font-size:11px;letter-spacing:.045em;font-weight:750;
+  transition:background-color .2s ease
+}
+.pact-marketing .inspector-link:hover{background:#994c2d;color:white}
+/* Certificate: never paint a decorative watermark over ledger figures. */
+.pact-marketing .certificate{
+  position:relative;isolation:isolate;overflow:visible;
+  background:linear-gradient(173deg,#f2eee5,#e8e7dd);
+  border:1px solid #b7bcb1;border-top:3px solid #ba6840;
+  box-shadow:0 34px 85px rgba(0,0,0,.25)
+}
+.pact-marketing .certificate::before,.pact-marketing .certificate::after{content:none!important;display:none!important;background:none!important}
+.pact-marketing .certificate>*{position:relative;z-index:1}
+.pact-marketing .certificate-topline{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pact-marketing .certificate-topline strong{
+  font-size:clamp(30px,4.1vw,61px);line-height:1.12;letter-spacing:-.075em;white-space:nowrap
+}
+.pact-marketing .certificate .row-route{overflow-wrap:anywhere}
+/* Cinematic UI continues into the actual console without sacrificing usability. */
+.pact-workspace .workspace-content{
+  background:radial-gradient(ellipse 70% 750px at 50% 0%,rgba(120,64,37,.085),transparent 72%),#101713
+}
+.pact-workspace .pact-desk{isolation:isolate;border-color:#b8bcae;overflow:hidden}
+.pact-workspace .desk-lead{background:linear-gradient(132deg,#f0ece4,#e1e0d4)}
+.pact-workspace .desk-proof{
+  position:relative;isolation:isolate;overflow:hidden;
+  background:radial-gradient(ellipse 78% 75% at 72% 29%,rgba(190,93,47,.25),transparent 78%),linear-gradient(165deg,#273c2d,#14221a 80%)
+}
+.pact-workspace .desk-proof::before{
+  content:"";position:absolute;z-index:-1;pointer-events:none;
+  width:clamp(300px,35vw,510px);height:clamp(300px,35vw,510px);top:-30%;right:-41%;
+  border:1px solid rgba(224,146,99,.29);border-radius:50%;
+  box-shadow:0 0 0 38px rgba(212,110,57,.055),0 0 0 91px rgba(212,110,57,.035);
+  animation:pact-breathe 12s ease-in-out infinite alternate
+}
+.pact-workspace .desk-proof>*{position:relative;z-index:1}
+.pact-workspace .desk-proof-number{color:#f3e9dd;text-shadow:0 8px 55px rgba(226,110,58,.18)}
+.pact-workspace .pact-entryways .entryway{transition:background-color .22s ease}
+.pact-workspace .pact-entryways .entryway:hover{background:#2b4030}
+.pact-workspace .campaign-list .campaign-tile,.pact-workspace .campaign-list .campaign-tile:nth-child(2n){
+  background:linear-gradient(143deg,#f1eee6,#e4e5da)!important;
+  border-color:#c7cabd;box-shadow:none
+}
+.pact-workspace .campaign-list .campaign-tile:nth-child(2n){background:linear-gradient(143deg,#dce2d7,#e7e6db)!important}
+.pact-workspace .campaign-list .campaign-tile::before,.pact-workspace .campaign-list .campaign-tile::after{content:none!important;display:none!important}
+.pact-workspace .campaign-list .campaign-tile:hover,.pact-workspace .campaign-list .campaign-tile:focus-within{
+  background:#f4f0e8!important;border-color:#ad6542;box-shadow:0 7px 32px rgba(0,0,0,.11);transform:none
+}
+.pact-workspace .campaign-list .campaign-tile h3{font-size:clamp(30px,3.1vw,51px);line-height:1.09;letter-spacing:-.06em}
+.pact-workspace #featured .pact-explainer .feature-story{
+  background:radial-gradient(ellipse 50% 62% at 100% 20%,rgba(134,76,44,.16),transparent 90%),#16251b
+}
+.pact-workspace #featured .pact-explainer .feature-details{background:linear-gradient(140deg,#ece7df,#d7d8ca)}
+.pact-workspace .workspace-stats .metric{background:linear-gradient(165deg,#26392b,#18251c)}
+@keyframes pact-breathe{from{transform:scale(.96);opacity:.7}to{transform:scale(1.04);opacity:1}}
+@keyframes pact-trace{from{stroke-dashoffset:0}to{stroke-dashoffset:-140}}
+@media(max-width:1100px){
+  .pact-marketing .workspace{grid-template-columns:minmax(0,1.45fr) minmax(290px,.75fr)}
+  .pact-marketing .graph-node{width:clamp(121px,13vw,145px);height:118px;padding:14px 13px}
+  .pact-marketing .evidence-art{grid-template-columns:minmax(0,1fr) 45px minmax(0,1fr)}
+  .pact-marketing .inspector{padding:24px 23px 0}
+  .pact-marketing .inspector-link{margin-inline:-23px;padding-inline:23px}
+}
+@media(max-width:900px){
+  .pact-marketing .workspace{grid-template-columns:minmax(0,1fr)}
+  .pact-marketing .graph-stage{height:520px!important;min-height:520px!important}
+  .pact-marketing .graph-node{width:clamp(135px,18vw,172px);height:126px}
+  .pact-marketing .inspector{border-left:0;border-top:1px solid #5b6758;padding:26px 32px 0}
+  .pact-marketing .inspector-main h3{font-size:clamp(27px,4.1vw,36px);white-space:nowrap}
+  .pact-marketing .inspector-main p{max-width:68ch}
+  .pact-marketing .inspector-detail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .pact-marketing .inspector-detail>div{display:block;padding-right:15px}
+  .pact-marketing .inspector-detail>div+div{border-left:1px solid #b1b8ac;padding-left:15px}
+  .pact-marketing .inspector-detail strong{display:block;text-align:left;max-width:100%;margin-top:9px}
+  .pact-marketing .inspector-summary{border-top:1px solid #b1b8ac;margin-top:25px}
+  .pact-marketing .inspector-link{margin-inline:-32px;padding-inline:32px}
+}
+@media(max-width:650px){
+  .pact-marketing .hero h1{font-size:clamp(42px,10.2vw,71px);line-height:.93;letter-spacing:-.104em}
+  .pact-marketing .hero-reference{display:none}
+  .pact-marketing .evidence-art{grid-template-columns:minmax(0,1fr);min-height:0;gap:0;padding:26px 13px 72px}
+  .pact-marketing .evidence-project,.pact-marketing .evidence-project.alpha,.pact-marketing .evidence-project.beta{
+    width:100%;min-height:145px;padding:21px 24px
+  }
+  .pact-marketing .evidence-project small{margin-bottom:14px}
+  .pact-marketing .evidence-project strong{font-size:clamp(39px,10vw,60px);margin-bottom:11px}
+  .pact-marketing .evidence-bridge{width:2px;height:40px;justify-self:center}
+  .pact-marketing .evidence-bridge-arrow{top:auto;bottom:-7px;right:50%;transform:translate(50%,25%) rotate(90deg)}
+  .pact-marketing .graph-stage{
+    display:grid;height:auto!important;min-height:0!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-content:center;
+    padding:60px 15px 56px
+  }
+  .pact-marketing .graph-lines{display:none}
+  .pact-marketing .graph-node,.pact-marketing .graph-node.selected,
+  .pact-marketing .graph-node:hover,.pact-marketing .graph-node:focus-visible,
+  .pact-marketing .graph-node.blocked{
+    position:relative!important;left:auto!important;top:auto!important;
+    transform:none!important;width:100%!important;height:121px;padding:14px
+  }
+  .pact-marketing .graph-node .node-title{font-size:clamp(12px,3vw,16px)}
+  .pact-marketing .topology-topline{top:18px}
+  .pact-marketing .topology-footnote{bottom:18px}
+  .pact-marketing .inspector{padding:25px 22px 0}
+  .pact-marketing .inspector-main{padding-top:24px}
+  .pact-marketing .inspector-main h3{font-size:clamp(24px,6.5vw,32px);white-space:nowrap}
+  .pact-marketing .inspector-detail{display:block}
+  .pact-marketing .inspector-detail>div,.pact-marketing .inspector-detail>div+div{
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+    border-left:0;border-bottom:1px solid #b1b8ac;padding:14px 0
+  }
+  .pact-marketing .inspector-detail strong{margin:0;text-align:right;max-width:62%}
+  .pact-marketing .inspector-link{margin-inline:-22px;padding-inline:22px}
+  .pact-marketing .certificate-topline strong{font-size:clamp(26px,6vw,43px)}
+}
+@media(max-width:390px){
+  .pact-marketing .hero h1{font-size:clamp(38px,10vw,45px)}
+  .pact-marketing .inspector-main h3{font-size:clamp(23px,6.4vw,26px);letter-spacing:-.075em}
+  .pact-marketing .certificate-topline strong{font-size:clamp(23px,6.4vw,30px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .pact-marketing .evidence-atmosphere,.pact-workspace .desk-proof::before,.pact-marketing #d-route{animation:none!important}
+ .pact-marketing .graph-node,.pact-marketing .evidence-project,.pact-marketing .hero-link .arrow-round{transition:none!important}
+}
+

@@ -4,129 +4,214 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const outputs = path.resolve(projectRoot, "test-results", "screenshots");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+const screenshots = path.join(root, "test-results", "screenshots");
+test.beforeAll(async () => { await mkdir(screenshots, { recursive: true }); });
 
-test.describe("Coalition Atlas product", () => {
-  test.beforeAll(async () => { await mkdir(outputs, { recursive: true }); });
+async function noExternalRpc(page) {
+  await page.route("**/rpc.testnet.fastnear.com/**", route => route.abort());
+  await page.route("**/rpc.testnet.near.org/**", route => route.abort());
+}
 
-  test("explains the verified coalition within the first viewport", async ({ page }) => {
-    await page.goto("/");
-    await expect(page).toHaveTitle(/PACT Atlas/);
-    await expect(page.getByRole("heading", { name: /The impossible is often just unconnected/ })).toBeVisible();
-    await expect(page.getByText("12N", { exact: true })).toBeVisible();
-    await expect(page.getByText("Sandbox evidence", { exact: true })).toBeVisible();
-    await page.screenshot({ path: path.join(outputs, "pact-atlas-desktop-preview.png"), fullPage: true });
+test.describe("PACT Atlas / real funding workspace", () => {
+  test("has a coherent consumer entry, with no fictional funding demonstration", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.goto("/console");
+    await expect(page.getByRole("heading", { name: "Find a campaign." })).toBeVisible();
+    await expect(page.locator("#campaign-list .campaign-tile")).toHaveCount(2);
+    const sequence = await page.evaluate(() => {
+      const campaigns = document.getElementById("campaigns");
+      const story = document.getElementById("featured");
+      const numbers = document.querySelector(".workspace-stats");
+      return (campaigns.compareDocumentPosition(story) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0
+        && (story.compareDocumentPosition(numbers) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+    });
+    expect(sequence).toBe(true);
+    await expect(page.locator("#metric-campaigns")).toHaveText("02");
+    await expect(page.locator("#metric-funded")).toHaveText("2");
+    await expect(page.locator("#metric-refunded")).toHaveText("1");
+    await expect(page.locator(".feature-story")).toContainText("Beta can receive funding only when Alpha is funded");
+    await expect(page.getByRole("link", { name: /Create campaign/i }).last()).toHaveAttribute("href", "./create.html");
+    await expect(page.locator("#activity-list .activity-entry")).toHaveCount(8);
+    await expect(page.locator("body")).not.toContainText("Simulate +1 NEAR");
+    await expect(page.locator("body")).not.toContainText("Five fictional supporters");
+    await expect(page.locator("body")).not.toContainText("INTERACTIVE EXAMPLE");
   });
 
-  test("runs the counterfactual flow without fabricating a transaction", async ({ page }) => {
-    await page.goto("/#counterfactual");
-    await page.selectOption("#coalition-select", "abcd");
-    await expect(page.locator("#engine-result")).toContainText("blocked");
-    await expect(page.locator("#engine-result")).toContainText("1N");
-    await page.check("#topup-toggle");
-    await expect(page.locator("#engine-result")).toContainText("viable");
-    await expect(page.locator("#engine-result")).toContainText("exact result");
-    await page.selectOption("#condition-select", "donor5");
-    await expect(page.locator("#engine-result")).toContainText("model-only change");
-    await page.click("[data-action='activate']");
-    await expect(page.locator("#toast")).toContainText("not submitted");
-  });
-
-  test("moves from a graph selection to an inspectable project proof", async ({ page }) => {
-    await page.goto("/#atlas");
-    await page.click("[data-project='d']");
-    await expect(page.locator("#project-inspector")).toContainText("Events");
-    await expect(page.locator("#project-inspector")).toContainText("3N");
-    await expect(page.locator("[data-project='d']")).toHaveClass(/selected/);
-    await page.locator("[data-project='b']").focus();
-    await page.keyboard.press("Enter");
-    await expect(page.locator("#project-inspector")).toContainText("Internet");
-  });
-
-  test("keeps the evidence ledger grounded when switching scenarios", async ({ page }) => {
-    await page.goto("/#evidence");
-    await page.selectOption("#evidence-select", "4");
-    await expect(page.locator("#receipt-title")).toContainText("Sputnik");
-    await expect(page.locator("#receipt-list")).toContainText("PACT funded");
-    await expect(page.locator("#receipt-list")).toContainText("liabilities");
-  });
-
-  test("loads genuine evidence receipts and separates wallet state", async ({ page }) => {
-    await page.goto("/#evidence");
-    await expect(page.locator("#scenario-count")).toHaveText("5");
-    await expect(page.locator("#sandbox-version")).toHaveText("2.13.4");
-    await expect(page.locator("#receipt-list")).toContainText("PACT address");
-    await page.click("#connect-wallet");
-    await expect(page.locator("#toast")).toContainText("Read-only evidence mode");
-    expect((await page.request.get("/data/evidence.json")).ok()).toBeTruthy();
-    expect((await page.request.get("/HACKATHON.md")).ok()).toBeTruthy();
-  });
-
-  test("serves the direct preview routes used by a hosted deployment", async ({ request }) => {
-    for (const route of ["/styles.css", "/app.js", "/engine.mjs", "/near-workflow.mjs", "/near-adapter.mjs", "/data/evidence.json", "/HACKATHON.md"]) {
-      const response = await request.get(route);
-      expect(response.ok(), `${route} should return a successful response`).toBeTruthy();
+  test("uses minimal top navigation without a left sidebar at every viewport", async ({ page }) => {
+    await noExternalRpc(page);
+    for (const width of [320, 390, 768, 1024, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/console");
+      await expect(page.locator(".shell-sidebar")).toHaveCount(0);
+      await expect(page.getByRole("navigation", { name: "Main navigation" })).toBeVisible();
+      for (const label of ["Overview", "Campaigns", "Activity", "New campaign", "Verify a transaction"]) {
+        await expect(page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: label })).toBeVisible();
+      }
+      const widths = await page.evaluate(() => ({
+        document: document.documentElement.scrollWidth,
+        viewport: innerWidth,
+        header: document.querySelector(".shell-topbar").getBoundingClientRect().width,
+      }));
+      expect(widths.document, JSON.stringify(widths)).toBeLessThanOrEqual(width + 1);
+      expect(widths.header).toBeLessThanOrEqual(width + 1);
     }
   });
 
-  test("keeps signing behind an explicit wallet adapter boundary", async ({ page }) => {
-    await page.addInitScript(() => {
-      window.PACT_NEAR_ADAPTER = {
-        connect: async () => "coalition-demo.testnet",
-        call: async (request) => { window.__lastRequest = request; return { transactionHash: "sandbox-ui-stub-receipt" }; },
+  test("every real campaign opens a correctly encoded immutable onchain reader", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.goto("/console");
+    await expect(page.locator(".campaign-tile")).toHaveCount(2);
+    for (const id of ["coalition", "refund"]) {
+      const tile = page.locator(".campaign-tile").nth(id === "coalition" ? 0 : 1);
+      const href = await tile.getByRole("link", { name: /Open campaign/i }).getAttribute("href");
+      const url = new URL(href, "http://localhost");
+      expect(url.pathname).toBe("/campaign");
+      expect(url.searchParams.get("contract")).toContain(id === "coalition" ? "coalition-20261110" : "refund-20261110");
+      expect(url.searchParams.get("config")?.length).toBeGreaterThan(100);
+    }
+    await expect(page.locator("#featured-open")).toHaveAttribute("href", /\/campaign\?contract=coalition-20261110/);
+  });
+
+  test("filters genuine campaign states without mixing funded and expired", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.goto("/console");
+    await expect(page.locator(".campaign-tile")).toHaveCount(2);
+    await page.getByRole("button", { name: "Funded" }).click();
+    await expect(page.locator(".campaign-tile")).toHaveCount(1);
+    await expect(page.locator(".campaign-tile")).toContainText("Conditional coalition");
+    await page.getByRole("button", { name: "Expired" }).click();
+    await expect(page.locator(".campaign-tile")).toHaveCount(1);
+    await expect(page.locator(".campaign-tile")).toContainText("Expired campaign");
+    await page.getByRole("button", { name: "All", exact: true }).first().click();
+    await expect(page.locator(".campaign-tile")).toHaveCount(2);
+  });
+
+  test("lists every original transaction receipt with useful filtering", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.goto("/console#activity");
+    await expect(page.locator(".activity-entry")).toHaveCount(8);
+    await expect(page.locator("#activity-list")).toContainText("Alpha payout");
+    await expect(page.locator("#activity-list")).toContainText("Beta payout");
+    await expect(page.locator("#activity-list")).toContainText("Contribution refunded");
+    const links = page.locator(".activity-entry a");
+    expect(await links.count()).toBe(8);
+    for (let i = 0; i < 8; i++) {
+      await expect(links.nth(i)).toHaveAttribute("href", /^https:\/\/testnet\.nearblocks\.io\/txns\//);
+      await expect(links.nth(i)).toHaveAttribute("rel", "noopener noreferrer");
+    }
+    await page.getByRole("button", { name: "Payouts" }).click();
+    await expect(page.locator(".activity-entry")).toHaveCount(2);
+    await page.getByRole("button", { name: "Funding", exact: true }).last().click();
+    await expect(page.locator(".activity-entry")).toHaveCount(3);
+  });
+
+  test("keeps historical receipts visible while both live RPC providers fail", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.goto("/console");
+    await expect(page.locator(".campaign-tile")).toHaveCount(2);
+    await expect(page.locator(".tile-rpc").first()).toContainText("Live RPC unavailable");
+    await expect(page.locator("#activity-list")).toContainText("Contribution refunded");
+    await expect(page.locator("#activity-note")).toContainText("not a live transaction feed");
+    await expect(page.locator(".status-chip").first()).toHaveAttribute("data-live", "unavailable");
+  });
+
+  test("recovers a successfully deployed campaign from the same browser without claiming RPC verification", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.goto("/console");
+    await page.evaluate(() => {
+      const campaign = {
+        title: "Neighborhood garden",
+        projects: [{ id: "p1", name: "Garden", goal: 1, beneficiary: "recipient.testnet", included: true, dependencies: [] }],
+        supporters: [{ id: "s1", name: "Alex", amount: 1, allowed: ["p1"], requires: [] }],
+        deployment: {
+          slug: "garden", authority: "organizer.testnet",
+          timing: { activateAfterMs: 1794600000000, deadlineMs: 1794700000000 },
+          minFundedProjects: 1, requiredForActivation: ["p1"],
+          contractId: "garden.organizer.testnet"
+        },
       };
-      window.PACT_NEAR_CONFIG = { network: "testnet", contractId: "pact-demo.testnet", daoId: "dao-demo.testnet" };
+      localStorage.setItem("pact-atlas-custom-campaign-v1", JSON.stringify(campaign));
     });
-    await page.goto("/");
-    await page.click("#connect-wallet");
-    await expect(page.locator("#connect-wallet")).toContainText("coalit");
-    await expect(page.locator("#wallet-status")).toContainText("Wallet connected");
-    expect(await page.evaluate(() => Boolean(window.__lastRequest))).toBeFalsy();
-    await page.click("[data-action='activate']");
-    await expect(page.locator("#toast")).toContainText("explicit wallet approval");
-    await expect(page.locator("#workflow-result")).toContainText("sandbox-ui-stub-receipt");
-    expect(await page.evaluate(() => window.__lastRequest.methodName)).toBe("activate");
-    expect(await page.evaluate(() => window.__lastRequest.args.allocations.length)).toBeGreaterThan(0);
+    await page.reload();
+    await expect(page.locator(".campaign-tile")).toHaveCount(3);
+    const saved = page.locator(".campaign-tile").first();
+    await expect(saved).toContainText("Neighborhood garden");
+    await expect(saved).toContainText("SAVED IN THIS BROWSER");
+    await expect(saved).toContainText("Live RPC unavailable");
+    await expect(saved.getByRole("link", { name: /Open campaign/i })).toHaveAttribute("href", /garden.organizer.testnet/);
+    await expect(saved.locator(".tile-rpc")).not.toContainText("Finalized chain state checked");
   });
 
-  test("has no serious automated accessibility violations", async ({ page }) => {
-    await page.goto("/");
-    const results = await new AxeBuilder({ page }).analyze();
-    expect(results.violations.filter((violation) => ["critical", "serious"].includes(violation.impact))).toEqual([]);
+  test("imports a shared public campaign onto the verified local route without trusting a foreign host", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.goto("/console");
+    await expect(page.locator(".campaign-tile")).toHaveCount(2);
+    const href = await page.locator(".campaign-tile").first().getByRole("link", { name: /Open campaign/i }).getAttribute("href");
+    const invite = new URL(href, page.url());
+    invite.hostname = "untrusted.example";
+    await page.locator("#join-url").fill(invite.href);
+    await page.getByRole("button", { name: /Open agreement/i }).click();
+    await expect(page).toHaveURL(/\/campaign\?contract=coalition-20261110/);
+    expect(new URL(page.url()).hostname).not.toBe("untrusted.example");
+    await expect(page.locator("#campaign-title")).toContainText("Conditional coalition");
   });
 
-  test("does not emit browser console or page errors on the primary flow", async ({ page }) => {
-    const errors = [];
-    page.on("console", (message) => { if (message.type() === "error") errors.push(`console: ${message.text()}`); });
-    page.on("pageerror", (error) => errors.push(`page: ${error.message}`));
-    await page.goto("/");
-    await expect(page.locator("#scenario-count")).toHaveText("5");
-    expect(errors).toEqual([]);
+  test("rejects malformed campaign invites without leaving the workspace", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.goto("/console");
+    await page.locator("#join-url").fill("https://outside.example/unsafe");
+    await page.getByRole("button", { name: /Open agreement/i }).click();
+    await expect(page.locator("#join-status")).toContainText("Use a complete PACT campaign URL");
+    await expect(page).toHaveURL(/\/console$/);
   });
 
-  test("reconciles the browser evidence count with the raw JSON", async ({ page, request }) => {
-    const response = await request.get("/data/evidence.json");
-    expect(response.ok()).toBeTruthy();
-    const evidence = await response.json();
-    await page.goto("/");
-    await expect(page.locator("#scenario-count")).toHaveText(String(evidence.scenarios.length));
-    expect(evidence.scenarios.every((scenario) => scenario.finalStatus?.liabilities === "0" || (scenario.finalStatuses?.funded?.liabilities === "0" && scenario.finalStatuses?.refund?.liabilities === "0"))).toBeTruthy();
+  test("only calls a real testnet wallet on explicit user action", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.addInitScript(() => { window.PACT_DISABLE_WALLET_SELECTOR = true; });
+    await page.goto("/console");
+    await expect(page.locator("#wallet-message")).toBeHidden();
+    await page.getByRole("button", { name: /Connect wallet/i }).click();
+    await expect(page.locator("#wallet-message")).toContainText("Wallet connection wasn't completed");
+    await expect(page.locator("#wallet-message")).not.toContainText("Transaction confirmed");
+    await expect(page.locator("#connect-wallet")).toBeEnabled();
   });
 
-  test("renders a narrow mobile layout without horizontal overflow", async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/");
-    await expect(page.getByRole("heading", { name: /The impossible is often just unconnected/ })).toBeVisible();
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBeTruthy();
-    await page.screenshot({ path: path.join(outputs, "pact-atlas-mobile-preview.png"), fullPage: true });
+  for (const width of [320, 360, 390, 768, 1024, 1440]) {
+    test("has no horizontal overflow and keeps campaign actions reachable at " + width + "px", async ({ page }) => {
+      await noExternalRpc(page);
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/console");
+      await expect(page.locator(".campaign-tile")).toHaveCount(2);
+      const dimensions = await page.evaluate(() => ({
+        viewport: window.innerWidth,
+        scroll: document.documentElement.scrollWidth,
+      }));
+      expect(dimensions.scroll, JSON.stringify(dimensions)).toBeLessThanOrEqual(width + 1);
+      await expect(page.locator("#featured-open")).toBeVisible();
+      await expect(page.getByRole("link", { name: /Create campaign/i }).last()).toBeVisible();
+      if (width === 1440 || width === 390) {
+        await page.screenshot({ path: path.join(screenshots, "pact-product-" + width + ".png"), fullPage: true });
+      }
+    });
+  }
+
+  test("has no critical or serious accessibility violations in the app shell", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.goto("/console");
+    await expect(page.locator(".campaign-tile")).toHaveCount(2);
+    const audit = await new AxeBuilder({ page }).analyze();
+    expect(audit.violations.filter(violation => ["critical", "serious"].includes(violation.impact))).toEqual([]);
   });
 
-  test("meets the local preview performance budget", async ({ page }) => {
-    await page.goto("/", { waitUntil: "load" });
-    const navigation = await page.evaluate(() => performance.getEntriesByType("navigation")[0].toJSON());
-    expect(navigation.domContentLoadedEventEnd - navigation.startTime).toBeLessThan(1500);
-    expect(navigation.loadEventEnd - navigation.startTime).toBeLessThan(2500);
-    expect(await page.locator("#scenario-count")).toHaveText("5");
+  test("navigates to actual creator and verification routes", async ({ page }) => {
+    await noExternalRpc(page);
+    await page.goto("/console");
+    await page.getByRole("link", { name: /New campaign/i }).click();
+    await expect(page).toHaveURL(/create\.html$/);
+    await expect(page.getByRole("heading", { name: /Create a campaign/i })).toBeVisible();
+    await page.goto("/console");
+    await page.getByRole("link", { name: /Verify a transaction/i }).click();
+    await expect(page).toHaveURL(/verify\.html$/);
   });
 });

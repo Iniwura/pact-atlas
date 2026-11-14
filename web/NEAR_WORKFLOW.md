@@ -18,18 +18,27 @@ The intended contract calls are:
 | --- | --- | --- |
 | Create commitment | `PACT.commit(allowed, requires)` with attached native NEAR | receipt hash, pledge index, `accounting()` |
 | Approve funding | Sputnik DAO proposal creation, votes and execution | proposal ID, approval receipts, funding receipt |
-| Generate certificate | local `web/engine.mjs` solver | certificate allocations, exact/heuristic label, model inputs |
+| Generate certificate | local bounded exact solver using finalized `pledge_records()` | certificate allocations, exact/heuristic label, canonical pledge indexes and model inputs |
 | Activate | `PACT.activate(allocations)` from an immutable authority | activation receipt, `status()`, beneficiary credits |
 | Claim refund | `PACT.withdraw()` after `expire()` or unused allocation | transfer receipt, `claimable()`, `pending_withdrawal()` |
 
 The adapter must refuse to treat model-only conditions as approved DAO state. It must also expose the transaction result before the UI marks an action confirmed. A failed native transfer is not a permission to retry blindly: the contract's pending-withdrawal callback path remains fail-closed until a safe authenticated reconciliation design is proven.
 
+Before enabling live campaign controls, the public route reads finalized
+`view_code`, `campaign_config()` and `pledge_records()` state. It requires the
+deployed code hash and immutable project, timing, authority and requirement
+facts to match the share link. Pledge records are sorted by their canonical
+on-chain index; planned supporter labels are presentation-only and cannot
+create a deposit or allocation.
+
 ## RC1 request builder
 
 `web/near-workflow.mjs` is the framework-neutral request layer used by the browser. It builds the exact native requests without owning keys or signing:
 
+**Safety gate:** Every transaction request now requires `network: "testnet"`, a dedicated PACT `*.testnet` account, and (for DAO proposals) a dedicated Sputnik `*.testnet` account. Missing network identity or mainnet addresses are rejected before any wallet adapter can sign. The local allocation certificate can still be generated without a network or wallet.
+
 - `commit` attaches 3 NEAR to `PACT.commit` with the displayed allowed route.
-- `approve` creates a Sputnik `add_proposal` request whose function call targets the configured PACT contract. Required council members must still approve and execute it through their own authorized wallet sessions; the UI never fabricates quorum.
+- `approve` creates a Sputnik `add_proposal` request with a 1 NEAR proposal deposit and a **separate 3 NEAR attached PACT `commit` action** inside the proposed function call, matching the described funding amount. The DAO must have its own sufficient funds before executing the proposal. Required council members must still approve and execute it through their own authorized wallet sessions; the UI never fabricates quorum.
 - `certify` runs the exact local solver and converts pledge labels to on-chain indices. It is not a transaction.
 - `activate` submits the certificate to the immutable activation authority.
 - `withdraw` submits the contract's pull-payment method. The UI never retries a missing or unknown receipt.

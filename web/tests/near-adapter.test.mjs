@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createNearWalletAdapter, transactionHashOf } from "../near-adapter.mjs";
+import { createNearWalletAdapter, transactionHashOf, finalityOf } from "../near-adapter.mjs";
 
 const request = {
   contractId: "pact-rc1.testnet",
@@ -22,6 +22,7 @@ test("adapts a HOT/legacy-compatible wallet and requires a receipt hash", async 
   assert.equal(await adapter.connect(), "operator.testnet");
   const result = await adapter.call(request);
   assert.equal(result.transactionHash, "hot-hash");
+  assert.equal(result.confirmed, false, "a returned hash is not proof of execution");
   assert.equal(calls[0].receiverId, request.contractId);
   assert.equal(calls[0].actions[0].type, "FunctionCall");
   assert.equal(calls[0].actions[0].params.methodName, "activate");
@@ -57,4 +58,89 @@ test("reconciles views through the configured provider", async () => {
   assert.deepEqual(value, { liabilities: "0" });
   assert.equal(query.request_type, "call_function");
   assert.equal(query.finality, "final");
+});
+
+test("requires fully finalized successful receipt outcomes before showing wallet confirmation", () => {
+  const good = {
+    final_execution_status: "FINAL",
+    status: { SuccessValue: "" },
+    transaction_outcome: { outcome: { status: { SuccessReceiptId: "receipt" } } },
+    receipts_outcome: [{ outcome: { status: { SuccessValue: "" } } }]
+  };
+  assert.equal(finalityOf(good), "confirmed");
+  assert.equal(finalityOf({ ...good, final_execution_status: "EXECUTED" }), "unknown");
+  assert.equal(finalityOf({ ...good, receipts_outcome: undefined }), "unknown");
+  assert.equal(finalityOf({ ...good, receipts_outcome: [{ outcome: { status: { Failure: {} } } }] }), "failed");
+});
+
+test("rejects a finalized failed transaction even when the wallet supplies a hash", async () => {
+  const adapter = createNearWalletAdapter({
+    wallet: { async signAndSendTransaction() { return {
+      transaction: { hash: "failed-hash" },
+      final_execution_status: "FINAL",
+      status: { Failure: { ActionError: {} } }
+    }; } }
+  });
+  await assert.rejects(() => adapter.call(request), /failed on-chain.*explorer/i);
+});
+
+test("converts deployment actions without silently dropping account creation or Wasm", async () => {
+  let sent;
+  const adapter = createNearWalletAdapter({
+    accountId: "alice.testnet",
+    actionCreators: {
+      createAccount: () => ({ type: "create" }),
+      transfer: value => ({ type: "transfer", value }),
+      deployContract: code => ({ type: "deploy", code }),
+      functionCall: (...values) => ({ type: "call", values }),
+    },
+    wallet: { async signAndSendTransaction(value) { sent = value; return { transactionHash: "deploy-hash" }; } },
+  });
+  await adapter.connect();
+  await adapter.call({
+    contractId: "riverside-hub.alice.testnet",
+    signerId: "alice.testnet",
+    actions: [
+      { type: "CreateAccount" },
+      { type: "Transfer", deposit: "7" },
+      { type: "DeployContract", code: new Uint8Array([1, 2, 3]) },
+      { type: "FunctionCall", methodName: "new", args: {}, gas: "300", deposit: "0" },
+    ],
+  });
+  assert.deepEqual(sent.actions.map(action => action.type), ["create", "transfer", "deploy", "call"]);
+  assert.equal(sent.actions[1].value, 7n);
+  assert.deepEqual([...sent.actions[2].code], [1, 2, 3]);
+});
+
+test("finality confirmation is read-only and never resubmits", async () => {
+  let sends = 0;
+  const adapter = createNearWalletAdapter({
+    accountId: "alice.testnet",
+    wallet: { async signAndSendTransaction() { sends += 1; return { transactionHash: "unknown-hash" }; } },
+    provider: { async query(request) {
+      assert.equal(request.request_type, "tx");
+      return { final_execution_status: "FINAL", status: { SuccessValue: "" }, transaction_outcome: { outcome: { status: { SuccessReceiptId: "receipt" } } }, receipts_outcome: [{ outcome: { status: { SuccessValue: "" } } }] };
+    } },
+  });
+  await adapter.connect();
+  const submitted = await adapter.call(request);
+  assert.equal(submitted.confirmed, false);
+  const confirmed = await adapter.confirm({ transactionHash: submitted.transactionHash });
+  assert.equal(confirmed.confirmed, true);
+  assert.equal(sends, 1);
+});
+
+test("wallet selector switches to the current wallet and account",async()=> {
+ let selected=0,used=null,signer=null;
+ const wallets=[
+ {async getAccounts(){return [{accountId:"alice.testnet"}]},async signAndSendTransaction(tx){used="alice";signer=tx.signerId;return {transactionHash:"alice-hash"}}},
+ {async getAccounts(){return [{accountId:"bob.testnet"}]},async signAndSendTransaction(tx){used="bob";signer=tx.signerId;return {transactionHash:"bob-hash"}}}
+ ];
+ const adapter=createNearWalletAdapter({selector:{async wallet(){return wallets[selected]}}});
+ assert.equal(await adapter.connect(),"alice.testnet");
+ selected=1;
+ assert.equal(await adapter.connect(),"bob.testnet");
+ await adapter.call({...request,signerId:"bob.testnet"});
+ assert.equal(used,"bob");
+ assert.equal(signer,"bob.testnet");
 });

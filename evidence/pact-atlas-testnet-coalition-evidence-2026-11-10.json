@@ -1,0 +1,101 @@
+{
+  "schema": "pact-testnet-coalition-evidence-v1",
+  "captured_at": "2026-11-10T21:39:05.261Z",
+  "network": "testnet",
+  "rpc": "https://rpc.testnet.near.org",
+  "artifact": {
+    "wasm_sha256": "5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15",
+    "wasm_bytes": 207587,
+    "near_code_hash": "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp"
+  },
+  "account_creation_transactions": [
+    {
+      "account_id": "coalition-beneficiary-20261110.testnet",
+      "transaction_hash": "5fcJfjSPbifRWBCquFSKVEvo63z5CfnQjyfYizvTK2Gt",
+      "explorer_url": "https://testnet.nearblocks.io/txns/5fcJfjSPbifRWBCquFSKVEvo63z5CfnQjyfYizvTK2Gt"
+    },
+    {
+      "account_id": "coalition-20261110.beneficiary-20261110.testnet",
+      "transaction_hash": "6dEcdqeUSmqFExR6FdkkvHsWA2wjo1ncsPzgX4pVrfHV",
+      "explorer_url": "https://testnet.nearblocks.io/txns/6dEcdqeUSmqFExR6FdkkvHsWA2wjo1ncsPzgX4pVrfHV"
+    }
+  ],
+  "campaign": {
+    "contract_id": "coalition-20261110.beneficiary-20261110.testnet",
+    "explorer_url": "https://testnet.nearblocks.io/address/coalition-20261110.beneficiary-20261110.testnet",
+    "immutable_config": {
+      "projects": [
+        { "id": "alpha", "beneficiary": "beneficiary-20261110.testnet", "required": "1000000000000000000000000", "dependencies": [] },
+        { "id": "beta", "beneficiary": "coalition-beneficiary-20261110.testnet", "required": "1000000000000000000000000", "dependencies": ["alpha"] }
+      ],
+      "min_funded_projects": 2,
+      "required_for_activation": ["alpha", "beta"],
+      "activation_authorities": ["beneficiary-20261110.testnet"],
+      "activate_after_ms": 1794346353456,
+      "deadline_ms": 1794347433456
+    },
+    "transactions": [
+      { "label": "deploy", "hash": "52jD1uJm9515fZAxtBMwNip8g3QQzCK8nQAsV2YJCcie", "explorer_url": "https://testnet.nearblocks.io/txns/52jD1uJm9515fZAxtBMwNip8g3QQzCK8nQAsV2YJCcie" },
+      { "label": "initialize", "method": "new", "hash": "DXooUKGrnVVLWHUW3M9dqpVTBJw3hX8DJLqJXTxSuv8D", "explorer_url": "https://testnet.nearblocks.io/txns/DXooUKGrnVVLWHUW3M9dqpVTBJw3hX8DJLqJXTxSuv8D" },
+      { "label": "storage_sponsor", "method": "sponsor_storage", "hash": "4PoajsKo67sTxwzq6JNib4JQ5s44LVnEahnAm4LqAmK", "explorer_url": "https://testnet.nearblocks.io/txns/4PoajsKo67sTxwzq6JNib4JQ5s44LVnEahnAm4LqAmK" },
+      { "label": "conditional_beta_contribution", "method": "commit", "signer": "refund-supporter-20261110.testnet", "hash": "39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN", "explorer_url": "https://testnet.nearblocks.io/txns/39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN" },
+      { "label": "alpha_contribution", "method": "commit", "signer": "supporter-20261110.testnet", "hash": "8t22n71EQDb5WCswgLu7MUH3aVeyoFaCVdKgtQBUVje3", "explorer_url": "https://testnet.nearblocks.io/txns/8t22n71EQDb5WCswgLu7MUH3aVeyoFaCVdKgtQBUVje3" },
+      { "label": "activation", "method": "activate", "signer": "beneficiary-20261110.testnet", "hash": "31FxH2YE9FEm7iq49AH6eXMvZYiFv7Y3jeqd8rThK96v", "explorer_url": "https://testnet.nearblocks.io/txns/31FxH2YE9FEm7iq49AH6eXMvZYiFv7Y3jeqd8rThK96v" },
+      { "label": "alpha_beneficiary_withdrawal", "method": "withdraw", "signer": "beneficiary-20261110.testnet", "hash": "BF7DB9Ap711cXLfnQnUweN1Q6LgUkUGmbFP3HfcxEkex", "explorer_url": "https://testnet.nearblocks.io/txns/BF7DB9Ap711cXLfnQnUweN1Q6LgUkUGmbFP3HfcxEkex" },
+      { "label": "beta_beneficiary_withdrawal", "method": "withdraw", "signer": "coalition-beneficiary-20261110.testnet", "hash": "GuUpGeBNaygqoaepXPrmxbWgEzexoXgyxxFDZ617E9FX", "explorer_url": "https://testnet.nearblocks.io/txns/GuUpGeBNaygqoaepXPrmxbWgEzexoXgyxxFDZ617E9FX" }
+    ],
+    "contribution_order": ["beta", "alpha"],
+    "canonical_pledge_records": [
+      { "index": 0, "owner": "refund-supporter-20261110.testnet", "amount": "1000000000000000000000000", "allowed": ["beta"], "requires": ["alpha"] },
+      { "index": 1, "owner": "supporter-20261110.testnet", "amount": "1000000000000000000000000", "allowed": ["alpha"], "requires": [] }
+    ],
+    "candidate_allocation": [
+      { "pledge_index": 1, "project_id": "alpha" },
+      { "pledge_index": 0, "project_id": "beta" }
+    ],
+    "accepted_activation_certificate": [
+      { "pledge_index": 1, "project_id": "alpha" },
+      { "pledge_index": 0, "project_id": "beta" }
+    ],
+    "final_status": {
+      "phase": "ACTIVATED",
+      "liabilities": "0",
+      "funded_project_ids": ["alpha", "beta"]
+    },
+    "final_accounting": {
+      "locked_pledges": "0",
+      "credits": "0",
+      "pending": "0",
+      "accounted": "0",
+      "liabilities": "0",
+      "contract_balance": "6998290206400509500000000",
+      "storage_reserve": "2282550000000000000000000",
+      "solvent": true
+    }
+  },
+  "final_balances_near": {
+    "beneficiary-20261110.testnet": 4.991734207630032,
+    "coalition-beneficiary-20261110.testnet": 10.9995926101668,
+    "supporter-20261110.testnet": 0.9922149371740145,
+    "refund-supporter-20261110.testnet": 8.999261837744568,
+    "coalition-20261110.beneficiary-20261110.testnet": 6.99829020640051
+  },
+  "receipt_verification": {
+    "official_rpc": "https://rpc.testnet.near.org",
+    "contract_lifecycle_transactions_checked": 8,
+    "all_final": true,
+    "all_transaction_and_receipt_outcomes_successful": true,
+    "failed_receipts": 0,
+    "repository_verify_testnet_methods_passed": ["commit", "commit", "activate", "withdraw", "withdraw"],
+    "independent_state_reconciliation": true,
+    "code_hash_rechecked_against_final_state": true
+  },
+  "limitations": [
+    "This is faucet-funded NEAR testnet evidence only, not mainnet or production evidence.",
+    "The unresolved callback non-execution recovery risk remains a production blocker; no timeout retry or blind unlock was used.",
+    "Native transfer failure injection through a real failing predecessor remains untested in sandbox and testnet.",
+    "This campaign used disposable CLI signers; genuine Meteor browser extension signing remains unverified.",
+    "Sputnik DAO governance was not used in this public campaign; activation used the immutable disposable authority account.",
+    "No independent qualified security audit has been performed."
+  ]
+}
