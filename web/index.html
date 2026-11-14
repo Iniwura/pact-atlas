@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="/studio.css">
 <link rel="stylesheet" href="/experience.css">
 <link rel="stylesheet" href="/atlas-visual-system.css">
+<link rel="stylesheet" href="/cinematic-system.css">
 </head>
 <body class="pact-marketing">
 <a class="skip" href="#main">Skip to content</a>
@@ -23,9 +24,7 @@
 <section class="hero" aria-labelledby="hero-title">
  <div class="hero-meta"><span>01 / A NEW FINANCIAL PRIMITIVE</span><span class="hero-status"><i></i> NEAR TESTNET / PUBLIC RECEIPTS</span></div>
  <div class="hero-art" aria-hidden="true"><div class="hero-art-haze"></div><img width="1600" height="1040" fetchpriority="high" decoding="async" src="/orbital-art.svg" alt=""/></div>
- <div class="hero-scroll-marker" aria-hidden="true"></div><div class="hero-side left"><span>FRAGMENTED FUNDS.</span><span>CONNECTED FUTURES.</span></div>
- <div class="hero-side right"><span>CAPITAL / CONDITIONS / COOPERATION</span><span>2026 — NEAR</span></div>
- <div class="hero-edition">CONDITIONAL FUNDING / BUILT ON NEAR</div><div class="hero-reference"><span>THE DIFFERENCE IS THE AGREEMENT</span>Move capital.<br>Not the rules.</div>
+ <div class="hero-scroll-marker" aria-hidden="true"></div><div class="hero-reference"><span>THE DIFFERENCE IS THE AGREEMENT</span>Move capital.<br>Not the rules.</div>
  <h1 id="hero-title">FUND THE<br><span class="hero-title-last">IMPOSSIBLE<span class="punct">.</span></span></h1>
  <div class="hero-bottom"><p>When funding depends on another project,<br>the <em>agreement</em> is everything.</p><a class="hero-link" href="/console#campaigns"><span class="arrow-round">↗</span><span>EXPLORE CAMPAIGNS</span></a><span class="vertical-indicator">SCROLL TO EXPLORE ↓</span></div>
 </section>
@@ -42,10 +41,12 @@
  </div>
  <div class="evidence-canvas">
   <div class="evidence-canvas-top"><span>PACT / COALITION 01</span><strong>HISTORICAL TRANSACTIONS</strong></div>
-  <div class="evidence-art" aria-label="Alpha is required before the conditional Beta project can be funded">
-    <div class="evidence-project alpha"><small>INDEPENDENT / 01</small><strong>Alpha</strong><em>1 NEAR</em></div>
-    <span class="evidence-bridge" aria-hidden="true"></span>
-    <div class="evidence-project beta"><small>REQUIRES ALPHA / 02</small><strong>Beta</strong><em>1 NEAR</em></div>
+  <div class="evidence-art" aria-label="Alpha must be funded before the conditional Beta project can settle">
+    <div class="evidence-atmosphere" aria-hidden="true"></div>
+    <div class="evidence-project alpha"><small>01 / PREREQUISITE</small><strong>Alpha</strong><span class="evidence-amount">AWAITING <em>1 NEAR</em></span></div>
+    <span class="evidence-bridge" aria-hidden="true"><span class="evidence-bridge-arrow">→</span></span>
+    <div class="evidence-project beta"><small>02 / CONDITIONAL</small><strong>Beta</strong><span class="evidence-amount">PLEDGED <em>1 NEAR</em></span></div>
+    <div class="evidence-stage-note"><span class="stage-glow" aria-hidden="true"></span><span id="evidence-stage-state">01 / BETA'S PLEDGE IS RECORDED</span></div>
   </div>
   <div class="evidence-canvas-bottom">
    <div class="evidence-current"><span id="evidence-current-kicker">RECORDED / COMMITMENT</span><strong id="evidence-current-title">Beta's conditional pledge arrives first.</strong></div>
@@ -76,29 +77,28 @@
  <div class="workspace">
   <div class="graph-area">
    <div class="graph-toolbar"><div><span class="tiny-dot orange"></span> THE COALITION NETWORK</div><div id="network-mode" aria-live="polite">BASE / 12N AVAILABLE</div></div>
-   <div class="graph-stage">
-    <svg class="graph-lines" viewBox="0 0 700 480" preserveAspectRatio="none" aria-hidden="true">
-     <defs><linearGradient id="gline"><stop stop-color="#f9824a"/><stop offset="1" stop-color="#ffa77a"/></linearGradient></defs>
-     <g class="dependency-lines"><path d="M345 123 C282 163 203 166 167 264"/><path d="M345 123 C416 163 501 157 544 264"/><path d="M167 264 Q349 362 544 264"/></g>
-     <path id="d-route" class="pending-line" d="M544 264 Q568 360 346 417"/>
-     <g class="node-orbits"><circle cx="345" cy="123" r="73"/><circle cx="167" cy="264" r="66"/><circle cx="544" cy="264" r="66"/><circle cx="346" cy="417" r="61"/></g>
-     <g class="center-beam"><circle cx="348" cy="261" r="22"/><path d="M348 249v24M336 261h24"/></g>
+   <div class="graph-stage" aria-label="Interactive funding dependency graph">
+    <div class="topology-topline"><span>DEPENDENCY MAP</span><span>SELECT A PROJECT ↗</span></div>
+    <svg class="graph-lines" viewBox="0 0 700 500" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="network-flow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0ae86" stop-opacity=".9"/><stop offset=".55" stop-color="#dc7549" stop-opacity=".72"/><stop offset="1" stop-color="#e3ad86" stop-opacity=".85"/></linearGradient></defs>
+      <g class="dependency-lines"><path d="M350 126 C278 154 206 191 165 279"/><path d="M350 126 C420 154 490 191 540 279"/></g>
+      <path class="network-independent-ring" d="M282 425 A68 68 0 1 1 418 425 A68 68 0 1 1 282 425"/>
+      <path id="d-route" class="pending-line" d="M282 425 A68 68 0 1 1 418 425 A68 68 0 1 1 282 425"/>
     </svg>
-    <div class="graph-caption c1">DEPENDENCY 01 / 03</div><div class="graph-caption c2">DEPENDENCY 02 / 03</div>
-    <button class="graph-node node-a selected" type="button" data-project="a" style="--x:49.3%;--y:25.6%" aria-pressed="true"><span class="node-number">01 / A</span><span class="node-title">TRAINING</span><span class="node-amount">4N REQUIRED</span></button>
-    <button class="graph-node node-b" type="button" data-project="b" style="--x:23.9%;--y:55%" aria-pressed="false"><span class="node-number">02 / B</span><span class="node-title">INTERNET</span><span class="node-amount">3N REQUIRED</span></button>
-    <button class="graph-node node-c" type="button" data-project="c" style="--x:77.7%;--y:55%" aria-pressed="false"><span class="node-number">03 / C</span><span class="node-title">EQUIPMENT</span><span class="node-amount">3N REQUIRED</span></button>
-    <button class="graph-node node-d blocked" type="button" data-project="d" style="--x:49.4%;--y:86.9%" aria-pressed="false"><span class="node-number">04 / D</span><span class="node-title">EVENTS</span><span class="node-amount">3N REQUIRED</span></button>
-    <span class="graph-watermark">PACT / <em>NETWORK</em></span>
+    <button class="graph-node node-a selected" type="button" data-project="a" style="--x:50%;--y:25.2%" aria-pressed="true"><span class="node-number">01 / A</span><span class="node-title">TRAINING CENTRE</span><span class="node-amount">4 NEAR</span></button>
+    <button class="graph-node node-b" type="button" data-project="b" style="--x:23.6%;--y:55.8%" aria-pressed="false"><span class="node-number">02 / B</span><span class="node-title">INTERNET</span><span class="node-amount">3 NEAR</span></button>
+    <button class="graph-node node-c" type="button" data-project="c" style="--x:77.1%;--y:55.8%" aria-pressed="false"><span class="node-number">03 / C</span><span class="node-title">EQUIPMENT</span><span class="node-amount">3 NEAR</span></button>
+    <button class="graph-node node-d blocked" type="button" data-project="d" style="--x:50%;--y:85%" aria-pressed="false"><span class="node-number">04 / D</span><span class="node-title">EVENTS</span><span class="node-amount">3 NEAR</span></button>
+    <div class="topology-footnote"><span>3 LINKED PROJECTS</span><span>01 INDEPENDENT</span></div>
    </div>
    <div class="graph-footer"><span><i class="key-dot good"></i> VALID ALLOCATION</span><span><i class="key-dot inactive"></i> NOT YET FUNDED</span><span class="footer-note">MODEL OUTPUT — NOT LIVE TRANSACTIONS</span></div>
   </div>
   <aside class="inspector" aria-labelledby="inspector-heading">
-   <div class="inspector-label"><span>SELECTED NODE</span><span id="inspector-id">01 / 04</span></div>
-   <div class="inspector-main"><h3 id="inspector-heading">Training<br>Centre<span class="period">.</span></h3><div id="inspector-status" class="state-tag good-tag"><span>✓</span> CONSTRAINT-VALID</div><p id="inspector-description">Requires the internet and equipment projects to be funded in the same coalition.</p></div>
-   <div class="inspector-detail"><div><span>REQUIRED CAPITAL</span><strong id="inspector-required">4 NEAR</strong></div><div><span>ALLOCATED CAPITAL</span><strong id="inspector-allocated">4 NEAR</strong></div><div><span>DEPENDENCIES</span><strong id="inspector-deps">INTERNET / EQUIPMENT</strong></div></div>
-   <div class="inspector-summary"><span>COALITION STATUS</span><div><strong id="funded-count">3<span>/4</span></strong><p>PROJECTS<br>VALIDLY FUNDED</p></div></div>
-   <a class="inspector-link" href="#proof">INSPECT THE PROOF <span>↗</span></a>
+    <div class="inspector-label"><span>PROJECT FOCUS</span><span id="inspector-id">01 / 04</span></div>
+    <div class="inspector-main"><span class="inspector-overline">SELECTED PROJECT</span><h3 id="inspector-heading">Training Centre<span class="period">.</span></h3><div id="inspector-status" class="state-tag good-tag"><span>✓</span> CONSTRAINT-VALID</div><p id="inspector-description">Requires the internet and equipment projects to be funded in the same coalition.</p></div>
+    <div class="inspector-detail"><div><span>CAPITAL REQUIRED</span><strong id="inspector-required">4 NEAR</strong></div><div><span>ALLOCATED</span><strong id="inspector-allocated">4 NEAR</strong></div><div class="inspector-dependencies"><span>NEEDS</span><strong id="inspector-deps">INTERNET / EQUIPMENT</strong></div></div>
+    <div class="inspector-summary"><span>NETWORK FUNDING</span><div><strong id="funded-count">3<span>/4</span></strong><p>PROJECTS FUNDED<br>WITH VALID RULES</p></div></div>
+    <a class="inspector-link" href="#proof">VIEW ALLOCATION CERTIFICATE <span aria-hidden="true">↗</span></a>
   </aside>
  </div>
  <div class="funding-control"><div class="funding-copy"><span class="section-index-inline">03 / CHANGE ONE THING</span><h3>WHAT IF WE<br><em>ADDED 1 NEAR?</em></h3><p>One additional commitment can unlock the fourth project. Test the allocation — not a transaction.</p></div><div class="switch-zone"><div class="switch-header"><span>ADDITIONAL COMMITMENT</span><strong id="topup-display">0 NEAR</strong></div><button id="topup-button" class="topup-button" type="button" aria-pressed="false"><span class="topup-track"><span class="topup-knob">↗</span></span><span id="topup-caption">ADD THE MISSING 1N <b>↗</b></span></button><span class="switch-foot" id="topup-foot">4TH PROJECT BLOCKED / CONDITIONS PRESERVED</span></div></div>

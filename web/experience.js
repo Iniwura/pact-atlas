@@ -7,6 +7,15 @@
   const kicker=theatre.querySelector("#evidence-current-kicker");
   const link=theatre.querySelector("#evidence-current-link");
   const live=theatre.querySelector("#evidence-announcement");
+  const stateLabel=theatre.querySelector("#evidence-stage-state");
+  const alphaAmount=theatre.querySelector(".evidence-project.alpha .evidence-amount");
+  const betaAmount=theatre.querySelector(".evidence-project.beta .evidence-amount");
+  function setAmount(el,label){
+    if(!el)return;
+    const amount=document.createElement("em");amount.textContent="1 NEAR";
+    el.replaceChildren(document.createTextNode(label+" "),amount);
+  }
+
   const receipts={
     pledges:{
       title:"Beta's conditional pledge arrives first.",
@@ -33,6 +42,9 @@
   function select(step,notify=false){
     const item=receipts[step];if(!item)return;
     theatre.dataset.stage=step;
+    setAmount(alphaAmount,{pledges:"AWAITING",conditions:"FUNDED",settled:"PAID"}[step]);
+    setAmount(betaAmount,{pledges:"PLEDGED",conditions:"READY",settled:"PAID"}[step]);
+    if(stateLabel)stateLabel.textContent={pledges:"01 / BETA'S PLEDGE IS RECORDED",conditions:"02 / BOTH REQUIREMENTS MET",settled:"03 / BOTH PAYOUTS FINALIZED"}[step];
     for(const button of buttons)button.setAttribute("aria-pressed",String(button.dataset.evidenceStep===step));
     title.textContent=item.title;kicker.textContent=item.kicker;link.textContent=item.link;link.href=item.url;
     if(notify)live.textContent=item.announcement;

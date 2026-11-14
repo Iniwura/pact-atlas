@@ -255,7 +255,7 @@ function update(){
  const allocated=d.checked.amounts.get(p.id);
  const isFunded=d.funded.has(p.id);
  $('#inspector-id').textContent=`0${projects.indexOf(p)+1} / 04`;
- $('#inspector-heading').innerHTML=p.label.replace(' ','<br>')+'<span class="period">.</span>';
+ $('#inspector-heading').replaceChildren(document.createTextNode(p.label), Object.assign(document.createElement('span'), {className:'period',textContent:'.'}));
  $('#inspector-description').textContent=p.explanation;
  $('#inspector-required').textContent=`${funds(p.required)} NEAR`;
  $('#inspector-allocated').textContent=`${funds(allocated)} NEAR`;
