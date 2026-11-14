@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { PACT_WASM_CODE_HASH, RPC_URL, inspectTestnetProof, validateProofInput, verifyTestnetProof, jsonRpc } from "../testnet-proof.mjs";
+import { PACT_WASM_CODE_HASH, RPC_URL, BACKUP_RPC_URL, inspectTestnetProof, validateProofInput, verifyTestnetProof, jsonRpc } from "../testnet-proof.mjs";
 import { createVerifyHandler } from "../../api/verify-testnet.mjs";
 
 const HASH = "54ijCdCJqdQoA7s35XAaGPWXS7vHprs5RBMYaX8p3Pn";
@@ -92,6 +92,25 @@ test("JSON-RPC transport is pinned to testnet and never sends a wallet credentia
   assert.equal(body.method, "tx");
   assert.equal(body.params.tx_hash, HASH);
   assert.deepEqual(response, { result: { done: true } });
+});
+
+test("uses archival history, falls back to independent archival RPC and never upgrades RPC errors to proof", async () => {
+  assert.match(RPC_URL, /^https:\/\/archival-rpc\.testnet\./);
+  assert.match(BACKUP_RPC_URL, /^https:\/\/archival-rpc\.testnet\./);
+  const seen = [];
+  const result = await jsonRpc("tx", { tx_hash: HASH }, async url => {
+    seen.push(url);
+    if (url === RPC_URL) throw new Error("primary testnet archive unavailable");
+    return { ok: true, text: async () => JSON.stringify({ result: { final_execution_status: "FINAL" } }) };
+  });
+  assert.deepEqual(seen, [RPC_URL, BACKUP_RPC_URL]);
+  assert.equal(result.result.final_execution_status, "FINAL");
+  let count = 0;
+  await assert.rejects(jsonRpc("tx", { tx_hash: HASH }, async () => {
+    count++;
+    return { ok: true, text: async () => JSON.stringify({ error: { code: -32000 } }) };
+  }), /Both NEAR archival RPC reads failed/);
+  assert.equal(count, 2);
 });
 
 test("same-origin proof endpoint accepts only POST and returns explicit verification status", async () => {
