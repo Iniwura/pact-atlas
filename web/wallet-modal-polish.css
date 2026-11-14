@@ -1,0 +1,88 @@
+/* NEAR Wallet Selector 10.1.4: official pinned CSS precedes these refinements. */
+#near-wallet-selector-modal {
+ --backdrop-bg:rgba(6,11,8,.77);
+ --heading-color:#f7f7f4;
+ --text-color:#344037;
+ --content-bg:#f5f5f1;
+ --selected-wallet-bg:#263a2b;
+ --wallet-option-bg-hover:#e0e7dd;
+ --wallet-option-outline-color:#e68f61;
+ --option-wallet-bg-color:#fffefa;
+ --confirm-button-bg:#273c2c;
+ --confirm-button-bg-hover:#456247;
+ --sidebar-border-color:#bcc6ba;
+}
+#near-wallet-selector-modal .nws-modal-wrapper {
+ z-index:2500!important;
+ font-family:'Geist','Inter',Arial,sans-serif!important;
+}
+#near-wallet-selector-modal .nws-modal-background{
+ max-width:min(770px,calc(100vw - 24px))!important;
+ border:1px solid #899b88!important;border-radius:2px!important;
+ box-shadow:0 35px 110px #0008!important;
+}
+#near-wallet-selector-modal .nws-modal-title-wrapper{
+ padding:22px 50px!important;background:#1b241d!important;
+ border-bottom:1px solid #5c695e;
+}
+#near-wallet-selector-modal .nws-modal-title{
+ font:780 clamp(24px,3vw,34px)/1.1 'Geist','Inter',Arial,sans-serif!important;
+ letter-spacing:-.06em!important;color:#fff!important;
+}
+#near-wallet-selector-modal .nws-modal{height:auto!important;min-height:325px;max-height:calc(100dvh - 160px)}
+#near-wallet-selector-modal .modal-left{background:#f5f5f0!important}
+#near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list{
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;
+}
+#near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar{
+ min-height:83px;background:#fffefa!important;
+ border:1px solid #c1cbc0!important;border-radius:2px!important;
+ padding:14px!important;
+}
+#near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar:hover{
+ background:#e9eee6!important;border-color:#7e9781!important;
+}
+#near-wallet-selector-modal .nws-modal button:focus-visible,
+#near-wallet-selector-modal .single-wallet:focus-within{
+ outline:3px solid #d9804e!important;outline-offset:3px;
+}
+.pact-workspace #wallet-disconnect[hidden]{display:none!important}
+.pact-workspace #wallet-disconnect{
+ min-height:40px;padding:10px 14px;
+ border:1px solid #b0b9ad;border-radius:99px;
+ background:transparent;color:#f3f3ef;
+ font:650 11px 'Geist','Inter',Arial,sans-serif;
+ cursor:pointer;
+}
+.pact-workspace #wallet-disconnect:disabled{opacity:.6;cursor:wait}
+.pact-workspace #connect-wallet[data-connected=true]{border-color:#b8d4b7!important;color:#f2fff0!important}
+.pact-workspace .wallet-message{
+ display:none;position:relative;min-height:0;
+ padding:13px clamp(22px,4.4vw,80px) 13px calc(clamp(22px,4.4vw,80px) + 17px);
+ font:500 12px/1.5 'Geist','Inter',Arial,sans-serif;
+ border-bottom:1px solid #abb9aa;background:#e9f0e8;color:#25402a;
+}
+.pact-workspace .wallet-message[data-state=ok],
+.pact-workspace .wallet-message[data-state=error],
+.pact-workspace .wallet-message[data-state=pending]{display:block}
+.pact-workspace .wallet-message::before{
+ content:"";position:absolute;top:19px;left:clamp(22px,4.4vw,80px);
+ width:8px;height:8px;border-radius:50%;background:#519259;
+}
+.pact-workspace .wallet-message[data-state=error]{background:#f9ece4;color:#713d28;border-color:#d8bba7}
+.pact-workspace .wallet-message[data-state=error]::before{background:#ad5a3b}
+.pact-workspace .wallet-message[data-state=pending]{background:#f3eee5;color:#59462c;border-color:#d5c7ad}
+.pact-workspace .wallet-message[data-state=pending]::before{background:#b88b52}
+@media(max-width:700px){
+ #near-wallet-selector-modal .nws-modal-background{max-width:calc(100vw - 16px)!important;max-height:calc(100dvh - 22px)!important}
+ #near-wallet-selector-modal .nws-modal{max-height:calc(100dvh - 115px)!important;overflow:auto!important}
+ #near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list{grid-template-columns:1fr!important}
+ #near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar{min-height:70px}
+ .pact-workspace #wallet-disconnect{padding:8px 10px;font-size:10px}
+ .pact-workspace .topbar-actions{gap:7px!important}
+}
+@media(max-width:390px){.pact-workspace #connect-wallet[data-connected=true]{max-width:125px!important;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}}
+@media(prefers-reduced-motion:reduce){
+ #near-wallet-selector-modal .nws-modal-wrapper,#near-wallet-selector-modal .nws-modal-background{animation:none!important;transition:none!important}
+}
+

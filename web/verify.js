@@ -50,28 +50,35 @@ form.addEventListener("submit", async event => {
     method: $("#proof-method").value
   };
   const error = validateProofInput(input);
-  if (error) { show("failed", "Not verified", error); return; }
+  if (error) { show("failed","Not verified",error); verdict.focus({preventScroll:false}); return; }
   button.disabled = true;
   button.textContent = "Checking testnet…";
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 18000);
   show("checking", "Checking NEAR testnet", "Looking up the finalized transaction and PACT code hash.");
   try {
     const response = await fetch("/api/verify-testnet", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(input)
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify(input),
+      signal:controller.signal
     });
     const result = await response.json();
+    if (!result || typeof result !== "object") throw Error("Malformed proof result");
     if (!response.ok || !result.verified) {
-      show("failed", "Not verified", result.reason || "The testnet evidence could not be confirmed.");
+      show("failed", "Not verified", typeof result.reason==="string" && result.reason.trim()
+        ? result.reason : "The testnet evidence could not be confirmed.");
     } else {
       show("verified", "Verified on NEAR testnet",
-        "The named method completed with finalized receipts, and the contract's current Wasm matches the preserved PACT build.",
-        result);
+        "The named method completed with finalized receipts, and the contract's current Wasm matches the preserved PACT build.", result);
     }
-  } catch {
-    show("failed", "Verification unavailable", "The proof endpoint could not be reached. No transaction was treated as verified.");
+  } catch (error) {
+    show("failed", "Verification unavailable", error?.name==="AbortError"
+      ? "The independent check timed out. No result was claimed. Try this read-only verification again."
+      : "The independent proof endpoint could not be reached. No transaction was treated as verified.");
   } finally {
+    clearTimeout(timeout);
     button.disabled = false;
-    button.replaceChildren("Verify on NEAR ", Object.assign(document.createElement("span"), { textContent: "↗" }));
+    button.replaceChildren("Verify on NEAR ", Object.assign(document.createElement("span"), {textContent:"↗"}));
   }
 });

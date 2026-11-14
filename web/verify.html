@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="./lurais-direction.css">
   <link rel="stylesheet" href="./lurais-product.css">
   <link rel="stylesheet" href="./lurais-responsive.css">
+  <link rel="stylesheet" href="./system-recovery.css">
 </head>
 <body class="protocol-app verify-app">
 <a class="skip-link" href="#verify-main">Skip to transaction verification</a>
@@ -64,7 +65,7 @@
       <span class="proof-result-label">VERIFICATION RESULT</span>
       <div id="proof-result" data-state="idle">
         <span id="proof-symbol" class="proof-symbol" aria-hidden="true">✳</span>
-        <h2 id="proof-verdict">No transaction checked</h2>
+        <h2 id="proof-verdict" tabindex="-1">No transaction checked</h2>
         <p id="proof-explanation">This page starts without evidence. A valid testnet transaction must match the published PACT contract build.</p>
         <dl id="proof-details" hidden>
           <div><dt>Method</dt><dd id="proof-method-output"></dd></div>
@@ -81,5 +82,6 @@
 </main>
 <footer class="site-footer"><span>PACT/ATLAS</span><span>NEAR HACKATHON 2026</span><a href="./console">Explore the example ↗</a></footer>
 <script type="module" src="./verify.js"></script>
+<script type="module" src="./system-recovery.mjs"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 import { publicCampaignConfig, campaignUrl, campaignFromShareToken, isTestnetAccount } from "./campaign-chain.mjs";
 import { authenticateCampaignConfig } from "./campaign-live-data.mjs";
 import { viewMethod, viewCodeHash } from "./near-rpc.mjs";
-import { ensureWalletAdapter } from "./wallet-selector-host.mjs";
+import { ensureWalletAdapter, readableWalletError } from "./wallet-selector-host.mjs";
 
 const $ = selector => document.querySelector(selector);
 const oneNear = 1_000_000_000_000_000_000_000_000n;
@@ -238,27 +238,64 @@ async function refreshCampaign(campaign) {
   renderCampaigns();
 }
 
+let connectedAdapter = null;
+let accountSubscription = null;
+
+function showWalletStatus(account) {
+  const button=$("#connect-wallet"), message=$("#wallet-message"),disconnect=$("#wallet-disconnect");
+  const active=typeof account==="string" && account.length>0;
+  button.dataset.connected=String(active);
+  button.dataset.accountId=active?account:"";
+  button.textContent=active?(account.length>23?account.slice(0,19)+"…":account)+" ↗":"Connect wallet ↗";
+  button.title=active?"Change connected wallet: "+account:"Choose a NEAR testnet wallet";
+  button.setAttribute("aria-label",active?"Change connected wallet "+account:"Connect a NEAR testnet wallet");
+  disconnect.hidden=!active;
+  message.dataset.state=active?"ok":"";
+  message.textContent=active?"Connected to NEAR testnet as "+account+". Every transaction requires separate wallet approval.":"Disconnected. No funds or transactions were affected.";
+}
 async function connectWallet() {
-  const button = $("#connect-wallet");
-  const message = $("#wallet-message");
-  button.disabled = true;
-  button.textContent = "Connecting…";
-  message.dataset.state = "";
+  const button=$("#connect-wallet"),message=$("#wallet-message");
+  button.disabled=true;button.setAttribute("aria-busy","true");
+  message.dataset.state="pending";
   try {
-    const adapter = await ensureWalletAdapter();
-    const accountId = await adapter.connect();
-    if (!accountId || typeof accountId !== "string") throw Error("No NEAR account was returned");
-    button.textContent = accountId.length > 17 ? accountId.slice(0, 12) + "…" : accountId;
-    button.title = accountId;
-    message.textContent = "Connected on NEAR testnet: " + accountId + ". Signing a transaction still requires a separate wallet approval.";
-    message.dataset.state = "ok";
+    if (connectedAdapter?.getAccount?.()) {
+      connectedAdapter.chooseWallet();
+      message.textContent="Select another wallet, or close the chooser to keep this account.";
+      message.dataset.state="ok";
+      return;
+    }
+    button.textContent="Opening wallets…";
+    message.textContent="Opening the secure wallet chooser. No transaction is sent.";
+    const adapter=connectedAdapter||await ensureWalletAdapter();
+    const account=await adapter.connect();
+    if (!account || typeof account!=="string") throw Error("No wallet account was returned");
+    connectedAdapter=adapter;
+    accountSubscription?.unsubscribe?.();
+    if (typeof adapter.subscribeAccount==="function") {
+      accountSubscription=adapter.subscribeAccount(value=>{
+        if (value!==$("#connect-wallet").dataset.accountId) showWalletStatus(value);
+      });
+    }
+    showWalletStatus(account);
   } catch (error) {
-    button.textContent = "Connect wallet ↗";
-    message.textContent = "Wallet connection wasn't completed. " + (error?.message || "Check your testnet wallet and try again.");
-    message.dataset.state = "error";
-  } finally {
-    button.disabled = false;
-  }
+    button.dataset.connected="false";button.textContent="Connect wallet ↗";
+    $("#wallet-disconnect").hidden=true;
+    message.textContent="Wallet connection wasn't completed. "+readableWalletError(error)+" Choose Connect wallet to retry.";
+    message.dataset.state="error";
+  } finally {button.disabled=false;button.removeAttribute("aria-busy");}
+}
+async function disconnectWallet() {
+  const button=$("#wallet-disconnect"), message=$("#wallet-message");
+  button.disabled=true;
+  message.dataset.state="pending";
+  message.textContent="Disconnecting the selected wallet…";
+  try {
+    await connectedAdapter?.disconnect?.();
+    showWalletStatus(null);
+  } catch(error) {
+    message.dataset.state="error";
+    message.textContent="Wallet disconnect wasn't completed. "+readableWalletError(error);
+  } finally {button.disabled=false;}
 }
 
 function savedDeployedCampaigns() {
@@ -290,9 +327,15 @@ function savedDeployedCampaigns() {
 }
 
 async function boot() {
+  $("#join-url").addEventListener("input",()=>{
+    $("#join-url").removeAttribute("aria-invalid");
+    $("#join-status").textContent="";
+    $("#join-status").dataset.state="";
+  });
   $("#join-form").addEventListener("submit", event => {
     event.preventDefault();
     const status = $("#join-status");
+    $("#join-url").removeAttribute("aria-invalid");
     try {
       const input = $("#join-url").value.trim();
       const shared = new URL(input);
@@ -308,10 +351,13 @@ async function boot() {
       destination.searchParams.set("config", token);
       window.location.assign(destination.pathname + destination.search);
     } catch (error) {
-      status.textContent = error?.message || "This is not a valid PACT campaign link.";
+      $("#join-url").setAttribute("aria-invalid","true");
+      status.dataset.state="error";
+      status.textContent=error?.message || "This is not a valid PACT campaign link.";
     }
   });
   $("#connect-wallet").addEventListener("click", connectWallet);
+  $("#wallet-disconnect").addEventListener("click", disconnectWallet);
   filterControls("[data-campaign-filter]", "campaignFilter", renderCampaigns);
   filterControls("[data-activity-filter]", "activityFilter", renderActivity);
   try {
@@ -331,8 +377,16 @@ async function boot() {
     // background. Historic receipts remain explicitly labelled as recorded.
     await Promise.all(model.campaigns.map(refreshCampaign));
   } catch {
-    $("#campaign-list").replaceChildren(node("p", "empty-state", "Campaigns could not be loaded. Please refresh the page or try again."));
-    $("#activity-list").replaceChildren(node("p", "empty-state", "Recorded activity is unavailable."));
+    model.campaigns=[];
+    const problem=node("div","evidence-load-failed");
+    problem.append(node("strong","","Public evidence unavailable"),
+      node("p","","The campaign index could not be loaded or validated. No funding status is assumed."));
+    const retry=node("button","evidence-retry","Reload public evidence ↗");
+    retry.type="button";
+    retry.addEventListener("click",()=>window.location.reload());
+    problem.append(retry);
+    $("#campaign-list").replaceChildren(problem);
+    $("#activity-list").replaceChildren(node("p","empty-state","Recorded activity is unavailable. Try reloading the public evidence."));
     $("#campaign-list-status").hidden = true;
     $("#activity-note").textContent = "No live funding state is claimed while the evidence index is unavailable.";
   }

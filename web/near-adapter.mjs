@@ -113,9 +113,12 @@ export function createNearWalletAdapter({
   let activeAccountId = accountId ?? null;
 
   const resolveWallet = async () => {
+    if (selector && typeof selector.wallet === "function") {
+      const selected = await selector.wallet(walletId);
+      if (selected) { activeWallet = selected; return selected; }
+    }
     if (activeWallet) return activeWallet;
     if (connector && typeof connector.wallet === "function") activeWallet = await connector.wallet();
-    if (!activeWallet && selector && typeof selector.wallet === "function") activeWallet = await selector.wallet(walletId);
     if (!activeWallet) throw new Error("No HOT Connect or Wallet Selector wallet is configured");
     return activeWallet;
   };
@@ -127,7 +130,7 @@ export function createNearWalletAdapter({
     if (!accounts.length && typeof resolved.signIn === "function" && Object.keys(signInOptions).length) {
       accounts = (await resolved.signIn(signInOptions)) ?? [];
     }
-    activeAccountId = activeAccountId ?? accountIdOf(accounts[0]);
+    activeAccountId = accountIdOf(accounts[0]) ?? accountId ?? null;
     if (!activeAccountId) throw new Error("Wallet connected without a signed-in account");
     return activeAccountId;
   };

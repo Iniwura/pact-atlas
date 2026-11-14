@@ -1,0 +1,22 @@
+/* Recoverable errors with no misleading funding claims. */
+.pact-system-recovery[hidden]{display:none!important}
+.pact-system-recovery{position:fixed;z-index:1060;bottom:20px;right:20px;width:min(460px,calc(100vw - 28px));display:grid;grid-template-columns:28px 1fr;gap:10px 15px;align-items:start;padding:22px;border:1px solid #9cab9b;border-top:4px solid #c17d52;border-radius:2px;background:#f4f6f1;color:#252c26;box-shadow:0 18px 65px #0005;font-family:'Geist','Inter',Arial,sans-serif}
+.pact-recovery-marker{display:grid;place-items:center;width:27px;height:27px;border:1px solid #a36848;border-radius:50%;font-size:15px;font-weight:730;color:#8f4d31}
+.pact-recovery-copy strong{font:780 17px/1.2 'Geist',Arial,sans-serif;letter-spacing:-.05em;color:#242824}
+.pact-recovery-copy p{margin:9px 0 0!important;font:480 12px/1.5 'Geist',Arial,sans-serif!important;color:#526054!important}
+.pact-recovery-controls{grid-column:2;display:flex;gap:9px;margin-top:10px}
+.pact-recovery-controls button{min-height:38px;padding:8px 13px;border:1px solid #26392b;background:#26392b;color:#fff;cursor:pointer;font:680 11px 'Geist',Arial,sans-serif}
+.pact-recovery-controls button:last-child{background:transparent;color:#26392b}
+.pact-recovery-controls button:focus-visible{outline:3px solid #d8905e;outline-offset:2px}
+.pact-workspace .evidence-load-failed{display:flex;align-items:flex-start;flex-direction:column;gap:13px;padding:clamp(30px,5vw,70px);border:1px solid #c4cec2;background:#eeeee9;color:#272d28}
+.pact-workspace .evidence-load-failed strong{font:780 clamp(28px,4vw,51px)/1 'Geist',Arial,sans-serif;letter-spacing:-.07em}
+.pact-workspace .evidence-load-failed p{max-width:570px;margin:0;color:#525b51;font:470 14px/1.55 'Geist',Arial,sans-serif}
+.pact-workspace .evidence-retry{min-height:47px;padding:12px 20px;border:1px solid #263c2b;background:#263c2b;color:#fff;font:700 12px 'Geist',Arial,sans-serif;cursor:pointer}
+.pact-workspace #join-url[aria-invalid=true]{border:2px solid #ac5c3c!important;background:#fff9f5!important}
+.pact-workspace #join-status[data-state=error]{color:#773f2a!important;font-size:12px!important;font-weight:650}
+.verify-app #proof-result[data-state=failed]{border-left:4px solid #ad694b;padding-left:20px}
+.verify-app #proof-verdict:focus-visible{outline:2px solid #b87953;outline-offset:3px}
+.create-app .chain-result[data-tone=error],.create-app .chain-result[data-tone=warning]{border-left:4px solid #a66144!important;padding-left:17px!important}
+.create-app .form-errors{background:#f8ebe4!important;color:#743924!important;border:1px solid #ae6547!important}
+@media(max-width:650px){.pact-system-recovery{left:10px;right:10px;bottom:10px;width:auto;padding:17px;gap:8px 12px}}
+
