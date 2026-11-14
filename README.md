@@ -4,7 +4,7 @@
 
 **NEAR HACKATHON 2026 · Social Money · Experimental testnet product**
 
-[**Launch PACT Atlas**](https://pact-atlas-near-connect.vercel.app/) · [Explore campaigns](https://pact-atlas-near-connect.vercel.app/console) · [Create an agreement](https://pact-atlas-near-connect.vercel.app/create.html) · [Verify a transaction](https://pact-atlas-near-connect.vercel.app/verify.html)
+[**Launch PACT Atlas**](https://pact-atlas-near-connect.vercel.app/) · [**Watch the demo**](https://x.com/saitama_xc/status/2121722670546919654) · [Explore campaigns](https://pact-atlas-near-connect.vercel.app/console) · [Create an agreement](https://pact-atlas-near-connect.vercel.app/create.html) · [Verify a transaction](https://pact-atlas-near-connect.vercel.app/verify.html)
 
 [![PACT Atlas verification](https://github.com/Iniwura/pact-atlas/actions/workflows/checks.yml/badge.svg)](https://github.com/Iniwura/pact-atlas/actions/workflows/checks.yml) ![NEAR Testnet](https://img.shields.io/badge/NEAR-Testnet-354C3F) ![License: MIT](https://img.shields.io/badge/License-MIT-46514B)
 
@@ -63,7 +63,7 @@ No wallet or funds are required to inspect the existing public evidence.
 4. **Follow the real outcome.** In **Activity**, inspect the original commitments, activation and both beneficiary withdrawals. Open the expired campaign for the separate contributor refund.
 5. **Independently [Verify](https://pact-atlas-near-connect.vercel.app/verify.html).** Choose **Load real example → Verify on NEAR** and inspect the archival RPC result. An unavailable or incorrect receipt is never displayed as verified.
 
-<!-- CODEX DEMO RELEASE: Add the genuine published product-film URL and thumbnail here after the MP4 is reviewed and publicly uploaded. Never link to an unrendered video or stage a fake capture. -->
+**[Watch the PACT Atlas product demo on X](https://x.com/saitama_xc/status/2121722670546919654).** Recorded product film published for NEAR HACKATHON 2026.
 
 ## How the funding system works
 
@@ -197,6 +197,6 @@ Review the [withdrawal risk assessment](docs/WITHDRAWAL_REVIEW.md), [security an
 
 **For reviewers:** [Live product](https://pact-atlas-near-connect.vercel.app/) · [Full technical reproduction](HACKATHON.md) · [Product submission overview](docs/SUBMISSION_DESCRIPTION.md) · [Testnet evidence](docs/TESTNET_PROOF.md)
 
-**Demo film:** A separate full-product cinematic walkthrough is in production; once published, its real video link will be added here. Until then, the [in-product Guide](https://pact-atlas-near-connect.vercel.app/console?tour=1) is live and accessible. No placeholder video is represented as finished.
+**Demo film:** [Watch the submitted PACT Atlas product demo on X](https://x.com/saitama_xc/status/2121722670546919654). For a hands-on walkthrough, launch the [in-product Guide](https://pact-atlas-near-connect.vercel.app/console?tour=1).
 
 **License:** [MIT](LICENSE).
