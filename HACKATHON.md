@@ -1,5 +1,7 @@
 # PACT Atlas hackathon readiness
 
+> **14 November 2026 release snapshot.** The repository is public. The most recent tested interface is available anonymously at [pact-atlas-consistency.vercel.app](https://pact-atlas-consistency.vercel.app/) from UI commit `d01892c` ([PR #21](https://github.com/Iniwura/pact-atlas/pull/21)); the current branch includes documentation-only updates. Its 116/116 Chromium and 16/16 focused wallet Node checks passed in the prior recorded release audit. The proposed consolidated merge into the older `main` is [draft PR #22](https://github.com/Iniwura/pact-atlas/pull/22). **No browser-wallet end-to-end signing, callback non-execution recovery or mainnet safety has been proven.** A public X demo post and official submission are still mandatory before **14 Nov 2026, 23:59 UTC**.
+
 PACT Atlas is a constrained, native-NEAR proof of coalition funding. It verifies an immutable campaign configuration, accepts attached refundable commitments, checks a dependency-aware allocation certificate on-chain, and settles or refunds liabilities with pull payments.
 
 This is a serious technical checkpoint, not an externally audited or production-ready financial protocol.
@@ -77,7 +79,7 @@ The default is all scenarios: `cycle,all-four,expiry,concurrent,sputnik`.
 ## Verified behaviors
 
 - 16 Rust unit tests and 35 core Node tests pass; the separate competitive benchmark has 9 passing tests and checks five bounded scenarios against an independent exhaustive oracle.
-- The latest local Chromium run has 54 passing tests, covering blocked/viable states, the preserved homepage, public campaign routing, finalized-view rendering with mocked RPC, immutable-config and chain-pledge fail-closed checks, forged-link/RPC-stale wallet blocking, malformed-link rejection, mobile widths, keyboard accessibility and wallet safety. Source artifacts remain pinned; this is not a Lighthouse or production-traffic claim.
+- The most recent **recorded** release QA is **116/116 Chromium browser tests** with zero retries and **16/16 focused wallet Node checks** (PR #21, 14 November). Earlier 54-test and 58-test checkpoints are historical. Checks include error recovery, desktop/mobile visual integrity, keyboard accessibility and wallet safety. These browser checks are not proof of an authentic external-wallet signed transaction or mainnet safety.
 - The explicit request/workflow builders pass 8 workflow, 9 live-chain transport/evidence, 8 wallet-adapter and 3 Meteor/testnet-probe tests; no wallet key or signature is bundled in the preview. Wallet Selector modules are loaded only after an action is requested.
 - The final Wasm and ABI are rebuilt from the current source state.
 - Invalid allocation certificates preserve phase, liabilities and storage stake.
@@ -93,10 +95,10 @@ The default is all scenarios: `cycle,all-four,expiry,concurrent,sputnik`.
 - Missing callback execution is unresolved. A timeout retry or blind unlock is unsafe because the native transfer may already have succeeded. Pending withdrawals remain fail-closed until a proven authenticated reconciliation design exists.
 - Native transfer failure injection through a genuine sandbox predecessor was not reachable without losing the signer needed to initiate withdrawal; the callback `PromiseResult::Failed` branch is covered in Rust VM tests.
 - Exact timestamp equality is verified in Rust VM tests; near-workspaces crosses but does not set exact sandbox timestamps. The configured 8-project/32-pledge capacity is verified in `outputs/pact-atlas-rc1-sandbox-evidence.json`.
-- A sandbox-backed Vercel preview is route-verified at `https://pact-atlas-rc1-preview-lbtitxcri-iniwura-akurus-projects.vercel.app/` (`dpl_956XYXB54TgehyFobxguQVqFyU1a`). It contains no testnet credentials and is not live-chain evidence.
-- The final local evidence/Wasm refresh occurred after that recorded preview. A current preview redeploy is still required before calling the hosted URL the final artifact; it must preserve SSO protection and use preview mode only.
+- The latest reviewed public preview is `https://pact-atlas-consistency.vercel.app/`, Vercel deployment `dpl_7G2KkcFV2jWPVMHvvHJzQ9F1Rm3Y`, from exact UI commit `d01892c97fcc8311657fd8ee068767059b05d7af`. The deployment is READY; its anonymous alias has an explicit protection override. The implementation is a testnet-only product, not fresh independent proof of onchain receipt finality.
+- The public preview matches the last tested UI revision. Documentation-only commits made afterwards do not change rendered assets or onchain code. The project-wide production alias and GitHub `main` are **not yet** the consolidated release; keep this distinction until approved.
 - The code has received an independent adversarial engineering review, but no independent qualified auditor has reviewed it. It must not be described as externally audited.
-- The supplied archive has no Git revision/remote, so reproducibility is artifact- and command-based rather than commit-pinned.
+- This project now has a public GitHub remote, source branch, exact UI and documentation commits, and independently inspectable testnet evidence. The default `main` is an older checkpoint until PR #22 is merged.
 - Browser captures are local preview evidence, not chain evidence. The product's browser test verifies that visible balances and scenario counts reconcile with the raw sandbox JSON; it does not replace on-chain receipts.
 
 ## Minimal next product milestone
