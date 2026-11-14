@@ -1,0 +1,58 @@
+/* PACT Field Guide — route-led onboarding with visible real-product destinations. */
+.pact-tour-launch{appearance:none;display:inline-flex;align-items:center;gap:12px;min-height:54px;border:1px solid #aeb6aa;background:transparent;color:#192019;padding:13px 20px;cursor:pointer;font:750 12px/1.1 Inter,Arial,sans-serif;letter-spacing:-.015em;transition:background .22s,color .22s,border-color .22s}
+.pact-tour-launch:hover{background:#192019;color:#f1e9dd;border-color:#192019}
+.tour-launch-icon{font-size:18px;color:#a4512e}
+.pact-tour-panel{box-sizing:border-box;position:fixed;right:clamp(12px,3vw,52px);bottom:clamp(12px,3vw,48px);z-index:1200;width:min(468px,calc(100vw - 24px));max-height:calc(100dvh - 28px);overflow-y:auto;overscroll-behavior:contain;border:1px solid #b7a48e;background:#ede8df;color:#151a14;box-shadow:0 16px 0 -9px rgba(210,118,71,.85),0 32px 95px rgba(0,0,0,.45);padding:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif}
+.pact-tour-panel[hidden],.pact-tour-panel [hidden]{display:none!important}
+.pact-tour-top{display:flex;align-items:center;justify-content:space-between;gap:16px;height:59px;padding:0 25px;background:#101712;color:#f4efe7}
+.pact-tour-overline{font:760 10px/1.3 Inter,Arial,sans-serif;letter-spacing:.115em}
+.pact-tour-dismiss{font:400 29px/1 Arial,sans-serif;border:0;background:transparent;color:#e2d8ce;cursor:pointer;width:42px;height:42px}
+.pact-tour-dismiss:hover{color:#f9a272}
+.tour-welcome,.tour-guided{padding:25px clamp(22px,2.2vw,31px) 27px}
+.tour-visual{height:154px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 48%,#582e1f,#17251b 58%,#0d1310 100%);border:1px solid #343c32;display:flex;align-items:center;justify-content:space-evenly;margin-bottom:26px}
+.tour-visual-ring{position:absolute;width:240px;height:240px;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-22deg);border:1px solid #eea17b88;border-radius:50%;box-shadow:0 0 0 32px #e4a07c0a,0 0 0 68px #e4a07c07}
+.tour-visual-a,.tour-visual-b{height:74px;width:74px;border-radius:50%;display:grid;place-items:center;font:400 40px/1 Georgia,serif;border:1px solid #f2ddc5;color:#f2e6d7;background:#242721;position:relative;z-index:1}
+.tour-visual-b{background:#a74c2c;color:#fff5e7;border-color:#ce8055}
+.tour-visual-line{height:1px;background:#ec9a6f;width:20%;position:relative;z-index:1}
+.tour-visual-line:after{content:"";height:8px;width:8px;border-radius:50%;background:#fff2dd;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.tour-caption,.tour-location{font:770 10px/1.4 Inter,Arial,sans-serif;letter-spacing:.13em;color:#a4502e;margin:0 0 15px}
+.pact-tour-panel h2{font:790 clamp(33px,4vw,49px)/.99 Inter,"Helvetica Neue",Arial,sans-serif;letter-spacing:-.075em;color:#161e17;margin:0 0 17px}
+.pact-tour-panel h2 em{font-family:Georgia,serif;font-weight:400;color:#ae5531}
+.pact-tour-panel p:not(.tour-caption):not(.tour-location){font-size:14px;line-height:1.55;letter-spacing:-.01em;color:#50594f;margin:0 0 24px}
+.tour-choice-list{border-top:1px solid #aea99c;margin:27px 0 14px}
+.tour-choice-list button{width:100%;border:0;border-bottom:1px solid #aea99c;background:transparent;display:grid;grid-template-columns:1fr auto;gap:8px;text-align:left;align-items:center;cursor:pointer;padding:20px 0;transition:padding .22s,background .22s}
+.tour-choice-list button:hover{background:#ddd5c8;padding-left:13px}
+.tour-choice-list span{font:760 10px/1.25 Inter,Arial,sans-serif;letter-spacing:.09em;color:#945134;grid-column:1/-1}
+.tour-choice-list strong{font-size:clamp(21px,2.2vw,28px);font-weight:780;letter-spacing:-.055em;color:#1a2119}
+.tour-choice-list b{font-size:24px;font-weight:400;color:#a85130}
+.tour-skip,.tour-exit{border:0;background:transparent;padding:9px 0;text-align:left;color:#686a60;font-size:12px;font-weight:680;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.tour-skip:hover,.tour-exit:hover{color:#a64d2a}
+.tour-guided-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:6px 0 17px}
+.tour-current{font:760 10px Inter,Arial,sans-serif;letter-spacing:.12em;color:#a3522d}
+.pact-tour-counter{font:700 11px Inter,Arial,sans-serif;color:#535a52;font-variant-numeric:tabular-nums}
+.pact-tour-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-bottom:36px}
+.pact-tour-track span{height:3px;background:#b8b6ab;transition:background .18s}
+.pact-tour-track span.active{background:#a44b2e}
+.tour-guided #pact-tour-step-title{font-size:clamp(35px,4vw,50px);margin-bottom:17px;max-width:400px}
+.tour-guided #pact-tour-step-copy{min-height:65px}
+.tour-step-preview{height:96px;background:#151b16;color:#eee8db;border:1px solid #394338;display:flex;align-items:center;gap:15px;padding:0 18px;margin:9px 0 23px;overflow:hidden;position:relative}
+.tour-step-preview:before{content:"";height:155px;width:155px;border:1px solid #df855e77;border-radius:50%;position:absolute;right:-27px;top:-45px;box-shadow:0 0 0 27px #ec855919,0 0 0 55px #ec85590d}
+.tour-preview-mark{font-size:31px;color:#eb8b5f;z-index:1}
+#pact-tour-preview-label{font:750 11px Inter,Arial,sans-serif;letter-spacing:.1em;z-index:1}
+.tour-preview-line{flex:1;height:1px;background:#6e5540;z-index:1}
+.tour-preview-arrow{font-size:29px;font-weight:350;z-index:1}
+.pact-tour-actions{display:flex;gap:8px;align-items:center}
+.pact-tour-actions button{appearance:none;min-height:47px;cursor:pointer;font:750 12px Inter,Arial,sans-serif;white-space:nowrap;transition:background .2s,color .2s}
+.pact-tour-back{padding:11px 15px;background:transparent;border:1px solid #b3aa9b;color:#343e35}
+.pact-tour-back[disabled]{opacity:.3;cursor:not-allowed}
+.pact-tour-visit{padding:11px 15px;background:transparent;border:1px solid #a24c2e;color:#81371e;flex:1}
+.pact-tour-visit:hover:not(:disabled){background:#e7d5c7}
+.pact-tour-next{padding:11px 17px;background:#161f18;border:1px solid #161f18;color:#f0ede5}
+.pact-tour-next:hover{background:#a85331;border-color:#a85331}
+.tour-exit{margin-top:13px}
+.pact-tour-focus{outline:3px solid #e79565!important;outline-offset:6px;box-shadow:0 0 0 10px rgba(231,136,75,.18)!important;scroll-margin-top:120px;position:relative;z-index:3}
+.pact-tour-target-live{outline-color:#f08a58!important}
+.pact-tour-panel *:focus-visible,.pact-tour-launch:focus-visible{outline:3px solid #c46c45;outline-offset:3px}
+@media(max-width:790px){.pact-tour-panel{right:8px;bottom:8px;width:min(438px,calc(100vw - 16px));max-height:calc(100dvh - 16px)}.pact-tour-top{height:51px}.tour-welcome,.tour-guided{padding:18px 22px 23px}.tour-visual{height:108px;margin-bottom:18px}.tour-visual-a,.tour-visual-b{height:60px;width:60px;font-size:30px}.pact-tour-panel h2{font-size:39px}.pact-tour-track{margin-bottom:22px}.tour-choice-list{margin-top:18px}.tour-choice-list button{padding:14px 0}.tour-step-preview{height:74px}.pact-tour-panel p:not(.tour-caption):not(.tour-location){margin-bottom:16px}}
+@media(max-width:460px){.pact-tour-panel{left:8px;right:8px;width:auto}.tour-guided #pact-tour-step-title{font-size:34px}.pact-tour-actions{flex-wrap:wrap}.pact-tour-visit{flex:1}.pact-tour-next{flex:1}.pact-tour-actions .pact-tour-back{padding-left:12px;padding-right:12px}.tour-choice-list strong{font-size:24px}}
+@media(prefers-reduced-motion:reduce){.pact-tour-panel *,.pact-tour-launch{transition:none!important;animation:none!important}}

@@ -2,6 +2,8 @@ import { MODEL, evaluate } from "./engine.mjs";
 
 export const TESTNET_GAS = "300000000000000";
 export const ONE_NEAR = "1000000000000000000000000";
+const THREE_NEAR = (3n * BigInt(ONE_NEAR)).toString();
+const TESTNET_ACCOUNT = /^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*\.testnet$/;
 
 function encodeJson(value) {
   const bytes = new TextEncoder().encode(JSON.stringify(value));
@@ -13,6 +15,17 @@ function encodeJson(value) {
 function contractIdFor(config) {
   const contractId = config?.pactContractId ?? config?.contractId;
   if (!contractId) throw new Error("PACT testnet contract ID is not configured");
+  return contractId;
+}
+
+function testnetContractIdFor(config) {
+  const contractId = contractIdFor(config);
+  if (config?.network !== "testnet") {
+    throw new Error("Wallet transactions are restricted to explicitly configured NEAR testnet.");
+  }
+  if (!TESTNET_ACCOUNT.test(contractId)) {
+    throw new Error("PACT transactions require a dedicated *.testnet contract account.");
+  }
   return contractId;
 }
 
@@ -41,13 +54,13 @@ export function buildWorkflowRequest(action, { config = {}, targetKey = "abc" } 
       exact: true,
     };
   }
-  const contractId = contractIdFor(config);
+  const contractId = testnetContractIdFor(config);
   if (action === "commit") {
     return {
       contractId,
       methodName: "commit",
       args: { allowed: ["a", "d"], requires: [] },
-      deposit: (3n * BigInt(ONE_NEAR)).toString(),
+      deposit: THREE_NEAR,
       gas: TESTNET_GAS,
     };
   }
@@ -66,6 +79,7 @@ export function buildWorkflowRequest(action, { config = {}, targetKey = "abc" } 
   if (action === "approve") {
     const daoId = config.daoContractId ?? config.daoId;
     if (!daoId) throw new Error("Sputnik DAO contract ID is not configured");
+    if (!TESTNET_ACCOUNT.test(daoId)) throw new Error("Sputnik DAO must be a dedicated *.testnet account.");
     const commitArgs = { allowed: ["a", "d"], requires: [] };
     return {
       contractId: daoId,
@@ -79,7 +93,7 @@ export function buildWorkflowRequest(action, { config = {}, targetKey = "abc" } 
               actions: [{
                 method_name: "commit",
                 args: encodeJson(commitArgs),
-                deposit: ONE_NEAR,
+                deposit: THREE_NEAR,
                 gas: TESTNET_GAS,
               }],
             },

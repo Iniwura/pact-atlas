@@ -1,6 +1,6 @@
 # PACT Atlas verification report
 
-Date: 2026-11-02
+Date: 2026-11-10
 
 ## Result
 
@@ -10,27 +10,29 @@ Local RC1 verification is green. No NEAR testnet or mainnet deployment was attem
 - near-sdk: `5.29.1`
 - cargo-near: `0.22.0`
 - NEAR sandbox: `2.13.4`
-- Rust unit tests: `14 passed`
+- Rust unit tests: `15 passed`
 - JavaScript reference tests: `26 passed`
 - Clippy: passed with `-D warnings`
 - ABI generation: passed
 - Real sandbox scenarios: `5 baseline passed`; separate RC1 maximum-capacity campaign passed
-- Exact Coalition Atlas counterfactual tests: `6 passed`
+- Exact Coalition Atlas counterfactual tests: `23 passed`
 - Competitive benchmark tests: `9 passed`; five bounded scenarios match an independent exhaustive oracle
-- Wallet request-builder tests: `5 passed`
-- Wallet adapter tests: `4 passed`
-- Playwright browser checks: `10 passed`
+- Wallet request-builder tests: `8 passed`
+- Wallet adapter tests: `8 passed`
+- Chain/RPC/live-data/ABI interface tests: `9 passed`
+- Testnet proof verifier tests: `7 passed`
+- Playwright browser checks: `51 passed`
 - Accessibility: no critical or serious axe violations
 - Browser performance: local DOM-content-loaded and load budgets passed
 - Canonical Wasm/ABI replay: exact byte comparison passed under Rust `1.93.0` and cargo-near `0.22.0`
 
 ## Verified artifacts
 
-- PACT Wasm: [pact_atlas_poc.wasm](./pact_atlas_poc.wasm), 204,765 bytes
-- PACT Wasm SHA-256: `7329d40af43d7e4d6cd3ff942cbe31ba9c54124e667a9af0233e63fa9020d103`
-- NEAR code hash (base58): `8kYswvde6AC41E17ae1LtuepvC4FcTrEzRTSpr1TBgCS`
+- PACT Wasm: [pact_atlas_poc.wasm](./pact_atlas_poc.wasm), 207,284 bytes
+- PACT Wasm SHA-256: `5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15`
+- NEAR code hash (base58): `7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp`
 - ABI: [pact_atlas_poc_abi.json](./pact_atlas_poc_abi.json)
-- ABI JSON SHA-256: `4f9d6ea16bbc8986e304f5b894403501c262b409379efa3eef2f1dd248201075`
+- ABI JSON SHA-256: `8399a2cc59c37680ed2ae418f2f04cc8121dda2eca0f8777a9933d1de46e2f5b`
 - Official Sputnik v2 Wasm SHA-256: `6e3f1814d40769d8f57b9a7af689d22aaab96d3232cec4d861311829c1d2318f`
 
 ## Sandbox accounting results
@@ -43,11 +45,11 @@ Each scenario used a fresh local chain, a separately deployed contract account, 
 4. Concurrent/adversarial state transitions: concurrent deposits were conserved; two configured authorities raced activation and exactly one won; an unauthorized activation, repeated withdrawal and external callback call were rejected; final liabilities `0`.
 5. Sputnik DAO: the official DAO Wasm was deployed in sandbox; a non-council vote was rejected; both council approvals were required; approved proposals funded PACT, an unapproved proposal remained inert, and a second approved DAO proposal withdrew an expired DAO-owned refund; both PACT campaigns ended with liabilities `0`.
 
-6. RC1 maximum capacity: [pact-atlas-rc1-sandbox-evidence.json](./pact-atlas-rc1-sandbox-evidence.json) records contract `dev-41957-9920.test.near`, 32 attached-deposit commits, all 8 configured projects, activation receipt `8EFvMLxwzMnZQe2RqsvjLyimZSd8ZmzyZpXAmqbg4y7k`, 32 successful withdrawals, repeated-withdrawal rejection `b7eA3wbQQgFRsTVFya9mQYTLwmzfqWNVZMYzvChKbZT`, measured storage reserve and final liabilities `0`.
+6. RC1 maximum capacity: [pact-atlas-rc1-sandbox-evidence.json](./pact-atlas-rc1-sandbox-evidence.json) records contract `dev-1337-48000.test.near`, 32 attached-deposit commits, all 8 configured projects, activation receipt `47yLgX3zsAaS9fmG993GyB65YzGn5LLRBz2AMm5YUaEA`, 32 successful withdrawals, repeated-withdrawal rejection `8zfRiYPR1U7xJZdwX54Renp2wtEfr8aCpZb7TaLgooQt`, measured storage reserve and final liabilities `0`.
 
 The complete evidence file contains contract addresses, receipt hashes, state transitions, accounting snapshots and balance reconciliation: [pact-atlas-sandbox-evidence.json](./pact-atlas-sandbox-evidence.json).
 
-The product-phase evidence snapshot was synchronized to the fresh baseline run at `2026-11-02T09:26:27.976Z`; its Wasm SHA-256 is the same `7329d40af43d7e4d6cd3ff942cbe31ba9c54124e667a9af0233e63fa9020d103`. The browser preview loads that snapshot from `web/data/evidence.json` and writes [pact-atlas-desktop-preview.png](./pact-atlas-desktop-preview.png) and [pact-atlas-mobile-preview.png](./pact-atlas-mobile-preview.png). The 10-check browser campaign also verifies direct module/evidence routes, the wallet boundary, no console/page errors, accessibility and the measured local performance budget.
+The RC3 evidence snapshot was regenerated from the current source and Wasm; its SHA-256 is `5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15`. The browser preview loads that snapshot from `web/data/evidence.json`. The current browser campaign also verifies direct module/evidence routes, the wallet boundary, immutable configuration and chain-derived pledge checks, no console/page errors and accessibility.
 
 ## Reproduction
 
@@ -61,7 +63,7 @@ npm ci
 bash scripts/verify-rust.sh
 ```
 
-`verify-rust.sh` runs formatting, locked Wasm checking, 14 Rust tests, clippy, ABI generation, optimized Wasm build, 26 reference tests and 9 competitive benchmark tests, and `npm run test:sandbox` with all five baseline scenarios. The benchmark report is regenerated with `npm run benchmark`. The RC1 capacity campaign is reproducible with `PACT_SCENARIOS=max-capacity PACT_EVIDENCE_PATH=../../outputs/pact-atlas-rc1-sandbox-evidence.json npm run test:sandbox` from the checkpoint directory.
+`verify-rust.sh` runs formatting, locked Wasm checking, 16 Rust tests, clippy, ABI generation, optimized Wasm build, the full local JavaScript matrix, the Meteor/testnet endpoint probe and `npm run test:sandbox` with all five baseline scenarios plus the exact atomic deployment lifecycle. The chain/RPC/live-data/ABI boundary is reproduced with `npm run test:chain`; the benchmark report is regenerated with `npm run benchmark`. The capacity campaign is reproducible with `PACT_SCENARIOS=max-capacity PACT_EVIDENCE_PATH=evidence/pact-atlas-rc1-sandbox-evidence.json npm run test:sandbox` from the repository root.
 
 For the product surface, run `npm run test:counterfactual` and `NPM_CONFIG_CACHE=/tmp/pact-npm-cache PLAYWRIGHT_BROWSERS_PATH=/tmp/pact-playwright-browsers npm run test:browser`. The latter uses a real Chromium browser against the local preview and saves the two captures above.
 

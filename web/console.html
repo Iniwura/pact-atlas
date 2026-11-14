@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090b0b">
+  <meta name="description" content="Coordinate conditional community funding on NEAR. Explore real campaigns, create funding agreements and trace settled transactions.">
+  <title>Workspace — PACT Atlas</title>
+  <link rel="stylesheet" href="./protocol-workspace.css">
+  <link rel="stylesheet" href="./app-shell.css">
+  <link rel="stylesheet" href="./app-refinement.css">
+  <link rel="stylesheet" href="./atlas-product-system.css">
+  <link rel="stylesheet" href="./first-visit.css">
+  <link rel="stylesheet" href="./cinematic-system.css">
+  <link rel="stylesheet" href="./premium-experience.css">
+  <link rel="stylesheet" href="./lurais-direction.css">
+  <link rel="stylesheet" href="./lurais-product.css">
+  <link rel="stylesheet" href="./lurais-responsive.css">
+  <link rel="stylesheet" href="./vendor/near-wallet-selector.css">
+  <link rel="stylesheet" href="./wallet-modal-polish.css">
+  <link rel="stylesheet" href="./tour-premium.css">
+  <link rel="stylesheet" href="./system-recovery.css">
+  <link rel="stylesheet" href="/visual-consistency.css">
+</head>
+<body class="protocol-app pact-workspace">
+<a class="skip-link" href="#workspace-main">Skip to campaigns</a>
+<div class="shell">
+  <div class="shell-main">
+    <header class="shell-topbar">
+      <a href="/" class="shell-brand" aria-label="PACT Atlas homepage">
+        <span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b></span>
+        <span>PACT<span class="brand-slash">/</span>ATLAS</span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="./console" aria-current="page">Overview</a>
+        <a href="#campaigns">Campaigns</a>
+        <a href="#activity">Activity</a>
+        <a href="./create.html" aria-label="New campaign">Create</a>
+        <a href="./verify.html" aria-label="Verify a transaction">Verify</a>
+      </nav>
+      <div class="topbar-actions">
+        <span class="network-label"><i aria-hidden="true"></i> TESTNET</span>
+        <button type="button" id="connect-wallet" class="wallet-button" aria-describedby="wallet-message">Connect wallet <span aria-hidden="true">↗</span></button>
+        <button type="button" id="wallet-disconnect" class="wallet-disconnect" hidden>Disconnect</button>
+      </div>
+    </header>
+    <p id="wallet-message" class="wallet-message" role="status" aria-live="polite"></p>
+    <main id="workspace-main" class="workspace-content">
+      <section class="pact-desk" aria-labelledby="page-title">
+        <div class="desk-lead">
+          <p class="desk-eyebrow"><span class="desk-live-dot" aria-hidden="true"></span> NEAR TESTNET <span class="desk-sep" aria-hidden="true">/</span> PUBLIC AGREEMENTS</p>
+          <h1 id="page-title">Find a<br><em>campaign.</em></h1>
+          <p class="desk-description">Browse public agreements and see their conditions, funding status and receipts.</p>
+          <div class="desk-actions">
+            <a class="desk-primary" href="#campaigns">Browse campaigns <span aria-hidden="true">↗</span></a>
+            <button type="button" id="pact-tour-open" class="pact-tour-launch" aria-controls="pact-tour-panel">How PACT works <span aria-hidden="true">↗</span></button>
+          </div>
+        </div>
+        <div class="desk-proof">
+          <div class="desk-proof-top"><span>FROM THE PUBLIC RECORD</span><span>01 / VERIFIED OUTCOME</span></div>
+          <div class="desk-proof-main"><span class="desk-proof-number">02</span><div><strong>Projects funded</strong><p>Alpha and Beta settled together after their shared condition was met.</p></div></div>
+          <div class="desk-proof-bottom"><span><i aria-hidden="true"></i> FINALIZED ON NEAR TESTNET</span><a href="/#real-proof">Inspect receipts <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </section>
+      <nav class="pact-entryways" aria-label="Choose a task">
+        <a href="#campaigns" class="entryway"><span class="entryway-index">01 / EXPLORE</span><strong>Find an agreement</strong><span class="entryway-arrow" aria-hidden="true">↗</span></a>
+        <a href="./create.html" class="entryway" aria-label="Create campaign"><span class="entryway-index">02 / ORGANIZE</span><strong>Create campaign</strong><span class="entryway-arrow" aria-hidden="true">↗</span></a>
+        <a href="./verify.html" class="entryway"><span class="entryway-index">03 / VERIFY</span><strong>Check a receipt</strong><span class="entryway-arrow" aria-hidden="true">↗</span></a>
+      </nav>
+      <section class="workspace-section" id="campaigns" aria-labelledby="campaigns-title">
+        <div class="section-titlebar inventory-head">
+          <div><p class="micro-label">ACTUAL TESTNET AGREEMENTS</p><h2 id="campaigns-title">Explore campaigns</h2><p>Open a campaign to review its terms, funding status and receipts.</p></div>
+          <div class="tab-row" role="group" aria-label="Filter campaigns">
+            <button type="button" data-campaign-filter="all" aria-pressed="true">All</button>
+            <button type="button" data-campaign-filter="ACTIVATED" aria-pressed="false">Funded</button>
+            <button type="button" data-campaign-filter="EXPIRED" aria-pressed="false">Expired</button>
+          </div>
+        </div>
+        <div id="campaign-list" class="campaign-list" aria-live="polite">
+          <div class="loading-card" aria-hidden="true"></div><div class="loading-card" aria-hidden="true"></div>
+        </div>
+        <p id="campaign-list-status" class="empty-state" hidden role="status"></p>
+      </section>
+
+      <section class="workspace-section" id="featured" aria-labelledby="featured-title">
+        <div class="section-titlebar">
+          <div><p class="micro-label">HOW CONDITIONAL FUNDING WORKS</p><h2 id="featured-title">Inside the agreement</h2></div>
+          <a class="section-link" href="#campaigns">Browse campaigns ↗</a>
+        </div>
+        <div class="feature-panel pact-explainer">
+          <div class="feature-story">
+            <p class="micro-label">THE RULE / CONDITIONAL FUNDING</p>
+            <h3>Funding with<br><em>a dependency.</em></h3>
+            <p>Beta can receive funding only when Alpha is funded. PACT verifies the complete allocation against the commitment rules before settlement.</p>
+            <ol class="pact-lifecycle" aria-label="Conditional funding lifecycle">
+              <li><span>01</span><div><strong>Commit</strong><small>Beta's contribution includes a condition</small></div></li>
+              <li><span>02</span><div><strong>Validate</strong><small>Both projects satisfy the allocation rules</small></div></li>
+              <li><span>03</span><div><strong>Settle</strong><small>Beneficiaries receive funds with public receipts</small></div></li>
+            </ol>
+          </div>
+          <div class="feature-details">
+            <p class="micro-label">ACTUAL NEAR TESTNET RESULT</p>
+            <h3>2 NEAR<br><em>settled.</em></h3>
+            <p>Alpha and Beta were paid in the recorded testnet coalition. The final recorded liability was zero.</p>
+            <div class="feature-details-footer">
+              <a id="featured-open" class="dark-action" href="#campaigns">Open recorded campaign <span aria-hidden="true">↗</span></a>
+              <a class="ghost-action" href="/#real-proof">Inspect the receipts ↗</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="workspace-stats" aria-label="Recorded public testnet campaign activity">
+        <div class="metric"><span class="metric-label">Campaigns in this workspace</span><div class="metric-value"><span id="metric-campaigns">—</span></div><span class="metric-caption">Public records and saved campaigns</span></div>
+        <div class="metric"><span class="metric-label">Coalition funding settled</span><div class="metric-value"><span id="metric-funded">—</span><small>NEAR</small></div><span class="metric-caption">From public receipts</span></div>
+        <div class="metric"><span class="metric-label">Contributions refunded</span><div class="metric-value"><span id="metric-refunded">—</span><small>NEAR</small></div><span class="metric-caption">From public receipts</span></div>
+      </div>
+
+      <section class="join-panel" aria-labelledby="join-title">
+        <div><p class="micro-label">Shared agreement</p><h2 id="join-title">Have a campaign link?</h2><p>Open a funding agreement shared by its organizer.</p></div>
+        <form id="join-form">
+          <label for="join-url">Campaign URL</label>
+          <div class="join-controls"><input id="join-url" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste a PACT campaign link" required><button type="submit">Open agreement ↗</button></div>
+          <p id="join-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="workspace-section" id="activity" aria-labelledby="activity-title">
+        <div class="section-titlebar inventory-head">
+          <div><p class="micro-label">Public transaction record</p><h2 id="activity-title">Activity</h2><p>Contributions, activations, payouts and refunds. Every entry links to a public NEAR receipt.</p></div>
+          <div class="tab-row" role="group" aria-label="Filter transaction activity">
+            <button type="button" data-activity-filter="all" aria-pressed="true">All</button>
+            <button type="button" data-activity-filter="contribution" aria-pressed="false">Funding</button>
+            <button type="button" data-activity-filter="payout" aria-pressed="false">Payouts</button>
+            <button type="button" data-activity-filter="other" aria-pressed="false">Other</button>
+          </div>
+        </div>
+        <div id="activity-list" class="activity-list" aria-live="polite">
+          <p class="empty-state">Loading recorded testnet receipts…</p>
+        </div>
+        <p id="activity-note" class="metric-caption">Historical records, not a live transaction feed.</p>
+        <a href="./verify.html?example=1" class="activity-verify-callout">Try independent verification with a real receipt ↗</a>
+      </section>
+
+      <section class="trust-bar" aria-labelledby="trust-title">
+        <div><h2 id="trust-title">Verify before you fund.</h2><p>Recorded receipts are public, but their presence does not establish financial-production safety. Live reads may be unavailable when testnet RPC is down. Browser-wallet signing and withdrawal callback recovery are not yet verified end-to-end.</p></div>
+        <a href="./verify.html">Independent verification ↗</a>
+      </section>
+      <footer class="shell-footer"><span>PACT / ATLAS © 2026</span><span>NEAR TESTNET · NO MAINNET FUNDS</span></footer>
+    </main>
+  </div>
+</div>
+<div id="pact-tour-backdrop" hidden aria-hidden="true"></div>
+<div id="pact-tour-spotlight" hidden aria-hidden="true"></div>
+<aside id="pact-tour-panel" class="pact-tour-panel" role="dialog" aria-modal="false" aria-label="PACT getting started guide" aria-labelledby="pact-tour-title" hidden>
+  <header class="pact-tour-top"><span class="pact-tour-overline">✳ &nbsp; PACT / FIELD GUIDE</span><button id="pact-tour-dismiss" class="pact-tour-dismiss" type="button" aria-label="Close walkthrough">×</button></header>
+  <div id="pact-tour-welcome" class="tour-welcome"><div class="tour-welcome-grid">
+<div class="tour-visual" aria-hidden="true">
+  <div class="tour-visual-top"><span>PACT / AGREEMENT 01</span><span>NEAR TESTNET</span></div>
+  <div class="tour-visual-nodes">
+    <div class="tour-visual-node"><small>01 / REQUIRED</small><strong>Alpha</strong><span>1 NEAR</span></div>
+    <div class="tour-visual-connector"><i></i><span>ONLY IF</span><i></i></div>
+    <div class="tour-visual-node"><small>02 / CONDITIONAL</small><strong>Beta</strong><span>1 NEAR</span></div>
+  </div>
+  <div class="tour-visual-bottom"><span>THE AGREEMENT IS THE RULE</span><span>01 / 02</span></div>
+</div>
+<div class="tour-welcome-copy">
+    <p class="tour-caption">YOUR FIRST VISIT</p>
+    <h2 id="pact-tour-title" tabindex="-1">See how<br><em>PACT works.</em></h2>
+    <p id="pact-tour-copy">Four short steps through actual agreements and public proof. Choose your path. No wallet or payment required.</p>
+    <div class="tour-choice-list"><button type="button" data-tour-journey="explore"><span>01 / SUPPORTER</span><strong>Explore a campaign</strong><b aria-hidden="true">↗</b></button><button type="button" data-tour-journey="create"><span>02 / ORGANIZER</span><strong>Create an agreement</strong><b aria-hidden="true">↗</b></button></div>
+    <button type="button" id="pact-tour-skip" class="tour-skip">Skip, I'll explore myself</button>
+</div></div></div>
+  <div id="pact-tour-guided" class="tour-guided" hidden>
+    <div class="tour-guided-head"><span class="tour-current" id="pact-tour-current">SUPPORTER PATH</span><span id="pact-tour-counter" class="pact-tour-counter">01 / 04</span></div>
+    <div class="pact-tour-track" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    <p id="pact-tour-location" class="tour-location">CAMPAIGNS</p>
+    <h2 id="pact-tour-step-title">Choose a campaign.</h2>
+    <p id="pact-tour-step-copy">Explore what is funded and what remains conditional.</p>
+    <div class="tour-step-preview" aria-hidden="true"><span class="tour-preview-mark">✳</span><span id="pact-tour-preview-label">PUBLIC CAMPAIGNS</span><span class="tour-preview-line"></span><span class="tour-preview-arrow">↗</span></div>
+    <div class="pact-tour-actions"><button type="button" id="pact-tour-back" class="pact-tour-back">Back</button><button type="button" id="pact-tour-visit" class="pact-tour-visit">Show me ↗</button><button type="button" id="pact-tour-next" class="pact-tour-next">Next →</button></div>
+    <button type="button" id="pact-tour-exit" class="tour-exit">End walkthrough</button>
+  </div>
+</aside>
+<script type="module" src="./app-home.mjs"></script>
+<script type="module" src="./first-visit.mjs"></script>
+<script type="module" src="./system-recovery.mjs"></script>
+</body>
+</html>

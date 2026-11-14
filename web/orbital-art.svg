@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1040" fill="none">
+<defs>
+ <radialGradient id="haze"><stop stop-color="#a64421" stop-opacity=".48"/><stop offset=".52" stop-color="#482112" stop-opacity=".3"/><stop offset="1" stop-color="#050607" stop-opacity="0"/></radialGradient>
+ <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#090c0d"/><stop offset=".26" stop-color="#2b3031"/><stop offset=".49" stop-color="#060909"/><stop offset=".7" stop-color="#29201e"/><stop offset="1" stop-color="#050607"/></linearGradient>
+ <linearGradient id="copper" x1="0" y1="0" x2="1" y2=".5"><stop stop-color="#ffdd9f"/><stop offset=".16" stop-color="#ffad50"/><stop offset=".42" stop-color="#ff541e"/><stop offset=".7" stop-color="#fa450f"/><stop offset=".9" stop-color="#ffb672"/><stop offset="1" stop-color="#ffede0"/></linearGradient>
+ <linearGradient id="subtle" x1="0" x2="1" y1="0" y2=".3"><stop stop-color="#45413d"/><stop offset=".55" stop-color="#07090b"/><stop offset="1" stop-color="#6e3c25"/></linearGradient>
+ <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="10"/></filter>
+ <filter id="soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="55"/></filter>
+ <filter id="drop"><feGaussianBlur in="SourceAlpha" stdDeviation="14"/><feOffset dx="0" dy="20"/><feComponentTransfer><feFuncA type="linear" slope=".8"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<ellipse cx="870" cy="440" rx="600" ry="470" fill="url(#haze)"/>
+<ellipse cx="760" cy="400" rx="270" ry="270" fill="#fe6f24" opacity=".12" filter="url(#soft)"/>
+<!-- Weighted architectural loops, not a stock portrait -->
+<g transform="translate(820 405) rotate(-26)" filter="url(#drop)">
+ <ellipse rx="252" ry="342" stroke="#030505" stroke-width="138"/>
+ <ellipse rx="252" ry="342" stroke="url(#steel)" stroke-width="105"/>
+ <ellipse rx="252" ry="342" stroke="#747372" stroke-width="2" opacity=".35"/>
+ <ellipse rx="252" ry="342" stroke="url(#subtle)" stroke-width="72" opacity=".3"/>
+ <path d="M -194 -219 C -119 -345 45 -370 179 -283" stroke="#fc5c20" stroke-width="24" opacity=".42" filter="url(#glow)" stroke-linecap="round"/>
+ <path d="M -194 -219 C -119 -345 45 -370 179 -283" stroke="url(#copper)" stroke-width="5" stroke-linecap="round"/>
+ <path d="M 210 -181 C 322 -15 277 192 169 287" stroke="#ff6a2e" stroke-width="20" opacity=".42" filter="url(#glow)" stroke-linecap="round"/>
+ <path d="M 210 -181 C 322 -15 277 192 169 287" stroke="url(#copper)" stroke-width="5" stroke-linecap="round"/>
+</g>
+<g transform="translate(760 410) rotate(43)">
+ <ellipse rx="150" ry="318" stroke="#010304" stroke-width="76"/>
+ <ellipse rx="150" ry="318" stroke="url(#steel)" stroke-width="57"/>
+ <ellipse rx="150" ry="318" stroke="#9d4c2c" stroke-width="2" opacity=".25"/>
+ <path d="M -138 -102 C -186 -14 -163 163 -87 264" stroke="#ff6f22" stroke-width="17" opacity=".48" filter="url(#glow)"/>
+ <path d="M -138 -102 C -186 -14 -163 163 -87 264" stroke="url(#copper)" stroke-width="3.5" stroke-linecap="round"/>
+</g>
+<g transform="translate(870 400) rotate(-68)">
+ <ellipse rx="105" ry="266" stroke="#020404" stroke-width="48"/>
+ <ellipse rx="105" ry="266" stroke="url(#subtle)" stroke-width="36"/>
+ <path d="M 66 -207 C 139 -138 145 -54 127 18" stroke="#ff7534" stroke-width="16" opacity=".52" filter="url(#glow)"/>
+ <path d="M 66 -207 C 139 -138 145 -54 127 18" stroke="url(#copper)" stroke-width="3" stroke-linecap="round"/>
+</g>
+<!-- delicate orbital routes -->
+<g stroke="#d47c50" opacity=".42" stroke-width="1" stroke-dasharray="3 9">
+ <path d="M 200 260 C 450 20 1110 42 1450 290"/>
+ <path d="M 180 600 C 510 810 1060 800 1400 570"/>
+ <path d="M 920 2 C 1270 180 1190 800 1050 1000"/>
+</g>
+<g fill="#ffb17c">
+ <circle cx="421" cy="144" r="3"/><circle cx="1372" cy="235" r="3"/><circle cx="250" cy="640" r="3"/><circle cx="1140" cy="740" r="3"/><circle cx="920" cy="83" r="3"/>
+</g>
+<g stroke="#ff9c66" stroke-width="1.1" opacity=".38"><path d="M 421 128v32m-16-16h32"/><path d="M 1372 218v34m-17-17h34"/><path d="M 1139 723v34m-17-17h34"/></g>
+</svg>

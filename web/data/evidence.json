@@ -2,11 +2,11 @@
   "type": "PACT-LOCAL-SANDBOX-EVIDENCE",
   "version": 2,
   "network": "NEAR-SANDBOX",
-  "generatedAt": "2026-11-02T09:26:27.976Z",
+  "generatedAt": "2026-11-10T19:20:18.800Z",
   "sandboxVersion": "2.13.4",
   "sandboxBinaryPath": "/tmp/pact-atlas-near-sandbox/near-sandbox-2.13.4/near-sandbox",
-  "wasmPath": "/mnt/c/Users/DELL 7400/Documents/Codex/2026-10-30/target-post-https-x-com-bitget-2/work/pact-atlas-checkpoint/contract/target/near-build/pact_atlas_poc.wasm",
-  "sputnikWasmPath": "/mnt/c/Users/DELL 7400/Documents/Codex/2026-10-30/target-post-https-x-com-bitget-2/work/pact-atlas-checkpoint/vendor/sputnik/sputnikdao2_original.wasm",
+  "wasmPath": "/mnt/c/Users/DELL 7400/Documents/Codex/2026-10-30/target-post-https-x-com-bitget-2/work/pact-atlas-self-serve/contract/target/near-build/pact_atlas_poc.wasm",
+  "sputnikWasmPath": "/mnt/c/Users/DELL 7400/Documents/Codex/2026-10-30/target-post-https-x-com-bitget-2/work/pact-atlas-self-serve/vendor/sputnik/sputnikdao2_original.wasm",
   "selectedScenarios": [
     "cycle",
     "all-four",
@@ -17,43 +17,43 @@
   "scenarios": [
     {
       "name": "three-project dependency cycle with adversarial plans",
-      "contract": "dev-12098-13952.test.near",
-      "wasmCodeHash": "8kYswvde6AC41E17ae1LtuepvC4FcTrEzRTSpr1TBgCS",
+      "contract": "dev-39385-8000.test.near",
+      "wasmCodeHash": "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp",
       "receipts": {
-        "deploy": "54ijCdCJqdQoA7s35XAaGPWXS7vHprs5RBMYaX8p3Pn",
-        "initialize": "F3cKTEm5PAfhbeYYaT136hu1E2L44thQqzGgnHiX7yR8",
-        "sponsorStorage": "2ggrhQ2d96yTSP76eQFVZtdti5riuGe3tchWDWDWYvzz",
+        "deploy": "3QmxMBE3veXViDnknKQNQvkLGNuRpZ2nANnNjmWct1Q5",
+        "initialize": "8fY4NCzq2FxdnDxXYShErCznm5tLSSe9euL3KNs5zYza",
+        "sponsorStorage": "5WQ1rb7ZHtC5ytoKRdKEqufVJ9QmhwM9nKzFx8thwadg",
         "commits": [
           {
             "name": "donor1",
-            "hash": "5wBCzmPYHyEaqUZCefryKkJhv8HtMurnxPishAcQ3eeN",
+            "hash": "G2fQejRXkEEhr9cQs2UH7kPqtKf73fNXWTTBcnBSYhPi",
             "amountNear": "3"
           },
           {
             "name": "donor2",
-            "hash": "5PLTGCYC1immT5XyUP6D9jfCQ8VEbxnFzzipeiUN4WmB",
+            "hash": "DaxPTmkLarrGoiRgGXvdtZbnrZ3NJ1TMHYAyr2Lumd6r",
             "amountNear": "1"
           },
           {
             "name": "donor3",
-            "hash": "9AxTJpdzvUuBRSU64mEf64VAX8NhrGRZpb58kYmt696W",
+            "hash": "FrppwoKhHvNdJmznq2YvBgkmBzGoraePRAWYZiYXmxA2",
             "amountNear": "3"
           },
           {
             "name": "donor4",
-            "hash": "3MMwtmVDP8cfi8sdzV21QMzu6UW8gdVYAVQDusp1xcyV",
+            "hash": "793DykwPTREFwtU31KqM4JHqmsTKt88yDqWTHmhV1QBQ",
             "amountNear": "3"
           },
           {
             "name": "donor5",
-            "hash": "FYfBU1xBbxGroTqJPu4w3UpmDgX3TVRBvFTKRNiPELjF",
+            "hash": "4396YDEPNsCzck6pV8hHdz6RozQppAHM5zjYbk96jvsA",
             "amountNear": "2"
           }
         ],
         "invalidPlans": [
           {
             "label": "premature activation",
-            "hash": "7Yjav4hjU3bT2SckABb3fEowY6gk6vMArAEgjZ2RKcxp",
+            "hash": "2Gtxuhyojeki2HXKordEtgp6u585aQD3BbZHi7piPV82",
             "failure": {
               "ActionError": {
                 "index": 0,
@@ -65,22 +65,22 @@
               }
             },
             "balanceBefore": {
-              "total": "32998414471513359100000000",
-              "stateStaked": "2055480000000000000000000",
+              "total": "32998394673743469400000000",
+              "stateStaked": "2083700000000000000000000",
               "staked": "0",
-              "available": "30942934471513359100000000"
+              "available": "30914694673743469400000000"
             },
             "balanceAfter": {
-              "total": "32998426495423456000000000",
-              "stateStaked": "2055480000000000000000000",
+              "total": "32998406789873281000000000",
+              "stateStaked": "2083700000000000000000000",
               "staked": "0",
-              "available": "30942946495423456000000000"
+              "available": "30914706789873281000000000"
             },
-            "balanceDeltaYocto": "12023910096900000000"
+            "balanceDeltaYocto": "12116129811600000000"
           },
           {
             "label": "duplicate pledge index",
-            "hash": "4EH28xD5eEL2yB1tgs5cjQkR4hAdhrTdTXUkkjH3CjzM",
+            "hash": "8PdxasyBJfSmsqytFVhTB6hsCDNjPnvQwWd2fUyaBKLw",
             "failure": {
               "ActionError": {
                 "index": 0,
@@ -92,22 +92,22 @@
               }
             },
             "balanceBefore": {
-              "total": "32998426495423456000000000",
-              "stateStaked": "2055480000000000000000000",
+              "total": "32998406789873281000000000",
+              "stateStaked": "2083700000000000000000000",
               "staked": "0",
-              "available": "30942946495423456000000000"
+              "available": "30914706789873281000000000"
             },
             "balanceAfter": {
-              "total": "32998439175866652700000000",
-              "stateStaked": "2055480000000000000000000",
+              "total": "32998419562536192400000000",
+              "stateStaked": "2083700000000000000000000",
               "staked": "0",
-              "available": "30942959175866652700000000"
+              "available": "30914719562536192400000000"
             },
-            "balanceDeltaYocto": "12680443196700000000"
+            "balanceDeltaYocto": "12772662911400000000"
           },
           {
             "label": "underfunded allocation",
-            "hash": "2HVk7zPR9UkWiknwYv3zPdPkRUvuUW6ytTd9oKbqcQwC",
+            "hash": "571B77Wiy71QmuhLBRTA5mbdv1A8wkJ2ZfrXTh3C4WL1",
             "failure": {
               "ActionError": {
                 "index": 0,
@@ -119,22 +119,22 @@
               }
             },
             "balanceBefore": {
-              "total": "32998439175866652700000000",
-              "stateStaked": "2055480000000000000000000",
+              "total": "32998419562536192400000000",
+              "stateStaked": "2083700000000000000000000",
               "staked": "0",
-              "available": "30942959175866652700000000"
+              "available": "30914719562536192400000000"
             },
             "balanceAfter": {
-              "total": "32998451721097392200000000",
-              "stateStaked": "2055480000000000000000000",
+              "total": "32998432199986646600000000",
+              "stateStaked": "2083700000000000000000000",
               "staked": "0",
-              "available": "30942971721097392200000000"
+              "available": "30914732199986646600000000"
             },
-            "balanceDeltaYocto": "12545230739500000000"
+            "balanceDeltaYocto": "12637450454200000000"
           },
           {
             "label": "disallowed project target",
-            "hash": "HLPQZVqGToE8HH7oGGEGmv7uGirp7NSHQzggDeVhykPc",
+            "hash": "3Ers235qeB34uuZrZCZzv7EgSNA5tVJFbfPFvrbuCfi7",
             "failure": {
               "ActionError": {
                 "index": 0,
@@ -146,22 +146,22 @@
               }
             },
             "balanceBefore": {
-              "total": "32998451721097392200000000",
-              "stateStaked": "2055480000000000000000000",
+              "total": "32998432199986646600000000",
+              "stateStaked": "2083700000000000000000000",
               "staked": "0",
-              "available": "30942971721097392200000000"
+              "available": "30914732199986646600000000"
             },
             "balanceAfter": {
-              "total": "32998464197919149300000000",
-              "stateStaked": "2055480000000000000000000",
+              "total": "32998444769028118400000000",
+              "stateStaked": "2083700000000000000000000",
               "staked": "0",
-              "available": "30942984197919149300000000"
+              "available": "30914744769028118400000000"
             },
-            "balanceDeltaYocto": "12476821757100000000"
+            "balanceDeltaYocto": "12569041471800000000"
           },
           {
             "label": "broken dependency cycle",
-            "hash": "5dHNJLgsDyZ9znqNN2aqnfhxzjgiKdGDuPZ684oDPfKU",
+            "hash": "7dDyMMDqCqKKiu49RMgvQcwjn24A9EkH9JcqJpurZAi5",
             "failure": {
               "ActionError": {
                 "index": 0,
@@ -173,26 +173,26 @@
               }
             },
             "balanceBefore": {
-              "total": "32998415213708132100000000",
-              "stateStaked": "2055690000000000000000000",
+              "total": "32998395406256773000000000",
+              "stateStaked": "2083910000000000000000000",
               "staked": "0",
-              "available": "30942725213708132100000000"
+              "available": "30914485406256773000000000"
             },
             "balanceAfter": {
-              "total": "32998427768202240900000000",
-              "stateStaked": "2055690000000000000000000",
+              "total": "32998408052970596500000000",
+              "stateStaked": "2083910000000000000000000",
               "staked": "0",
-              "available": "30942737768202240900000000"
+              "available": "30914498052970596500000000"
             },
-            "balanceDeltaYocto": "12554494108800000000"
+            "balanceDeltaYocto": "12646713823500000000"
           }
         ],
-        "activation": "HwkpCRHcitmxr1s81RUBLBAzkFcQYZ7LCqnDJunCcnPg"
+        "activation": "Fvuj8z6cKoCcSTaq1W4xYKUS4vLAG3gmP6CYrEWgKa9z"
       },
       "finalStatus": {
         "phase": "ACTIVATED",
-        "deadline_ms": 1793612211482,
-        "activate_after_ms": 1793611641482,
+        "deadline_ms": 1794339038786,
+        "activate_after_ms": 1794338468786,
         "min_funded_projects": 3,
         "activation_authorities": [
           "observer.test.near"
@@ -224,8 +224,8 @@
           "pending": "0",
           "accounted": "12000000000000000000000000",
           "liabilities": "12000000000000000000000000",
-          "contract_balance": "32998482798618373900000000",
-          "storage_reserve": "2257280000000000000000000",
+          "contract_balance": "32998463462193884500000000",
+          "storage_reserve": "2285500000000000000000000",
           "solvent": true
         },
         "settled": {
@@ -235,8 +235,8 @@
           "pending": "0",
           "accounted": "0",
           "liabilities": "0",
-          "contract_balance": "20998701840772515300000000",
-          "storage_reserve": "2255990000000000000000000",
+          "contract_balance": "20998683184825370800000000",
+          "storage_reserve": "2284210000000000000000000",
           "solvent": true
         }
       },
@@ -244,85 +244,85 @@
         {
           "account": "a.test.near",
           "amountNear": "4",
-          "hash": "AcFsFFM3PUeJA2QTZuHwKQjsKc661pGAi5DNyWtAFGkx",
+          "hash": "BqrYidCXvAoj4bw3B1fnwKZ1Chaj863mgcbU6JjwDe5F",
           "beforeTotal": "2000000000000000000000000",
-          "afterTotal": "5701193223935580500000000"
+          "afterTotal": "5701195677995460500000000"
         },
         {
           "account": "b.test.near",
           "amountNear": "3",
-          "hash": "FJ2AAr3AjhS9SmE5ucpaGqZMLEoZwtUBoRauAV3RDn7D",
+          "hash": "3iRXGUo512GwEafdKhbxYw7Tzi4NvoWd4rhR7bCAV75x",
           "beforeTotal": "2000000000000000000000000",
-          "afterTotal": "4701187985554265800000000"
+          "afterTotal": "4701190439614145800000000"
         },
         {
           "account": "c.test.near",
           "amountNear": "3",
-          "hash": "C2j8uEwBnqbPSUXJaumm5biEPSJEmCaKoKZbuuF66me2",
+          "hash": "87XFg6NEktPqjAp3Qr5cbBtch9uM8vdAGzNTqo9cH2HW",
           "beforeTotal": "2000000000000000000000000",
-          "afterTotal": "4701182728660941100000000"
+          "afterTotal": "4701185182720821100000000"
         },
         {
           "account": "donor5.test.near",
           "amountNear": "2",
-          "hash": "37oiQhQgKMn7gasUJKXtZjRGNPiSAmJbUzLjweq8PVtv",
-          "beforeTotal": "2999826666526030800000000",
-          "afterTotal": "4701005759959810900000000"
+          "hash": "3g2X7JM5jwRn4SJYr6ddAmdHKgQdkNXVyx6A7hmH26o3",
+          "beforeTotal": "2999826358304225800000000",
+          "afterTotal": "4701007905797885900000000"
         }
       ],
       "finalContractBalance": {
-        "total": "20998701840772515300000000",
-        "stateStaked": "2055990000000000000000000",
+        "total": "20998683184825370800000000",
+        "stateStaked": "2084210000000000000000000",
         "staked": "0",
-        "available": "18942711840772515300000000"
+        "available": "18914473184825370800000000"
       }
     },
     {
       "name": "all-four coalition after sixth donor topup",
-      "contract": "dev-16496-80448.test.near",
-      "wasmCodeHash": "8kYswvde6AC41E17ae1LtuepvC4FcTrEzRTSpr1TBgCS",
+      "contract": "dev-42797-62688.test.near",
+      "wasmCodeHash": "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp",
       "receipts": {
-        "deploy": "CFRpf3EbsKQCexprSNYTM9pEhtjXHb8wwvJE1V1Rknwz",
-        "initialize": "FhdBz3o7C86aLno68Vw4ECWoRuLJawK24iGpxGpU8p7U",
-        "sponsorStorage": "DKUau2wnhPeZBixoER68QvaM7TRizqT5thL7Aw1rbfRb",
+        "deploy": "BCYmVe6KufDNW7yjKydASNGhDhq56u5DphinCU56BhSG",
+        "initialize": "HQcFQ4tRyeD9vea1Kmb2Q8eVCwDVs8yX5Eyp2BczDNUf",
+        "sponsorStorage": "9G5YoXPYRrfmzwwY36J8x195tuXTcKzYfHLMVbkFGY6M",
         "commits": [
           {
             "name": "donor1",
-            "hash": "BWxrxyZL5PsPHNLcWZw8kGHN9etuzuHsT5gMMqKWnF29",
+            "hash": "H2eSjfLmHkt6FXkRkCmHVmMkfL4dA9A63Mib6inv6gXB",
             "amountNear": "3"
           },
           {
             "name": "donor2",
-            "hash": "Ae7o1gzjKGX7FX62pwqENtviLJZKTW6QWdrYUFvvUGjH",
+            "hash": "Gmq1JJqhGmaP6w9p3w9tiBpZR975jeafeicgXsiHx66A",
             "amountNear": "1"
           },
           {
             "name": "donor3",
-            "hash": "GBHt7WkiRcJmxgb9Rgjxrae54kM7zMtafT8Ukgbxe7AR",
+            "hash": "93MPf6wPtfPC98eFRWCXsio7ohp4qHYRz6XQqorKvV6x",
             "amountNear": "3"
           },
           {
             "name": "donor4",
-            "hash": "CaDUkdaBVeaiNSTdoH1vGx9eHU3mM5BsLeMUm6u1zcXt",
+            "hash": "an1SFu1bFHXecwaJtkZgfBYsjFd9ZGMYaYVZWe9mpA2",
             "amountNear": "3"
           },
           {
             "name": "donor5",
-            "hash": "82CNFEv7WkcGduvysq5mKzsPPSKcmh5xJWW4Ecu4nAZX",
+            "hash": "3zV39hFaPskHeFopLDPqBuBZST6F5NJhouHYhNxziWta",
             "amountNear": "2"
           },
           {
             "name": "donor6",
-            "hash": "ETxSpwAjvkbCayBzxFYz4tVgGM3TfaLDnVnyHZ48MQwU",
+            "hash": "6x2nbt29k83YQNDCrkpMRTvz8Wrr46Dw67zgsCV2RPaN",
             "amountNear": "1"
           }
         ],
-        "activation": "D7iNG1ajadDYytk1gegEs5PNC4qPergtrmyiD1uAZMPL"
+        "activation": "HvxLyV7wPUQpBp6pativhmtXgEzY7bCfF3FjkeV4MYmM"
       },
       "finalStatus": {
         "phase": "ACTIVATED",
-        "deadline_ms": 1793611895893,
-        "activate_after_ms": 1793611745893,
+        "deadline_ms": 1794338722197,
+        "activate_after_ms": 1794338572197,
         "min_funded_projects": 3,
         "activation_authorities": [
           "donor6.test.near"
@@ -355,8 +355,8 @@
           "pending": "0",
           "accounted": "13000000000000000000000000",
           "liabilities": "13000000000000000000000000",
-          "contract_balance": "33998450101961171200000000",
-          "storage_reserve": "2257930000000000000000000",
+          "contract_balance": "33998430479442895000000000",
+          "storage_reserve": "2286150000000000000000000",
           "solvent": true
         },
         "settled": {
@@ -366,8 +366,8 @@
           "pending": "0",
           "accounted": "0",
           "liabilities": "0",
-          "contract_balance": "20998671750676195800000000",
-          "storage_reserve": "2256690000000000000000000",
+          "contract_balance": "20998652867890251600000000",
+          "storage_reserve": "2284910000000000000000000",
           "solvent": true
         }
       },
@@ -375,80 +375,80 @@
         {
           "account": "a.test.near",
           "amountNear": "4",
-          "hash": "6rwWYciATCtyx43CpprHaYfv9DPaqqxnLaKVfvJh8RQX",
+          "hash": "5Mijjp1UZN2H6qEqY7REohEXFyvFFvq4gnL5ZYTEbC5V",
           "beforeTotal": "2000000000000000000000000",
-          "afterTotal": "5701203489066953000000000"
+          "afterTotal": "5701206263063198000000000"
         },
         {
           "account": "b.test.near",
           "amountNear": "3",
-          "hash": "4Lg9qmajMjg1HVfKnB5wt2K7shhyj4CtuDykfhfTSEvR",
+          "hash": "hYtuCBqHwFhyUsKCtmaFsnTugRs1vu3VfP2XkqNRgAM",
           "beforeTotal": "2000000000000000000000000",
-          "afterTotal": "4701198188485284700000000"
+          "afterTotal": "4701200962481529700000000"
         },
         {
           "account": "c.test.near",
           "amountNear": "3",
-          "hash": "C61EoXfy9LKNNXQyvbrBZpGY4nwptrbhDxCJDxzLC5Nx",
+          "hash": "8G2JU7WF7qUGBTJKH7ZAGCrEk6kcjYiGue9AthyCtgUY",
           "beforeTotal": "2000000000000000000000000",
-          "afterTotal": "4701192590230495600000000"
+          "afterTotal": "4701195364226740600000000"
         },
         {
           "account": "d.test.near",
           "amountNear": "3",
-          "hash": "DP5oXn411noPX9BMVvVewzgucMZNgrUfiB6qaZS6uFUw",
+          "hash": "FHPxKaCFStXUk5UBMG97xX4Fw9Jm5YFNVRuV2uNZvKdR",
           "beforeTotal": "2000000000000000000000000",
-          "afterTotal": "4701186935699196100000000"
+          "afterTotal": "4701189709695441100000000"
         }
       ],
       "finalContractBalance": {
-        "total": "20998671750676195800000000",
-        "stateStaked": "2056690000000000000000000",
+        "total": "20998652867890251600000000",
+        "stateStaked": "2084910000000000000000000",
         "staked": "0",
-        "available": "18941981750676195800000000"
+        "available": "18913742867890251600000000"
       }
     },
     {
       "name": "expired campaign refunds every contributor",
-      "contract": "dev-71800-30816.test.near",
-      "wasmCodeHash": "8kYswvde6AC41E17ae1LtuepvC4FcTrEzRTSpr1TBgCS",
+      "contract": "dev-423-32256.test.near",
+      "wasmCodeHash": "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp",
       "receipts": {
-        "deploy": "2Qj3LayfyitpTwaNxnvjcTxuFHVahbGHjNCG2phCEa62",
-        "initialize": "J8iaoiVWAXbaURT7uJcwk7ESkG7sZkf3ioCedN2qvH5F",
-        "sponsorStorage": "BFGdshwR5TuPmJDKbfiMU2xJm1ZhCSVcViMMPvUBUXvR",
+        "deploy": "8hGY7vc5JuKUT9akMHqW7bXQrcuuYeaWRwdA1DyPWzTe",
+        "initialize": "6tEWi64mfh6gEfrT6nsz1yQersWgXN5UZ9nC7iQGGXcD",
+        "sponsorStorage": "3mDuBtbDC4Tu36yRV6ZhUifjMHvLibvvmoYxkMw5PY3W",
         "commits": [
           {
             "name": "donor1",
-            "hash": "CW8bXookjUFp4kArbcoH3HaJXejjYs4GoaGupxn185qM",
+            "hash": "EVVTctUewwa5wVu2FRzZZ2zB79Rj1peQRA2kvrLp2bMN",
             "amountNear": "3"
           },
           {
             "name": "donor2",
-            "hash": "9owj8gzUhwVAAFGoppWh2xGb3TazorLTzWaaSpqA6r6w",
+            "hash": "GPTKWrxAEqULo5yMiGo2UNmi6rSncPAb3ZQz49hZ2jCn",
             "amountNear": "1"
           },
           {
             "name": "donor3",
-            "hash": "DK7AhKA91fY7diZiUA3NzW3V2GYPJyKkWqZgkqw6edcc",
+            "hash": "9wp3UH9XrLpn7MBXruwLvL1gfVuDihBS7SWXcGBCtj5k",
             "amountNear": "3"
           },
           {
             "name": "donor4",
-            "hash": "HWS56hZWaRtQBCfcTj2yb6uJbhprgcC5fVrUqHpJLL4x",
+            "hash": "8Hnf948P9N2RHsrrL2XJ1wpYzwPsDx7i2HmyvgtgmxR5",
             "amountNear": "3"
           },
           {
             "name": "donor5",
-            "hash": "12t9WXPgLRbJN916Dga3zh6xp1mLmb74ARw1xCMpb8yb",
+            "hash": "ER15nEJQe2LY4qHKdwQAeYWm6fwBQm5JrdfUYU12pdfH",
             "amountNear": "2"
           }
         ],
-        "expiry": "6ixabMr1K69SKWpKUXhpXtzypeEN55pd9hm1oo9ghz1B"
+        "expiry": "4A94pSuuid437VQ1HrACa4n6b5TCRoNeWhQdPmKAt5gr"
       },
       "finalStatus": {
         "phase": "EXPIRED",
-        "deadline_ms": 1793611951194,
-        "activate_after_ms": 1793611801194,
+        "deadline_ms": 1794338779825,
+        "activate_after_ms": 1794338629825,
         "min_funded_projects": 3,
         "activation_authorities": [
           "donor1.test.near"
@@ -476,8 +476,8 @@
           "pending": "0",
           "accounted": "12000000000000000000000000",
           "liabilities": "12000000000000000000000000",
-          "contract_balance": "32998430781273102700000000",
-          "storage_reserve": "2257260000000000000000000",
+          "contract_balance": "32998411074938941000000000",
+          "storage_reserve": "2285480000000000000000000",
           "solvent": true
         },
         "settled": {
@@ -487,8 +487,8 @@
           "pending": "0",
           "accounted": "0",
           "liabilities": "0",
-          "contract_balance": "20998699762798495000000000",
-          "storage_reserve": "2255460000000000000000000",
+          "contract_balance": "20998680867424619400000000",
+          "storage_reserve": "2283680000000000000000000",
           "solvent": true
         }
       },
@@ -496,71 +496,71 @@
         {
           "account": "donor1.test.near",
           "amountNear": "3",
-          "hash": "HhSSW6q8NUVQ72B1DEToTEex6g1FfyjkyNu1hXGsTU7B",
-          "beforeTotal": "1999831586374650700000000",
-          "afterTotal": "4701015698679853500000000"
+          "hash": "6wi3USizUwV8T5yzB4vmfUQUsxAN2o2H6AfU1ovPhvZS",
+          "beforeTotal": "1999831278152845700000000",
+          "afterTotal": "4701017593446240700000000"
         },
         {
           "account": "donor2.test.near",
           "amountNear": "1",
-          "hash": "6oL9mJevJAUcxPXLU1QJ3H19tijffaP7qP3LoUieMhKM",
-          "beforeTotal": "3999829913157819600000000",
-          "afterTotal": "4701008165639371200000000"
+          "hash": "5qoN474RkK1U8bWJ18e9whjVGqXrSD1f8Z9qWHnbg1FD",
+          "beforeTotal": "3999829604936014600000000",
+          "afterTotal": "4701010060405758400000000"
         },
         {
           "account": "donor3.test.near",
           "amountNear": "3",
-          "hash": "Bqjs1h61LJvz7ESSyNQvKhHhBq8pC93QSF7BQ6bTvukn",
-          "beforeTotal": "1999828786472816100000000",
-          "afterTotal": "4701000892564801700000000"
+          "hash": "5j5HS8amjQbhYJDnPyUZfbMvcZ1bCB71okeXgaQcZtZY",
+          "beforeTotal": "1999828478251011100000000",
+          "afterTotal": "4701002787331188900000000"
         },
         {
           "account": "donor4.test.near",
           "amountNear": "3",
-          "hash": "E5yCYRYGygDWwBe8MtKnixRoDwdVwAfpZxwLZu93BtEs",
-          "beforeTotal": "1999827532114253100000000",
-          "afterTotal": "4700993440723525100000000"
+          "hash": "3D8EgvuwawxDzECqwhprpofmh7pe9Xh7J1jju7aN1JtX",
+          "beforeTotal": "1999827223892448100000000",
+          "afterTotal": "4700995335489912300000000"
         },
         {
           "account": "donor5.test.near",
           "amountNear": "2",
-          "hash": "8YsUfKHGkfBHWV9yFNo8YAoqav5U5NH94WSWtPsMvZQ",
-          "beforeTotal": "2999826694392517000000000",
-          "afterTotal": "4700986338135359000000000"
+          "hash": "3QJWWN8Gekk7NFHHE5yAktM2RLvcqUyF93E1FADm3NBP",
+          "beforeTotal": "2999826386170712000000000",
+          "afterTotal": "4700988232901746200000000"
         }
       ],
       "finalContractBalance": {
-        "total": "20998699762798495000000000",
-        "stateStaked": "2055460000000000000000000",
+        "total": "20998680867424619400000000",
+        "stateStaked": "2083680000000000000000000",
         "staked": "0",
-        "available": "18943239762798495000000000"
+        "available": "18915000867424619400000000"
       }
     },
     {
       "name": "concurrent deposits, competing activation, repeated withdrawal, and callback guard",
-      "contract": "dev-24874-20576.test.near",
-      "wasmCodeHash": "8kYswvde6AC41E17ae1LtuepvC4FcTrEzRTSpr1TBgCS",
+      "contract": "dev-50604-46016.test.near",
+      "wasmCodeHash": "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp",
       "receipts": {
-        "deploy": "3kZFAmELLSjMUBmUYw3DXd61E1LvmaXvE82hQWzEJEQK",
-        "initialize": "DEFXHZhetmNwDCQJUHtuvsG1WYwbav3j8dceS9HGqhL6",
-        "sponsorStorage": "6RAUsm4FoBLgygJWRdoFftpK27UGcvpAysmfr2rDEGt8",
+        "deploy": "3cWmsKQQdg7PzDep2wcYWkgUUEHMnhnf97QF5HkQMPy6",
+        "initialize": "DdwpeGfVXsv9Q2uhFN6ZdWBvfQaMDuKuxqDABAe3ZQg4",
+        "sponsorStorage": "CnTpqu4mAwLKiRRYLrw6PULfyb74dA6w59mprH87Ba7M",
         "deposits": [
-          "E2thckzBgqW4N7xH3DrwyZfhtDqiFsH1yGmDYWJhUvEg",
-          "3JWwYHcf5N9qhaBMemvtomC6pJjS3VZz8tn2P5FGPfWF"
+          "DKdE38GKr6Yfve3G8Yuf3Vkp3kHAhkunzrMxz7VZD4Ly",
+          "7N3w4s21KTqSprdQ9S9S8EbTKYjSmzix8wVky5T5Qe33"
         ],
         "activations": [
           {
-            "hash": "9DojvvHemPMRRWqbw2gifew14rDHe4wjSzoMv3murLFX",
-            "failed": true
+            "hash": "4vw5tvxyLnNAq7JekCuMDqDAa2xe5sr1hHouQxVHZ3tq",
+            "failed": false
           },
           {
-            "hash": "9nyzMHi8n9NSmf2yzgWih9FKapgkC7amkAuLcnRt3sjJ",
-            "failed": false
+            "hash": "mDZ9coNwJPNkq4JqnW9x586SErbLtJBr3fd53sq9MuA",
+            "failed": true
           }
         ],
         "unauthorizedActivation": {
           "label": "unauthorized activation",
-          "hash": "6s57noWMRcW82En8N4yLvRatBF5uFJVn3Lvbo4KbibQ6",
+          "hash": "6rVAchBhxxktFF68jT6x4HcBmrbW7HEvXJAkKthFwfBU",
           "failure": {
             "ActionError": {
               "index": 0,
@@ -574,12 +574,12 @@
         },
         "withdrawals": [
           {
-            "hash": "8VLyHv7gLD4y5DyE8V5pK1Pwhbkep4nShrKVVpo7MoXL",
+            "hash": "J1VqPNWtcw6RkHYXsYu7tofPv1b7oniw9ybXgzoVuPQn",
             "failed": false
           },
           {
             "label": "repeated withdrawal",
-            "hash": "8kE8yBqiJUFQzRB8uQKCQgwgcYCW2MVi19ayfZYLRjYA",
+            "hash": "9Ek2mcJPQEMAVp5p1cLR3rwNjpFY31Asx3YRNJQkyHa5",
             "failure": {
               "ActionError": {
                 "index": 0,
@@ -594,7 +594,7 @@
         ],
         "unauthorizedCallback": {
           "label": "unauthorized duplicate callback",
-          "hash": "FobmQCM4fpnpjMN2vnNoAYmqerv7k2bD7hTvpaeEQ4hj",
+          "hash": "7RgJTrou83puGYzLy8BUCLQxQrxUwJDfavwQgUN9DmXV",
           "failure": {
             "ActionError": {
               "index": 0,
@@ -615,8 +615,8 @@
           "pending": "0",
           "accounted": "3000000000000000000000000",
           "liabilities": "3000000000000000000000000",
-          "contract_balance": "23998368525764994300000000",
-          "storage_reserve": "2252980000000000000000000",
+          "contract_balance": "23998348441086789400000000",
+          "storage_reserve": "2281200000000000000000000",
           "solvent": true
         },
         "activated": {
@@ -626,8 +626,8 @@
           "pending": "0",
           "accounted": "3000000000000000000000000",
           "liabilities": "3000000000000000000000000",
-          "contract_balance": "23998405413903103900000000",
-          "storage_reserve": "2253890000000000000000000",
+          "contract_balance": "23998385599195036900000000",
+          "storage_reserve": "2282110000000000000000000",
           "solvent": true
         },
         "settled": {
@@ -637,15 +637,15 @@
           "pending": "0",
           "accounted": "0",
           "liabilities": "0",
-          "contract_balance": "20998473516651396600000000",
-          "storage_reserve": "2253480000000000000000000",
+          "contract_balance": "20998454071315842000000000",
+          "storage_reserve": "2281700000000000000000000",
           "solvent": true
         }
       },
       "finalStatus": {
         "phase": "ACTIVATED",
-        "deadline_ms": 1793612424272,
-        "activate_after_ms": 1793611854272,
+        "deadline_ms": 1794339250004,
+        "activate_after_ms": 1794338680004,
         "min_funded_projects": 1,
         "activation_authorities": [
           "activator1.test.near",
@@ -664,28 +664,28 @@
         ]
       },
       "finalContractBalance": {
-        "total": "20998473516651396600000000",
-        "stateStaked": "2053480000000000000000000",
+        "total": "20998454071315842000000000",
+        "stateStaked": "2081700000000000000000000",
         "staked": "0",
-        "available": "18944993516651396600000000"
+        "available": "18916754071315842000000000"
       }
     },
     {
       "name": "real Sputnik DAO proposal quorum funds PACT and recovers expired DAO-owned funds",
-      "dao": "dev-61467-20576.test.near",
+      "dao": "dev-90161-2208.test.near",
       "sputnikWasmSha256": "6e3f1814d40769d8f57b9a7af689d22aaab96d3232cec4d861311829c1d2318f",
       "contracts": {
-        "funded": "dev-65723-31776.test.near",
-        "refund": "dev-91687-9888.test.near"
+        "funded": "dev-94396-11136.test.near",
+        "refund": "dev-17360-77376.test.near"
       },
       "receipts": {
         "dao": {
-          "deploy": "3Reca9W7cTYrGZEkZ7XgZMPx9Dknd34149ZEbK6nafgQ",
-          "initialize": "79rLkBxJpXVccH6BJVtkmSxo6RJLtszL31Cu228B3vvx"
+          "deploy": "AQZXkZajoNpBkhCmmXmUETMbDH5tHvyp3bkXu1h7rBQi",
+          "initialize": "8GryYis47YmPg4R3zsv937DRQRG4nNpqpGxy9csnc8yZ"
         },
         "unauthorizedFunding": {
           "label": "non-council DAO approval",
-          "hash": "EDsmB7QTGRkUKTsFZ5MWHBqDEB4onBoE8Vb2LpXESffy",
+          "hash": "62vQqMdVzG3f7gn16zeRS85xUD2ZAddVMNKXpShTrUa7",
           "failure": {
             "ActionError": {
               "index": 0,
@@ -698,34 +698,34 @@
           }
         },
         "fundProposal": {
-          "add": "5Hwwnf2TJnccb9jjgJPujPYeVAfAzaQUkp3gFiXdcLB6",
+          "add": "7pveeLJ6dWTtJf8zuuAdzfDxysKYpoijKseV3ANx4miP",
           "receipts": {
-            "first": "G6ce7AFVyGrHUaxCzGHWKWdb4ooBMm2w99jVax91DaQm",
-            "second": "h48YN8VTcKzbhpDxsqkPLSbFgFPBSm8Cm6gqZbCf6sj"
+            "first": "FYTLVfN1N49doPsDop6ZYmSyRrv3JKkaZbRZvAJ1dStK",
+            "second": "8td24Fi1GVvS4UGfqR6z3bnPo4vmHkVDqV7MVp2sAcJe"
           },
           "statusAfterFirst": "InProgress",
           "statusAfterSecond": "Approved"
         },
         "unapprovedProposal": {
-          "add": "HVYb2AU5tL6KnGwpMAbykPQbVxbPLTJruh7pvjvc9jN1"
+          "add": "8uhyhHf1NrGYvbguu8XhMovjmiW7eKCikVA32qCzP2Kb"
         },
-        "activation": "4JGZ5CcmbqD93CkqneViQRV2bPaesxxSo7jD27Vjnv6W",
-        "beneficiaryWithdrawal": "5ehjNRV8c1oUYGGu38ZgQmekKRnAwp5wUDdLMj5rUXBv",
+        "activation": "A7DwdS9wE1WLr9BMEnf9Kw9jTfdip1t8xEpmZs2LWvyF",
+        "beneficiaryWithdrawal": "9gKnqDgvDuDMGXVuSYMQ9hw8aH3e9Tf4m8b22QuH4Nvt",
         "refundProposal": {
-          "add": "FGe5YA5WQEURJS2LSd3zf1pV6ApCiZRpW6k4GEdQj9ri",
+          "add": "3BPdFgpMYuag1zHj1uRUmBb24u1CP5SgGnWtBfZDSSCu",
           "receipts": {
-            "first": "GDWF7Y6BCgSMCYWbAj2w4C8daWgJ3yfSBaXTTxk9m3Gn",
-            "second": "4sckQKbUPBEpxHu2PGZq7yyGt5UwjaRb3KMiV2Ns6WiF"
+            "first": "ADbDnvrSR6degrcP7o8LyNiHwMbn4sDj9GiTCZGB3jhh",
+            "second": "FSf1ndMye9BuDznxDbMW5YFmQpiYEkfs1F4e8yZk7tLv"
           },
           "statusAfterFirst": "InProgress",
           "statusAfterSecond": "Approved"
         },
-        "expiry": "3TpGy7qM1UzmcKovFfVMX1pVi1hLm85b2B2zcwZmnVb8",
+        "expiry": "AhPYpF3duneUjj4kzL8L1M3974VYwWm4hQQhDy6QiyRS",
         "withdrawProposal": {
-          "add": "D1tJHF9shz5r2QaRtdPsb2Mv4DYmu6FQapjGthR7qXAq",
+          "add": "BbPBr9oZfpJhwxAtok3KpPPz5Y8DzrS3SddLPoYRgb4A",
           "receipts": {
-            "first": "2jC5PuM89w7KkrAhZV9g2o6ENwM2V7J8YVVyouDiFmb8",
-            "second": "8sPtNmJbKM25Vy4UU5Vjt4AvF7W58rDBk3qxLPWmtVK6"
+            "first": "GFHpqATpB66kHfbAhF9AVyzYqGsVGqm35QSwE2bbC2Gb",
+            "second": "24cin4ynu9Jw5sahbXbHsQuxCjCAcr1LvSosNVYbyzai"
           },
           "statusAfterFirst": "InProgress",
           "statusAfterSecond": "Approved"
@@ -739,8 +739,8 @@
           "pending": "0",
           "accounted": "1000000000000000000000000",
           "liabilities": "1000000000000000000000000",
-          "contract_balance": "21998354973633240900000000",
-          "storage_reserve": "2252230000000000000000000",
+          "contract_balance": "21998334793616124500000000",
+          "storage_reserve": "2280440000000000000000000",
           "solvent": true
         },
         "activated": {
@@ -750,8 +750,8 @@
           "pending": "0",
           "accounted": "1000000000000000000000000",
           "liabilities": "1000000000000000000000000",
-          "contract_balance": "21998369399363520300000000",
-          "storage_reserve": "2252960000000000000000000",
+          "contract_balance": "21998349307645313800000000",
+          "storage_reserve": "2281170000000000000000000",
           "solvent": true
         },
         "fundedSettled": {
@@ -761,8 +761,8 @@
           "pending": "0",
           "accounted": "0",
           "liabilities": "0",
-          "contract_balance": "20998418300421556200000000",
-          "storage_reserve": "2252550000000000000000000",
+          "contract_balance": "20998398385350534900000000",
+          "storage_reserve": "2280760000000000000000000",
           "solvent": true
         },
         "expired": {
@@ -772,8 +772,8 @@
           "pending": "0",
           "accounted": "1000000000000000000000000",
           "liabilities": "1000000000000000000000000",
-          "contract_balance": "21998368137857825200000000",
-          "storage_reserve": "2252750000000000000000000",
+          "contract_balance": "21998348035388870200000000",
+          "storage_reserve": "2280950000000000000000000",
           "solvent": true
         },
         "refundSettled": {
@@ -783,30 +783,30 @@
           "pending": "0",
           "accounted": "0",
           "liabilities": "0",
-          "contract_balance": "20998416727229175300000000",
-          "storage_reserve": "2252300000000000000000000",
+          "contract_balance": "20998396795062912600000000",
+          "storage_reserve": "2280510000000000000000000",
           "solvent": true
         }
       },
       "balances": {
         "daoBeforeRefund": {
-          "total": "28996749679733152400000000",
-          "stateStaked": "4714470000000000000000000",
+          "total": "28996749705062139800000000",
+          "stateStaked": "4714480000000000000000000",
           "staked": "0",
-          "available": "24282279679733152400000000"
+          "available": "24282269705062139800000000"
         },
         "daoAfterRefund": {
-          "total": "29996889283536907600000000",
-          "stateStaked": "4717740000000000000000000",
+          "total": "29996889332417729500000000",
+          "stateStaked": "4717760000000000000000000",
           "staked": "0",
-          "available": "25279149283536907600000000"
+          "available": "25279129332417729500000000"
         }
       },
       "finalStatuses": {
         "funded": {
           "phase": "ACTIVATED",
-          "deadline_ms": 1793612465116,
-          "activate_after_ms": 1793611985116,
+          "deadline_ms": 1794339293793,
+          "activate_after_ms": 1794338813793,
           "min_funded_projects": 1,
           "activation_authorities": [
             "observer.test.near"
@@ -825,8 +825,8 @@
         },
         "refund": {
           "phase": "EXPIRED",
-          "deadline_ms": 1793612621082,
-          "activate_after_ms": 1793612141082,
+          "deadline_ms": 1794339446757,
+          "activate_after_ms": 1794338966757,
           "min_funded_projects": 1,
           "activation_authorities": [
             "observer.test.near"
@@ -851,6 +851,6 @@
     "Duplicate callback execution is tested as a private-method guard and in the Rust VM; a forged callback cannot be submitted by an external signer. A callback that never executes remains an unresolved operational recovery risk.",
     "The RC1 maximum-capacity campaign is a genuine sandbox run. It exercises all 8 project slots, all 32 pledge slots, measured storage reserve, activation, 32 credits, 32 successful withdrawals, and a repeated withdrawal failure. It does not prove behavior on testnet or mainnet."
   ],
-  "wasmSha256": "7329d40af43d7e4d6cd3ff942cbe31ba9c54124e667a9af0233e63fa9020d103",
+  "wasmSha256": "5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15",
   "sputnikWasmSha256": "6e3f1814d40769d8f57b9a7af689d22aaab96d3232cec4d861311829c1d2318f"
 }

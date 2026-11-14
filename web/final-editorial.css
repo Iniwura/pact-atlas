@@ -1,0 +1,42 @@
+/* Full-page editorial pass. Original art, claim boundaries and functional controls remain unchanged. */
+:root{--pact-ember:#ee895c;--pact-ink:#111915;--pact-warm:#e8e2d6}
+.intro,.statement,.atlas-section,.benchmark-section,.proof-section,.footer{isolation:isolate}
+.intro{position:relative;overflow:hidden}
+.intro:before{content:"";position:absolute;inset:0 auto 0 0;width:2px;background:linear-gradient(transparent,#ba603e 40%,transparent);opacity:.65;pointer-events:none}
+.intro-grid h2,.statement h2,.atlas-title-row h2,.benchmark-heading-wrap h2,.proof-title h2{font-kerning:normal;text-wrap:balance}
+.intro-grid h2 em,.statement h2 em,.atlas-title-row h2 em,.benchmark-heading-wrap h2 em,.proof-title h2 em{font-weight:inherit}
+.intro .intro-aside{position:relative}
+.intro .intro-aside:before{content:"";display:block;width:54px;height:1px;background:#ae5e3c;margin:0 0 clamp(18px,2.5vw,40px)}
+.intro-metrics>div{position:relative}
+.intro-metrics>div:after{content:"";position:absolute;bottom:0;left:0;width:42px;height:2px;background:#ae5e3c}
+.atlas-section{position:relative}
+.atlas-section:before{content:"";position:absolute;pointer-events:none;inset:10% 0 auto auto;width:min(53vw,650px);height:560px;background:radial-gradient(ellipse at center,rgba(214,102,56,.12),transparent 70%);z-index:-1}
+.atlas-title-row{position:relative}
+.atlas-intro p{font-weight:660;letter-spacing:-.025em}
+.statement{position:relative;overflow:hidden}
+.statement:after{content:"✳";position:absolute;right:1.2%;top:4%;font-size:clamp(65px,16vw,250px);line-height:1;color:#c3a792;opacity:.17;pointer-events:none;transform:rotate(-16deg)}
+.statement-bottom{position:relative;z-index:1}
+.benchmark-section{position:relative}
+.benchmark-section:before{content:"";position:absolute;top:0;left:5%;right:5%;height:1px;background:linear-gradient(90deg,transparent,rgba(236,140,99,.7),transparent)}
+.benchmark-selector select{cursor:pointer}
+.benchmark-selector select:focus-visible,.graph-node:focus-visible,.evidence-step:focus-visible{outline:3px solid #eaa47a;outline-offset:4px}
+.proof-section{position:relative}
+.proof-section:before{content:"";pointer-events:none;position:absolute;right:0;top:0;width:min(65vw,850px);height:500px;background:radial-gradient(ellipse at 70% 20%,rgba(228,114,67,.10),transparent 70%);z-index:-1}
+.certificate{position:relative;box-shadow:0 14px 58px rgba(0,0,0,.08)}
+.certificate:after{content:"";position:absolute;inset:8px;border:1px solid rgba(103,95,77,.18);pointer-events:none}
+.pledge-ledger{position:relative}
+.footer{position:relative;overflow:hidden}
+.footer:before{content:"";pointer-events:none;position:absolute;right:-13%;top:-50%;height:115%;aspect-ratio:1;border:1px solid rgba(240,191,151,.17);border-radius:50%;box-shadow:0 0 0 70px rgba(240,191,151,.025),0 0 0 150px rgba(240,191,151,.025)}
+.footer-title{position:relative;z-index:1}
+.editorial-bridge{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.75fr);gap:clamp(30px,7vw,120px);padding:clamp(52px,8vw,116px) clamp(25px,6vw,108px);background:#d5cfc1;color:#181e19;border-top:1px solid #b6ad9e}
+.editorial-bridge .bridge-kicker{display:block;font-size:11px;font-weight:750;letter-spacing:.15em;margin-bottom:34px;color:#6a5142}
+.editorial-bridge h2{font-size:clamp(51px,7.5vw,120px);letter-spacing:-.085em;line-height:.9;margin:0;max-width:950px}
+.editorial-bridge h2 em{color:#a84e2d;font-style:normal}
+.editorial-bridge .bridge-detail{border-top:1px solid #8d8c80;padding-top:25px;display:flex;flex-direction:column;justify-content:space-between;gap:30px}
+.editorial-bridge .bridge-detail p{font-size:clamp(17px,1.65vw,25px);letter-spacing:-.035em;line-height:1.38;max-width:360px;margin:0}
+.editorial-bridge .bridge-links{display:flex;flex-wrap:wrap;gap:16px 25px}
+.editorial-bridge a{color:#572a1d;font-size:12px;font-weight:760;border-bottom:1px solid currentColor;padding-bottom:8px;text-decoration:none}
+.editorial-bridge a:hover{color:#ae4828}
+@media(max-width:790px){.editorial-bridge{grid-template-columns:1fr;gap:30px}.editorial-bridge h2{font-size:clamp(48px,10.6vw,82px)}.editorial-bridge .bridge-detail{gap:24px}.statement:after{opacity:.09}}
+@media(max-width:520px){.editorial-bridge{padding:48px 24px 55px}.editorial-bridge h2{font-size:clamp(45px,12vw,65px)}.editorial-bridge .bridge-kicker{margin-bottom:26px}.certificate:after{inset:4px}.footer:before{right:-60%;top:-20%}}
+@media(prefers-reduced-motion:reduce){.editorial-bridge *{scroll-behavior:auto!important}}
