@@ -179,3 +179,10 @@
 .campaign-app .journey-phase strong{display:block;font-size:clamp(17px,1.6vw,26px);font-weight:760;letter-spacing:-.05em;line-height:1.15;color:#f1efe5}
 .campaign-app .journey-phase small{display:block;margin-top:8px;font-size:12px;line-height:1.4;color:#b9c5b7}
 @media(max-width:650px){.campaign-app .campaign-journey{grid-template-columns:1fr}.campaign-app .journey-phase{padding:22px}.verify-app .verify-form-head{align-items:start}.verify-app .verify-form-head h2{font-size:31px}}
+
+/* Correct the route-level canvas: inherited light body colors made titles unreadable. */
+body.protocol-app.create-app,body.protocol-app.campaign-app,body.protocol-app.verify-app{background:#0e1410;color:#edece3}
+.verify-app .verify-result{color:#eee9df}
+.verify-app #proof-verdict{color:#fbf5e9}
+.verify-app .verify-result .proof-result-label{color:#eaa37e}
+.verify-app #proof-explanation,.verify-app .proof-scope{color:#d2d9ce}
