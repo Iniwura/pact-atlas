@@ -4,22 +4,22 @@
 
 PACT Atlas helps a group fund projects that depend on each other. Contributors choose where their commitments may go and what else must be funded first. The contract accepts a valid allocation only when the conditions are met, with no pledge counted twice. If a campaign expires, unused contributions become refundable.
 
-**Public, login-free latest review:** [Open PACT Atlas](https://pact-atlas-consistency.vercel.app/) · [Campaign workspace](https://pact-atlas-consistency.vercel.app/console) · [Create](https://pact-atlas-consistency.vercel.app/create.html) · [Verify a receipt](https://pact-atlas-consistency.vercel.app/verify.html). This anonymous-access preview is verified against UI commit `d01892c97fcc8311657fd8ee068767059b05d7af` from `design/consistency-fixes-20261114`, as recorded in [PR #21](https://github.com/Iniwura/pact-atlas/pull/21). It is the latest **testnet-only review build**, not a production-finance deployment. The repository is public, but `main` still points to an older release until the reviewed branch is merged.
+**Public, login-free release candidate:** [Open PACT Atlas](https://pact-atlas-near-connect.vercel.app/) · [Campaign workspace](https://pact-atlas-near-connect.vercel.app/console) · [Create](https://pact-atlas-near-connect.vercel.app/create.html) · [Verify a receipt](https://pact-atlas-near-connect.vercel.app/verify.html). This tested review deployment uses **NEAR Connect** for an account-first wallet chooser; selecting a wallet does not request an up-front function-call access key or 0.25 NEAR gas allowance. Actual external-wallet approval and browser-signed transaction finality remain **unverified**.
 
-**Release status: testnet-only application preview.** Three real NEAR testnet campaigns prove activation, a full refund and a two-project dependency coalition. The current application has a campaign workspace, a clean creation flow, authenticated testnet campaign readers, and independently linked transaction activity. Its browser-wallet signing flow has **not** completed genuine extension signing, and an unresolved missing-withdrawal-callback issue prevents safe use with valuable funds. Do not use PACT Atlas for production deposits. This is not an independently audited financial service.
+**Release status: public NEAR testnet application.** Three real faucet-funded NEAR testnet campaigns demonstrate activation, a full refund and a two-project conditional coalition. Browser features include a campaign workspace, a blank custom creator, independently authenticated onchain readers, and real public receipts. The locked visual design and testnet contract code are unchanged. A missing-withdrawal-callback recovery path is unresolved, so **do not deposit valuable funds or use on mainnet**. No independent qualified security audit has been completed.
 
 ### Judge walkthrough — use the real proof first
 
-1. **Inspect** the historical Alpha/Beta funding story at [/#real-proof](https://pact-atlas-consistency.vercel.app/#real-proof). The receipts are actual faucet-funded NEAR testnet transactions, **CLI-signed**, not fake UI transfers.
-2. **Follow** the real coalition and separate refund journey from the [campaign workspace](https://pact-atlas-consistency.vercel.app/console) and its transaction activity.
-3. **Create** a blank campaign at [/create.html](https://pact-atlas-consistency.vercel.app/create.html), change dependencies, and preview/export an exact plan. Do not confuse a local plan with signed onchain deployment.
-4. **Verify** a recorded transaction independently at [/verify.html](https://pact-atlas-consistency.vercel.app/verify.html). Unavailable RPC is an unknown state, not a verified success.
+1. **Inspect** the historical Alpha/Beta funding story at [/#real-proof](https://pact-atlas-near-connect.vercel.app/#real-proof). The receipts are actual faucet-funded NEAR testnet transactions, **CLI-signed**, not fake UI transfers.
+2. **Follow** the real coalition and separate refund journey from the [campaign workspace](https://pact-atlas-near-connect.vercel.app/console) and its transaction activity.
+3. **Create** a blank campaign at [/create.html](https://pact-atlas-near-connect.vercel.app/create.html), change dependencies, and preview/export an exact plan. Do not confuse a local plan with signed onchain deployment.
+4. **Verify** a recorded transaction independently at [/verify.html](https://pact-atlas-near-connect.vercel.app/verify.html). Unavailable RPC is an unknown state, not a verified success.
 
 ### See the proof, then use the product
 
 The new homepage has an interactive **historical proof story** at `/#real-proof`. It follows a real two-project Alpha/Beta coalition from out-of-order contributions through contract activation to both beneficiary payouts, with the original testnet receipts attached to every step. It is not a simulated live transaction. Open `/console` to browse the recorded campaigns, create an agreement and independently verify receipts.
 
-**Latest recorded verification (14 Nov 2026):** 116/116 Chromium browser tests passed (zero retries), including the focused wallet and recovery coverage; 16/16 focused wallet Node tests passed. PR #21 records live anonymous preview checks at 390px and 1440px, zero horizontal overflow, no JavaScript errors, and zero wallet-modal WCAG A/AA violations. These are **browser/UI evidence**, not proof of completed external wallet signing, live public DAO voting, missing-callback recovery, or mainnet safety. See [the exact release review](https://github.com/Iniwura/pact-atlas/pull/21) and [the prior independent product QA scope](docs/RELEASE_QA_2026-11-13.md).
+**Latest executed QA (14 Nov 2026):** 118/118 Chromium browser tests passed with zero retries and 109/109 Node checks across eight suites on the NEAR Connect branch. The responsive, accessibility, creator, recovery and public proof flows remain green. These checks **do not** prove an authentic external-wallet authorization, wallet-signed onchain transaction, missing-callback recovery or mainnet safety. The [historical QA report](docs/RELEASE_QA_2026-11-13.md) covers earlier checkpoints; the current branch contains the latest automated wallet regression checks.
 
 ### Use the application
 
@@ -48,7 +48,7 @@ not production financial security or an external audit.
 
 Judge the release with the [executed 118-test product audit](docs/RELEASE_QA_2026-11-13.md), [reproducible walkthrough](docs/JUDGE_WITNESS.md),
 [submission description](docs/SUBMISSION_DESCRIPTION.md), and
-[release checklist](docs/SUBMISSION_CHECKLIST_2026-11-10.md). The repository is now public. The most recent implementation remains on the unmerged review branch, not `main`; judges should use the exact preview and branch above until a release is approved. A public X demo post and the official final submission are still required.
+[release checklist](docs/SUBMISSION_CHECKLIST_2026-11-10.md). The repository is public. The verified release branch is `feature/near-connect-gasless-20261114`; the primary judge URL is linked above. The mandatory public X demo post and official submission are separate steps and are not completed merely by making the repository public.
 
 ## Make your own campaign
 
@@ -125,7 +125,7 @@ Five contributors put in 12 NEAR total. A flexible donor can pledge 3 NEAR to ei
 - `web/campaign-live.mjs`: authenticated finalized campaign state plus explicit commit, activation, expiry and withdrawal actions.
 - `web/campaign-live-data.mjs`: immutable configuration authentication and chain-derived pledge certificate preparation.
 - `web/near-rpc.mjs`: read-only testnet RPC transport, including finalized transaction and code-hash requests.
-- `web/wallet-selector-host.mjs`: lazy Wallet Selector v10.1.4 testnet host integration for Meteor, Sender and Nightly; it never owns keys or retries unknown outcomes.
+- `web/wallet-selector-host.mjs`: lazy NEAR Connect v0.12.0 testnet wallet chooser with account-first sign-in (no initial access-key allowance) and separate transaction approval; it never owns keys or retries unknown outcomes.
 - `web/near-workflow.mjs`: explicit commit, Sputnik proposal, certificate, activation and withdrawal request builder.
 - `web/near-adapter.mjs`: HOT Connect / Wallet Selector-compatible host bridge; it never owns keys or retries unknown outcomes.
 - `docs/VERCEL_PREVIEW.md` and `vercel.json`: reproducible preview package and the verified sandbox-backed Vercel preview record.
@@ -165,11 +165,11 @@ npm ci
 RUSTUP_TOOLCHAIN=1.93.0 bash scripts/verify-rust.sh
 ```
 
-The script checks Rust formatting, the locked Wasm target, 16 unit tests and clippy, rebuilds the optimized Wasm and ABI with `wasm-opt`, runs the 38 core Node tests, 9 benchmark tests, 23 counterfactual tests, 8 workflow tests, 7 proof tests, 8 wallet-adapter tests, 5 pinned Wallet Selector/testnet compatibility tests and 9 chain/RPC/live-data/ABI tests, and runs five real sandbox scenarios plus the exact atomic deployment lifecycle. The sandbox runner uses `near-sandbox` 2.13.4 through the pinned `near-sandbox-modern` alias because the older binary bundled by `near-workspaces` 5.0.0 cannot prepare this SDK's Wasm.
+The script checks Rust formatting, the locked Wasm target, 16 unit tests and clippy, rebuilds the optimized Wasm and ABI with `wasm-opt`, runs the 38 core Node tests, 9 benchmark tests, 23 counterfactual tests, 8 workflow tests, 7 proof tests, 9 wallet-adapter tests, 6 NEAR Connect compatibility tests and 9 chain/RPC/live-data/ABI tests, and runs five real sandbox scenarios plus the exact atomic deployment lifecycle. The sandbox runner uses `near-sandbox` 2.13.4 through the pinned `near-sandbox-modern` alias because the older binary bundled by `near-workspaces` 5.0.0 cannot prepare this SDK's Wasm.
 
 The product checks are separate and reproducible with `npm run test:counterfactual` and `NPM_CONFIG_CACHE=/tmp/pact-npm-cache PLAYWRIGHT_BROWSERS_PATH=/tmp/pact-playwright-browsers npm run test:browser`. The browser campaign covers first-viewport comprehension, exact/blocked counterfactual states, evidence reconciliation, injected-adapter wallet safety, direct hosted routes, console/page errors, automated accessibility, graph keyboard interaction, evidence switching, narrow mobile layout and a local load-time budget. Fresh CI captures go to ignored `test-results/screenshots/`; the current redesign captures are in `docs/design-evidence/`.
 
-The wallet request layer is covered with `npm run test:workflow` (8 tests), the campaign deployment/share/RPC/live-data/ABI boundary with `npm run test:chain` (9 tests), and the optional host bridge with `npm run test:wallet-adapter` (8 tests), without signing or submitting a transaction.
+The wallet request layer is covered with `npm run test:workflow` (8 tests), the campaign deployment/share/RPC/live-data/ABI boundary with `npm run test:chain` (9 tests), and the optional host bridge with `npm run test:wallet-adapter` (9 tests), without signing or submitting a transaction.
 
 The competitive benchmark is separate from the product and chain evidence. It compares explicit baseline semantics with the bounded exact reference solver, checks small cases against an independent exhaustive oracle, and labels aggregate/independent results as uncertified whenever they cannot prove PACT's one-use, condition and dependency rules. See `docs/COMPETITIVE_ADVANTAGE.md`.
 
