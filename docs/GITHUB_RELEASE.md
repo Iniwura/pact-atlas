@@ -1,3 +1,5 @@
+> **Historical 10 November release planning record.** This document describes the earlier private, unmerged checkpoint, not the current repository. The repository is public and the NEAR Connect release has since been merged into `main`. For the final judge URL, runbook and safety scope, use the top-level [README](../README.md) and [submission checklist](SUBMISSION_CHECKLIST_2026-11-10.md).
+
 # GitHub release preparation
 
 The private repository `https://github.com/Iniwura/pact-atlas` exists and the
