@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="./lurais-product.css">
   <link rel="stylesheet" href="./lurais-responsive.css">
   <link rel="stylesheet" href="./system-recovery.css">
+  <link rel="stylesheet" href="./release-ux.css">
 </head>
 <body class="protocol-app verify-app">
 <a class="skip-link" href="#verify-main">Skip to transaction verification</a>
@@ -29,8 +30,14 @@
     <a href="./console#activity">Activity</a>
     <a href="./verify.html" aria-current="page">Verify</a>
   </nav>
-  <span class="mode-pill"><span class="mode-dot"></span> NEAR TESTNET</span>
+  <div class="pact-global-actions">
+    <span class="mode-pill"><span class="mode-dot"></span> NEAR TESTNET</span>
+    <a class="pact-guide-header" href="./console?tour=1" aria-label="Open PACT guided walkthrough">Guide ↗</a>
+    <button type="button" id="connect-wallet" class="wallet-button" aria-describedby="wallet-message">Connect wallet ↗</button>
+    <button type="button" id="wallet-disconnect" class="wallet-disconnect" hidden>Disconnect</button>
+  </div>
 </header>
+  <p id="wallet-message" class="pact-route-wallet-message" role="status" aria-live="polite"></p>
   <nav class="route-mobile-nav" aria-label="Quick app navigation"><a href="./console#campaigns">Campaigns</a><a href="./create.html">Create</a><a href="./console#activity">Activity</a><a href="./verify.html" aria-current="page">Verify</a></nav>
 <main class="verify-main" id="verify-main">
   <div class="verify-intro">
@@ -82,6 +89,7 @@
 </main>
 <footer class="site-footer"><span>PACT/ATLAS</span><span>NEAR HACKATHON 2026</span><a href="./console">Explore the example ↗</a></footer>
 <script type="module" src="./verify.js"></script>
+<script type="module" src="./wallet-shell.mjs"></script>
 <script type="module" src="./system-recovery.mjs"></script>
 </body>
 </html>
