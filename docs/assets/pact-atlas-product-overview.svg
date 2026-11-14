@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="530" viewBox="0 0 1280 530" role="img" aria-labelledby="title description">
+<title id="title">PACT Atlas — connected community funding</title>
+<desc id="description">An editorial illustration of two restricted supporter pledges, one exact allocation, and two connected projects. Project Beta requires Project Alpha. This is a mechanism illustration, not a screenshot or a transaction.</desc>
+<defs>
+  <linearGradient id="backdrop" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#202522"/><stop offset="1" stop-color="#141716"/></linearGradient>
+  <linearGradient id="focus" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F5B88D"/><stop offset="1" stop-color="#DB8250"/></linearGradient>
+  <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="#ffffff" stroke-opacity=".025" stroke-width="1"/></pattern>
+  <marker id="arrow" viewBox="0 0 10 10" refX="7.8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#E5AA7F"/></marker>
+</defs>
+<rect x="0" y="0" width="1280" height="530" rx="14" fill="url(#backdrop)"/>
+<rect x="0" y="0" width="1280" height="530" rx="14" fill="url(#grid)"/>
+<path d="M55 74 L55 455" stroke="#E7A57D" stroke-width="2"/>
+<text x="78" y="92" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" letter-spacing="3.0" fill="#DFB294">NEAR TESTNET  /  SOCIAL MONEY</text>
+<text x="76" y="169" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="800" letter-spacing="-4" fill="#F8F8F3">PACT<tspan fill="#F0A779">/</tspan>ATLAS</text>
+<text x="78" y="229" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="650" letter-spacing="-1" fill="#FBF5EE">One agreement.</text>
+<text x="78" y="268" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="650" letter-spacing="-1" fill="#FBF5EE">Connected outcomes.</text>
+<text x="78" y="331" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#C3C9C0">Funding with conditions, dependencies</text>
+<text x="78" y="359" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#C3C9C0">and one-use allocation on NEAR.</text>
+<rect x="78" y="400" width="187" height="34" rx="17" fill="#334138" stroke="#55705E"/>
+<circle cx="99" cy="417" r="4.5" fill="#A6D6B4"/>
+<text x="113" y="422" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing=".8" fill="#E8F0E7">REAL TESTNET PROOF</text>
+<rect x="284" y="400" width="165" height="34" rx="17" fill="none" stroke="#75675E"/>
+<text x="301" y="422" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing=".5" fill="#E3D3C8">OPEN SOURCE</text>
+<rect x="575" y="49" width="653" height="412" rx="19" fill="#242925" stroke="#4D564D"/>
+<path d="M600 106 H1201" stroke="#4A514B"/>
+<text x="604" y="84" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" letter-spacing="2" fill="#F6D3B4">THE CONDITIONAL FUNDING GRAPH</text>
+<text x="1198" y="84" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="1" fill="#969F94">ILLUSTRATIVE</text>
+<text x="607" y="145" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="1.7" fill="#B5BCB2">SUPPORTER PLEDGES</text>
+<circle cx="640" cy="208" r="22" fill="#384039" stroke="#819082"/>
+<text x="640" y="213" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="750" fill="#F6F1EB">01</text>
+<text x="676" y="203" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="650" fill="#E7E9E3">Pledge A</text>
+<text x="676" y="223" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#ABB7A8">Eligible destinations</text>
+<circle cx="640" cy="308" r="22" fill="#384039" stroke="#819082"/>
+<text x="640" y="313" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="750" fill="#F6F1EB">02</text>
+<text x="676" y="303" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="650" fill="#E7E9E3">Pledge B</text>
+<text x="676" y="323" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#ABB7A8">Conditional support</text>
+<path d="M745 207 C790 205 808 222 835 247" fill="none" stroke="#829A83" stroke-width="2"/>
+<path d="M745 307 C785 310 809 289 836 273" fill="none" stroke="#829A83" stroke-width="2"/>
+<circle cx="904" cy="257" r="69" fill="#343C35" stroke="#D98F66" stroke-width="2"/>
+<circle cx="904" cy="257" r="60" fill="#3F4940" stroke="#FFFFFF" stroke-opacity=".13"/>
+<text x="904" y="247" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="750" letter-spacing="1" fill="#F8E2D0">EXACT</text>
+<text x="904" y="267" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="750" letter-spacing=".6" fill="#F8E2D0">ALLOCATION</text>
+<text x="904" y="288" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="10" fill="#C8D1C4">EACH PLEDGE ONCE</text>
+<path d="M973 237 C1006 226 1008 197 1046 185" fill="none" stroke="#F1AE82" stroke-width="2.4" marker-end="url(#arrow)"/>
+<path d="M973 276 C1007 284 1010 319 1046 324" fill="none" stroke="#F1AE82" stroke-width="2.4" marker-end="url(#arrow)"/>
+<rect x="1049" y="141" width="134" height="79" rx="11" fill="#323A33" stroke="#8EAA91"/>
+<text x="1067" y="171" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#FCF8F3">ALPHA</text>
+<text x="1067" y="196" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#AFBEAF">Project A</text>
+<rect x="1049" y="289" width="134" height="79" rx="11" fill="#3D3632" stroke="#CD956C"/>
+<text x="1067" y="319" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#FCF8F3">BETA</text>
+<text x="1067" y="344" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#DBB89E">Requires Alpha</text>
+<path d="M1191 327 L1204 327 L1204 182 L1186 182" fill="none" stroke="#F2B287" stroke-width="2" stroke-dasharray="5 6" marker-end="url(#arrow)"/>
+<text x="612" y="418" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#A9B3A7">Commitments are checked together, not counted twice.</text>
+<path d="M55 480 H1228" stroke="#5A635C" stroke-opacity=".7"/>
+<text x="77" y="505" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="1.4" fill="#D4D8D0">01 DEFINE RULES</text>
+<text x="365" y="505" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="1.4" fill="#D4D8D0">02 CHECK A PLAN</text>
+<text x="670" y="505" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="1.4" fill="#D4D8D0">03 ACTIVATE ONCHAIN</text>
+<text x="1019" y="505" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="1.4" fill="#D4D8D0">04 VERIFY</text>
+</svg>

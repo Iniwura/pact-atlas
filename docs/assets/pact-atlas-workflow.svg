@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="345" viewBox="0 0 1200 345" role="img" aria-labelledby="title desc">
+<title id="title">PACT Atlas product workflow</title>
+<desc id="desc">A four-stage workflow: Define project and supporter conditions, check a candidate plan locally, enforce a valid certificate in the NEAR contract, then inspect public finalized receipts. Local previews and onchain results are distinct.</desc>
+<rect width="1200" height="345" rx="12" fill="#F7F7F4"/>
+<rect x="1" y="1" width="1198" height="343" rx="11" fill="none" stroke="#CFD3CB"/>
+<text x="43" y="45" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" letter-spacing="2" fill="#6B6F64">HOW PACT WORKS</text>
+<text x="1157" y="45" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="1" fill="#777D72">PLANNING  /  ENFORCEMENT  /  PROOF</text>
+<g font-family="Arial, Helvetica, sans-serif">
+<rect x="43" y="73" width="259" height="199" rx="10" fill="#FFFFFF" stroke="#C8D0C6"/>
+<rect x="43" y="73" width="259" height="6" rx="3" fill="#6D927A"/>
+<text x="65" y="115" font-size="15" font-weight="700" fill="#53705B">01</text>
+<text x="65" y="150" font-size="25" font-weight="700" letter-spacing="-1" fill="#252A25">Define rules</text>
+<text x="65" y="182" font-size="15" fill="#545C53">Project goals and</text>
+<text x="65" y="202" font-size="15" fill="#545C53">supporter restrictions.</text>
+<text x="65" y="251" font-size="11" font-weight="700" letter-spacing="1" fill="#7F8980">LOCAL DRAFT</text>
+<path d="M308 172 H323" stroke="#B37F5F" stroke-width="2"/><path d="M318 167 L325 172 L318 177" fill="none" stroke="#B37F5F" stroke-width="2"/>
+<rect x="333" y="73" width="259" height="199" rx="10" fill="#FFFFFF" stroke="#C8D0C6"/>
+<rect x="333" y="73" width="259" height="6" rx="3" fill="#6D927A"/>
+<text x="355" y="115" font-size="15" font-weight="700" fill="#53705B">02</text>
+<text x="355" y="150" font-size="25" font-weight="700" letter-spacing="-1" fill="#252A25">Check the plan</text>
+<text x="355" y="182" font-size="15" fill="#545C53">Find a valid, exact</text>
+<text x="355" y="202" font-size="15" fill="#545C53">one-use allocation.</text>
+<text x="355" y="251" font-size="11" font-weight="700" letter-spacing="1" fill="#7F8980">MODEL RESULT</text>
+<path d="M598 172 H613" stroke="#B37F5F" stroke-width="2"/><path d="M608 167 L615 172 L608 177" fill="none" stroke="#B37F5F" stroke-width="2"/>
+<rect x="623" y="73" width="259" height="199" rx="10" fill="#29332C" stroke="#29332C"/>
+<rect x="623" y="73" width="259" height="6" rx="3" fill="#EBAB7E"/>
+<text x="645" y="115" font-size="15" font-weight="700" fill="#EBAA7A">03</text>
+<text x="645" y="150" font-size="25" font-weight="700" letter-spacing="-1" fill="#F9F9F4">Validate onchain</text>
+<text x="645" y="182" font-size="15" fill="#DEE8DD">PACT's NEAR contract</text>
+<text x="645" y="202" font-size="15" fill="#DEE8DD">checks the certificate.</text>
+<text x="645" y="251" font-size="11" font-weight="700" letter-spacing="1" fill="#C8D4C5">SIGNED ACTION</text>
+<path d="M888 172 H903" stroke="#B37F5F" stroke-width="2"/><path d="M898 167 L905 172 L898 177" fill="none" stroke="#B37F5F" stroke-width="2"/>
+<rect x="913" y="73" width="244" height="199" rx="10" fill="#FFFFFF" stroke="#C8D0C6"/>
+<rect x="913" y="73" width="244" height="6" rx="3" fill="#6D927A"/>
+<text x="935" y="115" font-size="15" font-weight="700" fill="#53705B">04</text>
+<text x="935" y="150" font-size="25" font-weight="700" letter-spacing="-1" fill="#252A25">Verify results</text>
+<text x="935" y="182" font-size="15" fill="#545C53">Inspect finalized</text>
+<text x="935" y="202" font-size="15" fill="#545C53">testnet receipts.</text>
+<text x="935" y="251" font-size="11" font-weight="700" letter-spacing="1" fill="#7F8980">READ-ONLY PROOF</text>
+</g>
+<path d="M43 298 H1157" stroke="#CDD2C9"/>
+<circle cx="56" cy="321" r="4" fill="#B47854"/>
+<text x="70" y="325" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#59645A">An offline preview is never an onchain commitment. Only finalized receipts establish execution.</text>
+</svg>

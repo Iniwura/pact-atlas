@@ -1,109 +1,202 @@
 # PACT Atlas
 
-**Conditional community funding, enforced on NEAR.** A project can be funded only when the whole group's commitments, eligibility rules, and project dependencies form one valid allocation. No pledge can be counted twice.
+**Conditional community funding on NEAR.** Build agreements in which project goals, supporter restrictions and cross-project dependencies must all be satisfied together. One pledge is assigned at most once. The contract verifies the allocation before releasing funding.
 
-**NEAR HACKATHON 2026 · Social Money · Testnet-only release**
+**NEAR HACKATHON 2026 · Social Money · Experimental testnet product**
 
-[**Open live app**](https://pact-atlas-near-connect.vercel.app/) · [**Campaign workspace**](https://pact-atlas-near-connect.vercel.app/console) · [**Create a campaign**](https://pact-atlas-near-connect.vercel.app/create.html) · [**Verify a receipt**](https://pact-atlas-near-connect.vercel.app/verify.html)
+[**Launch PACT Atlas**](https://pact-atlas-near-connect.vercel.app/) · [Explore campaigns](https://pact-atlas-near-connect.vercel.app/console) · [Create an agreement](https://pact-atlas-near-connect.vercel.app/create.html) · [Verify a transaction](https://pact-atlas-near-connect.vercel.app/verify.html)
 
-> **Safety and scope.** This is an experimental, faucet-funded NEAR **testnet** product, not a mainnet financial service or audited vault. Real public-chain campaign and refund transactions exist; those historic transactions were **CLI-signed**. A real user has confirmed connecting a Meteor testnet account through NEAR Connect, but a **browser-signed contract transaction is not yet independently verified**. Missing withdrawal-callback execution can strand a pending claim. Never deposit valuable funds.
+[![PACT Atlas verification](https://github.com/Iniwura/pact-atlas/actions/workflows/checks.yml/badge.svg)](https://github.com/Iniwura/pact-atlas/actions/workflows/checks.yml) ![NEAR Testnet](https://img.shields.io/badge/NEAR-Testnet-354C3F) ![License: MIT](https://img.shields.io/badge/License-MIT-46514B)
 
-## What problem does this solve?
+![PACT Atlas — connected community funding](docs/assets/pact-atlas-product-overview.svg)
 
-Ordinary crowdfunding shows whether each target independently met its goal. But real community initiatives depend on one another. A supporter might fund **Beta only if Alpha is funded too**; another supporter might fund either one, but cannot have the same NEAR spent twice.
+> **At a glance:** A working, open-source NEAR testnet application with a campaign directory, a self-service funding-plan editor, an exact bounded allocation engine, wallet connection, contract-backed conditional activation, public activity, and an independent receipt verifier. Three actual testnet campaigns have completed funding/activation or expiry/refund lifecycles; **all 11 recorded PACT method calls were reverified on 14 November 2026** using archival NEAR RPC. This remains testnet-only and is not a production financial service.
 
-PACT Atlas lets organizers specify those conditions before anyone sends funds. The bounded solver finds an exact one-use allocation; the deployed Rust smart contract **independently validates** the signed commitments and proposed allocation certificate before activation. Otherwise, contributors can reclaim credits after expiry. See the [mechanism and precise baseline comparison](docs/COMPETITIVE_ADVANTAGE.md).
+## Why PACT exists
 
-## See the actual product in five steps
+Ordinary project-by-project fundraising answers one question: *Did this project meet its goal?* Community initiatives often require a harder answer: *Can this entire connected set of projects be funded without breaking anyone's conditions?*
 
-No wallet is needed for the following walkthrough.
+Consider two projects:
 
-| Step | Do this | What you should see |
-| --- | --- | --- |
-| 1 | [Open the workspace](https://pact-atlas-near-connect.vercel.app/console) and select **Guide** | A four-step task-focused walkthrough of real agreements and proof |
-| 2 | Select **Campaigns**, then the two-project coalition | Alpha and Beta, with Beta depending on Alpha, and the immutable public campaign configuration |
-| 3 | Open **Activity** | Original testnet contribution, activation, payout, expiry and refund receipts; each has a public explorer link |
-| 4 | Open [**Create**](https://pact-atlas-near-connect.vercel.app/create.html), add projects and supporters, and preview the plan | A blank editable agreement, dependency checks and an exported allocation; **the preview is not a transaction** |
-| 5 | Open [**Verify**](https://pact-atlas-near-connect.vercel.app/verify.html), load the recorded example, then verify | A read-only check of the method, signer, final receipts and current contract code hash; unknown RPC results are **never** shown as success |
+- **Alpha** can operate independently.
+- **Beta** should only proceed if **Alpha** is funded.
+- A supporter will fund Beta **only if Alpha also succeeds**; another supporter is willing to support more than one destination, but their single pledge cannot be spent twice.
 
-You can also choose **Connect wallet** with a supported NEAR testnet wallet. The modern NEAR Connect selector reads the account before any transaction; it does **not** request a 0.25 NEAR function-call allowance during initial connection. The account and a visible **Disconnect** action are shared across the workspace, creator, campaign reader and verifier. Any later state-changing request requires separate wallet approval and actual testnet gas. A successful *connection* is not proof that a contract call has been signed.
+Checking individual funding totals is not enough. PACT must find a consistent assignment of actual pledges, respect the project dependency, and prevent double allocation.
 
-## Genuine NEAR testnet evidence · 10 November 2026
+**PACT Atlas turns that collective agreement into something organizers can design, supporters can inspect, a NEAR contract can enforce, and anyone can verify.**
 
-Three distinct public testnet campaigns were deployed and completed by disposable CLI signers using free faucet NEAR. Every step generated an authentic transaction hash and recorded finalized receipts. This is separate from the browser simulator and from the new wallet connector.
+## The product
 
-| Recorded action | Public evidence |
-| --- | --- |
-| Conditional Beta commitment (arrived first) | [NEAR testnet transaction](https://testnet.nearblocks.io/txns/39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN) |
-| Alpha commitment (arrived second) | [NEAR testnet transaction](https://testnet.nearblocks.io/txns/8t22n71EQDb5WCswgLu7MUH3aVeyoFaCVdKgtQBUVje3) |
-| Contract accepts the one-use allocation certificate | [Activation receipt](https://testnet.nearblocks.io/txns/31FxH2YE9FEm7iq49AH6eXMvZYiFv7Y3jeqd8rThK96v) |
-| Alpha and Beta beneficiaries withdraw | [Alpha payout](https://testnet.nearblocks.io/txns/BF7DB9Ap711cXLfnQnUweN1Q6LgUkUGmbFP3HfcxEkex) · [Beta payout](https://testnet.nearblocks.io/txns/GuUpGeBNaygqoaepXPrmxbWgEzexoXgyxxFDZ617E9FX) |
-| Separate expired campaign refunds its contributor | [Refund receipt](https://testnet.nearblocks.io/txns/C4yMtrjmWoBRmRutTWfdCLEeY3XDrct8ydCx2ZBtTzvT) |
+| Experience | What a person can actually do |
+| :-- | :-- |
+| **Discover** | Browse public testnet campaigns, inspect project terms and filter funded or expired outcomes. |
+| **Create** | Start from a blank agreement, define projects and goals, add supporter contributions, permissions and dependency rules. |
+| **Plan** | Check whether the whole arrangement is feasible; inspect an exact, one-use candidate allocation or an honest blocked/undetermined result. Export a reproducible model proof. |
+| **Connect and act** | Connect a NEAR testnet account through **NEAR Connect**; review separately approved requests for permitted funding, activation or settlement actions. |
+| **Follow** | Inspect a campaign’s recorded commitments, accepted activation certificate, beneficiary withdrawals, expiry and refunds. |
+| **Verify** | Check a real transaction’s signer, destination, called method, finalized receipts and the contract's current code hash using read-only archival RPC. |
 
-**Final recorded outcome:** the coalition activated two funded projects and settled both claims; the expired campaign returned its 1 testnet NEAR pledge. The recorded final accounting for each completed campaign showed **zero liabilities** and `solvent: true`. These are historical checks, not a promise of current RPC availability or production solvency.
+### Explore the actual interface
 
-Evidence is retained in [coalition transactions, configuration and balances](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json) and [activation/refund lifecycle](evidence/pact-atlas-testnet-evidence-2026-11-10.json). The pinned Wasm SHA-256 is `5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15`. The [verification guide](docs/TESTNET_PROOF.md) explains exactly which assertions are established.
+The live product is the authoritative reference. These existing repository captures show the interface at desktop and mobile sizes.
 
-## Run it yourself
+<details>
+<summary><strong>Open desktop and mobile product screenshots</strong></summary>
 
-Requires **Node.js 22.22.2 or later**, npm and Chromium for browser tests.
+<p align="center">
+  <a href="docs/design-evidence/pact-atlas-premium-desktop.png"><img alt="Full-length PACT Atlas desktop interface capture" src="docs/design-evidence/pact-atlas-premium-desktop.png" width="650"></a>
+  <a href="docs/design-evidence/pact-atlas-premium-mobile.png"><img alt="Full-length PACT Atlas mobile interface capture" src="docs/design-evidence/pact-atlas-premium-mobile.png" width="220"></a>
+</p>
 
-```sh
+[Open the desktop screenshot](docs/design-evidence/pact-atlas-premium-desktop.png) · [Open the mobile screenshot](docs/design-evidence/pact-atlas-premium-mobile.png)
+
+</details>
+
+### A five-minute judge walkthrough
+
+No wallet or funds are required to inspect the existing public evidence.
+
+1. **Start at [the workspace](https://pact-atlas-near-connect.vercel.app/console).** Select **Guide** for the first-visit tour, then explore **Campaigns**. Open the recorded Alpha/Beta coalition.
+2. **Understand the dependency.** Beta requires Alpha. Inspect the immutable campaign terms and the accepted allocation certificate rather than trusting a marketing summary.
+3. **Try [Create](https://pact-atlas-near-connect.vercel.app/create.html).** Add projects, beneficiary goals, supporter amounts and restrictions, then check the funding plan. This preview is a **local model result**, not a signed transfer.
+4. **Follow the real outcome.** In **Activity**, inspect the original commitments, activation and both beneficiary withdrawals. Open the expired campaign for the separate contributor refund.
+5. **Independently [Verify](https://pact-atlas-near-connect.vercel.app/verify.html).** Choose **Load real example → Verify on NEAR** and inspect the archival RPC result. An unavailable or incorrect receipt is never displayed as verified.
+
+<!-- CODEX DEMO RELEASE: Add the genuine published product-film URL and thumbnail here after the MP4 is reviewed and publicly uploaded. Never link to an unrendered video or stage a fake capture. -->
+
+## How the funding system works
+
+![PACT Atlas — define, plan, validate and verify](docs/assets/pact-atlas-workflow.svg)
+
+The system deliberately separates **planning**, **wallet-approved actions** and **onchain facts**:
+
+**1. Define a complete agreement.** Each campaign specifies project goals, eligible pledge destinations, supporter conditions, dependencies, activation authorities and deadlines. The local editor supports **1–5 projects** and **1–8 supporters** with bounded, whole-amount scenarios; its limits are explicit.
+
+**2. Check an allocation.** The bounded exact solver searches for an arrangement where each pledge is used once, project targets are satisfied and dependencies remain valid. It can explain why a scenario is blocked or undetermined. A candidate certificate is a *proposal*, not a blockchain outcome.
+
+**3. Validate and activate on NEAR.** A campaign has its own immutable Rust/Wasm contract. The contract independently checks the authorized activation request and exact allocation certificate against canonical recorded pledges. A valid certificate is retained onchain; a UI preview alone cannot activate a campaign.
+
+**4. Settle or refund.** Credited beneficiaries can withdraw through a pull-payment flow. If an agreement expires without activation, contributors retain claimable credits. The contract exposes an accounting view covering locked pledges, credits, pending transfers and liabilities.
+
+**5. Read the public record.** The verifier checks finalized execution against public NEAR testnet archives. It does not need wallet access, a private key or trust in the PACT front end.
+
+### What makes the mechanism different?
+
+| Simplified funding model | What it measures | What it does **not** establish |
+| :-- | :-- | :-- |
+| Independent project totals | A separate threshold per project | That a flexible contribution is counted only once across all projects |
+| Aggregate threshold pool | Whether pooled capital can cover some set of targets | Per-pledge destination restrictions and dependency closure |
+| **PACT's exact bounded allocation** | A one-use assignment with checked goals, permissions and dependencies | Project delivery, guaranteed optimal results at unlimited scale, or production financial safety |
+
+These are the explicit semantics of the [reproducible benchmark](docs/COMPETITIVE_ADVANTAGE.md), **not** a claim that all existing crowdfunding systems double-count pledges. PACT builds on prior work in conditional and coalition funding. Its present differentiation is an executable NEAR-native constraint-verification and settlement product, not a claim to have invented the field.
+
+## Onchain evidence: three completed testnet campaigns
+
+The product is backed by original NEAR testnet transactions from **10 November 2026**, executed using disposable faucet-funded testnet accounts and CLI signers. On **14 November 2026**, all **11 recorded PACT method calls** across the three campaigns were rechecked against archival NEAR testnet RPC and returned successful finalized execution with matching signer, contract, method, receipt outcomes and pinned current contract code hash.
+
+| Campaign | Actual recorded result | Inspect |
+| :-- | :-- | :-- |
+| **Single-project activation** | Contribution → activation → beneficiary withdrawal | [Funding](https://testnet.nearblocks.io/txns/EbaYMGUVXhKz1hzY6BxXsEUwkvV3otZo1d4RBarUtjqf) · [Withdrawal](https://testnet.nearblocks.io/txns/Csd1ERWsUkAgmDkjJKxiZxS79C8aHdLP6sC4J5xNaeRb) |
+| **Expired campaign** | Contribution → expiry → contributor refund | [Expiry](https://testnet.nearblocks.io/txns/BsD14fSst4b6BSDqZ6v8WkZqHCQXKXupfPrwfNDtyGFK) · [Refund](https://testnet.nearblocks.io/txns/C4yMtrjmWoBRmRutTWfdCLEeY3XDrct8ydCx2ZBtTzvT) |
+| **Two-project coalition** | Beta's restricted pledge arrived before Alpha's; both projects then activated and their beneficiaries withdrew | [Beta pledge](https://testnet.nearblocks.io/txns/39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN) · [Activation](https://testnet.nearblocks.io/txns/31FxH2YE9FEm7iq49AH6eXMvZYiFv7Y3jeqd8rThK96v) · [Payout A](https://testnet.nearblocks.io/txns/BF7DB9Ap711cXLfnQnUweN1Q6LgUkUGmbFP3HfcxEkex) · [Payout B](https://testnet.nearblocks.io/txns/GuUpGeBNaygqoaepXPrmxbWgEzexoXgyxxFDZ617E9FX) |
+
+**Recorded final accounting:** all three campaigns finished with zero recorded liabilities and `solvent: true`. The two-project campaign holds an accepted allocation certificate, not just a solver prediction.
+
+Explore the complete, reproducible evidence manifests:
+
+- [Single-project and expiry/refund records](evidence/pact-atlas-testnet-evidence-2026-11-10.json)
+- [Two-project coalition records](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json)
+- [Public testnet verification methodology](docs/TESTNET_PROOF.md)
+
+These transactions were **CLI-signed**. A real Meteor account connection through NEAR Connect has been confirmed separately, but a browser-signed PACT contract call has **not** been independently verified. We do not represent one as the other.
+
+### Verify a real receipt yourself
+
+With Node.js **22.22.2+** installed:
+
+```bash
+git clone https://github.com/Iniwura/pact-atlas.git
+cd pact-atlas
+npm ci
+
+npm run verify:testnet -- \
+  coalition-20261110.beneficiary-20261110.testnet \
+  refund-supporter-20261110.testnet \
+  39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN \
+  commit
+```
+
+Expected result when the archival RPCs are reachable: **`VERIFIED NEAR TESTNET PACT EXECUTION`**, with successful final receipts and the expected current contract code hash. Unknown finality, provider failures and mismatched transaction identities **fail closed**.
+
+The verifier checks the **current** Wasm code hash, not a historical code hash at the transaction's original block. It does not certify the protocol's security or project delivery.
+
+## Run PACT Atlas locally
+
+```bash
 git clone https://github.com/Iniwura/pact-atlas.git
 cd pact-atlas
 npm ci
 npm run preview
 ```
 
-Open `http://127.0.0.1:4173/console`. The public campaign index and local editor do not need private keys or testnet funds. Network-dependent verification fails closed if public RPC is unavailable.
+Open **http://127.0.0.1:4173/console**. You can explore campaigns, edit a new funding plan, use the guided tour and inspect archived public proof without connecting a wallet. A network read may fail closed if testnet RPC is unavailable.
 
-```sh
-# Model / allocation rules
+### Reproduce the engineering checks
+
+```bash
+# Funding semantics and solver comparison
 npm test
 npm run test:benchmark
 npm run test:counterfactual
 
-# Explicit onchain request builders, finality and verifier
+# Request construction, onchain reads, proof and wallets
 npm run test:workflow
 npm run test:chain
 npm run test:proof
 npm run test:wallet-adapter
 npm run test:wallet-selector
 
-# User journeys, responsive layouts, accessibility and error recovery
+# Actual browser flows; install Chromium once
+npx playwright install --with-deps chromium
 npm run test:browser
 ```
 
-To verify one genuine transaction independently:
+The final executed product checks recorded **121 passing Chromium browser cases** and **110 passing Node cases**. The GitHub workflow also executes pinned Rust contract/ABI/Wasm and fresh local NEAR sandbox checks. See the current [CI history](https://github.com/Iniwura/pact-atlas/actions/workflows/checks.yml) for exact run status and artifacts.
 
-```sh
-npm run verify:testnet -- \
-  coalition-20261110.beneficiary-20261110.testnet \
-  refund-supporter-20261110.testnet \
-  39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN commit
-```
+For byte-for-byte contract reconstruction, capacity scenarios and local Sputnik governance tests, use [HACKATHON.md](HACKATHON.md). The Rust toolchain is pinned to **1.93.0**; the build checks preserve the optimized Wasm and ABI. The source, manifests and test harnesses remain public.
 
-This uses **archival** NEAR testnet RPCs for historical receipts (FastNEAR, with an independent NEAR archival fallback), and checks finalized method execution plus the contract's **current** code hash, not the historical code hash at the transaction's block. All **11 published PACT method transactions** across the coalition, single-project and expired/refund campaigns were independently reverified against archival testnet RPC on 14 November; unavailable RPC data still fails closed. For contract reconstruction, Rust checks and fresh NEAR sandbox scenarios, follow [the hackathon reproduction guide](HACKATHON.md) and [security evidence](docs/SECURITY_REVIEW.md). Rust 1.93.0 and pinned cargo-near/optimized Wasm paths are required for byte-for-byte comparisons.
+## Architecture
 
-## Architecture and trust boundaries
+| Layer | Responsibility | Source |
+| :-- | :-- | :-- |
+| **Product UI** | Campaign discovery, builder, guide, coalition views, activity and receipt inspection | [Web application](web/) |
+| **Allocation model** | Exact bounded search, counterfactuals, one-use pledge constraints | [Reference engine](reference/) · [Browser solver](web/campaign-solver.mjs) |
+| **NEAR contract** | Immutable campaign rules, authorized activation, certificates, credits, expiry, withdrawal accounting | [Rust contract](contract/src/lib.rs) · [Pinned artifacts](evidence/) |
+| **Wallet boundary** | Account-first NEAR Connect, explicit wallet-approved requests, actual transaction finality | [Connector](web/wallet-selector-host.mjs) · [Wallet adapter](web/near-adapter.mjs) |
+| **Read-only trust boundary** | Independently fetch archived transactions, authenticate method/signer/contract/receipt/code hash | [Proof verifier](web/testnet-proof.mjs) · [API](api/verify-testnet.mjs) |
 
-| Component | Implementation |
-| --- | --- |
-| Funding constraints and exact bounded solver | [Reference model](reference/) and [browser campaign solver](web/campaign-solver.mjs) |
-| Permissioned, immutable funding agreement | [Rust NEAR contract](contract/src/lib.rs), pinned [Wasm and ABI](evidence/) |
-| Real contract deployment and transaction construction | [Request builders](web/campaign-chain.mjs) and [live campaign operations](web/campaign-live.mjs) |
-| Read-only finalized chain verification | [RPC boundary](web/near-rpc.mjs), [verification API](api/verify-testnet.mjs) |
-| Wallet account connection, separate signing | [NEAR Connect v0.12.0 host](web/wallet-selector-host.mjs), [transaction adapter](web/near-adapter.mjs), [shared wallet UI](web/wallet-shell.mjs) |
-| Public product and first-visit guide | [Web application](web/) and [guided tour](web/first-visit.mjs) |
+PACT does **not** let a browser-generated candidate allocation pass as an accepted contract certificate. Read-only verification does not require a wallet. Contract deployments are separate accounts, not mutable records in a shared database.
 
-**Security properties validated within the tested scope:** explicit immutable project rules; distinct authorized activation; pledge conservation; exact allocation certificates; pull withdrawals and recorded refunds; fail-closed handling for unknown finality, RPC errors and mismatched configuration/code. A wallet hash alone is only a submitted transaction, not proof of settlement.
+## Security and current scope
 
-**Open risks:** a missing NEAR withdrawal callback can strand a liability; a real sandbox failing native transfer/callback was not reproduced; no public multi-member Sputnik governance vote or qualified third-party audit has been completed; browser-wallet signed transaction finality is not yet verified. No mainnet support or valuable deposits. See [the adversarial assessment](docs/WITHDRAWAL_REVIEW.md) and [full review](docs/SECURITY_REVIEW.md).
+**Status: experimental NEAR testnet release. No mainnet deployments, valuable deposits or production guarantees.** This is not an externally audited financial service.
 
-## NEAR HACKATHON submission
+Verified protections include immutable campaign configuration, onchain certificate checks, authorization boundaries, pledge conservation, explicit failure states and fail-closed public receipt reads. Important remaining limitations are:
 
-**Track:** `social` — Social Money. PACT applies collective funding conditions and verifies allocations on a NEAR smart contract. Sputnik DAO interactions were tested in a local sandbox; this public testnet demo does not claim live DAO governance. NEAR Intents, AI Cloud and other partner integrations are **not** required for this track.
+- **Withdrawal callback liveness:** if a native transfer succeeds but the callback never executes, a withdrawal could remain pending indefinitely. Blind retries or timeouts could double-pay. This remains a high-severity production blocker.
+- **Browser signing:** wallet connection has been observed, but no independent end-to-end browser-signed PACT contract transaction has been finalized in the current evidence.
+- **Governance:** multi-member Sputnik-style approvals have local sandbox evidence, not a public multi-member testnet vote.
+- **External review:** the contract has detailed internal adversarial testing, but no qualified independent security audit.
 
-This repository is a dedicated NEAR product developed in the event window. Historical engineering checkpoints and exact public-chain receipts are preserved for reviewer inspection. The [submission summary](docs/SUBMISSION_DESCRIPTION.md), [submission checklist](docs/SUBMISSION_CHECKLIST_2026-11-10.md), [independent 14 November audit (84/100 build score)](docs/FINAL_JUDGE_AUDIT_2026-11-14.md), and [Codex demo handoff](docs/CODEX_DEMO_HANDOFF_2026-11-14.md) are available. The official submission also requires a public X post with genuine product screenshots/video, `@NEARProtocol` and `#NEARHackathon`; that posting/submission step is separate from the code.
+Review the [withdrawal risk assessment](docs/WITHDRAWAL_REVIEW.md), [security and sandbox record](docs/SECURITY_REVIEW.md), and [final independent build review](docs/FINAL_JUDGE_AUDIT_2026-11-14.md). A successful testnet transaction is evidence of execution, not a blanket security guarantee.
 
-**License:** [MIT](LICENSE). **Production status:** Experimental, testnet-only.
+## NEAR HACKATHON 2026
+
+**Track:** Social Money. PACT is a community-funding product that makes cross-project conditions enforceable by a NEAR contract. The public project includes source code, a live testnet experience, deterministic simulations and actual completed NEAR testnet lifecycles.
+
+**For reviewers:** [Live product](https://pact-atlas-near-connect.vercel.app/) · [Full technical reproduction](HACKATHON.md) · [Product submission overview](docs/SUBMISSION_DESCRIPTION.md) · [Testnet evidence](docs/TESTNET_PROOF.md)
+
+**Demo film:** A separate full-product cinematic walkthrough is in production; once published, its real video link will be added here. Until then, the [in-product Guide](https://pact-atlas-near-connect.vercel.app/console?tour=1) is live and accessible. No placeholder video is represented as finished.
+
+**License:** [MIT](LICENSE).
