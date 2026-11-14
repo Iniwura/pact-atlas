@@ -1,0 +1,72 @@
+{
+  "schema": "pact-atlas-alternate-wallet-browser-attempt-v1",
+  "date": "2026-11-11",
+  "network": "testnet",
+  "rpc": "https://rpc.testnet.near.org",
+  "wallet_selector": {
+    "version": "10.1.4",
+    "modules": ["@near-wallet-selector/meteor-wallet", "@near-wallet-selector/sender", "@near-wallet-selector/nightly"],
+    "network": "testnet",
+    "source": "https://github.com/near/wallet-selector"
+  },
+  "extension_artifacts": {
+    "sender": {
+      "distribution": "https://chromewebstore.google.com/detail/sender-wallet/epapihdplajcdnnkdeiahlgigofloibg",
+      "version": "2.2.11",
+      "sha256": "ea3ee4fed7581ab417af98306500d13f4a66870836e347afb4e928851f6261e8",
+      "status": "AUTHENTIC_DISTRIBUTION_LOADED"
+    },
+    "nightly": {
+      "distribution": "https://chromewebstore.google.com/detail/nightly/fiikommddbeccaoicoejoniammnalkfa",
+      "version": "1.51.50",
+      "sha256": "1edfe90d46cd74ab7d7b79d05e3e7057ede4966692d970e6f90e55af65cee6d5",
+      "status": "AUTHENTIC_DISTRIBUTION_LOADED"
+    }
+  },
+  "campaign": {
+    "contract_id": "atlas-lab-20261111.pact-atlas-sdk-20261111.testnet",
+    "explorer_url": "https://testnet.nearblocks.io/address/atlas-lab-20261111.pact-atlas-sdk-20261111.testnet",
+    "phase": "OPEN",
+    "pledge_count": 0,
+    "contract_code_hash": "7CEBKra569k7TYyxoWSoXwVak83uXCmkDqgHJNvkxUEp",
+    "wasm_sha256": "5c06693028cc4b74527e6cf9fee5929a516c1644cc74f8136d5d53215eacfc15",
+    "required_near": 1,
+    "contract_balance_yocto": "5000000000000000000000000",
+    "liabilities_yocto": "0",
+    "solvent": true,
+    "official_rpc_verification": "FINALIZED_READS_2026-11-11"
+  },
+  "browser_attempts": [
+    {
+      "wallet": "Sender",
+      "status": "NOT_VERIFIED",
+      "identity": "not_funded_or_used",
+      "transaction_hash": null,
+      "reason": "The authentic Sender extension reached its real setup UI, but the generated implicit NEAR identity was not initialized for the campaign connection. Wallet Selector's documented implicit-account limitation applies; no approval or signature was bypassed.",
+      "official_reference": "https://github.com/near/wallet-selector/issues/1472"
+    },
+    {
+      "wallet": "Nightly",
+      "status": "NOT_VERIFIED",
+      "identity": "b4f5229cb346c8d97b79162de949d53109c070c8e20887df5f876b74d1638808",
+      "balance_yocto_observed": "2000000000000000000000000",
+      "transaction_hash": null,
+      "reason": "The authentic Nightly extension created and selected a disposable NEAR testnet identity, and official RPC confirmed its 2 NEAR balance. In isolated Playwright Chromium, the real page connection failed because the extension provider was not injected into the test origin; Wallet Selector reported 'Nightly wallet not injected within timeout'. No direct SDK transaction was substituted and no browser approval was claimed.",
+      "browser_origins_tested": ["http://127.0.0.1:4173", "http://localhost:4173", "https://localhost:4443"],
+      "injected_provider_observed": false
+    }
+  ],
+  "result": {
+    "genuine_browser_signature": false,
+    "commit_method": "not_submitted",
+    "commit_amount_near": null,
+    "finalized_receipt": null,
+    "canonical_pledge_records_after_attempt": [],
+    "release_gate": "OPEN",
+    "notes": [
+      "This manifest records an unsuccessful alternate-wallet browser proof, not a payment.",
+      "The public campaign remained OPEN, solvent and unchanged after the attempts.",
+      "Meteor was not retried after the documented Cloudflare 403 blocker."
+    ]
+  }
+}

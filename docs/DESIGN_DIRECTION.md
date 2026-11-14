@@ -2,7 +2,7 @@
 
 ## Release scope
 
-This is a frontend-only redesign of the frozen PACT Atlas engineering release. The Rust contract, ABI, solver, accounting, transaction boundary, sandbox evidence, and verified Wasm remain unchanged. The interface is still a local, sandbox-backed product preview; it does not imply testnet activity or an external audit.
+This is the frontend direction for the frozen PACT Atlas engineering release. It preserves the verified solver, accounting, transaction boundary, sandbox evidence and approved visual system; the current release adds only read-only `campaign_config()` and `pledge_records()` views needed to authenticate live campaign data. The interface is still a local, sandbox-backed product preview; it does not imply testnet activity or an external audit.
 
 ## Design thesis: signal / proof
 

@@ -76,6 +76,19 @@ test('double withdraw blocked while callback pending', () => {
   expectBad(()=>m.withdraw('donor1.near'),/pending/);
   assert.equal(amount,3n*ONE);
 });
+test('missing callback keeps the exact liability pending and cannot be reclaimed', () => {
+  const m=deployed();m.expire(100);
+  const amount=m.withdraw('donor1.near');
+  // Model a delayed or permanently missing runtime callback: no resolve call
+  // is made. The contract has no safe inference path and must keep the claim
+  // pending rather than unlock it or retry the transfer.
+  assert.equal(m.pending.get('donor1.near'), amount);
+  assert.equal(m.credits.get('donor1.near') ?? 0n, 0n);
+  assert.equal(m.liabilities, 12n*ONE);
+  assert.equal(m.balance, 12n*ONE);
+  m.invariant();
+  expectBad(()=>m.withdraw('donor1.near'),/pending/);
+});
 test('failed transfer restores claim without affecting anyone else', () => {
   const m=deployed();m.expire(100);
   const first=m.withdraw('donor1.near');m.resolve('donor1.near',first,false);
@@ -115,6 +128,24 @@ test('premature activation blocked even if a smaller coalition is valid', () => 
   expectBad(()=>m.activate(abc,19),/too early/);
   m.activate(abc,20);
   assert.equal(m.phase,'ACTIVATED');
+});
+
+test('activation boundary freezes deposits at equality and accepts the certificate at equality', () => {
+  const m=new EscrowModel(projects,100,{activateAfterMs:20,minFundedProjects:3});
+  for(const p of pledges) m.commit(p.owner,p.amount,p.allowed,p.requires,0);
+  expectBad(()=>m.commit('boundary.near',ONE,['D'],[],20),/funding window closed/);
+  expectBad(()=>m.activate(abc,19),/too early/);
+  m.activate(abc,20);
+  assert.equal(m.phase,'ACTIVATED');
+});
+
+test('deadline equality closes activation and permits expiry exactly once', () => {
+  const m=deployed();
+  expectBad(()=>m.activate(abc,100),/closed/);
+  m.expire(100);
+  assert.equal(m.phase,'EXPIRED');
+  expectBad(()=>m.expire(100),/not expirable/);
+  m.invariant();
 });
 test('cannot activate a below-threshold coalition to foreclose others', () => {
   const m=new EscrowModel(projects,100,{minFundedProjects:3});

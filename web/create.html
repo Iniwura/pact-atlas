@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0c0b">
+  <meta name="description" content="Create a community funding campaign with projects, conditions and an onchain agreement.">
+  <title>Create campaign — PACT Atlas</title>
+  <link rel="stylesheet" href="./protocol-workspace.css">
+  <link rel="stylesheet" href="./create.css">
+  <link rel="stylesheet" href="./product-polish.css">
+  <link rel="stylesheet" href="./atlas-product-system.css">
+</head>
+<body class="protocol-app create-app">
+  <a class="skip-link" href="#campaign-editor">Skip to the campaign editor</a>
+  <header class="app-header">
+    <a href="/" class="wordmark" aria-label="PACT Atlas homepage">
+      <span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b></span>
+      <span>PACT<span class="brand-slash">/</span>ATLAS</span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="./console">Overview</a>
+      <a href="./console#campaigns">Campaigns</a>
+      <a href="./create.html" aria-current="page">Create</a>
+      <a href="./verify.html">Verify</a>
+    </nav>
+    <span class="mode-pill"><span class="mode-dot"></span> NEAR TESTNET / DRAFT</span>
+  </header>
+  <nav class="route-mobile-nav" aria-label="Quick app navigation"><a href="./console#campaigns">Campaigns</a><a href="./create.html" aria-current="page">Create</a><a href="./console#activity">Activity</a><a href="./verify.html">Verify</a></nav>
+
+  <main class="app-main">
+    <div class="creator-heading">
+      <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true">✳</span> PACT / NEW CAMPAIGN</p>
+      <div class="creator-headline"><div><h1>Create a <em>campaign.</em></h1>
+        <p>Add projects and funding conditions. Review your agreement before deploying on NEAR testnet.</p></div>
+        <a class="back-link" href="./console#campaigns">View campaigns <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+
+    <section class="creator-layout" id="campaign-editor" aria-labelledby="editor-heading">
+      <div class="creator-editor">
+        <div class="creator-toolbar">
+          <div><span class="creator-index">01 / YOUR CAMPAIGN</span><h2 id="editor-heading">Your campaign</h2></div>
+          <div class="template-actions">
+            <button id="start-blank" type="button" class="quiet-button">Reset draft</button>
+          </div>
+        </div>
+        <label class="title-field" for="campaign-title">Campaign name
+          <input id="campaign-title" type="text" maxlength="70" placeholder="e.g. Riverside Community Hub" autocomplete="off">
+        </label>
+        <div class="creator-steps" role="group" aria-label="Campaign steps">
+          <button id="step-projects" type="button" class="step-chip" aria-current="step"><span>01</span> Projects</button>
+          <button id="step-supporters" type="button" class="step-chip"><span>02</span> Supporters</button>
+          <button id="step-plan" type="button" class="step-chip"><span>03</span> Funding plan</button>
+        </div>
+        <section id="step-content" aria-live="off" aria-label="Current step"></section>
+        <div id="form-errors" class="form-errors" role="alert" hidden></div>
+        <div class="creator-footer">
+          <button id="previous-step" type="button" class="previous-button" disabled>Back</button>
+          <button id="next-step" type="button" class="primary-action">Continue <span aria-hidden="true">↗</span></button>
+        </div>
+      </div>
+
+      <aside class="creator-preview" aria-labelledby="preview-title">
+        <div class="preview-topline"><span>DRAFT PREVIEW</span><span id="preview-status">Editing</span></div>
+        <div class="preview-body">
+          <h2 id="preview-title">Your funding plan.</h2>
+          <p id="preview-subtitle">Create a project to begin.</p>
+          <div class="preview-numbers">
+            <div><strong id="preview-committed">0</strong><span>NEAR planned</span></div>
+            <div><strong id="preview-required">0</strong><span>NEAR needed</span></div>
+          </div>
+          <div class="preview-progress" aria-hidden="true"><span id="preview-progress-bar"></span></div>
+          <div id="preview-projects" class="preview-projects"></div>
+          <div id="preview-result" class="preview-result" aria-live="polite" hidden></div>
+        </div>
+        <div class="preview-foot">
+          <span class="preview-shield" aria-hidden="true">✳</span>
+          <p>Your draft stays in this browser. Deploying to NEAR testnet requires wallet approval and a finalized transaction.</p>
+        </div>
+      </aside>
+    </section>
+    <p class="creator-note">Whole-NEAR commitments. Up to five projects and eight supporters. The plan is not a deposit; only an authorized testnet deployment can publish a contract.</p>
+  </main>
+
+  <footer class="site-footer"><span>PACT/ATLAS</span><span>NEAR TESTNET ONLY</span><a href="./console#campaigns">Back to campaigns ↗</a></footer>
+  <script type="module" src="./campaign-builder.mjs"></script>
+</body>
+</html>

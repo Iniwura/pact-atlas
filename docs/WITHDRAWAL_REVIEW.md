@@ -29,3 +29,9 @@ Therefore a missing callback leaves the amount pending forever and the liability
 ## RC1 restriction
 
 The contract and product are restricted by release policy to local sandbox and, only with explicit authorization, isolated faucet-funded testnet demonstrations. No mainnet, production keys, valuable deposits, or public financial use is permitted. The browser never adds a retry or unlock path, and the RC1 report must continue to identify callback non-execution as a high-severity unresolved issue until a qualified review and a runtime-authenticated redesign exist.
+
+## 2026-11-12 sandbox injection attempt
+
+`evidence/pact-atlas-withdrawal-failure-attempt-2026-11-12.json` records a genuine sandbox attempt to delete a credited beneficiary before it called `withdraw()`. The deletion finalized, but the old signer could no longer submit the withdrawal (`no matching key pair found`). No PACT function receipt, native-transfer receipt or callback receipt was reached. The contract still reported the original 1 NEAR credit, 1 NEAR liability, zero pending withdrawal and `solvent: true`.
+
+This is evidence of the reachability boundary, not a successful native-transfer failure injection. Because `withdraw()` always targets `env::predecessor_account_id()`, the ordinary API requires the recipient to remain an authenticated signer. The runtime `PromiseResult::Failed` callback branch remains VM-tested, while an actual failed native transfer followed by an authenticated callback remains untested.
