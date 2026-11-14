@@ -25,6 +25,21 @@ function show(state, title, message, proof = null) {
   }
 }
 
+// Public November 10 coalition receipt. Loading it never submits a transaction
+// or asserts a verification result; the user explicitly starts the read-only check.
+function loadRecordedExample() {
+  $("#proof-contract").value = "coalition-20261110.beneficiary-20261110.testnet";
+  $("#proof-signer").value = "refund-supporter-20261110.testnet";
+  $("#proof-hash").value = "39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN";
+  $("#proof-method").value = "commit";
+  const note = $("#verify-example-note");
+  note.hidden = false;
+  note.textContent = "Historical Beta commitment loaded. Select Verify on NEAR to independently check the receipt.";
+  show("idle", "Ready to verify", "A recorded testnet transaction is loaded. No result is claimed until the independent check completes.");
+}
+$("#load-real-proof")?.addEventListener("click",loadRecordedExample);
+if (new URLSearchParams(window.location.search).get("example") === "1") loadRecordedExample();
+
 form.addEventListener("submit", async event => {
   event.preventDefault();
   if (button.disabled) return;
