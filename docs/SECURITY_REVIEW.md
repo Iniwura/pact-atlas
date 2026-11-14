@@ -1,3 +1,5 @@
+> **Security audit boundary (14 November update).** This 12 November engineering review is preserved as an historical snapshot. The public website now uses NEAR Connect and a user confirmed account connection, but no browser-signed testnet transaction, missing-callback recovery or qualified third-party audit has been verified. Current release posture remains **testnet-only, no valuable deposits**.
+
 # PACT Atlas: security and readiness review (November 12, 2026)
 
 **Status: experimental only. Local Rust, Wasm, ABI, real NEAR sandbox verification and a bounded faucet-funded NEAR testnet lifecycle passed; this document is an adversarial engineering review, not an independent qualified security audit, and the contract must not be used with real value.**

@@ -9,6 +9,7 @@ import {
 } from "./campaign-chain.mjs";
 import { authenticateCampaignConfig, candidateFromOnchainPledges } from "./campaign-live-data.mjs";
 import { ensureWalletAdapter } from "./wallet-selector-host.mjs";
+import { notifyUser } from "./notification-center.mjs";
 import { explorerUrl, viewCodeHash, viewMethod } from "./near-rpc.mjs";
 
 const $ = selector => document.querySelector(selector);
@@ -32,6 +33,7 @@ const pendingActions = new Set();
 
 function showMessage(selector, message, tone = "neutral") {
   const node = $(selector); node.textContent = message; node.dataset.tone = tone; node.hidden = false;
+  if (selector==="#campaign-error" && (tone==="error"||tone==="warning")) notifyUser(tone,message,{title:"Campaign action"});
 }
 
 function projectById(id) { return campaign.projects.find(project => project.id === id); }
@@ -300,6 +302,7 @@ async function confirmOrExplain(submitted, label) {
 
 function resultMessage(node, message, tone = "neutral", hash = null) {
   node.replaceChildren(document.createTextNode(message)); node.dataset.tone = tone;
+  if(tone==="error"||tone==="warning") notifyUser(tone,message,{title:"Transaction status"});
   if (hash) { const link = element("a", "chain-share-link", `Inspect ${hash} on NEAR testnet ↗`); link.href = explorerUrl(hash); link.target = "_blank"; link.rel = "noopener noreferrer"; node.append(document.createElement("br"), link); }
 }
 

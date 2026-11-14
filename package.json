@@ -1,8 +1,8 @@
 {
-  "name": "pact-atlas-checkpoint",
+  "name": "pact-atlas",
   "private": true,
   "version": "0.1.0",
-  "description": "Dependency-aware conditional funding: independently executable reference model",
+  "description": "Dependency-aware NEAR community funding with verifiable onchain allocation",
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.js",

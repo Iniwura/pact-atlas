@@ -1,4 +1,5 @@
 import { validateProofInput } from "./testnet-proof.mjs";
+import { notifyUser } from "./notification-center.mjs";
 
 const $ = selector => document.querySelector(selector);
 const form = $("#proof-form");
@@ -17,6 +18,7 @@ function show(state, title, message, proof = null) {
   symbol.textContent = state === "verified" ? "✓" : state === "failed" ? "!" : "✳";
   details.hidden = state !== "verified";
   explorer.hidden = state !== "verified";
+  if(state==="failed")notifyUser("warning",message,{title:"Not verified"});
   if (state === "verified" && proof) {
     $("#proof-method-output").textContent = proof.method;
     explorer.href = proof.explorerUrl;

@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="./vendor/near-wallet-selector.css">
   <link rel="stylesheet" href="./wallet-modal-polish.css">
   <link rel="stylesheet" href="./system-recovery.css">
+  <link rel="stylesheet" href="./release-ux.css">
 </head>
 <body class="protocol-app campaign-app">
   <a class="skip-link" href="#campaign-main">Skip to campaign</a>
@@ -31,8 +32,14 @@
       <a href="./console#activity">Activity</a>
       <a href="./verify.html">Verify</a>
     </nav>
+    <div class="pact-global-actions">
     <span id="campaign-network" class="mode-pill"><span class="mode-dot"></span> NEAR TESTNET</span>
+    <a class="pact-guide-header" href="./console?tour=1" aria-label="Open PACT guided walkthrough">Guide ↗</a>
+    <button type="button" id="connect-wallet" class="wallet-button" aria-describedby="wallet-message">Connect wallet ↗</button>
+    <button type="button" id="wallet-disconnect" class="wallet-disconnect" hidden>Disconnect</button>
+  </div>
   </header>
+  <p id="wallet-message" class="pact-route-wallet-message" role="status" aria-live="polite"></p>
   <nav class="route-mobile-nav" aria-label="Quick app navigation"><a href="./console#campaigns">Campaigns</a><a href="./create.html">Create</a><a href="./console#activity">Activity</a><a href="./verify.html">Verify</a></nav>
   <main id="campaign-main" class="campaign-main">
     <section class="campaign-hero" aria-labelledby="campaign-title">
@@ -100,6 +107,7 @@
   <footer class="site-footer"><span>PACT/ATLAS</span><span>TESTNET ONLY / FAUCET FUNDS</span><a href="./console#campaigns">Back to campaigns ↗</a></footer>
   <script type="module" src="./campaign-live.mjs"></script>
   <script type="module" src="./campaign-activity.mjs"></script>
+<script type="module" src="./wallet-shell.mjs"></script>
 <script type="module" src="./system-recovery.mjs"></script>
 </body>
 </html>

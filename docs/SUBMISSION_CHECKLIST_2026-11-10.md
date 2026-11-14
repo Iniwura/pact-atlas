@@ -1,6 +1,6 @@
 # PACT Atlas | submission checklist
 
-> **14 Nov final release status:** Public repository, anonymously accessible [NEAR Connect preview](https://pact-atlas-near-connect.vercel.app/), and 118/118 browser + 109/109 Node tests complete. The NEAR Connect chooser does not request an access-key allowance on sign-in. External-wallet approval and any browser-signed transaction remain unverified. Do not claim signing success. The official public X demo post and hackathon form submission remain outstanding.
+> **14 Nov final release status:** Public repository, anonymously accessible [NEAR Connect preview](https://pact-atlas-near-connect.vercel.app/), and 118/118 browser + 109/109 Node tests complete. The NEAR Connect chooser does not request an access-key allowance on sign-in. A human-confirmed Meteor NEAR testnet wallet connection is now observed; a browser-signed contract transaction and finality remain unverified. Do not claim signing success. The official public X demo post and hackathon form submission remain outstanding.
 
 **Competitive target: ≥90/100, NOT YET ACHIEVED.** Preserve the [independent-judge baseline (59/100) and all remediation gates](FIRST_PLACE_SPRINT_2026-11-14.md). Re-score only from release evidence, never from intention.
 
