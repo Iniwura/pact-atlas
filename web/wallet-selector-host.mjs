@@ -25,7 +25,7 @@ function problem(code, message) {
   return error;
 }
 export function readableWalletError(error) {
-  if (error?.code === "wallet-disabled") return "Wallet connections are disabled in this preview. Public proof stays available.";
+  if (error?.code === "wallet-disabled") return "Wallet signing is disabled in this preview. Public proof stays available.";
   if (error?.code === "wallet-cancelled") return "Wallet selection closed. Nothing was connected or signed.";
   if (error?.code === "wallet-unavailable") return "Wallet connections are temporarily unavailable. Browse public records and retry later.";
   if (error?.code === "wallet-timeout") return "The wallet did not respond. Unlock your wallet and retry.";
