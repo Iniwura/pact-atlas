@@ -45,8 +45,8 @@ test.describe("PACT product first visit", () => {
     for(const width of [320,390,768,1280]){
       await page.setViewportSize({width,height:860});
       await page.goto("/");
-      await expect(page.locator("#mechanism-heading")).toBeVisible();
-      await expect(page.locator(".sequence-scene")).toHaveCount(3);
+      await expect(page.locator("#real-proof")).toBeVisible();
+      await expect(page.locator(".pact-sequence")).toHaveCount(0);
       await expect(page.locator(".pact-next-paths a")).toHaveCount(3);
       expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
       await page.goto("/console");

@@ -125,3 +125,254 @@
 .pact-marketing .bench-approach:not(.pact) small{color:#283026}
 .pact-marketing .bench-approach:not(.pact) .bench-status{color:#7b2e21}
 .pact-next-heading>span{color:#3f352b}
+
+
+/* Final editorial redline, 2026-11-14: prioritize the data, avoid text clipping. */
+.pact-marketing .intro-grid {
+  padding-top:clamp(3rem,6vw,6rem);
+  padding-bottom:clamp(3rem,7vw,6.75rem);
+  align-items:end;
+}
+.pact-marketing .intro h2 {
+  font-size:clamp(3.65rem,7.1vw,8.2rem);
+  line-height:1.01;
+  letter-spacing:-.075em;
+  text-wrap:balance;
+  overflow-wrap:normal;
+}
+.pact-marketing .intro h2 em {
+  display:inline-block;
+  font-size:.83em;
+  line-height:1.04;
+  letter-spacing:-.06em;
+}
+.pact-marketing .intro-aside p {
+  max-width:36ch;
+  line-height:1.5;
+}
+.pact-marketing .intro-metrics {
+  align-items:stretch;
+}
+.pact-marketing .intro-metrics > div {
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+}
+.pact-marketing .intro-metrics strong {
+  display:flex;
+  align-items:baseline;
+  gap:clamp(.35rem,.85vw,.9rem);
+  width:max-content;
+  max-width:100%;
+  font-size:clamp(3.45rem,6vw,6.5rem);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-.065em;
+  line-height:1.12;
+  white-space:nowrap;
+}
+.pact-marketing .intro-metrics strong span {
+  flex:none;
+  margin:0;
+  font-size:.35em;
+  letter-spacing:0;
+  line-height:1.2;
+  color:#50574b;
+}
+.pact-marketing .intro-metrics p {
+  line-height:1.5;
+  max-width:27ch;
+}
+.pact-marketing .model-disclaimer {
+  margin:20px 0 0;
+  border-top:1px solid #b0afa3;
+  padding-top:15px;
+  max-width:72ch;
+  color:#50564c;
+  font-size:.8rem;
+  line-height:1.6;
+}
+.pact-marketing .atlas-title-row h2 {
+  font-size:clamp(3.55rem,7.5vw,8.2rem);
+  letter-spacing:-.075em;
+  line-height:1.03;
+  text-wrap:balance;
+}
+.pact-marketing .atlas-title-row h2 em {
+  font-size:.75em;
+  letter-spacing:-.055em;
+  line-height:1.07;
+}
+.pact-marketing .benchmark-heading-wrap h2 {
+  font-size:clamp(3.8rem,7.7vw,8rem);
+  letter-spacing:-.075em;
+  line-height:1.04;
+  white-space:normal;
+  overflow-wrap:normal;
+}
+.pact-marketing .benchmark-heading-wrap h2 em {
+  font-size:.76em;
+  line-height:1.1;
+  letter-spacing:-.05em;
+}
+.pact-marketing .benchmark-heading-wrap {
+  align-items:end;
+  gap:clamp(1.8rem,4vw,5rem);
+}
+.pact-marketing .bench-approaches {
+  gap:1px;
+  background:#60695c;
+}
+.pact-marketing .bench-approach,
+.pact-marketing .bench-approach.pact {
+  min-height:0;
+  margin:0;
+  transform:none;
+  box-shadow:none;
+  padding:clamp(1.2rem,2vw,2.2rem);
+}
+.pact-marketing .bench-approach.pact {
+  border-top:3px solid #a54d2a;
+}
+.pact-marketing .bench-approach .bench-num {
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  column-gap:clamp(.4rem,1.15vw,1.2rem);
+  row-gap:.25rem;
+  font-size:clamp(3.7rem,7.2vw,6.75rem);
+  line-height:1.06;
+  letter-spacing:-.065em;
+  min-width:0;
+}
+.pact-marketing .bench-approach .bench-num small {
+  flex:none;
+  margin:0;
+  padding:0;
+  font-size:clamp(.75rem,1vw,.9rem);
+  font-weight:650;
+  letter-spacing:0;
+  line-height:1.4;
+  white-space:normal;
+}
+.pact-marketing .proof-title h2 {
+  font-size:clamp(3.8rem,7.4vw,8.1rem);
+  line-height:1.04;
+  letter-spacing:-.075em;
+}
+.pact-marketing .footer-title {
+  font-size:clamp(4rem,10vw,11rem);
+  line-height:1.03;
+}
+.pact-marketing .sequence-intro h2 {
+  font-size:clamp(4rem,9.3vw,9.5rem);
+  line-height:.96;
+}
+@media(max-width:790px){
+  .pact-marketing .intro-grid {display:grid;grid-template-columns:1fr;gap:2rem;}
+  .pact-marketing .intro h2 {font-size:clamp(3.1rem,9vw,5rem);}
+  .pact-marketing .atlas-title-row h2 {font-size:clamp(3.5rem,8.4vw,6rem);}
+  .pact-marketing .benchmark-heading-wrap {display:grid;gap:1.3rem;}
+  .pact-marketing .benchmark-heading-wrap h2 {font-size:clamp(3.4rem,8.3vw,6rem);}
+}
+@media(max-width:520px){
+  .pact-marketing .intro h2 {font-size:clamp(2.6rem,10vw,3.75rem);}
+  .pact-marketing .intro h2 em {font-size:.8em;}
+  .pact-marketing .intro-metrics strong {font-size:clamp(3.3rem,15vw,5rem);}
+  .pact-marketing .intro-metrics strong span {font-size:.32em;}
+  .pact-marketing .atlas-title-row h2 {font-size:clamp(2.7rem,10.7vw,4.6rem);}
+  .pact-marketing .benchmark-heading-wrap h2 {font-size:clamp(2.7rem,10vw,4.3rem);}
+  .pact-marketing .benchmark-heading-wrap h2 em {font-size:.74em;}
+  .pact-marketing .bench-approach {min-width:0;}
+  .pact-marketing .bench-approach .bench-num {font-size:clamp(3rem,12vw,5rem);}
+  .pact-marketing .sequence-intro h2 {font-size:clamp(2.6rem,10vw,4rem);}
+  .pact-marketing .proof-title h2 {font-size:clamp(3rem,10vw,4.2rem);}
+  .pact-marketing .footer-title {font-size:clamp(3.25rem,12vw,5rem);}
+}
+
+
+/* Measured redline after browser render audit: legibility, non-overlap, controls. */
+.pact-marketing .hero-side {
+  top:clamp(7.5rem,17%,10rem);
+}
+.pact-marketing .sequence-asterisk {
+  display:none;
+}
+.pact-marketing .sequence-outro {
+  position:relative;
+  z-index:1;
+}
+.pact-marketing .sequence-outro span {
+  line-height:1.55;
+  max-width:64ch;
+}
+.pact-marketing .sequence-outro a {
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+}
+.pact-marketing .bench-approach:not(.pact) .bench-name,
+.pact-marketing .bench-approach:not(.pact) .bench-name span,
+.pact-marketing .bench-approach:not(.pact) .bench-num,
+.pact-marketing .bench-approach:not(.pact) .bench-num small,
+.pact-marketing .bench-approach:not(.pact) .bench-bottom,
+.pact-marketing .bench-approach:not(.pact) .bench-bottom span {
+  color:#263025;
+}
+.pact-marketing .bench-approach:not(.pact) .bench-status {
+  color:#7a3422;
+}
+@media(max-width:790px){
+  .pact-marketing .hero-side {display:none;}
+  .pact-marketing .sequence-outro {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:flex-start;
+    gap:1rem;
+  }
+  .pact-marketing .sequence-outro a {margin-top:0;}
+}
+@media(max-width:520px){
+  .pact-marketing #real-proof .evidence-script h2 {
+    font-size:clamp(2.8rem,11.5vw,4.2rem);
+    line-height:1.02;
+    letter-spacing:-.075em;
+  }
+  .pact-marketing .evidence-canvas-top {
+    flex-wrap:wrap;
+    gap:.75rem;
+  }
+  .pact-marketing .evidence-canvas-top strong {
+    font-size:.7rem;
+    white-space:normal;
+  }
+  .pact-marketing #real-proof .evidence-secondary {
+    overflow-wrap:anywhere;
+  }
+  .pact-marketing #evidence-current-link {
+    display:inline-flex;
+    align-items:center;
+    min-height:2.75rem;
+    padding:.45rem 0;
+  }
+  .pact-marketing .footer-bottom a {
+    display:inline-flex;
+    align-items:center;
+    min-height:2.75rem;
+  }
+}
+
+
+/* Let the hero keep its identity without overlapping the headline.
+   The small duplicate side labels had no informational value. */
+.pact-marketing .hero-side {display:none!important}
+
+
+/* Local benchmark cards have a paper surface; ink must contrast with paper. */
+.pact-marketing .bench-approach:not(.pact) {
+  background:#d8dbd0;
+  color:#20291f;
+}
+.pact-marketing .bench-approach:not(.pact) .bench-rule {
+  background:#979f94;
+}

@@ -217,3 +217,138 @@ body.protocol-app.pact-workspace,body.protocol-app.create-app,body.protocol-app.
 .create-app .creator-heading .back-link{color:#ffc19e!important}
 
 .pact-workspace #activity-note{color:#cad4c8!important}
+
+
+/* A campaign card is a record, not a glowing decorative pill.
+   Remove the conflicting historic :before animation completely. */
+.pact-workspace .campaign-list .campaign-tile,
+.pact-workspace .campaign-list .campaign-tile:nth-child(2n) {
+  position:relative;
+  isolation:isolate;
+  overflow:visible;
+  border:1px solid #c8c3b5;
+  border-radius:0;
+  box-shadow:none;
+  background:#e9e6de;
+  transform:none;
+  transition:border-color .16s ease,background-color .16s ease;
+  min-height:clamp(18rem,27vw,23rem);
+  gap:clamp(.8rem,1.4vw,1.5rem);
+}
+.pact-workspace .campaign-list .campaign-tile:nth-child(2n) { background:#dcd8ce; }
+.pact-workspace .campaign-list .campaign-tile::before,
+.pact-workspace .campaign-list .campaign-tile::after {
+  content:none!important;
+  display:none!important;
+  background:none!important;
+  box-shadow:none!important;
+  transition:none!important;
+}
+.pact-workspace .campaign-list .campaign-tile:hover,
+.pact-workspace .campaign-list .campaign-tile:focus-within {
+  border-color:#a95431;
+  background:#f0ebe1;
+  box-shadow:none;
+  transform:none;
+}
+.pact-workspace .campaign-list .campaign-tile h3 {
+  font-size:clamp(2.1rem,3.2vw,3.95rem);
+  line-height:1.07;
+  letter-spacing:-.06em;
+  margin:clamp(1.2rem,2.2vw,2.2rem) 0 0;
+  overflow-wrap:break-word;
+  max-width:24ch;
+}
+.pact-workspace .campaign-list .campaign-tile .tile-footer a {
+  color:#70371f;
+  border-bottom:1px solid #92523a;
+  text-underline-offset:5px;
+}
+.pact-workspace .campaign-list .campaign-tile .tile-footer a:hover {
+  color:#ac4f2a;
+  border-color:currentColor;
+}
+.pact-workspace .campaign-list .campaign-tile .tile-summary {
+  min-width:0;
+  gap:clamp(.8rem,1.7vw,1.5rem);
+}
+.pact-workspace .campaign-list .campaign-tile .tile-summary strong {
+  line-height:1.18;
+  overflow-wrap:anywhere;
+}
+.pact-workspace .section-titlebar h2,
+.pact-workspace #featured .feature-story h3,
+.pact-workspace #featured .feature-details h3 {
+  line-height:1.06;
+  text-wrap:balance;
+  overflow-wrap:normal;
+}
+.pact-workspace .section-titlebar h2 {font-size:clamp(2.5rem,4vw,4.5rem);}
+.pact-workspace #featured .feature-story h3,
+.pact-workspace #featured .feature-details h3 {font-size:clamp(3rem,5vw,5.8rem);}
+@media(max-width:650px) {
+  .pact-workspace .campaign-list .campaign-tile {
+    min-height:0;
+    padding:clamp(1.3rem,5vw,1.8rem);
+  }
+  .pact-workspace .campaign-list .campaign-tile h3 {font-size:clamp(2rem,8vw,3rem);}
+  .pact-workspace .section-titlebar h2 {font-size:clamp(2.35rem,8vw,3.7rem);}
+  .pact-workspace #featured .feature-story h3,
+  .pact-workspace #featured .feature-details h3 {font-size:clamp(2.6rem,9vw,4rem);}
+}
+@media(prefers-reduced-motion:reduce) {
+  .pact-workspace .campaign-list .campaign-tile {transition:none!important}
+}
+
+
+/* Mobile console must stack content. Match base selector specificity
+   so the desktop grid never wins over the mobile layout. */
+@media(max-width:850px){
+  .pact-workspace .dashboard-heading.pact-console-hero {
+    grid-template-columns:minmax(0,1fr);
+    min-height:0;
+  }
+  .pact-workspace .dashboard-heading.pact-console-hero .console-hero-copy {
+    min-width:0;
+    min-height:clamp(28rem,63vw,34rem);
+  }
+  .pact-workspace .dashboard-heading.pact-console-hero .console-hero-art {
+    min-width:0;
+    width:auto;
+    min-height:clamp(30rem,75vw,38rem);
+    border-left:0;
+    border-top:1px solid #bdad9b;
+  }
+  .pact-workspace .dashboard-heading.pact-console-hero .hero-art-result {
+    flex-wrap:wrap;
+  }
+}
+@media(max-width:390px){
+  .pact-workspace .dashboard-heading.pact-console-hero .console-hero-copy {min-height:28rem;}
+  .pact-workspace .dashboard-heading.pact-console-hero .console-hero-art {min-height:29rem;}
+  .pact-workspace .dashboard-heading.pact-console-hero .hero-art-result a {
+    min-height:2.75rem;
+    display:inline-flex;
+    align-items:center;
+  }
+}
+
+
+/* Legacy link styling used !important; override with legible ink on paper. */
+.pact-workspace .campaign-list .campaign-tile .tile-index {
+  color:#65391f!important;
+}
+.pact-workspace .campaign-list .campaign-tile .tile-footer a {
+  color:#66321f!important;
+}
+.pact-workspace .campaign-list .campaign-tile .tile-footer a:hover,
+.pact-workspace .campaign-list .campaign-tile .tile-footer a:focus-visible {
+  color:#793b24!important;
+}
+.pact-workspace .campaign-list .campaign-tile .tile-footer .tile-rpc {
+  color:#3d493d!important;
+}
+/* Non-active editor steps must remain readable on parchment. */
+.create-app .creator-steps .step-chip:not([aria-current="step"]) {
+  color:#424e40!important;
+}

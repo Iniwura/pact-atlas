@@ -8,7 +8,7 @@ test.describe("Art-directed Atlas homepage", () => {
     await expect(page.locator("#hero-title")).toContainText("FUND THE");
     await expect(page.locator("#hero-title")).toContainText("IMPOSSIBLE");
     await expect(page.locator(".hero-art img")).toBeVisible();
-    await expect(page.locator("#intro-heading")).toContainText("AGREEMENT");
+    await expect(page.locator("#intro-heading")).toContainText("DEPEND ON");
     await expect(page.getByRole("link", { name: /Open App/i }).first()).toHaveAttribute("href","/console");
     await expect(page.locator("#network-mode")).toContainText("12N");
     await expect(page.locator("#cert-total")).toContainText("10");
@@ -19,7 +19,7 @@ test.describe("Art-directed Atlas homepage", () => {
     await page.goto("/");
     await expect(page.locator(".hero-link")).toHaveAttribute("href", "/console#campaigns");
     await expect(page.locator(".hero-meta")).toContainText("PUBLIC RECEIPTS");
-    await expect(page.locator(".intro-metrics")).toContainText("WITH +1 NEAR");
+    await expect(page.locator(".intro-metrics")).toContainText("MODEL +1 NEAR");
     await expect(page.locator(".intro-metrics")).toContainText("04");
     await expect(page.locator(".hero-art img")).toBeVisible();
   });
@@ -31,7 +31,7 @@ test.describe("Art-directed Atlas homepage", () => {
     await expect(page.locator(".hero-art img")).toHaveAttribute("width", "1600");
     await expect(page.locator(".hero-art img")).toHaveAttribute("height", "1040");
     await expect(page.locator(".hero-art img")).toHaveAttribute("fetchpriority", "high");
-    await expect(page.getByRole("heading", { name: /MONEY.*EXISTS/i })).toBeAttached();
+    await expect(page.getByRole("heading", { name: /PROJECTS.*DEPEND ON/i })).toBeAttached();
   });
 
   test("mobile navigation closes with Escape, outside click, and returns focus", async ({ page }) => {
