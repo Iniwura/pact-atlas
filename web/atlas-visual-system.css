@@ -115,3 +115,13 @@
  .pact-marketing .atlas-title-row h2{font-size:clamp(53px,10vw,77px)}
  .pact-next-paths a strong{font-size:clamp(25px,7vw,31px)}
 }
+
+/* The comparison panels use pale paper. Foreground ink must follow them. */
+.pact-marketing .bench-approach:not(.pact),
+.pact-marketing .bench-approach:not(.pact) .bench-name,
+.pact-marketing .bench-approach:not(.pact) .bench-num,
+.pact-marketing .bench-approach:not(.pact) .bench-bottom,
+.pact-marketing .bench-approach:not(.pact) .bench-bottom span,
+.pact-marketing .bench-approach:not(.pact) small{color:#283026}
+.pact-marketing .bench-approach:not(.pact) .bench-status{color:#7b2e21}
+.pact-next-heading>span{color:#3f352b}
