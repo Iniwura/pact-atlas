@@ -63,8 +63,18 @@ export async function ensureWalletAdapter() {
   if (!setupPromise) setupPromise = setup().catch(e => { setupPromise = null; throw e; });
   const connector = await setupPromise;
   let accountId = null;
+  // NEAR Connect stores the user's selected wallet on the same origin. Read its
+  // real account after page navigation without opening a popup or signing.
+  // Never show a locally cached account ID unless the wallet confirms it.
+  try {
+    const active = await connector.getConnectedWallet();
+    accountId = currentAccountId(active.accounts);
+  } catch { /* no active wallet: stay genuinely disconnected */ }
   const observers = new Set();
-  const notify = () => { for (const listener of [...observers]) listener(accountId); };
+  const notify = () => {
+    for (const listener of [...observers]) listener(accountId);
+    window.dispatchEvent(new CustomEvent("pact:wallet-account", { detail: { accountId } }));
+  };
   connector.on("wallet:signIn", ({ accounts }) => {
     const next = currentAccountId(accounts);
     if (next) { accountId = next; notify(); }
