@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="./protocol-workspace.css">
   <link rel="stylesheet" href="./app-shell.css">
   <link rel="stylesheet" href="./app-refinement.css">
+  <link rel="stylesheet" href="./atlas-product-system.css">
+  <link rel="stylesheet" href="./first-visit.css">
 </head>
 <body class="protocol-app pact-workspace">
 <a class="skip-link" href="#workspace-main">Skip to campaigns</a>
@@ -33,17 +35,34 @@
     </header>
     <p id="wallet-message" class="wallet-message" role="status" aria-live="polite"></p>
     <main id="workspace-main" class="workspace-content">
-      <section class="dashboard-heading" aria-labelledby="page-title">
-        <div>
-          <p class="micro-label">PACT ATLAS / SOCIAL MONEY</p>
-          <h1 id="page-title">Funding<span>.</span> Together<span>.</span></h1>
-          <p class="intro">Fund connected projects with clear conditions. See where every contribution goes.</p><a class="story-jump" href="/#real-proof">See a real funded agreement <span aria-hidden="true">↗</span></a>
+      <section class="dashboard-heading pact-console-hero" aria-labelledby="page-title">
+        <div class="console-hero-copy">
+          <p class="micro-label"><span class="live-mark" aria-hidden="true"></span> PACT / WORKSPACE / NEAR TESTNET</p>
+          <h1 id="page-title">Funding<span>.</span><br>Together<span>.</span></h1>
+          <p class="intro">Support projects that depend on each other. Set the conditions. Follow the money.</p>
+          <div class="console-hero-actions">
+            <a href="#campaigns" class="new-button"><span>Explore campaigns</span><span aria-hidden="true">↗</span></a>
+            <button type="button" id="pact-tour-open" class="pact-tour-launch" aria-controls="pact-tour-panel"><span class="tour-launch-icon" aria-hidden="true">✳</span> Guided walkthrough</button>
+          </div>
+          <div class="console-hero-foot"><span>01 / BROWSE</span><span>02 / FUND OR CREATE</span><span>03 / VERIFY</span></div>
         </div>
-        <a href="./create.html" class="new-button">Create campaign
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7"></path></svg>
-        </a>
+        <div class="console-hero-art">
+          <div class="hero-art-caption"><span>PUBLIC TESTNET / RECORDED AGREEMENT</span><span>PACT 001</span></div>
+          <div class="hero-constellation" role="img" aria-label="Alpha and Beta are two connected projects. Beta depends on Alpha for funding.">
+            <span class="constellation-ring ring-outer" aria-hidden="true"></span><span class="constellation-ring ring-inner" aria-hidden="true"></span>
+            <span class="constellation-axis" aria-hidden="true"></span>
+            <span class="constellation-node constellation-alpha"><small>01 / INDEPENDENT</small><b>Alpha</b><em>1 NEAR</em></span>
+            <span class="constellation-link" aria-hidden="true"><i></i></span>
+            <span class="constellation-node constellation-beta"><small>02 / REQUIRES ALPHA</small><b>Beta</b><em>1 NEAR</em></span>
+          </div>
+          <div class="hero-art-result"><div><span>THE CONDITION</span><strong>Both funded.<br>Both paid.</strong></div><a href="/#real-proof">Explore original receipts <span aria-hidden="true">↗</span></a></div>
+        </div>
       </section>
-
+      <section class="pact-entryways" aria-label="Choose what to do in PACT">
+        <a href="#campaigns" class="entryway"><span class="entryway-index">01 / EXPLORE</span><strong>Find a campaign.</strong><small>Inspect terms before funding</small><span class="entryway-arrow" aria-hidden="true">↗</span></a>
+        <a href="./create.html" class="entryway" aria-label="Create campaign"><span class="entryway-index">02 / BUILD</span><strong>Create campaign</strong><small>Set projects and conditions</small><span class="entryway-arrow" aria-hidden="true">↗</span></a>
+        <a href="./verify.html" class="entryway"><span class="entryway-index">03 / PROVE</span><strong>Check a receipt.</strong><small>Verify a NEAR transaction</small><span class="entryway-arrow" aria-hidden="true">↗</span></a>
+      </section>
       <section class="workspace-section" id="campaigns" aria-labelledby="campaigns-title">
         <div class="section-titlebar inventory-head">
           <div><p class="micro-label">01 / Public funding</p><h2 id="campaigns-title">Community campaigns.</h2><p>Explore actual testnet agreements. Open any campaign to check its status and conditions.</p></div>
@@ -118,6 +137,7 @@
           <p class="empty-state">Loading recorded testnet receipts…</p>
         </div>
         <p id="activity-note" class="metric-caption">Historical records, not a live transaction feed.</p>
+        <a href="./verify.html?example=1" class="activity-verify-callout">Try independent verification with a real receipt ↗</a>
       </section>
 
       <section class="trust-bar" aria-labelledby="trust-title">
@@ -128,6 +148,28 @@
     </main>
   </div>
 </div>
+<aside id="pact-tour-panel" class="pact-tour-panel" role="dialog" aria-modal="false" aria-label="PACT getting started guide" aria-labelledby="pact-tour-title" hidden>
+  <header class="pact-tour-top"><span class="pact-tour-overline">✳ &nbsp; PACT / FIELD GUIDE</span><button id="pact-tour-dismiss" class="pact-tour-dismiss" type="button" aria-label="Close walkthrough">×</button></header>
+  <div id="pact-tour-welcome" class="tour-welcome">
+    <div class="tour-visual" aria-hidden="true"><span class="tour-visual-ring"></span><span class="tour-visual-a">A</span><span class="tour-visual-line"></span><span class="tour-visual-b">B</span></div>
+    <p class="tour-caption">YOUR FIRST VISIT</p>
+    <h2 id="pact-tour-title">Where do you<br><em>want to start?</em></h2>
+    <p id="pact-tour-copy">PACT connects projects through funding agreements. Choose a route to see how it works.</p>
+    <div class="tour-choice-list"><button type="button" data-tour-journey="explore"><span>01 / SUPPORTER</span><strong>Explore a campaign</strong><b aria-hidden="true">↗</b></button><button type="button" data-tour-journey="create"><span>02 / ORGANIZER</span><strong>Create an agreement</strong><b aria-hidden="true">↗</b></button></div>
+    <button type="button" id="pact-tour-skip" class="tour-skip">Skip, I'll explore myself</button>
+  </div>
+  <div id="pact-tour-guided" class="tour-guided" hidden>
+    <div class="tour-guided-head"><span class="tour-current" id="pact-tour-current">SUPPORTER PATH</span><span id="pact-tour-counter" class="pact-tour-counter">01 / 04</span></div>
+    <div class="pact-tour-track" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    <p id="pact-tour-location" class="tour-location">CAMPAIGNS</p>
+    <h2 id="pact-tour-step-title">Choose a campaign.</h2>
+    <p id="pact-tour-step-copy">Explore what is funded and what remains conditional.</p>
+    <div class="tour-step-preview" aria-hidden="true"><span class="tour-preview-mark">✳</span><span id="pact-tour-preview-label">PUBLIC CAMPAIGNS</span><span class="tour-preview-line"></span><span class="tour-preview-arrow">↗</span></div>
+    <div class="pact-tour-actions"><button type="button" id="pact-tour-back" class="pact-tour-back">Back</button><button type="button" id="pact-tour-visit" class="pact-tour-visit">Show me ↗</button><button type="button" id="pact-tour-next" class="pact-tour-next">Next →</button></div>
+    <button type="button" id="pact-tour-exit" class="tour-exit">End walkthrough</button>
+  </div>
+</aside>
 <script type="module" src="./app-home.mjs"></script>
+<script type="module" src="./first-visit.mjs"></script>
 </body>
 </html>

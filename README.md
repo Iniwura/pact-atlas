@@ -4,13 +4,15 @@
 
 PACT Atlas helps a group fund projects that depend on each other. Contributors choose where their commitments may go and what else must be funded first. The contract accepts a valid allocation only when the conditions are met, with no pledge counted twice. If a campaign expires, unused contributions become refundable.
 
+**Public, login-free judge preview:** [pact-atlas-judges.vercel.app](https://pact-atlas-judges.vercel.app/) · [Campaign workspace](https://pact-atlas-judges.vercel.app/console) · [Independent proof checker](https://pact-atlas-judges.vercel.app/verify). These routes were verified anonymously on November 14. The temporary public deployment is the earlier successful redesign build (`3bfd21da`), while this branch contains newer onboarding, contrast, and navigation refinements that have not been deployed due to Vercel's free daily deployment cap. The public site and source branch therefore differ in those UI refinements; no contract behavior is represented as production-ready.
+
 **Release status: testnet-only application preview.** Three real NEAR testnet campaigns prove activation, a full refund and a two-project dependency coalition. The current application has a campaign workspace, a clean creation flow, authenticated testnet campaign readers, and independently linked transaction activity. Its browser-wallet signing flow has **not** completed genuine extension signing, and an unresolved missing-withdrawal-callback issue prevents safe use with valuable funds. Do not use PACT Atlas for production deposits. This is not an independently audited financial service.
 
 ### See the proof, then use the product
 
 The new homepage has an interactive **historical proof story** at `/#real-proof`. It follows a real two-project Alpha/Beta coalition from out-of-order contributions through contract activation to both beneficiary payouts, with the original testnet receipts attached to every step. It is not a simulated live transaction. Open `/console` to browse the recorded campaigns, create an agreement and independently verify receipts.
 
-**Latest executed product QA:** 73/73 Chrome tests and 60/60 Node tests passed in an isolated environment on November 14. See the [visual design and QA handoff](docs/VISUAL_SPRINT_2026-11-14.md). The previous production-security blockers and limitations remain in force.
+**Verification:** The previous release checkpoint passed 73/73 Chromium and 60/60 Node checks. The wider redesign subsequently passed 75/76 Chromium tests; the remaining accessible-label failure was corrected and its targeted test passed. The complete browser suite has **not yet been rerun after that final correction**. No test establishes real extension signing or production financial safety. See the [design/QA handoff](docs/VISUAL_SPRINT_2026-11-14.md).
 
 ### Use the application
 

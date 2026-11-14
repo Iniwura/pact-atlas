@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="./protocol-workspace.css">
 <link rel="stylesheet" href="./verify.css">
   <link rel="stylesheet" href="./product-polish.css">
+  <link rel="stylesheet" href="./atlas-product-system.css">
 </head>
 <body class="protocol-app verify-app">
 <a class="skip-link" href="#verify-main">Skip to transaction verification</a>
@@ -35,7 +36,7 @@
   </div>
   <div class="verify-layout">
     <form id="proof-form" class="verify-form">
-      <h2>Transaction details</h2>
+      <div class="verify-form-head"><h2>Transaction details</h2><button type="button" id="load-real-proof" class="verify-example-button">Load real example ↗</button></div><p id="verify-example-note" class="verify-example-note" role="status" hidden></p>
       <label for="proof-contract">PACT contract account
         <input id="proof-contract" name="contractId" type="text" autocapitalize="off" spellcheck="false" autocomplete="off" maxlength="64" placeholder="pact-example.testnet" required>
       </label>
@@ -73,7 +74,7 @@
       <p class="proof-scope">A matching receipt proves the named method executed on a contract currently running the published PACT build. It does not, by itself, prove correct allocation, payout delivery, DAO approval or security auditing.</p>
     </section>
   </div>
-  <p class="verify-local">The example in <a href="./console#evidence">Local sandbox evidence</a> is separate from public NEAR testnet. We do not display local receipts as public transactions.</p>
+  <p class="verify-local">See the <a href="/#real-proof">recorded testnet funding story</a> and its original receipts. Local sandbox tests are separate from public NEAR transactions.</p>
 </main>
 <footer class="site-footer"><span>PACT/ATLAS</span><span>NEAR HACKATHON 2026</span><a href="./console">Explore the example ↗</a></footer>
 <script type="module" src="./verify.js"></script>

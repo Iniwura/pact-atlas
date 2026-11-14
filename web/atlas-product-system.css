@@ -1,0 +1,354 @@
+/* PACT Atlas / product surface: one visual language from campaign discovery to final receipts. */
+.protocol-app{--pact-surface:#101713;--pact-paper:#ece7dd;--pact-paper-2:#d8d1c5;--pact-accent:#d86a3f;--pact-border:#525e51;--pact-text:#eae8df;background:#0e1410;color:#eae8df}
+.protocol-app button,.protocol-app input,.protocol-app select{font-family:Inter,"Helvetica Neue",Arial,sans-serif}
+.protocol-app a:focus-visible,.protocol-app button:focus-visible,.protocol-app input:focus-visible,.protocol-app select:focus-visible{outline:3px solid #e98f61;outline-offset:3px}
+.protocol-app .app-header,.pact-workspace .shell-topbar{height:79px;min-height:79px;padding:0 clamp(20px,4vw,80px);background:#0b100e;border-bottom:1px solid #3c453b;gap:22px}
+.protocol-app .app-header .main-nav a,.pact-workspace .top-nav a{font-size:12px;letter-spacing:-.005em;font-weight:720}
+.protocol-app .mode-pill,.pact-workspace .network-label{border-color:#5c6458;background:transparent;border-radius:0;color:#d9dfd1}
+.protocol-app .mode-dot,.pact-workspace .network-label i{box-shadow:0 0 0 5px #b9643d27}
+.pact-workspace .workspace-content{max-width:1800px;padding:clamp(28px,3.5vw,64px) clamp(16px,3.8vw,76px) 120px}
+.pact-workspace .dashboard-heading.pact-console-hero{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:0;align-items:stretch;background:#e8e3d8;color:#141a15;border:1px solid #bfb8aa;position:relative;min-height:clamp(560px,43vw,720px);padding:0;margin:0 0 18px;overflow:hidden}
+.pact-workspace .pact-console-hero:before,.pact-workspace .pact-console-hero:after{display:none}
+.pact-workspace .console-hero-copy{display:flex;flex-direction:column;align-items:flex-start;padding:clamp(31px,4vw,72px) clamp(28px,4.8vw,80px) 27px;position:relative;min-width:0}
+.pact-workspace .console-hero-copy .micro-label{display:inline-flex;align-items:center;gap:12px;font:760 10px/1.2 Inter,Arial,sans-serif;letter-spacing:.12em;color:#6d675b;margin:0 0 auto}
+.console-hero-copy .live-mark{height:7px;width:7px;border-radius:50%;background:#a8572f;box-shadow:0 0 0 5px #a8572f22}
+.pact-workspace .console-hero-copy h1{font-family:Inter,"Helvetica Neue",Arial,sans-serif;font-weight:820;font-size:clamp(78px,8vw,166px);letter-spacing:-.105em;line-height:.82;color:#121812;margin:65px 0 20px}
+.pact-workspace .console-hero-copy h1 span{color:#bc512d}
+.pact-workspace .console-hero-copy .intro{font-size:clamp(17px,1.45vw,24px);letter-spacing:-.035em;line-height:1.28;color:#4b5148;max-width:485px;margin:15px 0 25px}
+.pact-workspace .console-hero-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:auto;width:100%;padding-top:17px}
+.pact-workspace .console-hero-actions .new-button{display:inline-flex;align-items:center;justify-content:space-between;gap:35px;color:#f8f3e9;background:#161d17;min-height:56px;min-width:215px;box-shadow:none;border:1px solid #161d17;padding:14px 20px;font-weight:750;font-size:12px;letter-spacing:0}
+.pact-workspace .console-hero-actions .new-button:hover{background:#a34f2e;border-color:#a34f2e;color:#fff}
+.pact-workspace .console-hero-actions .new-button span:last-child{font-size:22px;line-height:1}
+.pact-workspace .console-hero-foot{display:flex;justify-content:space-between;gap:16px;border-top:1px solid #bbb5a9;margin-top:28px;padding-top:17px;width:100%;font:740 9px Inter,Arial,sans-serif;letter-spacing:.08em;color:#726b5f}
+.pact-workspace .console-hero-art{position:relative;display:flex;flex-direction:column;min-width:0;overflow:hidden;background:radial-gradient(ellipse at 54% 40%,#65311e 0%,#302017 31%,#141a15 70%,#0e130f 100%);color:#f2e8d9;border-left:1px solid #bba18b}
+.pact-workspace .console-hero-art:before{content:"";position:absolute;inset:-28% -20%;background:url("./orbital-art.svg") center center/cover no-repeat;opacity:.13;filter:saturate(.9);pointer-events:none}
+.pact-workspace .hero-art-caption{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:clamp(22px,2.9vw,47px) clamp(25px,3vw,51px) 0;position:relative;z-index:2;font-size:10px;letter-spacing:.1em;font-weight:710;color:#dcc4b3}
+.pact-workspace .hero-constellation{position:relative;min-height:280px;flex:1;margin:12px 0;overflow:hidden}
+.pact-workspace .constellation-ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid #d77b4b55;pointer-events:none}
+.pact-workspace .ring-outer{height:min(40vw,510px);width:min(40vw,510px);box-shadow:0 0 0 45px #e68b4611,0 0 0 110px #e68b4608}
+.pact-workspace .ring-inner{height:min(22vw,260px);width:min(22vw,260px);border-style:dashed;opacity:.48}
+.pact-workspace .constellation-axis{position:absolute;height:1px;width:95%;background:linear-gradient(90deg,transparent,#cf8f6055,transparent);left:2.5%;top:50%;transform:rotate(-27deg)}
+.pact-workspace .constellation-node{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;z-index:2;height:clamp(140px,14vw,226px);width:clamp(140px,14vw,226px);border-radius:50%;border:1px solid #e5c0a3;background:linear-gradient(150deg,#36362b,#172019);box-shadow:0 28px 90px #0007,0 0 0 13px #a8593824}
+.pact-workspace .constellation-node small{font-size:9px;font-weight:750;letter-spacing:.08em;color:#d1c2b5}
+.pact-workspace .constellation-node b{font:400 clamp(39px,4.5vw,70px)/1 Georgia,serif;letter-spacing:-.09em}
+.pact-workspace .constellation-node em{font-size:12px;font-style:normal;color:#f4ac7b;letter-spacing:.03em}
+.pact-workspace .constellation-alpha{top:14%;left:10%}
+.pact-workspace .constellation-beta{bottom:7%;right:9%;background:linear-gradient(145deg,#a14b2b,#562d20)}
+.pact-workspace .constellation-link{position:absolute;top:53%;left:33%;width:39%;height:1px;background:#f1b38d;transform:rotate(23deg);z-index:1}
+.pact-workspace .constellation-link i{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:13px;height:13px;border-radius:50%;background:#f2ae7f;box-shadow:0 0 0 14px #d76e3b30}
+.pact-workspace .hero-art-result{position:relative;z-index:2;display:flex;align-items:end;justify-content:space-between;gap:20px;padding:27px clamp(25px,3vw,51px);border-top:1px solid #b28d7b6b;background:#12191392}
+.pact-workspace .hero-art-result>div{display:flex;flex-direction:column;gap:12px}
+.pact-workspace .hero-art-result span{font:750 9px Inter,Arial,sans-serif;letter-spacing:.1em;color:#d08a5f}
+.pact-workspace .hero-art-result strong{font-size:clamp(25px,3vw,43px);font-weight:760;line-height:1.02;letter-spacing:-.07em;color:#fff4e6}
+.pact-workspace .hero-art-result a{color:#f3bd91;font-size:11px;font-weight:750;text-decoration:none;border-bottom:1px solid #b97853;padding-bottom:8px;white-space:nowrap}
+.pact-workspace .pact-entryways{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:clamp(75px,9vw,160px);background:#b8b4a6;gap:1px;border:1px solid #5c6258}
+.pact-workspace .entryway{position:relative;display:flex;flex-direction:column;align-items:start;padding:32px clamp(25px,2.6vw,47px) 31px;min-height:202px;background:#171e18;color:#eaeae0;text-decoration:none;transition:background .2s}
+.pact-workspace .entryway:hover{background:#252d24}
+.pact-workspace .entryway-index{font-size:10px;font-weight:740;letter-spacing:.12em;color:#e49a6d;margin-bottom:auto}
+.pact-workspace .entryway strong{font-size:clamp(25px,2.6vw,46px);font-weight:760;letter-spacing:-.07em;line-height:1.05;margin-top:40px;max-width:340px}
+.pact-workspace .entryway small{color:#aeb8ab;font-size:12px;margin-top:9px}
+.pact-workspace .entryway-arrow{position:absolute;top:25px;right:32px;color:#ec9e68;font-size:29px;font-weight:350;transition:transform .2s}
+.pact-workspace .entryway:hover .entryway-arrow{transform:translate(5px,-5px)}
+.pact-workspace .workspace-section{margin-bottom:clamp(75px,9vw,155px)}
+.pact-workspace .section-titlebar{border-top:1px solid #546052;padding-top:23px;margin-bottom:37px;align-items:end}
+.pact-workspace .section-titlebar .micro-label{margin-bottom:17px;color:#cf966b}
+.pact-workspace .section-titlebar h2{font-size:clamp(41px,4.7vw,82px);letter-spacing:-.08em;line-height:.95;color:#f0eee5}
+.pact-workspace .section-titlebar p:not(.micro-label){font-size:clamp(13px,1.1vw,16px);line-height:1.6;color:#bdc6b7;margin-top:21px;max-width:520px}
+.pact-workspace .tab-row{display:flex;gap:6px;flex-wrap:wrap}
+.pact-workspace .tab-row button{background:transparent;border:1px solid #717b6f;color:#e2e3d8;font-size:11px;min-height:39px;padding:11px 18px;cursor:pointer}
+.pact-workspace .tab-row button[aria-pressed="true"]{background:#e9e6dc;color:#172017;border-color:#e9e6dc}
+.pact-workspace .campaign-list{gap:18px}
+.pact-workspace .campaign-tile{position:relative;min-height:405px;background:#e9e6de;color:#182019;border:0;padding:clamp(24px,3vw,45px);gap:20px;box-shadow:0 12px 35px #0002;transform:none;overflow:hidden}
+.pact-workspace .campaign-tile:nth-child(2n){background:#d7d4c8}
+.pact-workspace .campaign-tile:before{content:"";position:absolute;right:-130px;top:-90px;height:340px;width:340px;border:1px solid #a66b4c55;border-radius:50%;box-shadow:0 0 0 32px #a66b4c13,0 0 0 83px #a66b4c0e;pointer-events:none}
+.pact-workspace .campaign-tile:hover{background:#f5f0e6;transform:translateY(-3px);box-shadow:0 23px 70px #0004}
+.pact-workspace .campaign-tile .tile-index{color:#8b5033;font-size:10px}
+.pact-workspace .campaign-tile .status-chip{background:#19231b;color:#efe6dc;border:1px solid #19231b}
+.pact-workspace .campaign-tile h3{font-size:clamp(40px,4.5vw,76px);letter-spacing:-.087em;line-height:.95;color:#161d16;font-weight:770;max-width:610px;margin:38px 0 0;position:relative;z-index:1}
+.pact-workspace .campaign-tile>p{font-size:clamp(14px,1.18vw,17px);line-height:1.5;color:#454d43;max-width:455px}
+.pact-workspace .campaign-tile .tile-summary{border-top:1px solid #9b9d8f;padding-top:22px}
+.pact-workspace .campaign-tile .tile-summary span{color:#5a6056}
+.pact-workspace .campaign-tile .tile-summary strong{color:#20271f}
+.pact-workspace .campaign-tile .tile-footer{border-top:1px solid #9b9d8f;padding-top:18px}
+.pact-workspace .campaign-tile .tile-footer a{font-size:12px;font-weight:760;color:#6e3420;border-bottom:1px solid #a45232}
+.pact-workspace .campaign-tile .tile-rpc{color:#60685d}
+.pact-workspace #featured .feature-panel{min-height:550px;border:1px solid #6c5747;box-shadow:0 28px 70px #0003}
+.pact-workspace #featured .feature-story{background:radial-gradient(ellipse at 50% 52%,#56321d 0%,#20241c 43%,#121813 88%);padding:clamp(35px,5vw,85px)}
+.pact-workspace #featured .feature-story h3{font-size:clamp(65px,6.1vw,108px);line-height:.9;letter-spacing:-.095em;margin:90px 0 26px}
+.pact-workspace #featured .feature-story>p{max-width:480px;font-size:15px;color:#ddd4c6;line-height:1.5}
+.pact-workspace #featured .dependency-graph{margin:40px 0}
+.pact-workspace #featured .feature-details{background:#d5cfc2;padding:clamp(40px,5vw,85px)}
+.pact-workspace #featured .feature-details h3{font-size:clamp(58px,6vw,96px);line-height:.89;letter-spacing:-.086em}
+.pact-workspace #featured .feature-details p:not(.micro-label){font-size:16px;line-height:1.55;color:#454c43}
+.pact-workspace .workspace-stats{border:0;gap:1px;background:#647062;margin:0 0 clamp(80px,9vw,155px)}
+.pact-workspace .workspace-stats .metric{background:#17221a;padding:28px clamp(19px,2.5vw,43px);min-height:200px}
+.pact-workspace .workspace-stats .metric-label{font-size:11px;color:#c6d2c3;letter-spacing:.02em}
+.pact-workspace .workspace-stats .metric-value{font-size:clamp(63px,6.4vw,110px);letter-spacing:-.1em}
+.pact-workspace .workspace-stats .metric-caption{color:#aab7a7}
+.pact-workspace .join-panel{border:1px solid #b7b8ab;background:#e3e0d6;color:#141c16;padding:clamp(32px,4.5vw,70px);margin-bottom:clamp(80px,9vw,155px)}
+.pact-workspace .join-panel h2{color:#151e16;font-size:clamp(45px,5vw,88px);letter-spacing:-.085em;line-height:.94}
+.pact-workspace .join-panel p:not(.micro-label){color:#465246;font-size:15px}
+.pact-workspace #join-url{background:#f5f0e8;color:#222;border:1px solid #9c9c8c;min-height:53px}
+.pact-workspace .join-panel button[type="submit"]{background:#151d16;color:#faf0e4;border:1px solid #151d16;min-height:53px}
+.pact-workspace .join-panel button[type="submit"]:hover{background:#9e4b2d;border-color:#9e4b2d}
+.pact-workspace .activity-list{border:1px solid #565e53}
+.pact-workspace .activity-entry{background:#171f19;border-color:#4d584d;padding:23px clamp(18px,2.5vw,43px)}
+.pact-workspace .activity-entry:hover{background:#243026}
+.pact-workspace .activity-entry strong{font-size:clamp(17px,1.55vw,24px);letter-spacing:-.04em;color:#f2eee4}
+.pact-workspace .activity-entry p{font-size:12px;color:#b9c2b2}
+.pact-workspace .activity-entry code{color:#b2bbad}
+.pact-workspace .activity-entry a{color:#ee9a69}
+.pact-workspace .trust-bar{padding:clamp(30px,4vw,70px);background:#121d16;border:1px solid #63725e}
+.pact-workspace .trust-bar h2{font-size:clamp(31px,3.8vw,63px);line-height:1;color:#f1eee5}
+.pact-workspace .trust-bar p{font-size:14px;color:#c1cfc0;line-height:1.65;max-width:820px}
+.pact-workspace .trust-bar a{color:#f4b18a}
+.pact-workspace .shell-footer{border-top:1px solid #566054;padding:25px 0 0;color:#9bada0}
+/* Creator: readable editor paired with a physical-looking agreement sheet. */
+.create-app .app-main,.campaign-app .campaign-main,.verify-app .verify-main{max-width:1660px;margin:0 auto;padding-left:clamp(19px,4.2vw,76px);padding-right:clamp(19px,4.2vw,76px)}
+.create-app .creator-heading,.campaign-app .campaign-hero,.verify-app .verify-intro{padding-top:clamp(70px,7vw,135px);padding-bottom:clamp(55px,6vw,105px)}
+.create-app .creator-headline h1,.campaign-app .campaign-hero h1,.verify-app .verify-intro h1{font-size:clamp(65px,8vw,148px);line-height:.89;letter-spacing:-.097em;color:#f2eee5}
+.create-app .creator-headline h1 em,.campaign-app .campaign-hero h1 em,.verify-app .verify-intro h1 em{color:#df8555}
+.create-app .creator-headline p,.campaign-app .campaign-hero p:not(.eyebrow),.verify-app .verify-intro>p:last-child{font-size:clamp(16px,1.3vw,21px);line-height:1.48;color:#c9d0c4;letter-spacing:-.02em;max-width:630px}
+.create-app .creator-layout{border:1px solid #8e8d7e;grid-template-columns:minmax(0,1.07fr) minmax(310px,.93fr);box-shadow:0 40px 95px #0004;background:#f1ece3}
+.create-app .creator-editor{background:#ede9e0;padding:clamp(27px,3vw,56px)}
+.create-app .creator-toolbar h2{font-size:clamp(27px,2.5vw,40px)}
+.create-app .creator-steps{border-top:1px solid #b0a99a;padding-top:20px}
+.create-app .step-chip{transition:background .2s,border-color .2s}
+.create-app .step-chip[aria-current="step"]{background:#1e271e;color:#f2eee4;border-color:#1e271e}
+.create-app .title-field input,.create-app .field input,.create-app input,.create-app select{border-radius:0}
+.create-app .creator-preview{background:radial-gradient(ellipse at 54% 25%,#6b3825,#1a251b 45%,#101811 86%);position:relative;overflow:hidden}
+.create-app .creator-preview:before{position:absolute;content:"";height:550px;width:550px;border:1px solid #c4785338;border-radius:50%;right:-40%;top:-22%;box-shadow:0 0 0 60px #ca8f4e09,0 0 0 145px #ca8f4e06;pointer-events:none}
+.create-app .preview-body,.create-app .preview-topline,.create-app .preview-foot{position:relative;z-index:1}
+.create-app .preview-body h2{font-size:clamp(35px,3.6vw,65px);letter-spacing:-.075em;line-height:.96}
+.create-app .preview-numbers strong{font-size:clamp(44px,4vw,80px)}
+.create-app .creator-note{color:#aeb8ab;font-size:13px;line-height:1.7;margin:25px 0}
+/* Campaign: exact chain data and actionable participation, not another admin dashboard. */
+.campaign-app .campaign-status-grid{background:#19241b;border:1px solid #5b6859}
+.campaign-app .campaign-status-card{padding:clamp(20px,2.8vw,43px);border-right:1px solid #5b6859}
+.campaign-app .campaign-status-card strong{font-size:clamp(31px,3.8vw,70px);letter-spacing:-.09em}
+.campaign-app .campaign-status-card small{color:#b9c7b7}
+.campaign-app .campaign-layout{border:1px solid #8a8576;grid-template-columns:minmax(0,1.04fr) minmax(330px,.96fr);margin-top:22px}
+.campaign-app .campaign-projects-panel{background:#151e17;padding:clamp(28px,3.5vw,60px)}
+.campaign-app .campaign-action-panel{background:#e8e3d7;color:#172018;padding:clamp(28px,3.5vw,60px)}
+.campaign-app .panel-heading h2{font-size:clamp(27px,3.4vw,56px);line-height:1.04;letter-spacing:-.065em}
+.campaign-app .campaign-projects-panel .panel-heading h2{color:#f2eee3}
+.campaign-app .campaign-action-panel .panel-heading h2{color:#192017}
+.campaign-app .campaign-action-panel .action-intro{color:#414d42;font-size:16px;line-height:1.5}
+.campaign-app .campaign-form input,.campaign-app .campaign-form select{border-radius:0;min-height:50px}
+.campaign-app .campaign-form label,.campaign-app .campaign-form legend{font-size:12px}
+.campaign-app .campaign-settlement,.campaign-app .campaign-activity{margin-top:clamp(80px,8vw,140px);border-top:1px solid #656e5e;padding-top:30px}
+.campaign-app .settlement-grid{gap:1px;background:#616c5e;border:1px solid #616c5e}
+.campaign-app .settlement-card{background:#1b241c;padding:clamp(28px,3vw,54px)}
+.campaign-app .campaign-account{background:#222b22;border:1px solid #5a6958}
+.campaign-app .campaign-account a{color:#efaa7e}
+/* Verify: strong form/result separation and readable evidence hierarchy. */
+.verify-app .verify-main{max-width:1500px}
+.verify-app .verify-intro{margin-bottom:0}
+.verify-app .verify-layout{grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);border:1px solid #7e8273;background:#e9e5db;box-shadow:0 30px 85px #0005}
+.verify-app .verify-form{background:#ebe5da;color:#1e251d;padding:clamp(29px,4vw,69px)}
+.verify-app .verify-form h2{font-size:clamp(27px,3vw,51px);font-weight:760;letter-spacing:-.07em;color:#1d271f}
+.verify-app .verify-form label{color:#344036;font-size:12px}
+.verify-app .verify-form input,.verify-app .verify-form select{background:#f8f4ee;border:1px solid #ada79c;color:#1b241d;border-radius:0}
+.verify-app .verify-form input::placeholder{color:#6a7067}
+.verify-app .verify-form button{background:#18231a;border:1px solid #18231a;border-radius:0;color:#f6f0e6;min-height:57px}
+.verify-app .verify-form button:hover{background:#ad5633}
+.verify-app .verify-privacy{color:#526052}
+.verify-app .verify-result{background:radial-gradient(ellipse at 75% 24%,#5a321f,#1c261b 44%,#111911 89%);padding:clamp(29px,4vw,69px);position:relative;overflow:hidden}
+.verify-app .verify-result:before{content:"";position:absolute;right:-33%;top:-26%;height:520px;width:520px;border:1px solid #f7ae8340;border-radius:50%;box-shadow:0 0 0 60px #f7ae830b,0 0 0 138px #f7ae8307;pointer-events:none}
+.verify-app #proof-result,.verify-app .proof-scope,.verify-app .proof-result-label{position:relative;z-index:1}
+.verify-app #proof-verdict{font-size:clamp(30px,3.4vw,57px);letter-spacing:-.07em;line-height:1.03}
+.verify-app #proof-explanation{font-size:15px;line-height:1.58;color:#c8d3c2}
+.verify-app .proof-scope{font-size:13px;line-height:1.6;color:#b1bdb0}
+.protocol-app .site-footer{border-top:1px solid #526050;padding-top:22px;padding-bottom:22px}
+/* Responsive: preserve all functional controls. */
+@media(max-width:1120px){.pact-workspace .console-hero-copy h1{font-size:clamp(67px,8.2vw,115px)}.pact-workspace .pact-console-hero{min-height:590px}.pact-workspace .constellation-node{height:135px;width:135px}.pact-workspace .constellation-node b{font-size:42px}.pact-workspace .entryway strong{font-size:29px}.pact-workspace #featured .feature-story h3{font-size:67px}.pact-workspace #featured .feature-details h3{font-size:61px}}
+@media(max-width:850px){.pact-workspace .pact-console-hero{grid-template-columns:1fr}.pact-workspace .console-hero-copy{min-height:450px}.pact-workspace .console-hero-copy h1{font-size:clamp(80px,11vw,120px);margin:50px 0 25px}.pact-workspace .console-hero-art{min-height:570px;border-left:0;border-top:1px solid #bdad9b}.pact-workspace .constellation-node{width:180px;height:180px}.pact-workspace .ring-outer{height:450px;width:450px}.pact-workspace .ring-inner{height:245px;width:245px}.pact-workspace .pact-entryways{grid-template-columns:1fr}.pact-workspace .entryway{min-height:155px;padding:25px 30px}.pact-workspace .entryway strong{margin-top:28px;font-size:38px}.create-app .creator-layout,.campaign-app .campaign-layout,.verify-app .verify-layout{grid-template-columns:1fr}.create-app .creator-preview,.campaign-app .campaign-action-panel{border-left:0;border-top:1px solid #8a8575}.campaign-app .campaign-status-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.campaign-app .campaign-status-card:nth-child(2){border-right:0}.campaign-app .campaign-status-card:nth-child(n+3){border-top:1px solid #5b6859}}
+@media(max-width:650px){.protocol-app .app-header,.pact-workspace .shell-topbar{padding-left:16px;padding-right:16px}.pact-workspace .workspace-content{padding:15px 10px 75px}.pact-workspace .console-hero-copy{padding:29px 22px 22px;min-height:390px}.pact-workspace .console-hero-copy h1{font-size:clamp(63px,15vw,106px);margin:66px 0 20px}.pact-workspace .console-hero-copy .intro{font-size:17px}.pact-workspace .console-hero-foot{gap:8px;font-size:7px}.pact-workspace .console-hero-actions{gap:9px}.pact-workspace .console-hero-actions .new-button{min-width:0;min-height:49px;padding:12px;font-size:11px}.pact-tour-launch{min-height:49px;font-size:11px;padding:10px}.pact-workspace .console-hero-art{min-height:460px}.pact-workspace .hero-art-caption{padding:25px 19px 0;font-size:9px}.pact-workspace .constellation-node{height:130px;width:130px}.pact-workspace .constellation-node b{font-size:38px}.pact-workspace .constellation-node small{font-size:7px}.pact-workspace .constellation-node em{font-size:10px}.pact-workspace .constellation-alpha{left:8%;top:10%}.pact-workspace .constellation-beta{right:7%;bottom:6%}.pact-workspace .ring-outer{width:320px;height:320px}.pact-workspace .ring-inner{width:175px;height:175px}.pact-workspace .hero-art-result{padding:22px}.pact-workspace .hero-art-result strong{font-size:29px}.pact-workspace .hero-art-result a{font-size:10px;white-space:normal}.pact-workspace .entryway{padding:25px 23px}.pact-workspace .entryway strong{font-size:33px}.pact-workspace .workspace-section{margin-bottom:78px}.pact-workspace .section-titlebar{display:block}.pact-workspace .section-titlebar h2{font-size:clamp(40px,10vw,60px)}.pact-workspace .tab-row{margin-top:25px}.pact-workspace .campaign-list{grid-template-columns:1fr}.pact-workspace .campaign-tile{min-height:330px;padding:27px}.pact-workspace .campaign-tile h3{font-size:clamp(38px,10vw,65px);margin-top:22px}.pact-workspace .workspace-stats{grid-template-columns:1fr}.pact-workspace .workspace-stats .metric{min-height:145px}.pact-workspace .join-panel{padding:30px 22px}.pact-workspace #featured .feature-panel{grid-template-columns:1fr}.pact-workspace #featured .feature-story{padding:37px 25px}.pact-workspace #featured .feature-story h3{font-size:56px;margin:35px 0 25px}.pact-workspace #featured .feature-details{padding:37px 25px}.pact-workspace #featured .feature-details h3{font-size:55px}.pact-workspace .activity-entry{padding:18px}.pact-workspace .trust-bar{padding:28px 23px}.create-app .app-main,.campaign-app .campaign-main,.verify-app .verify-main{padding-left:17px;padding-right:17px}.create-app .creator-headline h1,.campaign-app .campaign-hero h1,.verify-app .verify-intro h1{font-size:clamp(57px,12vw,83px)}.create-app .creator-editor,.create-app .preview-body,.campaign-app .campaign-projects-panel,.campaign-app .campaign-action-panel,.verify-app .verify-form,.verify-app .verify-result{padding:29px 22px}.campaign-app .campaign-status-card{padding:20px}.campaign-app .campaign-status-card strong{font-size:33px}}
+@media(prefers-reduced-motion:reduce){.pact-workspace .entryway,.pact-workspace .entryway-arrow,.pact-workspace .campaign-tile,.create-app .step-chip{transition:none!important}}
+
+/* Functional proof shortcut, grounded in the public coalition manifest. */
+.verify-app .verify-form-head{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin:0 0 30px}
+.verify-app .verify-form-head h2{margin:0}
+.verify-app .verify-form .verify-example-button{width:auto;min-height:40px;margin:0;background:transparent;border:0;border-bottom:1px solid #9b4f30;color:#8b3d22;font-size:12px;font-weight:750;padding:9px 1px;border-radius:0}
+.verify-app .verify-form .verify-example-button:hover{background:transparent;border-color:#ca6335;color:#c45d34}
+.verify-app .verify-example-note{margin:-7px 0 22px;padding:13px 15px;border-left:3px solid #bb653e;background:#dcd5c7;color:#28382c;font-size:12px;line-height:1.5}
+.pact-workspace .activity-verify-callout{display:inline-flex;padding:12px 0;margin-top:23px;color:#e7a679;font-weight:750;font-size:13px;border-bottom:1px solid #ac6b46}
+.campaign-app .campaign-journey{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#65715f;border:1px solid #65715f;margin:18px 0 30px}
+.campaign-app .journey-phase{display:flex;gap:20px;align-items:start;min-width:0;padding:23px clamp(17px,2.8vw,42px);background:#1c271e}
+.campaign-app .journey-phase>span{font:760 11px Inter,Arial,sans-serif;color:#eea574}
+.campaign-app .journey-phase strong{display:block;font-size:clamp(17px,1.6vw,26px);font-weight:760;letter-spacing:-.05em;line-height:1.15;color:#f1efe5}
+.campaign-app .journey-phase small{display:block;margin-top:8px;font-size:12px;line-height:1.4;color:#b9c5b7}
+@media(max-width:650px){.campaign-app .campaign-journey{grid-template-columns:1fr}.campaign-app .journey-phase{padding:22px}.verify-app .verify-form-head{align-items:start}.verify-app .verify-form-head h2{font-size:31px}}
+
+/* Correct the route-level canvas: inherited light body colors made titles unreadable. */
+body.protocol-app.create-app,body.protocol-app.campaign-app,body.protocol-app.verify-app{background:#0e1410;color:#edece3}
+.verify-app .verify-result{color:#eee9df}
+.verify-app #proof-verdict{color:#fbf5e9}
+.verify-app .verify-result .proof-result-label{color:#eaa37e}
+.verify-app #proof-explanation,.verify-app .proof-scope{color:#d2d9ce}
+
+/* Verified WCAG AA route palette. The legacy shared stylesheet had light
+   root canvases even when its editorial headings were light. */
+body.protocol-app.pact-workspace,body.protocol-app.create-app,body.protocol-app.campaign-app,body.protocol-app.verify-app{background:#101713;color:#f1eee5}
+.pact-workspace .workspace-content{background:#101713;color:#f1eee5}
+.pact-workspace .workspace-section .section-titlebar h2{color:#f1eee5}
+.pact-workspace .workspace-section .section-titlebar p:not(.micro-label){color:#c7d0c2}
+.pact-workspace .workspace-section .section-titlebar .micro-label{color:#efb38c}
+.pact-workspace .workspace-section .tab-row button{color:#f0eade;border-color:#a5b0a1}
+.pact-workspace .workspace-stats .metric-value,.pact-workspace .workspace-stats .metric-value *{color:#f2eee5}
+.pact-workspace .join-panel p:not(.micro-label){color:#414c40}
+.pact-workspace .join-panel .micro-label{color:#754225}
+.pact-workspace .console-hero-copy .micro-label,.pact-workspace .console-hero-foot{color:#47473e}
+.create-app .eyebrow,.verify-app .eyebrow,.campaign-app .eyebrow{color:#edaf8c}
+.create-app .step-chip span{color:#504c42}
+.create-app .step-chip[aria-current="step"] span{color:#f5e9df}
+.protocol-app .site-footer,.protocol-app .site-footer span,.protocol-app .site-footer a{background:#101713;color:#d4ddcf}
+.verify-app .verify-local{color:#cfdbce}
+.verify-app .verify-local a{color:#ffb78c;text-decoration:underline;text-underline-offset:4px}
+
+/* Final independent browser audit: force the intended color on competing legacy selectors. */
+.pact-workspace .workspace-section .tab-row button[aria-pressed="true"]{background:#e9e6dc;color:#172017;border-color:#e9e6dc}
+.pact-workspace .workspace-section .section-link{color:#f4b58b!important}
+.pact-workspace #featured .feature-details .micro-label{color:#74371f}
+.pact-workspace .join-panel>div>p:not(.micro-label),.pact-workspace .join-panel form label{color:#384738!important}
+.pact-workspace .activity-list .activity-entry .activity-index{color:#f0b188}
+.pact-workspace .activity-list .activity-entry>a{color:#ffc19b!important}
+.create-app .creator-heading .eyebrow,.verify-app .verify-intro .eyebrow,.campaign-app .campaign-hero .eyebrow{color:#f1b88d!important}
+.create-app .creator-heading .back-link{color:#ffc19e!important}
+
+.pact-workspace #activity-note{color:#cad4c8!important}
+
+
+/* A campaign card is a record, not a glowing decorative pill.
+   Remove the conflicting historic :before animation completely. */
+.pact-workspace .campaign-list .campaign-tile,
+.pact-workspace .campaign-list .campaign-tile:nth-child(2n) {
+  position:relative;
+  isolation:isolate;
+  overflow:visible;
+  border:1px solid #c8c3b5;
+  border-radius:0;
+  box-shadow:none;
+  background:#e9e6de;
+  transform:none;
+  transition:border-color .16s ease,background-color .16s ease;
+  min-height:clamp(18rem,27vw,23rem);
+  gap:clamp(.8rem,1.4vw,1.5rem);
+}
+.pact-workspace .campaign-list .campaign-tile:nth-child(2n) { background:#dcd8ce; }
+.pact-workspace .campaign-list .campaign-tile::before,
+.pact-workspace .campaign-list .campaign-tile::after {
+  content:none!important;
+  display:none!important;
+  background:none!important;
+  box-shadow:none!important;
+  transition:none!important;
+}
+.pact-workspace .campaign-list .campaign-tile:hover,
+.pact-workspace .campaign-list .campaign-tile:focus-within {
+  border-color:#a95431;
+  background:#f0ebe1;
+  box-shadow:none;
+  transform:none;
+}
+.pact-workspace .campaign-list .campaign-tile h3 {
+  font-size:clamp(2.1rem,3.2vw,3.95rem);
+  line-height:1.07;
+  letter-spacing:-.06em;
+  margin:clamp(1.2rem,2.2vw,2.2rem) 0 0;
+  overflow-wrap:break-word;
+  max-width:24ch;
+}
+.pact-workspace .campaign-list .campaign-tile .tile-footer a {
+  color:#70371f;
+  border-bottom:1px solid #92523a;
+  text-underline-offset:5px;
+}
+.pact-workspace .campaign-list .campaign-tile .tile-footer a:hover {
+  color:#ac4f2a;
+  border-color:currentColor;
+}
+.pact-workspace .campaign-list .campaign-tile .tile-summary {
+  min-width:0;
+  gap:clamp(.8rem,1.7vw,1.5rem);
+}
+.pact-workspace .campaign-list .campaign-tile .tile-summary strong {
+  line-height:1.18;
+  overflow-wrap:anywhere;
+}
+.pact-workspace .section-titlebar h2,
+.pact-workspace #featured .feature-story h3,
+.pact-workspace #featured .feature-details h3 {
+  line-height:1.06;
+  text-wrap:balance;
+  overflow-wrap:normal;
+}
+.pact-workspace .section-titlebar h2 {font-size:clamp(2.5rem,4vw,4.5rem);}
+.pact-workspace #featured .feature-story h3,
+.pact-workspace #featured .feature-details h3 {font-size:clamp(3rem,5vw,5.8rem);}
+@media(max-width:650px) {
+  .pact-workspace .campaign-list .campaign-tile {
+    min-height:0;
+    padding:clamp(1.3rem,5vw,1.8rem);
+  }
+  .pact-workspace .campaign-list .campaign-tile h3 {font-size:clamp(2rem,8vw,3rem);}
+  .pact-workspace .section-titlebar h2 {font-size:clamp(2.35rem,8vw,3.7rem);}
+  .pact-workspace #featured .feature-story h3,
+  .pact-workspace #featured .feature-details h3 {font-size:clamp(2.6rem,9vw,4rem);}
+}
+@media(prefers-reduced-motion:reduce) {
+  .pact-workspace .campaign-list .campaign-tile {transition:none!important}
+}
+
+
+/* Mobile console must stack content. Match base selector specificity
+   so the desktop grid never wins over the mobile layout. */
+@media(max-width:850px){
+  .pact-workspace .dashboard-heading.pact-console-hero {
+    grid-template-columns:minmax(0,1fr);
+    min-height:0;
+  }
+  .pact-workspace .dashboard-heading.pact-console-hero .console-hero-copy {
+    min-width:0;
+    min-height:clamp(28rem,63vw,34rem);
+  }
+  .pact-workspace .dashboard-heading.pact-console-hero .console-hero-art {
+    min-width:0;
+    width:auto;
+    min-height:clamp(30rem,75vw,38rem);
+    border-left:0;
+    border-top:1px solid #bdad9b;
+  }
+  .pact-workspace .dashboard-heading.pact-console-hero .hero-art-result {
+    flex-wrap:wrap;
+  }
+}
+@media(max-width:390px){
+  .pact-workspace .dashboard-heading.pact-console-hero .console-hero-copy {min-height:28rem;}
+  .pact-workspace .dashboard-heading.pact-console-hero .console-hero-art {min-height:29rem;}
+  .pact-workspace .dashboard-heading.pact-console-hero .hero-art-result a {
+    min-height:2.75rem;
+    display:inline-flex;
+    align-items:center;
+  }
+}
+
+
+/* Legacy link styling used !important; override with legible ink on paper. */
+.pact-workspace .campaign-list .campaign-tile .tile-index {
+  color:#65391f!important;
+}
+.pact-workspace .campaign-list .campaign-tile .tile-footer a {
+  color:#66321f!important;
+}
+.pact-workspace .campaign-list .campaign-tile .tile-footer a:hover,
+.pact-workspace .campaign-list .campaign-tile .tile-footer a:focus-visible {
+  color:#793b24!important;
+}
+.pact-workspace .campaign-list .campaign-tile .tile-footer .tile-rpc {
+  color:#3d493d!important;
+}
+/* Non-active editor steps must remain readable on parchment. */
+.create-app .creator-steps .step-chip:not([aria-current="step"]) {
+  color:#424e40!important;
+}

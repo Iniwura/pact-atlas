@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./protocol-workspace.css">
   <link rel="stylesheet" href="./campaign.css">
   <link rel="stylesheet" href="./product-polish.css">
+  <link rel="stylesheet" href="./atlas-product-system.css">
 </head>
 <body class="protocol-app campaign-app">
   <a class="skip-link" href="#campaign-main">Skip to campaign</a>
@@ -46,6 +47,11 @@
       <article class="campaign-status-card"><span>LIABILITIES</span><strong id="live-liabilities">—</strong><small id="live-solvency">Reconciliation pending</small></article>
     </section>
 
+    <nav class="campaign-journey" aria-label="Funding agreement steps">
+      <a class="journey-phase" href="#campaign-projects"><span>01</span><div><strong>Review the agreement</strong><small>Projects, funding rules and dependencies</small></div></a>
+      <a class="journey-phase" href="#commit-form"><span>02</span><div><strong>Choose your commitment</strong><small>Explicit amount and wallet approval, if eligible</small></div></a>
+      <a class="journey-phase" href="#settlement-title"><span>03</span><div><strong>Check the final outcome</strong><small>Allocation, payout or refund with receipts</small></div></a>
+    </nav>
     <div id="campaign-error" class="campaign-message" role="alert" hidden></div>
 
     <section class="campaign-layout">
