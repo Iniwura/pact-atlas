@@ -16,6 +16,10 @@
   <link rel="stylesheet" href="./lurais-direction.css">
   <link rel="stylesheet" href="./lurais-product.css">
   <link rel="stylesheet" href="./lurais-responsive.css">
+  <link rel="stylesheet" href="./vendor/near-wallet-selector.css">
+  <link rel="stylesheet" href="./wallet-modal-polish.css">
+  <link rel="stylesheet" href="./tour-premium.css">
+  <link rel="stylesheet" href="./system-recovery.css">
 </head>
 <body class="protocol-app pact-workspace">
 <a class="skip-link" href="#workspace-main">Skip to campaigns</a>
@@ -36,6 +40,7 @@
       <div class="topbar-actions">
         <span class="network-label"><i aria-hidden="true"></i> TESTNET</span>
         <button type="button" id="connect-wallet" class="wallet-button" aria-describedby="wallet-message">Connect wallet <span aria-hidden="true">↗</span></button>
+        <button type="button" id="wallet-disconnect" class="wallet-disconnect" hidden>Disconnect</button>
       </div>
     </header>
     <p id="wallet-message" class="wallet-message" role="status" aria-live="polite"></p>
@@ -144,16 +149,27 @@
     </main>
   </div>
 </div>
+<div id="pact-tour-backdrop" hidden aria-hidden="true"></div>
+<div id="pact-tour-spotlight" hidden aria-hidden="true"></div>
 <aside id="pact-tour-panel" class="pact-tour-panel" role="dialog" aria-modal="false" aria-label="PACT getting started guide" aria-labelledby="pact-tour-title" hidden>
   <header class="pact-tour-top"><span class="pact-tour-overline">✳ &nbsp; PACT / FIELD GUIDE</span><button id="pact-tour-dismiss" class="pact-tour-dismiss" type="button" aria-label="Close walkthrough">×</button></header>
-  <div id="pact-tour-welcome" class="tour-welcome">
-    <div class="tour-visual" aria-hidden="true"><span class="tour-visual-ring"></span><span class="tour-visual-a">A</span><span class="tour-visual-line"></span><span class="tour-visual-b">B</span></div>
+  <div id="pact-tour-welcome" class="tour-welcome"><div class="tour-welcome-grid">
+<div class="tour-visual" aria-hidden="true">
+  <div class="tour-visual-top"><span>PACT / AGREEMENT 01</span><span>NEAR TESTNET</span></div>
+  <div class="tour-visual-nodes">
+    <div class="tour-visual-node"><small>01 / REQUIRED</small><strong>Alpha</strong><span>1 NEAR</span></div>
+    <div class="tour-visual-connector"><i></i><span>ONLY IF</span><i></i></div>
+    <div class="tour-visual-node"><small>02 / CONDITIONAL</small><strong>Beta</strong><span>1 NEAR</span></div>
+  </div>
+  <div class="tour-visual-bottom"><span>THE AGREEMENT IS THE RULE</span><span>01 / 02</span></div>
+</div>
+<div class="tour-welcome-copy">
     <p class="tour-caption">YOUR FIRST VISIT</p>
-    <h2 id="pact-tour-title">Where do you<br><em>want to start?</em></h2>
-    <p id="pact-tour-copy">PACT connects projects through funding agreements. Choose a route to see how it works.</p>
+    <h2 id="pact-tour-title" tabindex="-1">See how<br><em>PACT works.</em></h2>
+    <p id="pact-tour-copy">Four short steps through actual agreements and public proof. Choose your path. No wallet or payment required.</p>
     <div class="tour-choice-list"><button type="button" data-tour-journey="explore"><span>01 / SUPPORTER</span><strong>Explore a campaign</strong><b aria-hidden="true">↗</b></button><button type="button" data-tour-journey="create"><span>02 / ORGANIZER</span><strong>Create an agreement</strong><b aria-hidden="true">↗</b></button></div>
     <button type="button" id="pact-tour-skip" class="tour-skip">Skip, I'll explore myself</button>
-  </div>
+</div></div></div>
   <div id="pact-tour-guided" class="tour-guided" hidden>
     <div class="tour-guided-head"><span class="tour-current" id="pact-tour-current">SUPPORTER PATH</span><span id="pact-tour-counter" class="pact-tour-counter">01 / 04</span></div>
     <div class="pact-tour-track" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
@@ -167,5 +183,6 @@
 </aside>
 <script type="module" src="./app-home.mjs"></script>
 <script type="module" src="./first-visit.mjs"></script>
+<script type="module" src="./system-recovery.mjs"></script>
 </body>
 </html>

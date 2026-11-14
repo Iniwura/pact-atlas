@@ -129,3 +129,18 @@ test("finality confirmation is read-only and never resubmits", async () => {
   assert.equal(confirmed.confirmed, true);
   assert.equal(sends, 1);
 });
+
+test("wallet selector switches to the current wallet and account",async()=> {
+ let selected=0,used=null,signer=null;
+ const wallets=[
+ {async getAccounts(){return [{accountId:"alice.testnet"}]},async signAndSendTransaction(tx){used="alice";signer=tx.signerId;return {transactionHash:"alice-hash"}}},
+ {async getAccounts(){return [{accountId:"bob.testnet"}]},async signAndSendTransaction(tx){used="bob";signer=tx.signerId;return {transactionHash:"bob-hash"}}}
+ ];
+ const adapter=createNearWalletAdapter({selector:{async wallet(){return wallets[selected]}}});
+ assert.equal(await adapter.connect(),"alice.testnet");
+ selected=1;
+ assert.equal(await adapter.connect(),"bob.testnet");
+ await adapter.call({...request,signerId:"bob.testnet"});
+ assert.equal(used,"bob");
+ assert.equal(signer,"bob.testnet");
+});
