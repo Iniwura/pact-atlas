@@ -86,3 +86,8 @@
  #near-wallet-selector-modal .nws-modal-wrapper,#near-wallet-selector-modal .nws-modal-background{animation:none!important;transition:none!important}
 }
 
+/* The wallet selector's default label colors are too pale on PACT's light chooser. */
+#near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar .content .title{color:#273629!important;font-weight:750!important}
+#near-wallet-selector-modal .nws-modal .wallet-options-wrapper .options-list .single-wallet.sidebar.selected-wallet .content .title{color:#ffffff!important}
+#near-wallet-selector-modal .nws-modal .modal-right .info p,
+#near-wallet-selector-modal .nws-modal .info p{color:#38453b!important}

@@ -53,7 +53,7 @@ test("official pinned modal CSS is present on every signing surface",()=> {
  const root=new URL("../",import.meta.url);
  const css=fs.readFileSync(new URL("vendor/near-wallet-selector.css",root),"utf8");
  assert.ok(css.includes(".nws-modal-wrapper"));
- assert.ok(css.includes("position: fixed"));
+ assert.match(css,/position:\s*fixed/);
  for(const page of ["console.html","create.html","campaign.html"]){
   const html=fs.readFileSync(new URL(page,root),"utf8");
   assert.ok(html.includes("vendor/near-wallet-selector.css"));

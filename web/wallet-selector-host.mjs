@@ -84,7 +84,7 @@ async function setup() {
 }
 export async function ensureWalletAdapter({contractId}={}) {
   if (typeof window === "undefined" || window.PACT_DISABLE_WALLET_SELECTOR)
-    throw problem("wallet-disabled", "Wallet signing disabled.");
+    throw problem("wallet-disabled", "Read-only mode is enabled for this preview.");
   if (window.PACT_NEAR_ADAPTER) return window.PACT_NEAR_ADAPTER;
   if (!selectorPromise) selectorPromise = guarded(setup(),30000).catch(error=>{
     selectorPromise = null;
@@ -95,9 +95,15 @@ export async function ensureWalletAdapter({contractId}={}) {
   if (!document.querySelector('link[href*="near-wallet-selector.css"]'))
     throw problem("wallet-unavailable", "Wallet chooser stylesheet missing.");
   const modal = setupModal(selector,contractId?{contractId}:{});
+  // Add the accessible name after the chooser constructs its DOM.
+  const showModal = () => {
+    modal.show();
+    document.querySelector('#near-wallet-selector-modal .close-button')
+      ?.setAttribute('aria-label','Close wallet chooser');
+  };
   const adapter = createNearWalletAdapter({selector,actionCreators,provider:createTestnetProvider()});
   const connect = async()=>{
-    if (!currentAccount(selector)) {modal.show();await waitForAccount(selector);}
+    if (!currentAccount(selector)) {showModal();await waitForAccount(selector);}
     return adapter.connect();
   };
   const disconnect = async()=>{
@@ -107,10 +113,9 @@ export async function ensureWalletAdapter({contractId}={}) {
     await wallet.signOut();
   };
   const subscribeAccount=callback=>selector.store.observable.subscribe(()=>callback(currentAccount(selector)));
-  const instance={...adapter,connect,disconnect,chooseWallet:()=>modal.show(),
+  const instance={...adapter,connect,disconnect,chooseWallet:()=>showModal(),
     subscribeAccount,getAccount:()=>currentAccount(selector)};
   window.PACT_NEAR_ADAPTER=instance;
   return instance;
 }
 export {MODULES as WALLET_SELECTOR_MODULES,VERSION as WALLET_SELECTOR_VERSION};
-

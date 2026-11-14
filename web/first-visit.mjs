@@ -127,4 +127,3 @@ if(panel&&launcher){
   if(!seen){launcher.dataset.firstVisit="true";launcher.setAttribute("aria-label","First visit? Start a guided PACT walkthrough")}
   if(new URLSearchParams(location.search).get("tour")==="1")open();
 }
-
