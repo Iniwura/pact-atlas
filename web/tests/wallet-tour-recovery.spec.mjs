@@ -10,8 +10,10 @@ test.describe("PACT wallet, tour and recovery",()=>{
     await page.locator("#connect-wallet").click();
     const modal=page.locator(".nws-modal-wrapper.open");
     await expect(modal).toBeVisible({timeout:30000});
-    await expect(page.locator("#near-wallet-selector-modal")).toContainText("MyNearWallet");
+    await expect(page.locator("#near-wallet-selector-modal")).not.toContainText("MyNearWallet");
     await expect(page.locator("#near-wallet-selector-modal")).toContainText("Meteor Wallet");
+    await expect(page.locator("#near-wallet-selector-modal")).not.toContainText("Nightly");
+    await expect(page.locator("#near-wallet-selector-modal")).not.toContainText("Sender");
     await expect(page.locator("#near-wallet-selector-modal .close-button")).toHaveAttribute("aria-label","Close wallet chooser");
     const box=await modal.evaluate(e=>({position:getComputedStyle(e).position,top:e.getBoundingClientRect().top,z:parseInt(getComputedStyle(e).zIndex)}));
     expect(box.position).toBe("fixed");

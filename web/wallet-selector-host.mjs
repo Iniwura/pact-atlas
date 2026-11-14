@@ -18,9 +18,6 @@ const MODULES = Object.freeze({
   core: BASE + "core@" + VERSION + "?bundle",
   modal: BASE + "modal-ui-js@" + VERSION + "?bundle",
   meteorWallet: BASE + "meteor-wallet@" + VERSION + "?bundle&deps=near-api-js@5.1.1",
-  sender: BASE + "sender@" + VERSION + "?bundle",
-  nightly: BASE + "nightly@" + VERSION + "?bundle",
-  myNearWallet: BASE + "my-near-wallet@" + VERSION + "?bundle",
 });
 let selectorPromise;
 
@@ -40,7 +37,7 @@ export function readableWalletError(error) {
   if (/locked/i.test(message)) return "Unlock your NEAR wallet and retry.";
   if (/reject|denied|cancelled|canceled|closed/i.test(message)) return "Wallet approval was cancelled. No transaction was submitted by PACT.";
   if (/network|failed to fetch|load|timeout|module|chunk/i.test(message)) return "The wallet or network is unavailable. Check your connection and retry.";
-  if (/account|not installed|not found/i.test(message)) return "No testnet account is available. Choose MyNearWallet or an installed NEAR wallet.";
+  if (/account|not installed|not found/i.test(message)) return "No NEAR testnet account is available in Meteor Wallet. Unlock Meteor and choose a testnet account.";
   return "Wallet connection could not be completed. No transaction was signed. Try another wallet.";
 }
 function currentAccount(selector) {
@@ -99,14 +96,15 @@ export async function waitForWalletAccount(selector, modal, { timeoutMs = 120000
   });
 }
 async function setup() {
-  const [{setupWalletSelector,actionCreators},{setupModal},{setupMeteorWallet},
-    {setupSender},{setupNightly},{setupMyNearWallet}] = await Promise.all([
-      import(MODULES.core),import(MODULES.modal),import(MODULES.meteorWallet),
-      import(MODULES.sender),import(MODULES.nightly),import(MODULES.myNearWallet),
-    ]);
+  // Only offer wallets verified to open a genuine testnet authorization request.
+  // MyNearWallet retired new connections in Nov 2026; Sender was not installed
+  // in user QA and Nightly did not yield an account. Avoid dead-end options.
+  const [{setupWalletSelector,actionCreators},{setupModal},{setupMeteorWallet}] = await Promise.all([
+    import(MODULES.core),import(MODULES.modal),import(MODULES.meteorWallet),
+  ]);
   const selector = await setupWalletSelector({
     network:"testnet",
-    modules:[setupMeteorWallet(),setupSender(),setupNightly(),setupMyNearWallet()],
+    modules:[setupMeteorWallet()],
   });
   return {selector,actionCreators,setupModal};
 }
