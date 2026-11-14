@@ -376,3 +376,226 @@
 .pact-marketing .bench-approach:not(.pact) .bench-rule {
   background:#979f94;
 }
+
+/* Product narrative: fewer billboards, tighter evidence, and a clear reading order. */
+.pact-marketing .evidence-theatre{
+  grid-template-columns:minmax(0,.87fr) minmax(0,1.13fr);
+  margin-top:0;
+  background:#151c16;
+}
+.pact-marketing .evidence-script{
+  min-height:570px;
+  padding:clamp(31px,3.8vw,66px);
+}
+.pact-marketing .evidence-script h2{
+  font-size:clamp(60px,6.2vw,96px);
+  font-weight:760;
+  line-height:1.02;
+  letter-spacing:-.075em;
+  margin:clamp(55px,6vw,95px) 0 22px;
+  text-wrap:balance;
+}
+.pact-marketing .evidence-script h2 em{
+  font-size:.9em;
+  letter-spacing:-.065em;
+}
+.pact-marketing .evidence-description{
+  font-size:clamp(15px,1.23vw,19px);
+  line-height:1.55;
+  letter-spacing:-.015em;
+  margin:0 0 30px;
+  max-width:42ch;
+}
+.pact-marketing .evidence-canvas{
+  min-height:570px;
+  padding:clamp(25px,3vw,49px);
+}
+.pact-marketing .evidence-steps{
+  border-top:1px solid #5b685b;
+}
+.pact-marketing .evidence-step{
+  min-height:62px;
+  padding:17px 4px;
+}
+.pact-marketing .evidence-step>span:first-child{
+  font-size:clamp(14px,1.05vw,17px);
+  line-height:1.3;
+}
+.pact-marketing .evidence-secondary{
+  border-top:1px solid #465047;
+}
+.pact-marketing .evidence-secondary>div{
+  min-height:165px;
+}
+.pact-marketing .evidence-secondary strong{
+  font-size:clamp(29px,3vw,48px);
+}
+.pact-marketing .intro{
+  margin-top:0;
+  padding:clamp(44px,5vw,80px) clamp(30px,5.3vw,91px);
+  background:#eeeae1;
+}
+.pact-marketing .intro-grid{
+  grid-template-columns:minmax(0,1.4fr) minmax(260px,.6fr);
+  gap:clamp(35px,6vw,100px);
+  padding:clamp(55px,6vw,95px) 0 clamp(45px,5vw,80px);
+}
+.pact-marketing .intro h2{
+  font:740 clamp(50px,6vw,98px)/1.06 Inter,Arial,sans-serif;
+  letter-spacing:-.069em;
+  color:#172119;
+  text-wrap:balance;
+  max-width:15ch;
+}
+.pact-marketing .intro h2 em{
+  font-family:Georgia,serif;
+  color:#a84b2b;
+  font-weight:400;
+  font-size:1em;
+  line-height:1.08;
+  letter-spacing:-.066em;
+}
+.pact-marketing .intro-aside{
+  padding-top:21px;
+  border-top:1px solid #969f92;
+}
+.pact-marketing .intro-aside .tiny-cross{display:none}
+.pact-marketing .intro-aside p{
+  font-size:clamp(16px,1.3vw,20px);
+  line-height:1.5;
+  margin:0 0 19px;
+  max-width:33ch;
+  color:#344136;
+}
+.pact-marketing .intro-aside p+p{
+  color:#586357;
+  font-size:15px;
+}
+.pact-marketing .intro .line-link{
+  margin-top:24px;
+  color:#5c2e20;
+  font-size:11px;
+}
+.pact-marketing .intro-metrics>div{
+  padding:21px clamp(14px,2.3vw,35px) 0 0;
+}
+.pact-marketing .intro-metrics>div+div{
+  padding-left:clamp(14px,2.3vw,35px);
+}
+.pact-marketing .intro-metrics strong{
+  font-size:clamp(45px,5.2vw,82px);
+  font-weight:720;
+  line-height:1.17;
+}
+.pact-marketing .intro-metrics p{font-size:13px}
+.pact-marketing .atlas-section{
+  padding:clamp(40px,5vw,72px) clamp(26px,4.5vw,78px) clamp(52px,6vw,93px);
+  background:#0f1611;
+}
+.pact-marketing .atlas-title-row{
+  grid-template-columns:minmax(0,1fr) minmax(225px,.43fr);
+  padding:clamp(65px,7vw,100px) 0 clamp(34px,4vw,68px);
+}
+.pact-marketing .atlas-title-row h2{
+  font-size:clamp(52px,6.9vw,104px);
+  font-weight:730;
+  line-height:1.07;
+  letter-spacing:-.068em;
+}
+.pact-marketing .atlas-title-row h2 em{font-size:.91em;letter-spacing:-.07em}
+.pact-marketing .atlas-intro p{
+  font-size:clamp(18px,1.45vw,22px);
+  line-height:1.35;
+  letter-spacing:-.026em;
+}
+.pact-marketing .atlas-intro span{font-size:14px}
+.pact-marketing .workspace{
+  box-shadow:none;
+  border-color:#3d5141;
+}
+.pact-marketing .graph-stage{
+  background:#121b14;
+}
+.pact-marketing .benchmark-section{
+  padding:clamp(40px,4.5vw,73px) clamp(26px,5vw,89px) clamp(55px,6vw,90px);
+  background:#121b14;
+}
+.pact-marketing .benchmark-heading-wrap{
+  padding:clamp(60px,6vw,105px) 0 clamp(38px,4vw,69px);
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(200px,.35fr);
+}
+.pact-marketing .benchmark-heading-wrap h2{
+  font-size:clamp(53px,6vw,99px);
+  line-height:1.06;
+  letter-spacing:-.071em;
+}
+.pact-marketing .benchmark-heading-wrap h2 em{
+  font-size:.88em;
+  letter-spacing:-.07em;
+}
+.pact-marketing .benchmark-heading-wrap p{
+  font-size:16px;
+  line-height:1.52;
+  max-width:34ch;
+  align-self:end;
+}
+.pact-marketing .proof-section{
+  padding:clamp(45px,5vw,90px) clamp(26px,5vw,92px) clamp(70px,7vw,125px);
+  background:#111812;
+}
+.pact-marketing .proof-title{
+  padding:clamp(55px,5vw,100px) 0 clamp(36px,5vw,72px);
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(200px,.34fr);
+  align-items:end;
+  gap:35px;
+}
+.pact-marketing .proof-title h2{
+  font-size:clamp(54px,6vw,99px);
+  letter-spacing:-.071em;
+  line-height:1.06;
+}
+.pact-marketing .proof-title h2 em{font-size:.92em;letter-spacing:-.06em}
+.pact-marketing .proof-title p{
+  font-size:16px;
+  line-height:1.52;
+  max-width:34ch;
+}
+.pact-marketing .pact-next{
+  padding:clamp(65px,7vw,120px) clamp(26px,5vw,88px);
+}
+.pact-marketing .pact-next-heading>span{margin-bottom:50px}
+.pact-marketing .pact-next h2{
+  font-size:clamp(60px,8vw,125px);
+  line-height:1.02;
+  letter-spacing:-.085em;
+}
+.pact-marketing .footer-title{font-size:clamp(70px,9vw,140px)}
+.pact-marketing .section-index{gap:22px}
+.pact-marketing .section-index span:first-child{font-size:11px}
+@media(max-width:900px){
+  .pact-marketing .evidence-theatre{grid-template-columns:minmax(0,1fr)}
+  .pact-marketing .evidence-script{min-height:0}
+  .pact-marketing .evidence-script h2{font-size:clamp(55px,9vw,80px);margin:50px 0 24px}
+  .pact-marketing .evidence-canvas{min-height:530px;border-left:0;border-top:1px solid #425143}
+  .pact-marketing .intro-grid{grid-template-columns:minmax(0,1fr)}
+  .pact-marketing .intro h2{font-size:clamp(50px,7.5vw,75px)}
+  .pact-marketing .atlas-title-row{grid-template-columns:minmax(0,1fr)}
+  .pact-marketing .atlas-title-row h2{font-size:clamp(51px,7.5vw,76px)}
+  .pact-marketing .benchmark-heading-wrap,
+  .pact-marketing .proof-title{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:520px){
+  .pact-marketing .evidence-script{padding:31px 23px}
+  .pact-marketing .evidence-script h2{font-size:clamp(48px,10.5vw,65px)}
+  .pact-marketing .evidence-canvas{padding:23px}
+  .pact-marketing .intro{padding:38px 24px}
+  .pact-marketing .intro-grid{padding:52px 0 45px}
+  .pact-marketing .intro h2{font-size:clamp(39px,9.6vw,51px)}
+  .pact-marketing .intro-metrics strong{font-size:clamp(42px,11vw,58px)}
+  .pact-marketing .atlas-title-row h2{font-size:clamp(42px,9.7vw,55px)}
+  .pact-marketing .benchmark-heading-wrap h2,
+  .pact-marketing .proof-title h2{font-size:clamp(43px,9.9vw,58px)}
+}
+

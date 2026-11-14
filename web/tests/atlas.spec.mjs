@@ -17,7 +17,7 @@ test.describe("PACT Atlas / real funding workspace", () => {
   test("has a coherent consumer entry, with no fictional funding demonstration", async ({ page }) => {
     await noExternalRpc(page);
     await page.goto("/console");
-    await expect(page.getByRole("heading", { name: "Funding. Together." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Find a campaign." })).toBeVisible();
     await expect(page.locator("#campaign-list .campaign-tile")).toHaveCount(2);
     const sequence = await page.evaluate(() => {
       const campaigns = document.getElementById("campaigns");

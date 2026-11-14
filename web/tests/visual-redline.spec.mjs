@@ -7,7 +7,7 @@ test.describe("PACT visual redline regressions", () => {
     test("landing content reflows without overlapping numeric labels at " + width + "px", async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.goto("/");
-      await expect(page.locator("#intro-heading")).toContainText("DEPEND ON");
+      await expect(page.locator("#intro-heading")).toContainText("depend");
       await expect(page.locator(".model-disclaimer")).toContainText("reference model");
       await expect(page.locator(".pact-sequence")).toHaveCount(0);
       const report = await page.evaluate(() => {
@@ -50,21 +50,22 @@ test.describe("PACT visual redline regressions", () => {
       }));
       expect(["none", ""].includes(initial.pseudoDisplay)).toBe(true);
       expect(["none", ""].includes(hovered.pseudoDisplay)).toBe(true);
-      expect(hovered.transform).toBe("none");
+      expect(["none", ""].includes(hovered.transform)).toBe(true);
       expect(Math.abs(hovered.height - initial.height)).toBeLessThanOrEqual(1);
     });
   }
 
   for (const width of [320, 390, 768]) {
-    test("console stacks the story and illustration at " + width + "px", async ({ page }) => {
+    test("console maintains a readable workspace layout at " + width + "px", async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
       await page.goto("/console");
       const geometry = await page.evaluate(() => {
-        const copy = document.querySelector(".console-hero-copy").getBoundingClientRect();
-        const art = document.querySelector(".console-hero-art").getBoundingClientRect();
-        return {copyBottom: copy.bottom, artTop: art.top, scrollWidth: document.documentElement.scrollWidth};
+        const copy = document.querySelector(".desk-lead").getBoundingClientRect();
+        const proof = document.querySelector(".desk-proof").getBoundingClientRect();
+        return {copyBottom: copy.bottom, copyRight: copy.right, proofTop: proof.top, proofLeft: proof.left, scrollWidth: document.documentElement.scrollWidth};
       });
-      expect(geometry.artTop, JSON.stringify(geometry)).toBeGreaterThanOrEqual(geometry.copyBottom - 1);
+      if (width <= 750) expect(geometry.proofTop, JSON.stringify(geometry)).toBeGreaterThanOrEqual(geometry.copyBottom - 1);
+      else expect(geometry.proofLeft, JSON.stringify(geometry)).toBeGreaterThanOrEqual(geometry.copyRight - 1);
       expect(geometry.scrollWidth).toBeLessThanOrEqual(width + 1);
     });
   }

@@ -8,7 +8,7 @@ test.describe("Art-directed Atlas homepage", () => {
     await expect(page.locator("#hero-title")).toContainText("FUND THE");
     await expect(page.locator("#hero-title")).toContainText("IMPOSSIBLE");
     await expect(page.locator(".hero-art img")).toBeVisible();
-    await expect(page.locator("#intro-heading")).toContainText("DEPEND ON");
+    await expect(page.locator("#intro-heading")).toContainText("depend");
     await expect(page.getByRole("link", { name: /Open App/i }).first()).toHaveAttribute("href","/console");
     await expect(page.locator("#network-mode")).toContainText("12N");
     await expect(page.locator("#cert-total")).toContainText("10");
@@ -109,7 +109,7 @@ test.describe("Art-directed Atlas homepage", () => {
     await page.route("**/rpc.testnet.fastnear.com/**", route => route.abort());
     await page.route("**/rpc.testnet.near.org/**", route => route.abort());
     await page.goto("/console");
-    await expect(page.getByRole("heading", { name: "Funding. Together." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Find a campaign." })).toBeVisible();
     await expect(page.locator(".campaign-tile")).toHaveCount(2);
     await expect(page.locator("#activity-list .activity-entry")).toHaveCount(8);
     await expect(page.locator("#connect-wallet")).toBeVisible();
