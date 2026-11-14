@@ -2,6 +2,17 @@ import { createNearWalletAdapter } from "./near-adapter.mjs";
 import { createTestnetProvider } from "./near-rpc.mjs";
 
 const VERSION = "10.1.4";
+// A real faucet-funded PACT contract is used solely to scope the optional
+// function-call login permission on routes without a campaign contract.
+// Wallet approval is still needed for every state-changing action.
+export const DEFAULT_SIGNIN_CONTRACT = "coalition-20261110.beneficiary-20261110.testnet";
+const SIGNIN_METHODS = Object.freeze(["status"]);
+export function walletSignInOptions(contractId) {
+  const id = contractId ?? DEFAULT_SIGNIN_CONTRACT;
+  if (typeof id !== "string" || !/^[a-z0-9][a-z0-9._-]*\.testnet$/.test(id))
+    throw problem("wallet-unavailable", "The requested NEAR testnet contract is invalid.");
+  return { contractId: id, methodNames: [...SIGNIN_METHODS] };
+}
 const BASE = "https://esm.sh/@near-wallet-selector/";
 const MODULES = Object.freeze({
   core: BASE + "core@" + VERSION + "?bundle",
@@ -24,6 +35,8 @@ export function readableWalletError(error) {
   if (error?.code === "wallet-timeout") return "The wallet did not respond. Reopen the chooser and try again.";
   if (error?.code === "wallet-disabled") return "Wallet signing is disabled in this preview. Browse the public records without connecting.";
   const message = String(error?.message || "");
+  if (/popup.*block/i.test(message)) return "Your browser blocked the wallet popup. Allow popups for this site and retry.";
+  if (/locked/i.test(message)) return "Unlock your NEAR wallet and retry.";
   if (/reject|denied|cancelled|canceled|closed/i.test(message)) return "Wallet approval was cancelled. No transaction was submitted by PACT.";
   if (/network|failed to fetch|load|timeout|module|chunk/i.test(message)) return "The wallet or network is unavailable. Check your connection and retry.";
   if (/account|not installed|not found/i.test(message)) return "No testnet account is available. Choose MyNearWallet or an installed NEAR wallet.";
@@ -40,34 +53,42 @@ async function guarded(work, ms) {
     new Promise((_, reject) => timer = setTimeout(() => reject(problem("wallet-timeout", "Wallet chooser took too long.")), ms)),
   ]).finally(() => clearTimeout(timer));
 }
-async function waitForAccount(selector) {
+// Wallet Selector emits "user-triggered" for cancellations and
+// "wallet-navigation" after an authorized wallet handoff. A hidden chooser
+// is not necessarily cancelled: browser wallets may still be approving in a
+// popup. Do not infer cancellation by observing DOM visibility alone.
+async function waitForAccount(selector, modal) {
   if (currentAccount(selector)) return currentAccount(selector);
   return new Promise((resolve, reject) => {
-    let settled = false, seenOpen = false, closedAt = null;
-    let poll, limit, subscription;
+    let settled = false, poll, limit, subscription, modalSubscription;
     function finish(error, account) {
       if (settled) return;
       settled = true;
-      clearInterval(poll);clearTimeout(limit);subscription?.unsubscribe?.();
-      if (error) reject(error);else resolve(account);
+      clearInterval(poll); clearTimeout(limit);
+      subscription?.unsubscribe?.();
+      modalSubscription?.remove?.();
+      modalSubscription?.unsubscribe?.();
+      if (error) reject(error); else resolve(account);
     }
     function check() {
       const account = currentAccount(selector);
-      if (account) return finish(null, account);
-      if (document.visibilityState === "hidden") return;
-      const wrapper = document.querySelector("#near-wallet-selector-modal .nws-modal-wrapper");
-      if (wrapper?.classList.contains("open")) {seenOpen = true;closedAt = null;}
-      else if (seenOpen) {
-        if (closedAt === null) closedAt = Date.now();
-        if (Date.now() - closedAt > 750) finish(problem("wallet-cancelled", "Wallet chooser closed."));
-      }
+      if (account) finish(null, account);
     }
     try {
+      modalSubscription = modal?.on?.("onHide", ({ hideReason }) => {
+        if (hideReason === "user-triggered") {
+          const account = currentAccount(selector);
+          if (account) finish(null, account);
+          else finish(problem("wallet-cancelled", "Wallet chooser closed."));
+        }
+        // wallet-navigation is not cancellation: do not discard a pending
+        // popup/redirect sign-in just because the modal has disappeared.
+      });
       subscription = selector?.store?.observable?.subscribe?.(check);
       poll = setInterval(check, 250);
-      limit = setTimeout(() => finish(problem("wallet-timeout", "Wallet was not connected.")), 90000);
+      limit = setTimeout(() => finish(problem("wallet-timeout", "Wallet was not connected.")), 120000);
       check();
-    } catch (error) {finish(error);}
+    } catch (error) { finish(error); }
   });
 }
 async function setup() {
@@ -94,7 +115,7 @@ export async function ensureWalletAdapter({contractId}={}) {
   const {selector,actionCreators,setupModal} = await selectorPromise;
   if (!document.querySelector('link[href*="near-wallet-selector.css"]'))
     throw problem("wallet-unavailable", "Wallet chooser stylesheet missing.");
-  const modal = setupModal(selector,contractId?{contractId}:{});
+  const modal = setupModal(selector, walletSignInOptions(contractId));
   // Add the accessible name after the chooser constructs its DOM.
   const showModal = () => {
     modal.show();
@@ -106,7 +127,7 @@ export async function ensureWalletAdapter({contractId}={}) {
     if (!currentAccount(selector)) {
       showModal();
       try {
-        await waitForAccount(selector);
+        await waitForAccount(selector, modal);
       } catch (error) {
         // Do not leave an active chooser visible behind a "timed out" notice.
         // Cancellation is already dismissed by the wallet's close control.
