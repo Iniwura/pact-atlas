@@ -35,37 +35,30 @@
     </header>
     <p id="wallet-message" class="wallet-message" role="status" aria-live="polite"></p>
     <main id="workspace-main" class="workspace-content">
-      <section class="dashboard-heading pact-console-hero" aria-labelledby="page-title">
-        <div class="console-hero-copy">
-          <p class="micro-label"><span class="live-mark" aria-hidden="true"></span> PACT / WORKSPACE / NEAR TESTNET</p>
-          <h1 id="page-title">Funding<span>.</span><br>Together<span>.</span></h1>
-          <p class="intro">Support projects that depend on each other. Set the conditions. Follow the money.</p>
-          <div class="console-hero-actions">
-            <a href="#campaigns" class="new-button"><span>Explore campaigns</span><span aria-hidden="true">↗</span></a>
-            <button type="button" id="pact-tour-open" class="pact-tour-launch" aria-controls="pact-tour-panel"><span class="tour-launch-icon" aria-hidden="true">✳</span> Guided walkthrough</button>
+      <section class="pact-desk" aria-labelledby="page-title">
+        <div class="desk-lead">
+          <p class="desk-eyebrow"><span class="desk-live-dot" aria-hidden="true"></span> NEAR TESTNET <span class="desk-sep" aria-hidden="true">/</span> PUBLIC AGREEMENTS</p>
+          <h1 id="page-title">Find a<br><em>campaign.</em></h1>
+          <p class="desk-description">Browse public agreements and see their conditions, funding status and receipts.</p>
+          <div class="desk-actions">
+            <a class="desk-primary" href="#campaigns">Browse campaigns <span aria-hidden="true">↗</span></a>
+            <button type="button" id="pact-tour-open" class="pact-tour-launch" aria-controls="pact-tour-panel">How PACT works <span aria-hidden="true">↗</span></button>
           </div>
-          <div class="console-hero-foot"><span>01 / BROWSE</span><span>02 / FUND OR CREATE</span><span>03 / VERIFY</span></div>
         </div>
-        <div class="console-hero-art">
-          <div class="hero-art-caption"><span>PUBLIC TESTNET / RECORDED AGREEMENT</span><span>PACT 001</span></div>
-          <div class="hero-constellation" role="img" aria-label="Alpha and Beta are two connected projects. Beta depends on Alpha for funding.">
-            <span class="constellation-ring ring-outer" aria-hidden="true"></span><span class="constellation-ring ring-inner" aria-hidden="true"></span>
-            <span class="constellation-axis" aria-hidden="true"></span>
-            <span class="constellation-node constellation-alpha"><small>01 / INDEPENDENT</small><b>Alpha</b><em>1 NEAR</em></span>
-            <span class="constellation-link" aria-hidden="true"><i></i></span>
-            <span class="constellation-node constellation-beta"><small>02 / REQUIRES ALPHA</small><b>Beta</b><em>1 NEAR</em></span>
-          </div>
-          <div class="hero-art-result"><div><span>THE CONDITION</span><strong>Both funded.<br>Both paid.</strong></div><a href="/#real-proof">Explore original receipts <span aria-hidden="true">↗</span></a></div>
+        <div class="desk-proof">
+          <div class="desk-proof-top"><span>FROM THE PUBLIC RECORD</span><span>01 / VERIFIED OUTCOME</span></div>
+          <div class="desk-proof-main"><span class="desk-proof-number">02</span><div><strong>Projects funded</strong><p>Alpha and Beta settled together after their shared condition was met.</p></div></div>
+          <div class="desk-proof-bottom"><span><i aria-hidden="true"></i> FINALIZED ON NEAR TESTNET</span><a href="/#real-proof">Inspect receipts <span aria-hidden="true">↗</span></a></div>
         </div>
       </section>
-      <section class="pact-entryways" aria-label="Choose what to do in PACT">
-        <a href="#campaigns" class="entryway"><span class="entryway-index">01 / EXPLORE</span><strong>Find a campaign.</strong><small>Inspect terms before funding</small><span class="entryway-arrow" aria-hidden="true">↗</span></a>
-        <a href="./create.html" class="entryway" aria-label="Create campaign"><span class="entryway-index">02 / BUILD</span><strong>Create campaign</strong><small>Set projects and conditions</small><span class="entryway-arrow" aria-hidden="true">↗</span></a>
-        <a href="./verify.html" class="entryway"><span class="entryway-index">03 / PROVE</span><strong>Check a receipt.</strong><small>Verify a NEAR transaction</small><span class="entryway-arrow" aria-hidden="true">↗</span></a>
-      </section>
+      <nav class="pact-entryways" aria-label="Choose a task">
+        <a href="#campaigns" class="entryway"><span class="entryway-index">01 / EXPLORE</span><strong>Find an agreement</strong><span class="entryway-arrow" aria-hidden="true">↗</span></a>
+        <a href="./create.html" class="entryway" aria-label="Create campaign"><span class="entryway-index">02 / ORGANIZE</span><strong>Create campaign</strong><span class="entryway-arrow" aria-hidden="true">↗</span></a>
+        <a href="./verify.html" class="entryway"><span class="entryway-index">03 / VERIFY</span><strong>Check a receipt</strong><span class="entryway-arrow" aria-hidden="true">↗</span></a>
+      </nav>
       <section class="workspace-section" id="campaigns" aria-labelledby="campaigns-title">
         <div class="section-titlebar inventory-head">
-          <div><p class="micro-label">01 / Public funding</p><h2 id="campaigns-title">Community campaigns.</h2><p>Explore actual testnet agreements. Open any campaign to check its status and conditions.</p></div>
+          <div><p class="micro-label">ACTUAL TESTNET AGREEMENTS</p><h2 id="campaigns-title">Explore campaigns</h2><p>Open a campaign to review its terms, funding status and receipts.</p></div>
           <div class="tab-row" role="group" aria-label="Filter campaigns">
             <button type="button" data-campaign-filter="all" aria-pressed="true">All</button>
             <button type="button" data-campaign-filter="ACTIVATED" aria-pressed="false">Funded</button>
@@ -80,29 +73,27 @@
 
       <section class="workspace-section" id="featured" aria-labelledby="featured-title">
         <div class="section-titlebar">
-          <div><p class="micro-label">02 / Inside an agreement</p><h2 id="featured-title">Why funding together matters.</h2></div>
+          <div><p class="micro-label">HOW CONDITIONAL FUNDING WORKS</p><h2 id="featured-title">Inside the agreement</h2></div>
           <a class="section-link" href="#campaigns">Browse campaigns ↗</a>
         </div>
-        <div class="feature-panel">
+        <div class="feature-panel pact-explainer">
           <div class="feature-story">
-            <div class="feature-head"><span class="feature-tag">PACT / CONDITIONAL FUNDING</span><span class="feature-status">RECORDED · TESTNET</span></div>
-            <h3>Two projects.<br>One condition.</h3>
-            <p>Beta can receive funding only when Alpha is funded. The contract enforces the full allocation, not just individual balances.</p>
-            <div class="dependency-graph" aria-label="Project Beta depends on Project Alpha">
-              <div class="dep-node"><small>01 / INDEPENDENT</small><strong>Alpha</strong><span>1 NEAR</span></div>
-              <div class="dep-arrow" aria-hidden="true"></div>
-              <div class="dep-node dep-dependent"><small>02 / REQUIRES ALPHA</small><strong>Beta</strong><span>1 NEAR</span></div>
-            </div>
-            <p>Two contributor pledges. One accepted certificate. Both beneficiaries paid.</p>
+            <p class="micro-label">THE RULE / CONDITIONAL FUNDING</p>
+            <h3>Funding with<br><em>a dependency.</em></h3>
+            <p>Beta can receive funding only when Alpha is funded. PACT verifies the complete allocation against the commitment rules before settlement.</p>
+            <ol class="pact-lifecycle" aria-label="Conditional funding lifecycle">
+              <li><span>01</span><div><strong>Commit</strong><small>Beta's contribution includes a condition</small></div></li>
+              <li><span>02</span><div><strong>Validate</strong><small>Both projects satisfy the allocation rules</small></div></li>
+              <li><span>03</span><div><strong>Settle</strong><small>Beneficiaries receive funds with public receipts</small></div></li>
+            </ol>
           </div>
           <div class="feature-details">
-            <p class="micro-label">Recorded outcome</p>
-            <h3>Funded.<br>Settled.<br>Verifiable.</h3>
-            <p>A conditional pledge arrived before its dependency was funded. PACT accepted the final allocation and preserved proof of every transfer.</p>
-            <div class="feature-pills"><span>2 contributions</span><span>2 projects</span><span>0 final liabilities</span></div>
+            <p class="micro-label">ACTUAL NEAR TESTNET RESULT</p>
+            <h3>2 NEAR<br><em>settled.</em></h3>
+            <p>Alpha and Beta were paid in the recorded testnet coalition. The final recorded liability was zero.</p>
             <div class="feature-details-footer">
-              <a id="featured-open" class="dark-action" href="#campaigns">Open campaign <span aria-hidden="true">↗</span></a>
-              <a class="ghost-action" href="#activity">View receipts ↗</a>
+              <a id="featured-open" class="dark-action" href="#campaigns">Open recorded campaign <span aria-hidden="true">↗</span></a>
+              <a class="ghost-action" href="/#real-proof">Inspect the receipts ↗</a>
             </div>
           </div>
         </div>
