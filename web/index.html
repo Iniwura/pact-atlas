@@ -7,7 +7,7 @@
 <title>PACT Atlas — Fund what can't be funded alone</title>
 <link rel="stylesheet" href="/studio.css">
 <link rel="stylesheet" href="/experience.css">
-<link rel="stylesheet" href="/final-editorial.css">
+<link rel="stylesheet" href="/atlas-visual-system.css">
 </head>
 <body class="pact-marketing">
 <a class="skip" href="#main">Skip to content</a>
@@ -103,10 +103,30 @@
  </div>
  <div class="funding-control"><div class="funding-copy"><span class="section-index-inline">03 / CHANGE ONE THING</span><h3>WHAT IF WE<br><em>ADDED 1 NEAR?</em></h3><p>One additional commitment can unlock the fourth project. Test the allocation — not a transaction.</p></div><div class="switch-zone"><div class="switch-header"><span>ADDITIONAL COMMITMENT</span><strong id="topup-display">0 NEAR</strong></div><button id="topup-button" class="topup-button" type="button" aria-pressed="false"><span class="topup-track"><span class="topup-knob">↗</span></span><span id="topup-caption">ADD THE MISSING 1N <b>↗</b></span></button><span class="switch-foot" id="topup-foot">4TH PROJECT BLOCKED / CONDITIONS PRESERVED</span></div></div>
 </section>
-<section class="statement paper" aria-labelledby="statement-heading"><div class="section-index"><span>03</span><span>/ THE DIFFERENCE</span></div><h2 id="statement-heading">NOT MORE<br><span class="letter-outline">MONEY.</span><br><em>BETTER</em><br>COORDINATION<span class="warm-dot">.</span></h2><div class="statement-bottom"><div>NO DOUBLE ALLOCATION.<br>NO BROKEN DEPENDENCIES.<br>NO INVENTED TRANSACTIONS.</div><p>Others can propose a bigger number. PACT asks a harder question: does the agreement actually hold?</p></div></section>
-<section class="editorial-bridge" aria-labelledby="bridge-title">
- <div><span class="bridge-kicker">THE AGREEMENT / MADE VISIBLE</span><h2 id="bridge-title">FUNDING IS<br>NOT ENOUGH.<br><em>CONDITIONS</em><br>MATTER.</h2></div>
- <div class="bridge-detail"><p>PACT checks the rules before funds move. Explore a bounded allocation, then compare it with the real testnet outcomes.</p><div class="bridge-links"><a href="#atlas">Explore the funding model ↗</a><a href="#real-proof">View actual testnet receipts ↗</a></div></div>
+<section class="pact-sequence" id="mechanism" aria-labelledby="mechanism-heading">
+ <div class="sequence-topline"><span>03 / INSIDE THE AGREEMENT</span><span>ONE REAL TESTNET OUTCOME / THREE MOMENTS</span></div>
+ <div class="sequence-intro">
+  <div><span class="sequence-asterisk" aria-hidden="true">✳</span><h2 id="mechanism-heading">A promise<br>isn't <em>payment.</em></h2></div>
+  <p>Conditional funding is about what must happen <strong>before</strong> money can move. These three moments are recorded on NEAR testnet.</p>
+ </div>
+ <div class="sequence-gallery">
+  <article class="sequence-scene sequence-first">
+   <div class="sequence-scene-top"><span>01 / THE PROMISE</span><span>CONDITIONAL</span></div>
+   <div class="sequence-graphic" aria-hidden="true"><div class="sequence-orbit"><span class="sequence-node"><i>B</i><small>BETA</small></span><span class="sequence-lock">×</span><span class="sequence-node faded"><i>A</i><small>ALPHA</small></span></div></div>
+   <div class="sequence-scene-copy"><h3>Beta commits.<br><em>Alpha is not funded yet.</em></h3><p>The commitment exists, but the dependency blocks activation.</p><a href="https://testnet.nearblocks.io/txns/39QG8aueJBWZEcJYHZtVorjbyc9WJiJ1u9gdz9WjuDKN" target="_blank" rel="noopener noreferrer">Inspect the pledge ↗</a></div>
+  </article>
+  <article class="sequence-scene sequence-middle">
+   <div class="sequence-scene-top"><span>02 / THE AGREEMENT</span><span>VALIDATED</span></div>
+   <div class="sequence-graphic" aria-hidden="true"><div class="sequence-orbit connected"><span class="sequence-node"><i>B</i><small>BETA</small></span><span class="sequence-link"><b></b></span><span class="sequence-node"><i>A</i><small>ALPHA</small></span></div></div>
+   <div class="sequence-scene-copy"><h3>One allocation.<br><em>Every rule satisfied.</em></h3><p>PACT accepts the certificate only when the entire arrangement is valid.</p><a href="https://testnet.nearblocks.io/txns/31FxH2YE9FEm7iq49AH6eXMvZYiFv7Y3jeqd8rThK96v" target="_blank" rel="noopener noreferrer">Inspect activation ↗</a></div>
+  </article>
+  <article class="sequence-scene sequence-last">
+   <div class="sequence-scene-top"><span>03 / THE RESULT</span><span>SETTLED</span></div>
+   <div class="sequence-graphic payout-graphic" aria-hidden="true"><div class="payout-number"><span>2</span><small>BENEFICIARIES<br>PAID</small></div><div class="payout-ring"></div></div>
+   <div class="sequence-scene-copy"><h3>Both receive funds.<br><em>Receipts remain public.</em></h3><p>Historical outcomes are independently inspectable, not simulated transfers.</p><a href="https://testnet.nearblocks.io/txns/GuUpGeBNaygqoaepXPrmxbWgEzexoXgyxxFDZ617E9FX" target="_blank" rel="noopener noreferrer">Inspect final payout ↗</a></div>
+  </article>
+ </div>
+ <div class="sequence-outro"><span>THIS IS TESTNET HISTORY, NOT A PROMISE OF PRODUCTION SAFETY.</span><a href="/console#campaigns">Explore actual campaigns <b aria-hidden="true">↗</b></a></div>
 </section>
 <section class="benchmark-section" id="benchmarks" aria-labelledby="benchmark-heading">
  <div class="bench-top"><div class="section-index light"><span>04</span><span>/ THE REAL DIFFERENCE</span></div><span class="bench-source">REPORTED ENGINEERING EVIDENCE / CFA67EF</span></div>
@@ -121,6 +141,11 @@
    <div id="pledge-rows" class="pledge-rows" aria-live="polite"></div>
    <p class="ledger-disclaimer">REFERENCE MODEL ONLY. No deposits, transfers, or live wallet signatures occur here. An allocation certificate is not proof of a public-chain payment.</p>
  </div><div class="proof-final"><div><span class="proof-icon">✳</span> <span>TESTED IN NEAR SANDBOX</span><p>Separate Codex verification reports include Sputnik DAO governance, deposits, expiry and refunds. This interactive view is a model preview, not a live network state.</p></div><a href="#top" class="line-link proof-link">BACK TO TOP <span>↑</span></a></div></section>
+<section class="pact-next" aria-labelledby="next-heading"><div class="pact-next-heading"><span>THE NEXT STEP</span><h2 id="next-heading">Now make<br><em>it real.</em></h2></div><div class="pact-next-paths">
+ <a href="/console#campaigns"><span>01 / PARTICIPATE</span><strong>Find a campaign</strong><small>See the terms and actual funding status</small><b aria-hidden="true">↗</b></a>
+ <a href="/create.html"><span>02 / ORGANIZE</span><strong>Start a campaign</strong><small>Design conditions before any deployment</small><b aria-hidden="true">↗</b></a>
+ <a href="/verify.html"><span>03 / VERIFY</span><strong>Check the proof</strong><small>Validate a public testnet transaction</small><b aria-hidden="true">↗</b></a>
+ </div></section>
 </main>
 <footer class="footer"><div class="footer-kicker"><span>PACT ATLAS / ON NEAR</span><span>NOT FOR VALUABLE FUNDS</span></div><div class="footer-title">THE FUTURE<br>IS <em>COLLECTIVE.</em></div><div class="footer-bottom"><span>PACT © 2026</span><span>COORDINATION IS A DESIGN PROBLEM.</span><a href="/console">OPEN APP ↗</a><a href="#top">TOP ↑</a></div></footer>
 </div>
