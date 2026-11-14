@@ -27,6 +27,6 @@ test("closing Meteor chooser returns to browsing with no wallet or transaction",
   await expect(page.locator("#connect-wallet")).toBeEnabled({timeout:10000});
   await expect(page.locator("#connect-wallet")).toContainText("Connect wallet");
   await expect(page.locator("#wallet-disconnect")).toBeHidden();
-  await page.getByRole("link",{name:/Campaigns/i}).first().click();
+  await page.locator('.top-nav a[href="#campaigns"]').click();
   await expect(page.locator("#campaigns")).toBeVisible();
 });
