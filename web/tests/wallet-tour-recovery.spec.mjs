@@ -5,22 +5,20 @@ test.describe("PACT wallet, tour and recovery",()=>{
     await page.route("**/rpc.testnet.fastnear.com/**",r=>r.abort());
     await page.route("**/rpc.testnet.near.org/**",r=>r.abort());
   });
-  test("wallet chooser is visible and cancellation always recovers",async ({page})=>{
+  test("NEAR Connect chooser is visible and cancellation always recovers",async ({page})=>{
     await page.goto("/console");
     await page.locator("#connect-wallet").click();
-    const modal=page.locator(".nws-modal-wrapper.open");
+    const modal=page.locator(".modal-container");
     await expect(modal).toBeVisible({timeout:30000});
-    await expect(page.locator("#near-wallet-selector-modal")).not.toContainText("MyNearWallet");
-    await expect(page.locator("#near-wallet-selector-modal")).toContainText("Meteor Wallet");
-    await expect(page.locator("#near-wallet-selector-modal")).not.toContainText("Nightly");
-    await expect(page.locator("#near-wallet-selector-modal")).not.toContainText("Sender");
-    await expect(page.locator("#near-wallet-selector-modal .close-button")).toHaveAttribute("aria-label","Close wallet chooser");
-    const box=await modal.evaluate(e=>({position:getComputedStyle(e).position,top:e.getBoundingClientRect().top,z:parseInt(getComputedStyle(e).zIndex)}));
-    expect(box.position).toBe("fixed");
-    expect(box.top).toBe(0);
-    expect(box.z).toBeGreaterThan(1200);
-    await page.locator("#near-wallet-selector-modal .close-button").click();
-    await expect(modal).toBeHidden();
+    await expect(modal).toContainText("Select wallet");
+    await expect(modal).toContainText("Meteor Wallet");
+    await expect(modal).toContainText("Intear Wallet");
+    await expect(modal).not.toContainText("MyNearWallet");
+    const style=await modal.evaluate(e=>({position:getComputedStyle(e).position,z:parseInt(getComputedStyle(e).zIndex)}));
+    expect(style.position).toBe("fixed");
+    expect(style.z).toBeGreaterThan(1200);
+    await page.keyboard.press("Escape");
+    await expect(modal).toHaveCount(0);
     await expect(page.locator("#connect-wallet")).toBeEnabled();
     await expect(page.locator("#wallet-message")).toContainText("Nothing was connected or signed");
     await expect(page.locator("#wallet-disconnect")).toBeHidden();
