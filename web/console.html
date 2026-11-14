@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./protocol-workspace.css">
   <link rel="stylesheet" href="./app-shell.css">
   <link rel="stylesheet" href="./app-refinement.css">
+  <link rel="stylesheet" href="./atlas-product-system.css">
   <link rel="stylesheet" href="./first-visit.css">
 </head>
 <body class="protocol-app pact-workspace">
@@ -34,17 +35,34 @@
     </header>
     <p id="wallet-message" class="wallet-message" role="status" aria-live="polite"></p>
     <main id="workspace-main" class="workspace-content">
-      <section class="dashboard-heading" aria-labelledby="page-title">
-        <div>
-          <p class="micro-label">PACT ATLAS / SOCIAL MONEY</p>
-          <h1 id="page-title">Funding<span>.</span> Together<span>.</span></h1>
-          <p class="intro">Fund connected projects with clear conditions. See where every contribution goes.</p><a class="story-jump" href="/#real-proof">See a real funded agreement <span aria-hidden="true">↗</span></a> <button type="button" id="pact-tour-open" class="pact-tour-launch" aria-controls="pact-tour-panel">Take a 1-minute tour ↗</button>
+      <section class="dashboard-heading pact-console-hero" aria-labelledby="page-title">
+        <div class="console-hero-copy">
+          <p class="micro-label"><span class="live-mark" aria-hidden="true"></span> PACT / WORKSPACE / NEAR TESTNET</p>
+          <h1 id="page-title">Funding<span>.</span><br>Together<span>.</span></h1>
+          <p class="intro">Support projects that depend on each other. Set the conditions. Follow the money.</p>
+          <div class="console-hero-actions">
+            <a href="#campaigns" class="new-button"><span>Explore campaigns</span><span aria-hidden="true">↗</span></a>
+            <button type="button" id="pact-tour-open" class="pact-tour-launch" aria-controls="pact-tour-panel"><span class="tour-launch-icon" aria-hidden="true">✳</span> Guided walkthrough</button>
+          </div>
+          <div class="console-hero-foot"><span>01 / BROWSE</span><span>02 / FUND OR CREATE</span><span>03 / VERIFY</span></div>
         </div>
-        <a href="./create.html" class="new-button">Create campaign
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 12h16M13 5l7 7-7 7"></path></svg>
-        </a>
+        <div class="console-hero-art">
+          <div class="hero-art-caption"><span>PUBLIC TESTNET / RECORDED AGREEMENT</span><span>PACT 001</span></div>
+          <div class="hero-constellation" role="img" aria-label="Alpha and Beta are two connected projects. Beta depends on Alpha for funding.">
+            <span class="constellation-ring ring-outer" aria-hidden="true"></span><span class="constellation-ring ring-inner" aria-hidden="true"></span>
+            <span class="constellation-axis" aria-hidden="true"></span>
+            <span class="constellation-node constellation-alpha"><small>01 / INDEPENDENT</small><b>Alpha</b><em>1 NEAR</em></span>
+            <span class="constellation-link" aria-hidden="true"><i></i></span>
+            <span class="constellation-node constellation-beta"><small>02 / REQUIRES ALPHA</small><b>Beta</b><em>1 NEAR</em></span>
+          </div>
+          <div class="hero-art-result"><div><span>THE CONDITION</span><strong>Both funded.<br>Both paid.</strong></div><a href="/#real-proof">Explore original receipts <span aria-hidden="true">↗</span></a></div>
+        </div>
       </section>
-
+      <section class="pact-entryways" aria-label="Choose what to do in PACT">
+        <a href="#campaigns" class="entryway"><span class="entryway-index">01 / EXPLORE</span><strong>Find a campaign.</strong><small>Inspect terms before funding</small><span class="entryway-arrow" aria-hidden="true">↗</span></a>
+        <a href="./create.html" class="entryway"><span class="entryway-index">02 / BUILD</span><strong>Create an agreement.</strong><small>Set projects and conditions</small><span class="entryway-arrow" aria-hidden="true">↗</span></a>
+        <a href="./verify.html" class="entryway"><span class="entryway-index">03 / PROVE</span><strong>Check a receipt.</strong><small>Verify a NEAR transaction</small><span class="entryway-arrow" aria-hidden="true">↗</span></a>
+      </section>
       <section class="workspace-section" id="campaigns" aria-labelledby="campaigns-title">
         <div class="section-titlebar inventory-head">
           <div><p class="micro-label">01 / Public funding</p><h2 id="campaigns-title">Community campaigns.</h2><p>Explore actual testnet agreements. Open any campaign to check its status and conditions.</p></div>
