@@ -11,6 +11,8 @@ test.describe("PACT product first visit", () => {
     await page.evaluate(() => localStorage.removeItem("pact-atlas-field-guide-v2"));
     await page.reload();
     const panel=page.locator("#pact-tour-panel");
+    await expect(panel).toBeHidden();
+    await page.locator("#pact-tour-open").click();
     await expect(panel).toBeVisible();
     await expect(panel.getByRole("button",{name:"Explore a campaign"})).toBeVisible();
     await expect(panel.getByRole("button",{name:"Create an agreement"})).toBeVisible();
@@ -49,7 +51,8 @@ test.describe("PACT product first visit", () => {
       expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
       await page.goto("/console");
       await expect(page.locator(".pact-entryways a")).toHaveCount(3);
-      await expect(page.locator("#pact-tour-panel")).toBeVisible();
+      await expect(page.locator("#pact-tour-panel")).toBeHidden();
+      await expect(page.locator("#pact-tour-open")).toBeVisible();
       expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
     }
   });
