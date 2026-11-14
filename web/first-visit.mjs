@@ -106,5 +106,10 @@ if (panel && launcher) {
   document.addEventListener("keydown",e=>{if(!panel.hidden && e.key==="Escape"){e.preventDefault();close();}});
   let alreadySeen = false;
   try {alreadySeen=window.localStorage.getItem(STORAGE_KEY)==="seen";}catch{alreadySeen=true;}
-  if(!alreadySeen)open();
+  // Show the entry in the hero, never an unsolicited overlay that can block
+  // creation or wallet actions. A tour is useful only if it leaves control with the visitor.
+  if (!alreadySeen) {
+    launcher.dataset.firstVisit = "true";
+    launcher.setAttribute("aria-label", "First visit? Start a guided PACT walkthrough");
+  }
 }
