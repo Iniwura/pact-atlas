@@ -7,6 +7,7 @@ import {
   validateDeployableCampaign,
 } from "./campaign-chain.mjs";
 import { ensureWalletAdapter } from "./wallet-selector-host.mjs";
+import { notifyUser } from "./notification-center.mjs";
 
 const $ = selector => document.querySelector(selector);
 const element=(tag,cls="",content)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(content!==undefined)node.textContent=String(content);return node;};
@@ -47,7 +48,8 @@ function touch(){latest=null;save();renderPreview();hideErrors();}
 function hideErrors(){const holder=$("#form-errors");holder.hidden=true;holder.replaceChildren();}
 function showErrors(errors){const holder=$("#form-errors");holder.replaceChildren();
   const list=element("ul");errors.slice(0,6).forEach(error=>list.append(element("li","",error)));
-  holder.append(list);holder.hidden=false;holder.scrollIntoView({block:"nearest",behavior:"smooth"});}
+  holder.append(list);holder.hidden=false;holder.scrollIntoView({block:"nearest",behavior:"smooth"});
+  if(errors.length)notifyUser("error",errors[0],{title:"Check your campaign"});}
 
 function nextId(type,records){let i=1;while(records.some(x=>x.id===type+i))i++;return type+i;}
 function textField(label,value,fn,placeholder="",max=50){
@@ -231,6 +233,7 @@ async function wasmBytes(){
 
 function chainState(message,tone="neutral"){
   const result=$("#chain-result"); if(!result)return; result.dataset.tone=tone; result.textContent=message;
+  if(tone==="error"||tone==="warning") notifyUser(tone,message,{title:tone==="error"?"Deployment not completed":"Deployment status unknown"});
 }
 
 async function deployCampaign({slugInput,authorityInput,activationInput,expiryInput}){
