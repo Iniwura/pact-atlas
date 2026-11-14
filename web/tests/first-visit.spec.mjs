@@ -2,10 +2,11 @@ import { test, expect } from "@playwright/test";
 
 test.describe("first-visit guide and full landing continuity", () => {
   test("shows four optional steps, allows skip and replay without sending money", async ({page}) => {
-    await page.addInitScript(() => localStorage.removeItem("pact-atlas-console-tour-v1"));
+    await page.goto("/console");
+    await page.evaluate(() => localStorage.removeItem("pact-atlas-console-tour-v1"));
     await page.route("**/rpc.testnet.fastnear.com/**", route => route.abort());
     await page.route("**/rpc.testnet.near.org/**", route => route.abort());
-    await page.goto("/console");
+    await page.reload();
     const guide = page.locator("#pact-tour-panel");
     await expect(guide).toBeVisible();
     await expect(guide).toContainText("Find a campaign.");
