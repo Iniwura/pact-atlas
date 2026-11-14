@@ -57,7 +57,7 @@ async function guarded(work, ms) {
 // "wallet-navigation" after an authorized wallet handoff. A hidden chooser
 // is not necessarily cancelled: browser wallets may still be approving in a
 // popup. Do not infer cancellation by observing DOM visibility alone.
-async function waitForAccount(selector, modal) {
+export async function waitForWalletAccount(selector, modal, { timeoutMs = 120000 } = {}) {
   if (currentAccount(selector)) return currentAccount(selector);
   return new Promise((resolve, reject) => {
     let settled = false, poll, limit, subscription, modalSubscription;
@@ -86,7 +86,7 @@ async function waitForAccount(selector, modal) {
       });
       subscription = selector?.store?.observable?.subscribe?.(check);
       poll = setInterval(check, 250);
-      limit = setTimeout(() => finish(problem("wallet-timeout", "Wallet was not connected.")), 120000);
+      limit = setTimeout(() => finish(problem("wallet-timeout", "Wallet was not connected.")), timeoutMs);
       check();
     } catch (error) { finish(error); }
   });
@@ -127,7 +127,7 @@ export async function ensureWalletAdapter({contractId}={}) {
     if (!currentAccount(selector)) {
       showModal();
       try {
-        await waitForAccount(selector, modal);
+        await waitForWalletAccount(selector, modal);
       } catch (error) {
         // Do not leave an active chooser visible behind a "timed out" notice.
         // Cancellation is already dismissed by the wallet's close control.
