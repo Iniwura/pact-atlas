@@ -24,14 +24,14 @@
 - [ ] Publish a public X demo post using real app/receipts (video **or screenshots**); tag `@NEARProtocol` and `#NEARHackathon` and explain testnet limitations truthfully.
 - [ ] Supply a valid mainnet NEAR account for any prize payout, and submit both public links through the official form before **14 Nov 2026, 23:59 UTC**.
 
-- [x] Public repository visibility is confirmed; the new code is prepared in the consolidated release branch. **Pending:** merge into `main` and verify the production alias points to the reviewed SHA.
+- [x] Public repository visibility is confirmed; the tested NEAR Connect release has been merged into default `main` (PR #25). **Verified public judge URL:** https://pact-atlas-near-connect.vercel.app/. The older `pact-atlas.vercel.app` deployment must not be presented as the current wallet build.
 - [x] The latest UI has a READY Vercel deployment and an anonymously accessible review alias with exact tested UI SHA. **Pending:** approve the final judge-facing production URL and align it with the reviewed source.
 - [ ] Complete a genuine NEAR Connect browser-wallet signing transaction with a funded testnet account, **or** accurately label browser-wallet signing unverified in the submission. Current user `iniwura.testnet` holds 0 testnet NEAR; the old Meteor access-key flow failed for insufficient gas. The new account-first connection avoids requesting that initial key, not transaction gas.
 - [ ] Complete a public Sputnik multi-member governance run, or keep governance claims limited to sandbox evidence.
 - [ ] Decide whether an independent qualified auditor will review the contract; do not call this code externally audited without that review.
 - [ ] Resolve or explicitly accept the missing-callback production blocker only after a design that cannot double-pay is proven.
 - [ ] Do not claim native transfer failure injection until a genuine failing predecessor is safely reproduced.
-- [ ] Consolidate the tested NEAR Connect branch into `main`, verify the final public URL, then publish a real X demo and submit before the deadline. Promotion is a **testnet-only** marketing release, not permission to accept production funds.
+- [ ] The tested NEAR Connect branch is already merged into `main` and the final public review URL is verified. Publish a real X demo and submit its URL with the public repository before the deadline. Promotion is a **testnet-only** marketing release, not permission to accept production funds.
 
 ## Submission facts
 
