@@ -96,6 +96,8 @@ if(panel&&launcher){
     requestAnimationFrame(updateSpotlight);
   }
   launcher.addEventListener("click",open);
+  const headerLauncher=document.getElementById("pact-guide-header");
+  headerLauncher?.addEventListener("click",open);
   backdrop.addEventListener("click",()=>{if(panel.dataset.stage==="welcome")close()});
   panel.querySelectorAll("[data-tour-journey]").forEach(button=>{
     button.addEventListener("click",()=>{
@@ -124,6 +126,6 @@ if(panel&&launcher){
   window.addEventListener("scroll",updateSpotlight,{passive:true});
   window.addEventListener("resize",updateSpotlight,{passive:true});
   let seen=false;try{seen=localStorage.getItem(STORAGE_KEY)==="seen"}catch{seen=true}
-  if(!seen){launcher.dataset.firstVisit="true";launcher.setAttribute("aria-label","First visit? Start a guided PACT walkthrough")}
+  if(!seen){launcher.dataset.firstVisit="true";launcher.setAttribute("aria-label","First visit? Start a guided PACT walkthrough");if(headerLauncher)headerLauncher.dataset.firstVisit="true"}
   if(new URLSearchParams(location.search).get("tour")==="1")open();
 }
