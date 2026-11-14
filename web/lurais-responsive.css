@@ -384,3 +384,5 @@
 .campaign-app .campaign-projects-panel .pane-kicker{color:#754b32!important}
 /* Agreement details are a dark panel, unlike the light participation panel. */
 .campaign-app .campaign-projects-panel .pane-kicker{color:#f2c4a4!important}
+/* Tiny metric denominators need body-text contrast on mobile. */
+@media(max-width:650px){.pact-marketing .intro-metrics strong span{color:#454a43!important}}
