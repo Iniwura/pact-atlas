@@ -58,7 +58,7 @@ async function connect() {
     notifyUser("success", "Connected to NEAR testnet as " + account + ". Each transaction needs separate approval.", {title:"Wallet connected"});
   } catch (error) {
     const text = readableWalletError(error);
-    display(previous, previous ? "" : "Connection not completed. " + text);
+    display(previous, previous ? "" : "Wallet connection wasn\'t completed. " + text + " Choose Connect wallet to retry.");
     // User cancellation is a normal exit, not a transaction error.
     if (/cancel|reject|closed|selection/i.test(String(error?.message || ""))) {
       notifyUser("info", "Wallet selection closed. No transaction was sent.", {title:"Connection cancelled"});
