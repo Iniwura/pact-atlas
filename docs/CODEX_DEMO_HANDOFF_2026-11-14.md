@@ -1,5 +1,9 @@
 # PACT Atlas — Codex demo handoff (release candidate)
 
+> **SUPERSEDED — DO NOT FILM FROM THIS OLDER PROOF-HEAVY STORYBOARD.** The definitive, full-product, premium motion-graphics production brief is [CODEX_FINAL_PRODUCT_FILM_2026-11-14.md](CODEX_FINAL_PRODUCT_FILM_2026-11-14.md). It puts discovery, creation, allocation design, the Coalition Atlas, wallet UX and outcomes before transaction receipts. It includes the final voiceover, 113-second timeline, production specs, acceptance checks, and required real MP4 output. This file is retained for historical proof references only.
+
+
+
 **Purpose:** Capture a truthful, compelling NEAR HACKATHON Social Money product walkthrough. The owner wants an exceptional high-definition demo built by Codex. This file is instructions, **not a request to publish**.
 
 ## Immutable guardrails
