@@ -59,9 +59,9 @@ test.describe("PACT / cinematic public-evidence story", () => {
       await page.setViewportSize({width,height});
       await page.goto("/");
       const result=await page.evaluate(() => {
-        const box=x=>document.querySelector(x).getBoundingClientRect();
+        const box=x=>document.querySelector(x)?.getBoundingClientRect()||null;
         const title=box("#hero-title"),overline=box(".hero-edition"),quote=box(".hero-reference"),bottom=box(".hero-bottom"),action=box(".hero-link");
-        const overlap=(a,b)=>a.left<b.right-2&&a.right>b.left+2&&a.top<b.bottom-2&&a.bottom>b.top+2;
+        const overlap=(a,b)=>!!(a&&b&&a.left<b.right-2&&a.right>b.left+2&&a.top<b.bottom-2&&a.bottom>b.top+2);
         return {ctaVisible:action.bottom<=innerHeight+1,displayVsAction:overlap(title,bottom),overlineVsTitle:overlap(overline,title),quoteVsTitle:overlap(quote,title),quoteVsOverline:overlap(quote,overline)};
       });
       expect(result).toEqual({ctaVisible:true,displayVsAction:false,overlineVsTitle:false,quoteVsTitle:false,quoteVsOverline:false});
