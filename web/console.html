@@ -147,13 +147,27 @@
     </main>
   </div>
 </div>
-<section id="pact-tour-panel" class="pact-tour-panel" aria-label="PACT Atlas getting started" aria-labelledby="pact-tour-title" hidden>
-  <div class="pact-tour-top"><span class="pact-tour-overline">PACT / GETTING STARTED</span><span id="pact-tour-counter" class="pact-tour-counter">01 / 04</span></div>
-  <div class="pact-tour-track" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-  <h2 id="pact-tour-title">Find a campaign.</h2>
-  <p id="pact-tour-copy">Browse public testnet campaigns and understand their conditions.</p>
-  <div class="pact-tour-actions"><button type="button" id="pact-tour-dismiss" class="pact-tour-dismiss">Skip tour</button><button type="button" id="pact-tour-next" class="pact-tour-next">Next ↗</button></div>
-</section>
+<aside id="pact-tour-panel" class="pact-tour-panel" role="dialog" aria-modal="false" aria-label="PACT getting started guide" aria-labelledby="pact-tour-title" hidden>
+  <header class="pact-tour-top"><span class="pact-tour-overline">✳ &nbsp; PACT / FIELD GUIDE</span><button id="pact-tour-dismiss" class="pact-tour-dismiss" type="button" aria-label="Close walkthrough">×</button></header>
+  <div id="pact-tour-welcome" class="tour-welcome">
+    <div class="tour-visual" aria-hidden="true"><span class="tour-visual-ring"></span><span class="tour-visual-a">A</span><span class="tour-visual-line"></span><span class="tour-visual-b">B</span></div>
+    <p class="tour-caption">YOUR FIRST VISIT</p>
+    <h2 id="pact-tour-title">Where do you<br><em>want to start?</em></h2>
+    <p id="pact-tour-copy">PACT connects projects through funding agreements. Choose a route to see how it works.</p>
+    <div class="tour-choice-list"><button type="button" data-tour-journey="explore"><span>01 / SUPPORTER</span><strong>Explore a campaign</strong><b aria-hidden="true">↗</b></button><button type="button" data-tour-journey="create"><span>02 / ORGANIZER</span><strong>Create an agreement</strong><b aria-hidden="true">↗</b></button></div>
+    <button type="button" id="pact-tour-skip" class="tour-skip">Skip, I'll explore myself</button>
+  </div>
+  <div id="pact-tour-guided" class="tour-guided" hidden>
+    <div class="tour-guided-head"><span class="tour-current" id="pact-tour-current">SUPPORTER PATH</span><span id="pact-tour-counter" class="pact-tour-counter">01 / 04</span></div>
+    <div class="pact-tour-track" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    <p id="pact-tour-location" class="tour-location">CAMPAIGNS</p>
+    <h2 id="pact-tour-step-title">Choose a campaign.</h2>
+    <p id="pact-tour-step-copy">Explore what is funded and what remains conditional.</p>
+    <div class="tour-step-preview" aria-hidden="true"><span class="tour-preview-mark">✳</span><span id="pact-tour-preview-label">PUBLIC CAMPAIGNS</span><span class="tour-preview-line"></span><span class="tour-preview-arrow">↗</span></div>
+    <div class="pact-tour-actions"><button type="button" id="pact-tour-back" class="pact-tour-back">Back</button><button type="button" id="pact-tour-visit" class="pact-tour-visit">Show me ↗</button><button type="button" id="pact-tour-next" class="pact-tour-next">Next →</button></div>
+    <button type="button" id="pact-tour-exit" class="tour-exit">End walkthrough</button>
+  </div>
+</aside>
 <script type="module" src="./app-home.mjs"></script>
 <script type="module" src="./first-visit.mjs"></script>
 </body>
