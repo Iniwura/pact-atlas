@@ -648,8 +648,8 @@
   .pact-marketing .bench-budget-fill {transition:none!important}
 }
 @keyframes pact-benchmark-reveal {
-  from{opacity:.65;transform:translateY(7px)}
-  to{opacity:1;transform:translateY(0)}
+  from{transform:translateY(7px)}
+  to{transform:translateY(0)}
 }
 
 
