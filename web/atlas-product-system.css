@@ -186,3 +186,22 @@ body.protocol-app.create-app,body.protocol-app.campaign-app,body.protocol-app.ve
 .verify-app #proof-verdict{color:#fbf5e9}
 .verify-app .verify-result .proof-result-label{color:#eaa37e}
 .verify-app #proof-explanation,.verify-app .proof-scope{color:#d2d9ce}
+
+/* Verified WCAG AA route palette. The legacy shared stylesheet had light
+   root canvases even when its editorial headings were light. */
+body.protocol-app.pact-workspace,body.protocol-app.create-app,body.protocol-app.campaign-app,body.protocol-app.verify-app{background:#101713;color:#f1eee5}
+.pact-workspace .workspace-content{background:#101713;color:#f1eee5}
+.pact-workspace .workspace-section .section-titlebar h2{color:#f1eee5}
+.pact-workspace .workspace-section .section-titlebar p:not(.micro-label){color:#c7d0c2}
+.pact-workspace .workspace-section .section-titlebar .micro-label{color:#efb38c}
+.pact-workspace .workspace-section .tab-row button{color:#f0eade;border-color:#a5b0a1}
+.pact-workspace .workspace-stats .metric-value,.pact-workspace .workspace-stats .metric-value *{color:#f2eee5}
+.pact-workspace .join-panel p:not(.micro-label){color:#414c40}
+.pact-workspace .join-panel .micro-label{color:#754225}
+.pact-workspace .console-hero-copy .micro-label,.pact-workspace .console-hero-foot{color:#47473e}
+.create-app .eyebrow,.verify-app .eyebrow,.campaign-app .eyebrow{color:#edaf8c}
+.create-app .step-chip span{color:#504c42}
+.create-app .step-chip[aria-current="step"] span{color:#f5e9df}
+.protocol-app .site-footer,.protocol-app .site-footer span,.protocol-app .site-footer a{background:#101713;color:#d4ddcf}
+.verify-app .verify-local{color:#cfdbce}
+.verify-app .verify-local a{color:#ffb78c;text-decoration:underline;text-underline-offset:4px}
