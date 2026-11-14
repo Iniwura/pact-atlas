@@ -1,7 +1,6 @@
 import { publicCampaignConfig, campaignUrl, campaignFromShareToken, isTestnetAccount } from "./campaign-chain.mjs";
 import { authenticateCampaignConfig } from "./campaign-live-data.mjs";
 import { viewMethod, viewCodeHash } from "./near-rpc.mjs";
-import { ensureWalletAdapter, readableWalletError } from "./wallet-selector-host.mjs";
 
 const $ = selector => document.querySelector(selector);
 const oneNear = 1_000_000_000_000_000_000_000_000n;
@@ -238,65 +237,7 @@ async function refreshCampaign(campaign) {
   renderCampaigns();
 }
 
-let connectedAdapter = null;
-let accountSubscription = null;
-
-function showWalletStatus(account) {
-  const button=$("#connect-wallet"), message=$("#wallet-message"),disconnect=$("#wallet-disconnect");
-  const active=typeof account==="string" && account.length>0;
-  button.dataset.connected=String(active);
-  button.dataset.accountId=active?account:"";
-  button.textContent=active?(account.length>23?account.slice(0,19)+"…":account)+" ↗":"Connect wallet ↗";
-  button.title=active?"Change connected wallet: "+account:"Choose a NEAR testnet wallet";
-  button.setAttribute("aria-label",active?"Change connected wallet "+account:"Connect a NEAR testnet wallet");
-  disconnect.hidden=!active;
-  message.dataset.state=active?"ok":"";
-  message.textContent=active?"Connected to NEAR testnet as "+account+". Every transaction requires separate wallet approval.":"Disconnected. No funds or transactions were affected.";
-}
-async function connectWallet() {
-  const button=$("#connect-wallet"),message=$("#wallet-message");
-  button.disabled=true;button.setAttribute("aria-busy","true");
-  message.dataset.state="pending";
-  try {
-    if (connectedAdapter?.getAccount?.()) {
-      connectedAdapter.chooseWallet();
-      message.textContent="Select another wallet, or close the chooser to keep this account.";
-      message.dataset.state="ok";
-      return;
-    }
-    button.textContent="Opening wallets…";
-    message.textContent="Opening the secure wallet chooser. No transaction is sent.";
-    const adapter=connectedAdapter||await ensureWalletAdapter();
-    const account=await adapter.connect();
-    if (!account || typeof account!=="string") throw Error("No wallet account was returned");
-    connectedAdapter=adapter;
-    accountSubscription?.unsubscribe?.();
-    if (typeof adapter.subscribeAccount==="function") {
-      accountSubscription=adapter.subscribeAccount(value=>{
-        if (value!==$("#connect-wallet").dataset.accountId) showWalletStatus(value);
-      });
-    }
-    showWalletStatus(account);
-  } catch (error) {
-    button.dataset.connected="false";button.textContent="Connect wallet ↗";
-    $("#wallet-disconnect").hidden=true;
-    message.textContent="Wallet connection wasn't completed. "+readableWalletError(error)+" Choose Connect wallet to retry.";
-    message.dataset.state="error";
-  } finally {button.disabled=false;button.removeAttribute("aria-busy");}
-}
-async function disconnectWallet() {
-  const button=$("#wallet-disconnect"), message=$("#wallet-message");
-  button.disabled=true;
-  message.dataset.state="pending";
-  message.textContent="Disconnecting the selected wallet…";
-  try {
-    await connectedAdapter?.disconnect?.();
-    showWalletStatus(null);
-  } catch(error) {
-    message.dataset.state="error";
-    message.textContent="Wallet disconnect wasn't completed. "+readableWalletError(error);
-  } finally {button.disabled=false;}
-}
+// The shared wallet shell handles account state, connection, notification and disconnect.
 
 function savedDeployedCampaigns() {
   const drafts = [];
@@ -356,8 +297,6 @@ async function boot() {
       status.textContent=error?.message || "This is not a valid PACT campaign link.";
     }
   });
-  $("#connect-wallet").addEventListener("click", connectWallet);
-  $("#wallet-disconnect").addEventListener("click", disconnectWallet);
   filterControls("[data-campaign-filter]", "campaignFilter", renderCampaigns);
   filterControls("[data-activity-filter]", "activityFilter", renderActivity);
   try {
