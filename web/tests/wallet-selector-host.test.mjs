@@ -1,144 +1,54 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
-import { WALLET_SELECTOR_MODULES, WALLET_SELECTOR_VERSION, readableWalletError, DEFAULT_SIGNIN_CONTRACT, walletSignInOptions, waitForWalletAccount } from "../wallet-selector-host.mjs";
+import { NEAR_CONNECT_MODULE, NEAR_CONNECT_VERSION, CONNECT_OPTIONS, connectorSettings, readableWalletError } from "../wallet-selector-host.mjs";
 
-test("pins Meteor Wallet for explicit NEAR testnet selection", () => {
-  assert.equal(WALLET_SELECTOR_VERSION, "10.1.4");
-  assert.match(WALLET_SELECTOR_MODULES.meteorWallet, /@near-wallet-selector\/meteor-wallet@10\.1\.4/);
-  assert.match(WALLET_SELECTOR_MODULES.meteorWallet, /deps=near-api-js@5\.1\.1/);
-  assert.equal("sender" in WALLET_SELECTOR_MODULES, false);
-  assert.equal("nightly" in WALLET_SELECTOR_MODULES, false);
-  assert.equal("myNearWallet" in WALLET_SELECTOR_MODULES, false);
+test("pins the recommended NEAR Connect wallet integration instead of deprecated Wallet Selector", () => {
+  assert.equal(NEAR_CONNECT_VERSION, "0.12.0");
+  assert.match(NEAR_CONNECT_MODULE, /@hot-labs\/near-connect@0\.12\.0/);
+  assert.equal(CONNECT_OPTIONS.network, "testnet");
+  assert.equal(CONNECT_OPTIONS.autoConnect, false);
+  assert.equal(CONNECT_OPTIONS.features.signInWithoutAddKey, true);
+  assert.equal(CONNECT_OPTIONS.features.signAndSendTransaction, true);
 });
 
-test("offers only the supported Meteor route on NEAR testnet", () => {
+test("the connection does not request access-key creation or gas allowance", () => {
   const source = fs.readFileSync(new URL("../wallet-selector-host.mjs", import.meta.url), "utf8");
-  assert.ok(source.includes('modules:[setupMeteorWallet()]'));
-  assert.ok(!source.includes('import(MODULES.myNearWallet)'));
-  assert.ok(!source.includes('import(MODULES.nightly)'));
-  assert.ok(!source.includes('import(MODULES.sender)'));
-  assert.match(source, /network:\s*"testnet"/);
+  assert.ok(source.includes("const wallet = await connector.connect()"));
+  assert.ok(!source.includes("signIn: {"));
+  assert.ok(!source.includes("connector.addFunctionCallKey("));
+  assert.ok(!source.includes("methodNames: [\"status\"]"));
 });
 
-test("both overview and creator sign in against a known testnet PACT contract, with status-only access", () => {
-  assert.equal(DEFAULT_SIGNIN_CONTRACT, "coalition-20261110.beneficiary-20261110.testnet");
-  assert.deepEqual(walletSignInOptions(), {
-    contractId: DEFAULT_SIGNIN_CONTRACT,
-    methodNames: ["status"]
-  });
-  assert.deepEqual(walletSignInOptions("my-campaign.owner.testnet"), {
-    contractId: "my-campaign.owner.testnet",
-    methodNames: ["status"]
-  });
-  assert.throws(() => walletSignInOptions("mainnet.near"), /invalid/i);
-  assert.throws(() => walletSignInOptions("https://evil.testnet"), /invalid/i);
-  assert.throws(() => walletSignInOptions(""), /invalid/i);
+test("wallet options are cloned and retired wallets are filtered", () => {
+  const first=connectorSettings();
+  assert.equal(first.network,"testnet");
+  assert.equal(first.autoConnect,false);
+  assert.ok(first.excludedWallets.includes("my-near-wallet"));
+  first.excludedWallets.push("x");
+  first.features.signInWithoutAddKey=false;
+  const second=connectorSettings();
+  assert.ok(!second.excludedWallets.includes("x"));
+  assert.equal(second.features.signInWithoutAddKey,true);
 });
 
-test("wallet navigation never counts as cancelling an already approved wallet handoff", () => {
-  const source = fs.readFileSync(new URL("../wallet-selector-host.mjs", import.meta.url), "utf8");
-  assert.ok(source.includes('modal?.on?.("onHide"'));
-  assert.ok(source.includes('hideReason === "user-triggered"'));
-  assert.ok(!source.includes('classList.contains("open")'));
-  assert.ok(source.includes("waitForWalletAccount(selector, modal)"));
-  assert.ok(source.includes("setupModal(selector, walletSignInOptions(contractId))"));
+test("transaction signing continues through NEAR Connect wallet instead of a fake local signer",()=>{
+  const source=fs.readFileSync(new URL("../wallet-selector-host.mjs",import.meta.url),"utf8");
+  assert.ok(source.includes("getConnectedWallet()"));
+  assert.ok(source.includes("signed.wallet.signAndSendTransaction(request)"));
+  assert.ok(source.includes("createNearWalletAdapter("));
+  assert.ok(!source.includes("signAndSendTransaction: async () => ({"));
 });
 
-function fakeWalletHandoff() {
-  let accounts = [];
-  const observed = new Set();
-  const hidden = new Set();
-  const selector = {store: {
-    getState: () => ({ accounts }),
-    observable: { subscribe(handler) {
-      observed.add(handler);
-      return { unsubscribe() { observed.delete(handler); } };
-    } }
-  }};
-  const modal = { on(event, handler) {
-    assert.equal(event, "onHide");
-    hidden.add(handler);
-    return { remove() { hidden.delete(handler); } };
-  }};
-  return {
-    selector, modal,
-    hide(hideReason) { for (const handler of [...hidden]) handler({hideReason}); },
-    authorize(accountId) {
-      accounts = [{accountId, active:true}];
-      for (const handler of [...observed]) handler();
-    },
-    listeners() { return observed.size + hidden.size; }
-  };
-}
-
-test("genuine user cancel releases the pending wallet flow and subscriptions", async () => {
-  const fake = fakeWalletHandoff();
-  const connect = waitForWalletAccount(fake.selector, fake.modal, {timeoutMs:300});
-  fake.hide("user-triggered");
-  await assert.rejects(connect, err => err.code === "wallet-cancelled");
-  assert.equal(fake.listeners(), 0);
+test("new connector bundle is publicly reachable",async()=>{
+  const response=await fetch(NEAR_CONNECT_MODULE);
+  assert.equal(response.status,200);
+  assert.match(await response.text(),/near-connect/i);
 });
 
-test("wallet navigation into popup is not a cancellation and may approve later", async () => {
-  const fake = fakeWalletHandoff();
-  const connect = waitForWalletAccount(fake.selector, fake.modal, {timeoutMs:300});
-  fake.hide("wallet-navigation");
-  fake.authorize("test-signer.testnet");
-  assert.equal(await connect, "test-signer.testnet");
-  assert.equal(fake.listeners(), 0);
-});
-
-test("wallet handoff without authorization returns a recoverable timeout, not connected", async () => {
-  const fake = fakeWalletHandoff();
-  const connect = waitForWalletAccount(fake.selector, fake.modal, {timeoutMs:20});
-  fake.hide("wallet-navigation");
-  await assert.rejects(connect, err => err.code === "wallet-timeout");
-  assert.equal(fake.listeners(), 0);
-});
-
-test("returns the modal factory used by the real connection boundary", () => {
-  const source = fs.readFileSync(new URL("../wallet-selector-host.mjs", import.meta.url), "utf8");
-  assert.ok(source.includes("return {selector,actionCreators,setupModal}"));
-  assert.ok(source.includes("const {selector,actionCreators,setupModal} = await selectorPromise"));
-});
-
-test("the supported Meteor, core and modal bundles are publicly retrievable", async () => {
-  for (const [name, url] of Object.entries(WALLET_SELECTOR_MODULES)) {
-    const response = await fetch(url);
-    assert.equal(response.status, 200, `${name} bundle did not return HTTP 200`);
-    const body = await response.text();
-    assert.ok(body.length > 100, `${name} bundle was unexpectedly empty`);
-    assert.match(body, /near-wallet-selector|esm\.sh/, `${name} response was not a module bundle`);
-  }
-});
-
-test("the configured RPC is an actual NEAR testnet endpoint", async () => {
-  const response = await fetch("https://rpc.testnet.near.org", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: "pact-atlas-wallet-selector", method: "status", params: [] }),
-  });
-  assert.equal(response.status, 200);
-  const body = await response.json();
-  assert.equal(body.result?.chain_id, "testnet");
-  assert.ok(Number(body.result?.protocol_version) >= 83, "testnet protocol must support the current action/gas rules");
-});
-
-test("official pinned modal CSS is present on every signing surface",()=> {
- const root=new URL("../",import.meta.url);
- const css=fs.readFileSync(new URL("vendor/near-wallet-selector.css",root),"utf8");
- assert.ok(css.includes(".nws-modal-wrapper"));
- assert.match(css,/position:\s*fixed/);
- for(const page of ["console.html","create.html","campaign.html"]){
-  const html=fs.readFileSync(new URL(page,root),"utf8");
-  assert.ok(html.includes("vendor/near-wallet-selector.css"));
-  assert.ok(html.includes("wallet-modal-polish.css"));
- }
-});
-test("wallet cancellation and network failures never imply a signature",()=> {
- assert.match(readableWalletError({code:"wallet-cancelled"}),/Nothing was connected or signed/);
- assert.match(readableWalletError({code:"wallet-timeout"}),/did not respond/);
- assert.match(readableWalletError({code:"wallet-unavailable"}),/could not load/);
- assert.doesNotMatch(readableWalletError(new Error("token=SECRET123")),/SECRET123/);
+test("wallet failures do not claim funds were moved or connected",()=>{
+  assert.match(readableWalletError({code:"wallet-cancelled"}),/Nothing was connected or signed/);
+  assert.match(readableWalletError({code:"wallet-timeout"}),/did not respond/);
+  assert.match(readableWalletError(new Error("User rejected")),/cancelled/);
+  assert.doesNotMatch(readableWalletError(new Error("token=SENSITIVE_SECRET")) ,/SENSITIVE_SECRET/);
 });
