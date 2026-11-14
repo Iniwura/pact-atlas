@@ -32,6 +32,7 @@ function problem(code, message) {
 export function readableWalletError(error) {
   if (error?.code === "wallet-cancelled") return "Wallet selection closed. Nothing was connected or signed.";
   if (error?.code === "wallet-unavailable") return "The wallet chooser could not load. Check your connection and try again.";
+  if (error?.code === "wallet-signin-failed") return "The wallet did not authorize the connection. Unlock it, check testnet, or choose another wallet.";
   if (error?.code === "wallet-timeout") return "The wallet did not respond. Reopen the chooser and try again.";
   if (error?.code === "wallet-disabled") return "Wallet signing is disabled in this preview. Browse the public records without connecting.";
   const message = String(error?.message || "");
@@ -72,7 +73,13 @@ export async function waitForWalletAccount(selector, modal, { timeoutMs = 120000
     }
     function check() {
       const account = currentAccount(selector);
-      if (account) finish(null, account);
+      if (account) return finish(null, account);
+      // The upstream modal renders this only after the selected wallet's
+      // signIn() rejects (e.g. popup closed, locked or wrong network).
+      // Do not leave a permanent "Opening wallets" state behind the error.
+      if (typeof document !== "undefined" &&
+          document.querySelector("#near-wallet-selector-modal .connecting-wrapper-err"))
+        finish(problem("wallet-signin-failed", "Wallet sign-in was not completed."));
     }
     try {
       modalSubscription = modal?.on?.("onHide", ({ hideReason }) => {
@@ -131,7 +138,7 @@ export async function ensureWalletAdapter({contractId}={}) {
       } catch (error) {
         // Do not leave an active chooser visible behind a "timed out" notice.
         // Cancellation is already dismissed by the wallet's close control.
-        if (error?.code === "wallet-timeout") modal.hide?.();
+        if (error?.code === "wallet-timeout" || error?.code === "wallet-signin-failed") modal.hide?.();
         throw error;
       }
     }
