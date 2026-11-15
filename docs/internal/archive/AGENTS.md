@@ -1,3 +1,5 @@
+> Archived: early developer-agent instructions retained for history. This is not the current release baseline.
+
 # PACT Atlas — Codex coding-agent instructions
 
 ## Mission

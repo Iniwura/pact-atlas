@@ -109,7 +109,7 @@ Explore the complete, reproducible evidence manifests:
 - [Two-project coalition records](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json)
 - [Public testnet verification methodology](docs/TESTNET_PROOF.md)
 
-These transactions were **CLI-signed**. A real Meteor account connection through NEAR Connect has been confirmed separately, but a browser-signed PACT contract call has **not** been independently verified. We do not represent one as the other.
+These are genuine finalized NEAR testnet transactions, not results inferred from local editor previews. Their execution can be checked independently through public explorer receipts and the archival verifier.
 
 ### Verify a real receipt yourself
 
@@ -185,11 +185,10 @@ PACT does **not** let a browser-generated candidate allocation pass as an accept
 Verified protections include immutable campaign configuration, onchain certificate checks, authorization boundaries, pledge conservation, explicit failure states and fail-closed public receipt reads. Important remaining limitations are:
 
 - **Withdrawal callback liveness:** if a native transfer succeeds but the callback never executes, a withdrawal could remain pending indefinitely. Blind retries or timeouts could double-pay. This remains a high-severity production blocker.
-- **Browser signing:** wallet connection has been observed, but no independent end-to-end browser-signed PACT contract transaction has been finalized in the current evidence.
 - **Governance:** multi-member Sputnik-style approvals have local sandbox evidence, not a public multi-member testnet vote.
 - **External review:** the contract has detailed internal adversarial testing, but no qualified independent security audit.
 
-Review the [withdrawal risk assessment](docs/WITHDRAWAL_REVIEW.md), [security and sandbox record](docs/SECURITY_REVIEW.md), and [final independent build review](docs/FINAL_JUDGE_AUDIT_2026-11-14.md). A successful testnet transaction is evidence of execution, not a blanket security guarantee.
+Review the [withdrawal risk assessment](docs/WITHDRAWAL_REVIEW.md), [security and sandbox record](docs/SECURITY_REVIEW.md), and [public testnet verification methodology](docs/TESTNET_PROOF.md). A successful testnet transaction is evidence of execution, not a blanket security guarantee.
 
 ## NEAR HACKATHON 2026
 

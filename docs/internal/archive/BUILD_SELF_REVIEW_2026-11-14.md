@@ -1,4 +1,6 @@
-# PACT Atlas — Independent final build audit
+# PACT Atlas — historical internal release self-review
+
+> Historical internal assessment, not an independent third-party audit.
 
 **Audit date:** 14 November 2026  
 **Review scope:** public NEAR testnet product, Rust/Wasm provenance, browser workflow and shared wallet UI, repository hygiene, judge-ready reproduction.  

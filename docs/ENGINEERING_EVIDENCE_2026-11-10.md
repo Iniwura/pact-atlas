@@ -35,7 +35,7 @@ repository visibility, PR state or submission state was changed in this pass.
 
 ## RC3.2 public coalition evidence addendum
 
-The release candidate now includes a third finalized faucet-funded testnet campaign at [`coalition-20261110.beneficiary-20261110.testnet`](https://testnet.nearblocks.io/address/coalition-20261110.beneficiary-20261110.testnet). It has two independent contributors and two projects: beta depends on alpha, the beta pledge was submitted first, alpha second, and the authority accepted the canonical certificate `[1 → alpha, 0 → beta]`. Both beneficiaries withdrew successfully. Eight contract lifecycle transactions were independently queried at `FINAL` on `https://rpc.testnet.near.org`; failed receipts were zero, the pinned code hash matched, and final `liabilities`, `credits`, `pending` and `accounted` were all zero with `solvent: true`. The full record is [`evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json).
+The release candidate now includes a third finalized faucet-funded testnet campaign at [`coalition-20261110.beneficiary-20261110.testnet`](https://testnet.nearblocks.io/address/coalition-20261110.beneficiary-20261110.testnet). It has two independent contributors and two projects: beta depends on alpha, the beta pledge was submitted first, alpha second, and the authority accepted the canonical certificate `[1 → alpha, 0 → beta]`. Both beneficiaries withdrew successfully. Eight contract lifecycle transactions were independently queried at `FINAL` on `https://rpc.testnet.near.org`; failed receipts were zero, the pinned code hash matched, and final `liabilities`, `credits`, `pending` and `accounted` were all zero with `solvent: true`. The full record is [`evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json`](../evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json).
 
 This strengthens the public demonstration from single-project settlement/refund to a dependency-aware coalition, but it remains CLI-signed evidence. It does not establish genuine Meteor browser signing, Sputnik public governance, callback liveness or production safety.
 
@@ -157,17 +157,17 @@ The final rerun uses the pinned Rust/near-sdk/cargo-near versions and the curren
 
 ## Evidence index
 
-- [Competitive benchmark JSON](evidence/competitive-benchmark.json)
-- [Competitive methodology and prior art](docs/COMPETITIVE_ADVANTAGE.md)
-- [Security review](docs/SECURITY_REVIEW.md)
-- [Withdrawal/callback review](docs/WITHDRAWAL_REVIEW.md)
-- [Verification report](evidence/pact-atlas-verification-report.md)
-- [RC1 sandbox report](evidence/pact-atlas-rc1-report.md)
-- [Baseline sandbox receipts](evidence/pact-atlas-sandbox-evidence.json)
-- [Maximum-capacity sandbox receipts](evidence/pact-atlas-rc1-sandbox-evidence.json)
-- [Atomic self-service deployment sandbox receipts](evidence/pact-atlas-atomic-deployment-evidence.json)
-- [Wasm](evidence/pact_atlas_poc.wasm) and [ABI](evidence/pact_atlas_poc_abi.json)
-- [Hash manifest](evidence/SHA256SUMS)
-- [Public coalition testnet evidence](evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json)
+- [Competitive benchmark JSON](../evidence/competitive-benchmark.json)
+- [Competitive methodology and prior art](COMPETITIVE_ADVANTAGE.md)
+- [Security review](SECURITY_REVIEW.md)
+- [Withdrawal/callback review](WITHDRAWAL_REVIEW.md)
+- [Verification report](../evidence/pact-atlas-verification-report.md)
+- [RC1 sandbox report](../evidence/pact-atlas-rc1-report.md)
+- [Baseline sandbox receipts](../evidence/pact-atlas-sandbox-evidence.json)
+- [Maximum-capacity sandbox receipts](../evidence/pact-atlas-rc1-sandbox-evidence.json)
+- [Atomic self-service deployment sandbox receipts](../evidence/pact-atlas-atomic-deployment-evidence.json)
+- [Wasm](../evidence/pact_atlas_poc.wasm) and [ABI](../evidence/pact_atlas_poc_abi.json)
+- [Hash manifest](../evidence/SHA256SUMS)
+- [Public coalition testnet evidence](../evidence/pact-atlas-testnet-coalition-evidence-2026-11-10.json)
 
 Engineering can close at this release boundary as a judge-ready, bounded testnet candidate. The remaining steps require separate authorization or external actors: genuine Meteor browser signing, public Sputnik multi-member governance, an independent qualified audit, a safe callback-recovery design, and public repository/preview promotion. None is silently represented as complete here.

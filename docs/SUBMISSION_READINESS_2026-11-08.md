@@ -45,7 +45,7 @@ public Sputnik governance and final submission are still approval-gated. See
 
 ## Engineering gate
 
-- [x] Preserved 16-test Rust verification, Wasm/ABI reproduction, local NEAR sandbox evidence and Sputnik DAO governance campaign are documented in `FINAL_ENGINEERING_REVIEW.md`.
+- [x] Preserved 16-test Rust verification, Wasm/ABI reproduction, local NEAR sandbox evidence and Sputnik DAO governance campaign are documented in `ENGINEERING_EVIDENCE_2026-11-10.md`.
 - [x] Exact bounded allocation certificate and separate reference/witness checks preserve capital conservation and per-contributor permission constraints.
 - [ ] Latest source-tree CI run completes successfully after documentation changes.
 - [x] Bounded public testnet deployment with authorized faucet-funded identities and explorer receipts is recorded in the two evidence manifests. Genuine Meteor browser signing and public Sputnik governance remain separate gates.

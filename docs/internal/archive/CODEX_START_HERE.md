@@ -1,3 +1,5 @@
+> Archived: original development kickoff instructions. Refer to the current README for the submitted release.
+
 # PACT Atlas — one-shot Codex task
 
 The user has authorized you to independently carry out all feasible software implementation, code review, tooling installation, Rust/Wasm compilation, sandbox tests, security fixes, and evidence collection. They do not want any manual command-line work.

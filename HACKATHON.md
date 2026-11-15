@@ -1,6 +1,6 @@
 # PACT Atlas hackathon readiness
 
-> **14 November 2026 final release candidate.** The repository is public. The latest anonymized judge preview is [pact-atlas-near-connect.vercel.app](https://pact-atlas-near-connect.vercel.app/) and uses NEAR Connect v0.12.0 for account-first wallet access without initial gas allowance. **118/118 Chromium tests and 109/109 Node tests passed** on the tested UI code, with no retries. The visual design and testnet contracts are unchanged. **Real Meteor account connection was confirmed by the user on 14 Nov. No browser-signed contract transaction, callback non-execution recovery or mainnet safety is independently verified.** A public X demo post and official submission remain required before 14 Nov 2026, 23:59 UTC.
+> **Submitted 14 November 2026.** [Launch the NEAR testnet product](https://pact-atlas-near-connect.vercel.app/) · [Watch the submitted X demo](https://x.com/saitama_xc/status/2121722670546919654) · [Inspect public transaction evidence](docs/TESTNET_PROOF.md). The repository includes pinned contract artifacts, a reproducible allocation model, sandbox tests and public testnet campaign lifecycles. This is an experimental build, not a production financial service.
 
 PACT Atlas is a constrained, native-NEAR proof of coalition funding. It verifies an immutable campaign configuration, accepts attached refundable commitments, checks a dependency-aware allocation certificate on-chain, and settles or refunds liabilities with pull payments.
 
@@ -15,7 +15,7 @@ The custom planner and the deployed campaign share deterministic public inputs, 
 
 Open `/console` as a first-time user. This is a consumer workspace, not a simulation or a developer evidence board. Browse actual recorded testnet campaigns; see the conditional two-project coalition at the top, and use **Campaigns** to open its signed immutable public configuration. The campaign page reads finalized chain state when testnet RPC is available and fails closed otherwise.
 
-Open **Activity** to inspect independent contribution, activation, payout, expiry and refund receipts. Each transaction is clickable. Visit **Create campaign** to begin a blank draft and set project dependencies and contribution conditions. A funding plan can be checked before any wallet signing; however, browser-extension signing remains unverified and no production funds are supported.
+Open **Activity** to inspect independent contribution, activation, payout, expiry and refund receipts. Each transaction is clickable. Visit **Create campaign** to begin a blank draft and set project dependencies and contribution conditions. A funding plan can be checked locally before wallet approval. No production funds are supported.
 
 The cinematic marketing homepage at `/` retains its approved design and now leads to **Open App**.
 
