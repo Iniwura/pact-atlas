@@ -10,7 +10,7 @@ This directory contains the preserved PACT Atlas RC1 release evidence copied fro
 - `pact-atlas-rc1-report.md` and `pact-atlas-verification-report.md`: truthful release and verification reports.
 - `pact-atlas-alternate-wallet-attempt-2026-11-11.json`: authentic Sender and Nightly browser-wallet attempts; no signature claimed.
 - `pact-atlas-withdrawal-failure-attempt-2026-11-12.json`: genuine sandbox recipient-deletion failure-injection attempt; the public withdrawal could not reach a native-transfer receipt after the authenticated recipient disappeared, and conservation remained intact.
-- `../FINAL_ENGINEERING_REVIEW.md`: final frozen benchmark, security classification, verification and release recommendation.
+- `../docs/ENGINEERING_EVIDENCE_2026-11-10.md`: historical engineering benchmark, security classification, verification and release recommendation.
 - `screenshots/`: local Chromium desktop and mobile captures; these are UI evidence, not chain evidence.
 - `SHA256SUMS`: hashes for every preserved file in this bundle.
 

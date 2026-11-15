@@ -63,4 +63,4 @@ The preview remains sandbox-backed and read-only unless an explicitly injected w
 
 ## Frozen engineering verification
 
-The contract and evidence remain at the previously frozen engineering boundary. The current frontend commit changes only `web/`, `docs/DESIGN_DIRECTION.md`, this report, and related judge-facing documentation. The release remains subject to the callback non-execution, native-transfer injection, testnet and independent-audit limitations in [`FINAL_ENGINEERING_REVIEW.md`](../FINAL_ENGINEERING_REVIEW.md).
+The contract and evidence remain at the previously frozen engineering boundary. The current frontend commit changes only `web/`, `docs/DESIGN_DIRECTION.md`, this report, and related judge-facing documentation. The release remains subject to the callback non-execution, native-transfer injection, testnet and independent-audit limitations in [`ENGINEERING_EVIDENCE_2026-11-10.md`](../ENGINEERING_EVIDENCE_2026-11-10.md).

@@ -19,7 +19,7 @@ spend occurred.
 - `vendor/sputnik/sputnikdao2_original.wasm` preserves the official Sputnik Wasm used by the sandbox governance campaign.
 - `docs/SECURITY_REVIEW.md` and `docs/WITHDRAWAL_REVIEW.md` retain the unresolved callback and audit limitations.
 - `docs/COMPETITIVE_ADVANTAGE.md` and `evidence/competitive-benchmark.json` retain the reproducible baseline comparison and prior-art boundary.
-- `FINAL_ENGINEERING_REVIEW.md` is the final frozen evidence index and release recommendation; it does not authorize publication or deployment.
+- `ENGINEERING_EVIDENCE_2026-11-10.md` is the final frozen evidence index and release recommendation; it does not authorize publication or deployment.
 
 The workflow only has `contents: read`; it does not deploy, publish, use wallets, or access testnet credentials. The sandbox job creates fresh local chains and uploads new evidence as a CI artifact.
 
